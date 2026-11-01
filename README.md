@@ -476,3 +476,35 @@ installed games skip when the game is absent rather than failing. Both matter:
 the synthetic ones pin the field layouts that were in fact wrong at some point,
 and the real ones are the only thing that catches a layout that is right for a
 small file and wrong for a large one.
+
+---
+
+## Part of 3DHeat
+
+3DHeat GameFiles is one of the free tools around the 3DHeat telemetry viewer. Each is its
+own project, with its own releases and licence:
+
+| Tool | What it does |
+|---|---|
+| [3DHeat GameFiles](https://github.com/Holdi601/3DHeat-GameFiles) | courses and levels out of the archives games ship, as glTF |
+| [3DHeat GameCapture](https://github.com/Holdi601/3DHeat-GameCapture) | lap telemetry from racing games' published interfaces; levels reconstructed from gameplay video |
+| [3DHeat Unreal Exporter](https://github.com/Holdi601/3DHeat-UnrealExporter) | an Unreal Editor plugin that exports a level as glTF |
+| [3DHeat CS2](https://github.com/Holdi601/3DHeat-CS2) | Counter-Strike 2 demos into heatmap tables and match summaries; maps into geometry |
+| [3DHeat Watcher](https://github.com/Holdi601/3DHeat-Watcher) | records your play in the background from what games publish, for your own statistics |
+
+## Updates
+
+3DHeat GameFiles checks this repository's releases when it starts (at most every few
+hours, never holding it up for more than a few seconds), says when a newer
+version is out, and offers to update: a clone with `git pull` when it has no
+local changes, a downloaded copy by replacing its files from the release archive,
+after checking the archive is the version it claims. Your own files - recordings,
+settings, exports - are never touched. To update on request: `python -m heat3d_update`.
+`HEAT3D_NO_UPDATE=1` switches the check off.
+
+## Licence
+
+MIT - see [`LICENSE`](LICENSE), and [`LICENSES.md`](LICENSES.md) for the
+third-party packages it uses and what the games it reads oblige.
+
+Documentation: the [wiki](https://github.com/Holdi601/3DHeat-GameFiles/wiki).
