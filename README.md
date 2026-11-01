@@ -71,11 +71,20 @@ python -m heat3d_gamefiles course lap.json --install <game folder> # a game outs
 A lap from a game whose courses cannot be exported says why and what to do
 instead.
 
-`list` and `extract` work on whichever archive you point them at — the format is
-read from the bytes, not from the extension or from a flag you have to pass.
+`list` and `extract` take an Unreal `.pak` or IoStore `.utoc` (or the `.ucas`
+beside it), a Source 2 `.vpk`, a ForzaTech `.minizip` and a zip - BeamNG's level
+and content archives among them. The format is read from the bytes, not from the
+extension or from a flag you have to pass. A `.minizip` stores no names, so its
+entries are named by the `ChunkContentsMiniZip*.txt` beside it, or go by number
+(`#12`) without one. A Unity container is read with `meshes`, and a Frostbite
+`.toc` from Python only. A file that is none of these, or that cannot be opened -
+an encrypted archive without `--key`, a `--key` that is not 64 hex digits - is
+refused in one line with a non-zero exit code.
 
-`identify` reads the file rather than trusting its extension, so it is the right
-first step on anything unfamiliar.
+`identify` reads the file rather than trusting its extension - every format
+above, plus a Unity bundle or `SerializedFile`, a Frostbite `.toc`, a ForzaTech
+`.modelbin` and BeamNG's `.cdae` and `.ter` - so it is the right first step on
+anything unfamiliar.
 
 Most shipped Unreal content is Oodle-compressed. Oodle is proprietary and has no
 redistributable build, so this finds a library instead of carrying one — any
@@ -98,9 +107,10 @@ including one of 27 GB with 167,412 of them — by the SHA-1 Unreal writes ahead
 every payload. That hash covers the bytes as stored, so matching it means the
 index decode, the payload offset and every compressed block boundary were right.
 
-IoStore (`.utoc`/`.ucas`), what Unreal 5 ships, is read too - its packages,
-cooked static meshes, textures and virtual textures, as far as a course needs
-them. See [Assetto Corsa Rally](#assetto-corsa-rally--unreal-5-iostore), the
+IoStore (`.utoc`/`.ucas`), what Unreal 5 ships, is read too - `list` and
+`extract` take a container whose directory names its files, and the course export
+reads its packages, cooked static meshes, textures and virtual textures, as far
+as a course needs them. See [Assetto Corsa Rally](#assetto-corsa-rally--unreal-5-iostore), the
 game it was built and checked on.
 
 ### Unity — `SerializedFile`, bundles, meshes
@@ -148,12 +158,14 @@ coordinates, so the layout is not the obvious one and is not yet worked out.
 ### ForzaTech — `.minizip` and `.modelbin`
 
 **Complete for a course: a lap in, the track around it out** - terrain with the
-road, verge and grass told apart, the ground's own textures, and everything
-placed on it (kerbs, guardrails, tyre walls, signs, buildings) in its own
-textures. Everything else lists and extracts.
+road, verge and grass told apart, the ground painted from the track's own surface
+maps (where asphalt, grass and woodland are, in fixed colours: the terrain
+shader's own materials are not decoded), and everything placed on it (kerbs,
+guardrails, tyre walls, signs, buildings) in its own textures. Everything else
+lists and extracts (`list` and `extract` on a `.minizip`).
 
 ```
-python -m heat3d_gamefiles course "Lakeside Circuit"              # from the lap library
+python -m heat3d_gamefiles course "Mapletree Test Loop"           # from the lap library
 python -m heat3d_gamefiles course path/to/lap.json -o course.glb  # or one lap file
 python -m heat3d_gamefiles courses -o courses                     # the whole library
 ```
@@ -228,8 +240,8 @@ python -m heat3d_gamefiles terrain <track> --route lap.json -o map.glb
 or, for a course somebody has already driven a few dozen times:
 
 ```
-python -m heat3d_capture laps "Lakeside Circuit" -o races/lakeside
-python -m heat3d_gamefiles terrain <track> --route races/lakeside.json -o races/lakeside.glb
+python -m heat3d_capture laps "Mapletree Test Loop" -o races/mapletree
+python -m heat3d_gamefiles terrain <track> --route races/mapletree.json -o races/mapletree.glb
 ```
 
 The proof that the two halves meet is the driving itself: across that course's 46
@@ -262,8 +274,10 @@ block-compressed pixels. The format is the u32 at byte 72 - 9 is BC7, 0 is BC1,
 13 is RGBA - and was identified by decoding real files every way the payload's
 size allows (byte 47, which looked like the format, is 4 in all 3,000 sampled).
 Each terrain tile ships maps that say where asphalt, grass and woodland are at 25
-cm a pixel; those are baked into one colour image per tile, oriented north-up by
-laying the recorded laps over it.
+cm a pixel; those are baked into one colour image per tile - fixed colours for
+each kind of ground, shaded by the maps' detail normals, since the terrain
+shader's material layers are not decoded - oriented north-up by laying the
+recorded laps over it.
 
 #### Everything placed
 
@@ -281,7 +295,7 @@ a copy:
 
 Only `_3D` names are records; the table before them lists variants by bare name,
 which read as records land at infinity. Every `_3D` record of every category
-sampled lands inside its own file's box. Around Lakeside, kerbs sit 3 cm (median)
+sampled lands inside its own file's box. Around Mapletree, kerbs sit 3 cm (median)
 above the extracted ground with their faces up, within 5 m of where the cars
 drove; guardrails are never on the line.
 
@@ -360,7 +374,8 @@ which come out opaque.
 
 ### Frostbite — `.toc` and `.cas`
 
-**Lists and extracts; does not yet decode meshes.**
+**Lists and extracts from Python (`frostbite.py`); does not yet decode meshes.**
+`identify` reads a `.toc`; `list` and `extract` do not take one.
 
 Both table forms are read. The DbObject tree — which is plain after a 556-byte
 signature, not encrypted, despite looking otherwise — is parsed with every
@@ -455,7 +470,10 @@ virtual texture its runtime virtual texture volume covers, 13 to 59 cm a pixel
 - and the stage's satellite image around it, placed by fitting the far
 terrain's UVs (linear to a few thousandths); one stage without either is drawn
 in flat colours. Placed models come in flat colours by category, with Forza's
-levels of detail.
+levels of detail and budget: where even the coarsest levels do not fit a
+`--detail-budget`, the furthest copies are left out. Kerbs are ground
+(`ground:kerbs`), as in the other two games, and are never simplified or left
+out.
 
 Known gaps: instanced components' own properties are laid out differently from
 the engine's headers and are not read; their mesh comes from the dependency table

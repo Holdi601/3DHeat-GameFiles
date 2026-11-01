@@ -259,10 +259,15 @@ def _instances(data: bytes) -> np.ndarray | None:
     return None
 
 
-def read_stage(packages: Packages, stage: str, *, instanced: bool = False, within=None) -> Stage:
+def read_stage(packages: Packages, stage: str, *, instanced: bool = False) -> Stage:
     """
-    Every mesh a stage places. `within(low, high)` - corners in Unreal's (x, y)
-    - drops cells and components wholly outside; `instanced` adds the forests.
+    Every mesh a stage places; `instanced` adds the forests.
+
+    The whole stage, not a part of it. The export cuts the ground to the
+    driving a triangle at a time, because a ground tile whose origin lies
+    outside the band can still run through it, so nothing can be dropped here
+    by where a component stands - and the frame that would say where the
+    band is is not known yet when every stage is read to find it.
     """
     out = Stage(name=stage)
     seen: set[tuple] = set()
@@ -290,8 +295,6 @@ def read_stage(packages: Packages, stage: str, *, instanced: bool = False, withi
                 if matrix is None:
                     out.note("attachment unreadable")
                     continue
-                if within is not None and not within(matrix[3, :2], matrix[3, :2]):
-                    pass
                 key = (mesh.lower(), tuple(np.round(matrix.ravel(), 1)))
                 if key in seen:
                     continue

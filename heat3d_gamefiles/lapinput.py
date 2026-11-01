@@ -221,21 +221,38 @@ def read_folder(folder: str | Path) -> tuple[np.ndarray, int]:
     return np.concatenate(blocks), len(blocks)
 
 
+def folder_game(folder: str | Path) -> str | None:
+    """
+    The game a folder of laps is from: the one its files name, if they name
+    only one.
+
+    A file that says nothing about its game does not vote. Otherwise one
+    unlabelled file - a `course.json` beside the laps, a CSV without its
+    description line - would leave a folder of one game's recordings with no
+    game at all, and it would be exported as Forza. Two games named is a mix,
+    and says nothing.
+    """
+    games = {
+        describe(p).get("game")
+        for p in Path(folder).rglob("*")
+        if p.is_file() and p.suffix.lower() in (".json", ".csv")
+    }
+    games.discard(None)
+    return games.pop() if len(games) == 1 else None
+
+
 def read(target: str | Path) -> Driven:
     """
     A driven line from a file, a folder, or a course name.
 
-    A bare name is looked up in the recorded-lap library, so `"Lakeside Circuit"`
+    A bare name is looked up in the recorded-lap library, so `"Mapletree Test Loop"`
     works without anyone knowing that it lives in a folder called
-    `Lakeside Circuit (course_2800_5000_to_2775_5000)`.
+    `Mapletree Test Loop (course_1200_3400_to_1175_3400)`.
     """
     path = Path(target)
     if path.is_dir():
         points, laps = read_folder(path)
-        # A folder of one game's recordings says which; a mix says nothing.
-        games = {describe(p).get("game") for p in path.rglob("*") if p.suffix.lower() in (".json", ".csv")}
-        game = games.pop() if len(games) == 1 else None
-        return Driven(name=_clean(path.name), positions=points, laps=laps, game=game)
+        return Driven(name=_clean(path.name), positions=points, laps=laps, game=folder_game(path))
     if path.exists():
         about = describe(path)
         return Driven(

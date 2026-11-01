@@ -350,8 +350,9 @@ class PakArchive:
     def _load_index(self) -> None:
         if self.info.encrypted_index and self._key is None:
             raise EncryptedPak(
-                f"{self.path.name} has an encrypted index. Pass the AES key as "
-                "`aes_key=` if you hold one; this tool does not recover keys."
+                f"{self.path.name} has an encrypted index. Pass the AES key "
+                "(`--key`, or `aes_key=` from Python) if you hold one; this tool "
+                "does not recover keys."
             )
 
         raw = self._read_at(

@@ -30,9 +30,9 @@ from heat3d_gamefiles.lapinput import (
 
 #: A few metres of a lap, in the game's own world coordinates.
 POINTS = [
-    [2784.9712, 461.6221, 4994.9365],
-    [2790.1208, 462.07178, 4996.732],
-    [2795.1418, 462.50894, 4998.4834],
+    [1184.9712, 461.6221, 3394.9365],
+    [1190.1208, 462.07178, 3396.732],
+    [1195.1418, 462.50894, 3398.4834],
 ]
 
 
@@ -60,7 +60,7 @@ def library_lap(path, points=POINTS):
         "﻿"
         + json.dumps(
             {
-                "Course": "course_2800_5000_to_2775_5000",
+                "Course": "course_1200_3400_to_1175_3400",
                 "Class": "A",
                 "Lap": {
                     "lapSeconds": 47.737,
@@ -96,7 +96,7 @@ class TestEveryShapeOfLap:
         """The CSV the viewer eats, so a course exported for analysis can be
         handed straight back to ask for the ground under it."""
         path = tmp_path / "samples.csv"
-        rows = "\n".join(f"Lakeside,{x},{y},{z},220" for x, y, z in POINTS)
+        rows = "\n".join(f"Mapletree,{x},{y},{z},220" for x, y, z in POINTS)
         path.write_text(f"course,x,y,z,speed_kmh\n{rows}\n", encoding="utf-8")
 
         assert np.allclose(read_file(path), POINTS)
@@ -120,19 +120,19 @@ class TestEveryShapeOfLap:
         library_lap(tmp_path / "A" / "car382" / "tune" / "untagged" / "a.json")
         library_lap(
             tmp_path / "R" / "car4212" / "tune" / "untagged" / "b.json",
-            points=[[3000.0, 470.0, 5100.0]] * 3,
+            points=[[1400.0, 470.0, 3500.0]] * 3,
         )
 
         points, laps = read_folder(tmp_path)
 
         assert laps == 2
         assert len(points) == 6
-        assert points[:, 0].max() == pytest.approx(3000.0)
+        assert points[:, 0].max() == pytest.approx(1400.0)
 
     def test_the_metadata_beside_the_laps_is_not_one(self, tmp_path):
         library_lap(tmp_path / "A" / "car1" / "t" / "untagged" / "a.json")
         (tmp_path / "course.json").write_text(
-            json.dumps({"Name": "Lakeside Circuit", "StartX": 2788.0}), encoding="utf-8"
+            json.dumps({"Name": "Mapletree Test Loop", "StartX": 1188.0}), encoding="utf-8"
         )
 
         _points, laps = read_folder(tmp_path)
@@ -148,14 +148,55 @@ class TestEveryShapeOfLap:
         assert laps == 1
 
 
+def labelled_lap(path, game, points=POINTS):
+    """A `heat3d-lap` document, which names its game."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    columns = np.asarray(points).T.tolist()
+    path.write_text(
+        json.dumps({"format": "heat3d-lap", "game": game, "channels": dict(zip("xyz", columns))}),
+        encoding="utf-8",
+    )
+    return path
+
+
+class TestWhichGameAFolderIs:
+    def test_the_game_its_laps_name(self, tmp_path):
+        labelled_lap(tmp_path / "a.json", "beamng")
+        labelled_lap(tmp_path / "b" / "c.json", "beamng")
+
+        assert read(tmp_path).game == "beamng"
+
+    def test_a_file_that_names_no_game_does_not_vote(self, tmp_path):
+        labelled_lap(tmp_path / "a.json", "assetto-corsa-rally")
+        # Metadata, and a table without its description line: neither says.
+        (tmp_path / "course.json").write_text(json.dumps({"Name": "Example Stage"}), encoding="utf-8")
+        (tmp_path / "b.csv").write_text("x,y,z\n1,2,3\n4,5,6\n", encoding="utf-8")
+
+        driven = read(tmp_path)
+
+        assert driven.game == "assetto-corsa-rally"
+        assert driven.laps == 2
+
+    def test_two_games_are_a_mix_and_say_nothing(self, tmp_path):
+        labelled_lap(tmp_path / "a.json", "beamng")
+        labelled_lap(tmp_path / "b.json", "assetto-corsa-rally")
+
+        assert read(tmp_path).game is None
+
+    def test_a_folder_where_nothing_names_a_game_has_none(self, tmp_path):
+        library_lap(tmp_path / "A" / "car1" / "t" / "untagged" / "a.json")
+
+        assert read(tmp_path).game is None
+
+
 class TestTheBoxItCuts:
     def test_the_margin_widens_the_plane(self):
         driven = Driven(name="x", positions=np.array(POINTS))
 
         low, high = driven.box(80.0)
 
-        assert low[0] == pytest.approx(2784.9712 - 80.0)
-        assert high[1] == pytest.approx(4998.4834 + 80.0)
+        assert low[0] == pytest.approx(1184.9712 - 80.0)
+        assert high[1] == pytest.approx(3398.4834 + 80.0)
 
     def test_height_is_never_bounded(self):
         """
@@ -209,20 +250,20 @@ class TestLookingACourseUpByName:
     def shelf(self, tmp_path):
         root = tmp_path / "laps"
         for name in (
-            "Lakeside Circuit (course_2800_5000_to_2775_5000)",
-            "Harbour Chase (course_-575_-6475_to_-475_-5475)",
-            "Harbour Circuit (course_-100_-6050_to_-100_-6050)",
+            "Mapletree Test Loop (course_1200_3400_to_1175_3400)",
+            "Harbour Chase (course_-300_-2200_to_-200_-1200)",
+            "Harbour Circuit (course_-150_-2100_to_-150_-2100)",
         ):
             library_lap(root / name / "A" / "car1" / "t" / "untagged" / "a.json")
         return root
 
     def test_the_coordinates_in_the_folder_name_can_be_ignored(self, shelf):
-        found = find_recorded_course("Lakeside Circuit", shelf)
+        found = find_recorded_course("Mapletree Test Loop", shelf)
 
-        assert found.name.startswith("Lakeside Circuit")
+        assert found.name.startswith("Mapletree Test Loop")
 
     def test_a_partial_name_works_when_it_is_unambiguous(self, shelf):
-        assert find_recorded_course("lakeside", shelf).name.startswith("Lakeside")
+        assert find_recorded_course("mapletree", shelf).name.startswith("Mapletree")
 
     def test_an_ambiguous_name_lists_what_it_matched(self, shelf):
         with pytest.raises(UnreadableLap, match="Harbour Chase, Harbour Circuit"):
@@ -243,7 +284,7 @@ class TestLookingACourseUpByName:
         assert np.allclose(driven.positions, POINTS)
 
     def test_the_name_loses_the_coordinates_glued_to_it(self, tmp_path):
-        folder = tmp_path / "Lakeside Circuit (course_2800_5000_to_2775_5000)"
+        folder = tmp_path / "Mapletree Test Loop (course_1200_3400_to_1175_3400)"
         library_lap(folder / "A" / "car1" / "t" / "untagged" / "a.json")
 
-        assert read(folder).name == "Lakeside Circuit"
+        assert read(folder).name == "Mapletree Test Loop"

@@ -56,8 +56,9 @@ MODEL_HEADER = 20
 #: One table record: tag, flags, name offset, data offset, size, stored size.
 MODEL_RECORD = 24
 
-#: The streamed geometry containers carry this instead. Recognised so a caller
-#: is told what the file is rather than that it is nothing.
+#: The `.minizip` archives the models are streamed from carry this instead
+#: (see `minizip.py`). Recognised so a caller is told what the file is rather
+#: than that it is nothing.
 GEO_MAGIC = b"PGZP"
 
 
@@ -117,8 +118,8 @@ def read_model(path: str | Path, data: bytes | None = None) -> ModelFile:
     if data[:4] != MODEL_MAGIC:
         if data[:4] == GEO_MAGIC:
             raise UnsupportedForza(
-                f"{path.name} is a ForzaTech streamed geometry container, not a "
-                "model; that format is not implemented"
+                f"{path.name} is a ForzaTech .minizip archive, not a model; "
+                "it is read with minizip.py (`list` and `extract` on the command line)"
             )
         raise UnsupportedForza(f"{path.name} does not begin with {MODEL_MAGIC!r}")
 

@@ -14,6 +14,7 @@ from __future__ import annotations
 import struct
 
 import numpy as np
+import pytest
 
 from heat3d_gamefiles.cli import main
 from heat3d_gamefiles.forzaterrain import NAME_STEP, TILE_METRES
@@ -170,3 +171,31 @@ def test_only_some_courses(tmp_path):
     out = tmp_path / "some"
     assert main(["courses", "--library", str(library), "--track", str(track), "-o", str(out), "--only", "sprint"]) == 0
     assert [p.name for p in out.iterdir()] == ["other_sprint.glb"]
+
+
+def test_terrain_takes_a_route_with_a_byte_order_mark(tmp_path):
+    """Read as `course` reads JSON: a mark in front is not a different file."""
+    import json
+
+    track = write_track(tmp_path / "Tracks" / "Test")
+    t = np.linspace(0, 2 * np.pi, 50)
+    positions = np.c_[650 + 30 * np.cos(t), np.full_like(t, 100.5), 150 + 30 * np.sin(t)]
+    route = tmp_path / "route.json"
+    document = {
+        "bounds": {"min": positions.min(axis=0).tolist(), "max": positions.max(axis=0).tolist()},
+        "positions": positions.tolist(),
+    }
+    route.write_text("﻿" + json.dumps(document), encoding="utf-8")
+    out = tmp_path / "piece.glb"
+
+    assert main(["terrain", str(track), "--route", str(route), "-o", str(out), "--margin", "40", "--no-placed"]) == 0
+    assert out.exists()
+
+
+def test_terrain_says_what_a_route_needs(tmp_path):
+    track = write_track(tmp_path / "Tracks" / "Test")
+    lap = tmp_path / "lap.json"
+    lap.write_text('{"positions": [[1, 2, 3], [4, 5, 6]]}', encoding="utf-8")
+
+    with pytest.raises(SystemExit, match='"bounds"'):
+        main(["terrain", str(track), "--route", str(lap), "-o", str(tmp_path / "x.glb")])

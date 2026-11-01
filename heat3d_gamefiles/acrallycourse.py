@@ -53,6 +53,16 @@ CATEGORY_COLOUR = {
 DEFAULT_CATEGORIES = ("barriers", "signs", "buildings", "infrastructure", "rocks", "props", "kerbs")
 
 
+def placed_part(kind: str) -> str:
+    """
+    The part a category of placed model is written as. Kerbs are driving
+    surface, so they are ground, as the Forza and BeamNG exports write them:
+    the viewer draws ground and structure differently, and a filter for the
+    racing surface is `ground:road` with `ground:kerbs`.
+    """
+    return "ground:kerbs" if kind == "kerbs" else f"structure:{kind}"
+
+
 def _named_stage(packages: Packages, track: str | None) -> str | None:
     """The stage a lap's own track name means, matched loosely, or None."""
     if not track:
@@ -442,7 +452,7 @@ def export(driven, target: Path, args, *, paks: Path | None = None) -> int:
             if not reach.contains(where[None, :])[0]:
                 continue
             chosen.append((p, kind))
-        levels = _levels(chosen, shelf, frame, route, args.detail_budget)
+        levels, budget, dropped = _levels(chosen, shelf, frame, route, args.detail_budget)
         by_part: dict[str, list] = {}
         copies: dict[str, int] = {}
         for (p, kind), level in zip(chosen, levels):
@@ -460,15 +470,20 @@ def export(driven, target: Path, args, *, paks: Path | None = None) -> int:
             copies[kind] = copies.get(kind, 0) + 1
         if by_part:
             triangles = sum(len(f) for pieces in by_part.values() for _, f in pieces)
-            print(f"\n  placed on it ({triangles:,} triangles):")
+            print(f"\n  placed on it ({triangles:,} triangles of a {budget:,} budget):")
             for kind, count in sorted(copies.items(), key=lambda kv: -kv[1]):
                 print(f"    {count:7,} {kind}")
+        if dropped:
+            print(
+                f"    {dropped:,} copies left out to fit the budget, the furthest from the "
+                "driving first (--detail-budget raises it)"
+            )
         for kind, pieces in sorted(by_part.items()):
             points, faces, _ = _join(pieces)
             positions.append(points)
             uvs.append(np.zeros((len(points), 2)))
             faces_of.append(faces + offset)
-            names.append(f"structure:{kind}")
+            names.append(placed_part(kind))
             colours.append(CATEGORY_COLOUR[kind])
             textures.append(None)
             offset += len(points)
@@ -513,12 +528,19 @@ def _join(pieces):
     return np.concatenate(points), np.concatenate(faces), joined_uv
 
 
-def _levels(chosen, shelf: MeshShelf, frame: np.ndarray, route: np.ndarray, budget: int | None) -> list[int | None]:
-    """A level of detail per copy, by distance bands and the budget, as for Forza."""
+def _levels(chosen, shelf: MeshShelf, frame: np.ndarray, route: np.ndarray, budget: int | None) -> tuple[list[int | None], int, int]:
+    """
+    A level of detail per copy, by distance bands and the budget, as for Forza,
+    or None for a copy left out; and the budget used, and how many went.
+
+    Where even the coarsest levels do not fit the budget, the furthest copies
+    go until it does, as in the BeamNG export. Kerbs never step down and are
+    never left out, so only a budget smaller than the kerbs alone is exceeded.
+    """
     from .forzaplacement import FAR, NEAR, auto_budget, choose_levels, route_distance
 
     if not chosen:
-        return []
+        return [], budget or 0, 0
     where = np.array([(np.array([0.0, 0.0, 0.0, 1.0]) @ (p.matrix @ frame))[[0, 2]] for p, _ in chosen])
     distance = route_distance(where, route[:, [0, 2]])
     band = np.digitize(distance, (NEAR, FAR))
@@ -538,7 +560,24 @@ def _levels(chosen, shelf: MeshShelf, frame: np.ndarray, route: np.ndarray, budg
         budget = auto_budget(costs, pinned)
     picked = choose_levels(costs, budget, pinned, start)
     out: list[int | None] = [None] * len(chosen)
+    total = 0
     for name, numbers in entries.items():
         for number in numbers:
             out[number] = picked[name]
-    return out
+        total += len(numbers) * costs[name][1][picked[name]]
+    dropped = 0
+    if total > budget:
+        # Still over at the coarsest: the furthest copies go, never a kerb.
+        cost = {
+            number: costs[name][1][picked[name]]
+            for name, numbers in entries.items()
+            if name not in pinned
+            for number in numbers
+        }
+        for number in sorted(cost, key=lambda n: -distance[n]):
+            if total <= budget:
+                break
+            out[number] = None
+            total -= cost[number]
+            dropped += 1
+    return out, budget, dropped

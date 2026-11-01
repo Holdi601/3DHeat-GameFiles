@@ -324,6 +324,21 @@ class Contents:
         return [i for i, n in enumerate(self.names) if needle in n.lower()]
 
 
+def manifest_of(archive: str | Path) -> Path | None:
+    """
+    Where the names of `GeoChunk{n}.minizip` are: the
+    `ChunkContentsMiniZip{n}.txt` beside it. None for an archive not named
+    that way, whose manifest cannot be told from its name.
+    """
+    import re
+
+    archive = Path(archive)
+    match = re.fullmatch(r"geochunk(\d+)", archive.stem, re.I)
+    if match is None:
+        return None
+    return archive.with_name(f"ChunkContentsMiniZip{match.group(1)}.txt")
+
+
 def open_chunk(folder: str | Path, number: int) -> tuple[MiniZip, Contents]:
     """Open `GeoChunk{n}.minizip` together with the names that go with it."""
     folder = Path(folder)

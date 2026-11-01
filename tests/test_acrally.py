@@ -14,12 +14,14 @@ import struct
 import numpy as np
 import pytest
 
-from heat3d_gamefiles.acrally import find_paks, list_stages, read_stage, rotator_matrix, texture_volume, transform
+from heat3d_gamefiles.acrally import Placement, find_paks, list_stages, read_stage, rotator_matrix, texture_volume, transform
 from heat3d_gamefiles.acrallycourse import (
+    _levels,
     _score,
     describe_frame,
     frames,
     ground_kind,
+    placed_part,
 )
 from heat3d_gamefiles.iostore import Container, IoStoreError, Store
 from heat3d_gamefiles.unrealtexture import _morton, bulk_map
@@ -142,6 +144,71 @@ class TestTheFrame:
         assert ground_kind("/Game/Environments/S/MeshesTrack/SM_STrack0101") == "road"
         assert ground_kind("/Game/Environments/S/MeshesTerrain/SM_STerrain0101") == "terrain"
         assert ground_kind("/Game/Props/SM_Fence") is None
+
+
+class TestPlacedModels:
+    """What stands on the stage: which part it is, and what the budget keeps."""
+
+    class Shelf:
+        """Meshes by path, each a list of triangle counts, finest first."""
+
+        def __init__(self, meshes: dict[str, list[int]]) -> None:
+            self.meshes = meshes
+
+        def get(self, path):
+            from types import SimpleNamespace
+
+            counts = self.meshes.get(path)
+            if counts is None:
+                return None
+            return SimpleNamespace(lods=[SimpleNamespace(faces=np.zeros((n, 3), np.int32)) for n in counts])
+
+    @staticmethod
+    def copy(mesh: str, metres_from_the_road: float) -> Placement:
+        matrix = np.eye(4)
+        matrix[3, 1] = metres_from_the_road * 100.0  # Unreal Y, centimetres
+        return Placement(mesh, matrix)
+
+    #: A lap along x at z = 0; frame 0 reads Unreal Y as the lap's z.
+    ROUTE = np.c_[np.linspace(0.0, 10.0, 11), np.zeros(11), np.zeros(11)]
+
+    def test_kerbs_are_ground_as_in_the_other_games(self):
+        assert placed_part("kerbs") == "ground:kerbs"
+        assert placed_part("barriers") == "structure:barriers"
+        assert placed_part("trees") == "structure:trees"
+
+    def test_a_budget_too_small_for_the_coarsest_levels_leaves_the_furthest_out(self):
+        shelf = self.Shelf({"/Game/Props/SM_Barrier": [100, 10]})
+        chosen = [(self.copy("/Game/Props/SM_Barrier", 100.0 + 10 * i), "barriers") for i in range(10)]
+
+        levels, budget, dropped = _levels(chosen, shelf, frames()[0], self.ROUTE, 50)
+
+        assert budget == 50 and dropped == 5
+        kept = [i for i, level in enumerate(levels) if level is not None]
+        # Every copy is far from the road, so all start at their coarsest: 10 each.
+        assert kept == [0, 1, 2, 3, 4] and len(kept) * 10 <= budget
+
+    def test_kerbs_are_never_left_out_or_simplified(self):
+        shelf = self.Shelf({"/Game/Props/SM_Barrier": [100, 10], "/Game/Track/SM_Kerb": [400, 40]})
+        chosen = [(self.copy("/Game/Props/SM_Barrier", 1.0), "barriers"), (self.copy("/Game/Track/SM_Kerb", 300.0), "kerbs")]
+
+        levels, _budget, dropped = _levels(chosen, shelf, frames()[0], self.ROUTE, 100)
+
+        assert levels == [None, 0] and dropped == 1
+
+    def test_the_automatic_budget_keeps_every_copy(self):
+        shelf = self.Shelf({"/Game/Props/SM_Barrier": [100, 10]})
+        chosen = [(self.copy("/Game/Props/SM_Barrier", 10.0 * i), "barriers") for i in range(10)]
+
+        levels, budget, dropped = _levels(chosen, shelf, frames()[0], self.ROUTE, None)
+
+        assert dropped == 0 and None not in levels and budget >= 1_500_000
+
+    def test_the_stage_reader_has_no_filter_that_filters_nothing(self):
+        import inspect
+
+        # `within` was accepted and then ignored; the stage is read whole.
+        assert list(inspect.signature(read_stage).parameters) == ["packages", "stage", "instanced"]
 
 
 class TestVirtualTextures:

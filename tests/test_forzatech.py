@@ -111,14 +111,13 @@ def test_a_truncated_file_is_refused():
         read_model(Path("short.modelbin"), raw[:-10])
 
 
-def test_a_streamed_geometry_container_is_named_rather_than_rejected_blankly():
+def test_a_minizip_is_named_rather_than_rejected_blankly():
     """
-    Pointing the tool at a level's terrain should say what it found.
-
-    "Not a format this tool reads" is much less use than "that is the streamed
-    geometry container, which is not implemented".
+    Pointing the model reader at a level's archive should say what it found,
+    and where that is read: "not a format this tool reads" is much less use,
+    and "not implemented" would be wrong - `minizip.py` reads it.
     """
-    with pytest.raises(UnsupportedForza, match="streamed geometry"):
+    with pytest.raises(UnsupportedForza, match=r"\.minizip archive, not a model; it is read with minizip\.py"):
         read_model(Path("GeoChunk0.minizip"), GEO_MAGIC + bytes(120))
 
 

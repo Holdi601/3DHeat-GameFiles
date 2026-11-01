@@ -92,7 +92,7 @@ class TestTheRecord:
         assert np.allclose(instances[0, 6:9], UP)
 
     def test_each_copy_says_which_variant_it_wears(self):
-        """Byte 60: 0, 2, 2, 3, 4 across the Lakeside billboards; 0 on every armco."""
+        """Byte 60: 0, 2, 2, 3, 4 across the Mapletree billboards; 0 on every armco."""
         found = parse_pgeo(
             pgeo({"sgn_billboard_3D": [((1, 0, 1), EAST, UP, ONE, v) for v in (0, 2, 2, 3, 4)]})
         )

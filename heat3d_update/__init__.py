@@ -216,7 +216,9 @@ def _sync(src: Path, dst: Path) -> None:
         else:
             target.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(path, target)
-    for package in src.glob("*/heat3d_*"):
+    # A tool's packages sit at the top of its repository; one level down is the
+    # old monorepo's layout, kept so an update from it still cleans up.
+    for package in [*src.glob("heat3d_*"), *src.glob("*/heat3d_*")]:
         if not package.is_dir():
             continue
         mine = dst / package.relative_to(src)

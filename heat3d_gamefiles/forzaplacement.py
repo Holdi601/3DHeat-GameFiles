@@ -156,7 +156,7 @@ _CUTOUT = re.compile(r"alphatest|alphablend|transmissive|anim_flag|impostor|bran
 #: Material shaders that draw nothing solid of their own: projected decals.
 _SKIP = re.compile(r"decal", re.I)
 #: A cut-out surface less opaque than this, on average, is left out: it is
-#: mostly holes, like a chain-link fence (measured 0.44 to 0.47 around Lakeside),
+#: mostly holes, like a chain-link fence (measured 0.44 to 0.47 around Mapletree),
 #: and drawn solid it would be a wall across the view of the track.
 CUTOUT_COVERAGE = 0.5
 #: ...unless it is nearly all holes, which no real surface is: a warning sign
