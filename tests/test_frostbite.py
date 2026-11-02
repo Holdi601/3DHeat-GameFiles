@@ -15,10 +15,9 @@ The **binary table** proves itself differently: its section offsets are stated
 *and* derivable from two counts, so the arithmetic either closes or it does not.
 It closes on all 136 binary tables Battlefield 6 ships.
 
-What is deliberately not here is a test that extracts geometry. The tables name
-assets and say where their bytes live; turning one into a mesh is the Frostbite
-mesh format on top, which this does not attempt. Testing the boundary honestly
-means testing the catalogue, not pretending to a level.
+Geometry is tested next door, in `test_frostbitelevel.py`: the tables name
+chunks and say where their bytes live, and that is what is tested here — down
+to which installation package a location's blob belongs to.
 """
 
 from __future__ import annotations
@@ -38,7 +37,11 @@ from heat3d_gamefiles.frostbite import (
     UnsupportedFrostbite,
     asset_ids,
     describe,
+    game_root,
+    install_packages,
+    location_at,
     parse_toc,
+    read_asset,
     read_header,
     decompress_payload,
     locations,
@@ -54,6 +57,107 @@ def tables() -> list[Path]:
 
 
 INSTALLED = tables()
+
+
+def _varint(value: int) -> bytes:
+    out = bytearray()
+    while True:
+        byte = value & 0x7F
+        value >>= 7
+        out.append(byte | (0x80 if value else 0))
+        if not value:
+            return bytes(out)
+
+
+def _field(name: str | None, value) -> bytes:
+    """One DbObject field, the inverse of what `parse_toc` reads."""
+    if isinstance(value, dict):
+        type_id = 0x02
+        body = b"".join(_field(k, v) for k, v in value.items()) + b"\x00"
+        raw = _varint(len(body)) + body
+    elif isinstance(value, list):
+        type_id = 0x01
+        body = b"".join(_field(None, v) for v in value) + b"\x00"
+        raw = _varint(len(body)) + body
+    elif isinstance(value, str):
+        type_id = 0x07
+        text = value.encode() + b"\x00"
+        raw = _varint(len(text)) + text
+    else:
+        type_id = 0x08
+        raw = struct.pack("<i", value)
+    if name is None:
+        return bytes([type_id | 0x80]) + raw
+    return bytes([type_id]) + name.encode() + b"\x00" + raw
+
+
+def _install(root: Path, chunks: list[dict]) -> Path:
+    """A miniature installation: `Data/layout.toc` declaring `chunks`."""
+    (root / "Data").mkdir(parents=True)
+    tree = _field(None, {"installManifest": {"installChunks": chunks}})
+    signed = struct.pack("<I", MAGIC_SIGNED).ljust(SIGNED_HEADER, b"\x00")
+    (root / "Data" / "layout.toc").write_bytes(signed + tree)
+    return root.resolve()
+
+
+class TestPackages:
+    """
+    A location names its package, and `layout.toc` names the package's folder.
+
+    Every package numbers its blobs from `cas_01`, so the blob number alone is
+    ambiguous the moment two packages are installed — which is every real
+    installation. These build one with two packages whose `cas_01.cas` differ.
+    """
+
+    def build(self, tmp_path: Path) -> Path:
+        root = _install(
+            tmp_path / "game",
+            [
+                {"name": "installation/base", "persistentIndex": 0x14FB60ED,
+                 "installBundle": "Win32/installation/base"},
+                {"name": "installation/later", "persistentIndex": -0x7CBF13D1,
+                 "installBundle": "Win32/installation/later"},
+                {"name": "installation/absent", "persistentIndex": 7,
+                 "installBundle": "Win32/installation/absent"},
+            ],
+        )
+        base = root / "Data" / "Win32" / "installation" / "base"
+        later = root / "Update" / "Pack" / "Data" / "Win32" / "installation" / "later"
+        base.mkdir(parents=True)
+        later.mkdir(parents=True)
+        (base / "cas_01.cas").write_bytes(b"B" * 64)
+        (later / "cas_01.cas").write_bytes(b"L" * 64)
+        return root
+
+    def test_a_package_resolves_to_its_own_folder(self, tmp_path):
+        root = self.build(tmp_path)
+        packages = install_packages(root)
+
+        assert packages[0x14FB60ED] == [root / "Data" / "Win32" / "installation" / "base"]
+        # Negative in the tree, because DbObject integers are signed.
+        assert packages[0x8340EC2F][0].parts[-5:-3] == ("Pack", "Data")
+        assert packages[7] == []
+
+    def test_the_same_blob_number_reads_from_the_right_package(self, tmp_path):
+        root = self.build(tmp_path)
+        record = struct.pack(">4I", 0x8340, 0xEC2F0001, 8, 4)
+
+        spot = location_at(record, 0)
+
+        assert (spot.package, spot.cas, spot.offset, spot.size) == (0x8340EC2F, 1, 8, 4)
+        assert read_asset(root, spot) == b"LLLL"
+        assert read_asset(root / "Data", location_at(struct.pack(">4I", 0x14FB, 0x60ED0001, 0, 2), 0)) == b"BB"
+
+    def test_an_undeclared_or_uninstalled_package_is_refused(self, tmp_path):
+        root = self.build(tmp_path)
+        with pytest.raises(UnsupportedFrostbite, match="not declared"):
+            read_asset(root, location_at(struct.pack(">4I", 0, 0x12340001, 0, 1), 0))
+        with pytest.raises(UnsupportedFrostbite, match="no cas_01"):
+            read_asset(root, location_at(struct.pack(">4I", 0, 0x00070001, 0, 1), 0))
+
+    def test_the_root_is_found_from_anything_inside_it(self, tmp_path):
+        root = self.build(tmp_path)
+        assert game_root(root / "Data" / "Win32" / "installation" / "base") == root.resolve()
 
 
 def test_signed_header_is_not_encryption():
@@ -179,9 +283,8 @@ class TestFindingAndReadingTheBytes:
 
     The payloads are then chains of eight-byte-headed blocks, and the same kind
     of check applies: a chain either consumes the payload exactly or it is not a
-    chain. 218 of 299 sampled payloads do, decompressing to 63 MB carrying
-    recognisable Frostbite signatures. The other 81 are high-entropy from their
-    first byte and are refused rather than guessed at.
+    chain. Read from the package the location names, every sampled payload is
+    one; read from the first blob of the right number, a third looked encrypted.
     """
 
     @staticmethod
@@ -258,6 +361,30 @@ class TestFindingAndReadingTheBytes:
         payload = struct.pack(">IHH", len(body), 0x0070, len(body)) + body
 
         assert decompress_payload(payload) == body
+
+    @pytest.mark.skipif(not INSTALLED, reason="no Frostbite game on this machine")
+    def test_sampled_payloads_from_the_right_package_all_decode(self):
+        """
+        With the package resolved, payloads are block chains — all of them.
+
+        Taking the first `cas_NN.cas` of the right number instead made a third of
+        a sample look high-entropy, which read as encryption and was the wrong
+        blob. This samples across the table so a regression shows.
+        """
+        path = self.level_table()
+        if path is None:
+            pytest.skip("no table here holds enough assets to be worth checking")
+        data = path.read_bytes()
+        info = read_header(data, path.name)
+        spots = locations(data, info, read_sections(data, info, path.name))
+        packages = install_packages(path)
+
+        sample = spots[:: max(1, len(spots) // 60)]
+        for spot in sample:
+            assert spot.package in packages, f"package 0x{spot.package:08X} undeclared"
+            payload = read_asset(path, spot)
+            assert len(payload) == spot.size
+            split_blocks(payload)  # raises when it is not a chain
 
     def test_a_chain_of_several_blocks_joins_in_order(self):
         first = b"A" * 100

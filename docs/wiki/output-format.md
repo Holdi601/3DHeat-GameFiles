@@ -1,7 +1,7 @@
 
 # Output format
 
-Every export (`course`, `courses`, `terrain`) writes one **binary glTF 2.0**
+Every export (`course`, `courses`, `terrain`, `level`) writes one **binary glTF 2.0**
 file (`.glb`). It is deliberately small and flat, and laid out the way the 3DHeat
 viewer reads a level. Source:
 [`glb.py`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/heat3d_gamefiles/glb.py).
@@ -59,6 +59,8 @@ After the kind comes, depending on the game:
 | `structure:barriers` | placed models without a texture (Forza, AC Rally) |
 | `structure:barriers armco_metal` | BeamNG placed models of one material |
 | `ground:markings`, `water:water` | flat parts, one for the whole file |
+| `ground:terrain` (Battlefield 6) | the heightfield; `ground:terrain backdrop` the distant terrain meshes, `ground:terrain blend` meshes that blend into the terrain |
+| `structure:buildings t_concreteclean_01_cs` (Battlefield 6, `--textures`) | every surface of that kind showing that colour map; without `--textures`, one part per kind, no suffix |
 
 The viewer can filter by these names. For example, "only the racing surface" is
 `ground:road` together with `ground:kerbs`, in all three games. The prefix is also
@@ -74,6 +76,9 @@ what stands on it.
   its telemetry, so a recorded lap lies on the course.
 - **BeamNG.drive:** `(x, z, -y)` of BeamNG's Z-up world, which is the rotation the
   telemetry recorder applies. A rotation, not a mirror.
+- **Battlefield 6:** the game's own world coordinates (x, y up, z), unchanged:
+  the level's instance transforms applied to each mesh as stored. Mirrored
+  copies are re-wound so their normals point outwards.
 - **Assetto Corsa Rally:** the lap's frame. Unreal centimetres become metres,
   Unreal Z becomes y, and Unreal X and Y become x and z in whichever of the eight
   orientations the lap fitted (see
@@ -122,13 +127,18 @@ from the triangles. AC Rally normals are always computed.
   crowns is noise to a lossless coder: several megabytes a tile as PNG, under one
   as JPEG. An image shared by several parts is stored once.
 - One sampler for all textures: linear magnification, linear-mipmap-linear
-  minification, **clamp to edge** on both axes. Textures never repeat. That is why
+  minification, **clamp to edge** on both axes. Textures never repeat — except
+  in a Battlefield 6 export with `--textures`, whose materials tile: there the
+  sampler repeats and `TEXCOORD_0` is float32, unclamped
+  (`write_glb(..., repeat=True)`). That is why
   BeamNG draws repeating model textures as flat colours (see
   [BeamNG.drive](course-beamng#placed-models)).
 
 | Texture | Size | Covers |
 |---|---|---|
-| ground (all games) | `--texture-size`: 2048, 1024 or 512 px | one 512 m square: 25, 50 or 100 cm a pixel |
+| ground (all games but Battlefield 6) | `--texture-size`: 2048, 1024 or 512 px | one 512 m square: 25, 50 or 100 cm a pixel |
+| Battlefield 6 heightfield | the backdrop colour map's largest mip in the level, cropped | the terrain square: 32 m a pixel in the level checked |
+| Battlefield 6 surfaces | `--textures`: at most that many px a side | the surface's own texture, **tiling** |
 | Forza placed model | at most 256 px | the model's own UV layout |
 | BeamNG placed model | at most 256 px | the model's own UV layout, only where it does not repeat |
 | AC Rally placed model | none | flat colours |

@@ -27,6 +27,10 @@ even if nobody distributes a single extracted file. So:
   control. They are still detected and declined, because no file on hand uses that
   form and there would be nothing to check an implementation against. Assetto
   Corsa EVO's keyed package is refused for the same reason the keys rule exists.
+- **Encrypted files stay closed.** Battlefield 6's initial file system, which
+  holds the game's type library, is encrypted and is not read. The level export
+  works from the files that are not encrypted, and lays out the two types it
+  needs from the data.
 - **Nothing injects into a game process.** Telemetry comes from feeds games
   publish themselves, and capture uses public screen-recording APIs (in the other
   3DHeat tools). Injection into a title with anti-cheat risks the account of
@@ -70,7 +74,13 @@ See [Oodle](reader-oodle).
 
 - `.pak`, IoStore, Unity's `SerializedFile`, Frostbite's `.toc` and ForzaTech's
   formats are undocumented. Reading them is reverse engineering of a container.
-  None of the readers here is derived from another project's source.
+  None of the readers here is derived from another project's source. For
+  Frostbite, public descriptions of older versions (the Frosty modding tools, a
+  Need for Speed Heat format note, a GDC talk) supplied field names and a map of
+  what to look for. No code was taken; every offset was measured on the files
+  (see [`LICENSES.md`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/LICENSES.md)).
+- Extracted levels are for your own use. The tool writes them to your disk and
+  nowhere else; do not publish them.
 - BeamNG publishes its `.cdae` layout, and the reader follows it.
 - Valve documents VPK.
 - Unreal 5's cooked property data needs each class's property list. The lists in

@@ -13,10 +13,10 @@ two leave a gap:
 
 Engines read so far: **Unreal** (`.pak`; Unreal 5 IoStore `.utoc` + `.ucas`
 with its packages, static meshes and textures), **Unity** (`SerializedFile`,
-bundles, meshes), **Frostbite** (`.toc` + `.cas`), **Source 2** (`.vpk`),
-**ForzaTech** (`.minizip`, `.modelbin`, terrain) and **BeamNG** (level archives,
-`.cdae` shapes, `.ter` terrain). Courses export from Forza, BeamNG.drive and
-Assetto Corsa Rally laps.
+bundles, meshes), **Frostbite** (`.toc` + `.cas`, bundles, meshes, level placement), **Source 2**
+(`.vpk`), **ForzaTech** (`.minizip`, `.modelbin`, terrain) and **BeamNG** (level
+archives, `.cdae` shapes, `.ter` terrain). Courses export from Forza, BeamNG.drive
+and Assetto Corsa Rally laps; whole levels, textured, from Battlefield 6.
 
 The case it answers is a developer who has the build but not the project — a
 different studio's title, an old branch, a build from a partner. An engine export
@@ -77,7 +77,7 @@ and content archives among them. The format is read from the bytes, not from the
 extension or from a flag you have to pass. A `.minizip` stores no names, so its
 entries are named by the `ChunkContentsMiniZip*.txt` beside it, or go by number
 (`#12`) without one. A Unity container is read with `meshes`, and a Frostbite
-`.toc` from Python only. A file that is none of these, or that cannot be opened -
+level with `level`. A file that is none of these, or that cannot be opened -
 an encrypted archive without `--key`, a `--key` that is not 64 hex digits - is
 refused in one line with a non-zero exit code.
 
@@ -372,39 +372,49 @@ templates, festival sites that change with progression, and projected decals.
 Not decoded: signage prints that are blended over their board through alpha,
 which come out opaque.
 
-### Frostbite — `.toc` and `.cas`
+### Frostbite — `.toc` and `.cas` (Battlefield 6 levels)
 
-**Lists and extracts from Python (`frostbite.py`); does not yet decode meshes.**
-`identify` reads a `.toc`; `list` and `extract` do not take one.
+**`level` exports a Battlefield 6 level: its terrain heightfield, every mesh its
+static model groups place, and with `--textures` their colour maps.** `levels`
+lists the levels; `identify` reads any `.toc`.
 
-Both table forms are read. The DbObject tree — which is plain after a 556-byte
-signature, not encrypted, despite looking otherwise — is parsed with every
-container's declared length checked against what was consumed. The binary form
-current Battlefield ships is a section table whose offsets are both stated and
-derivable, so the arithmetic closes or the file is refused.
+```
+python -m heat3d_gamefiles levels
+python -m heat3d_gamefiles level <level> -o level.glb [--textures [PIXELS]] [--ground-spacing M]
+                                    [--detail-budget N] [--skip TEXT]
+```
 
-Nothing about that format is documented, so every step was checked against the
+Nothing about the format is documented, so every step was checked against the
 files:
 
 | Step | Check | Result |
 |---|---|---|
-| section chain | each section starts where the last ends | closes on all 136 tables |
-| asset records | identifiers distinct | 74,175 of 74,175 in one level |
-| asset locations | offset+size inside an installed `.cas` | 74,175 of 74,175, none past the end |
-| payloads | block chain consumes the payload exactly | 218 of 299 sampled |
+| section chain | each section starts where the last ends | closes on every table |
+| installation packages | each location's package resolves through `layout.toc` and its blob holds the record | 3,328,654 of 3,328,654 locations |
+| chunks | the identifier table and the location table pair through an index word, not file order | a permutation in every level |
+| payloads | block chain consumes the payload exactly | every payload sampled, read from the right package |
+| bundle manifests | counts match the bundle's entries, strings start where records end | every bundle of a level |
+| meshes | vertices inside the mesh's declared box | 4,027 of 4,080 to 99%, the rest by half-float rounding |
+| placement | every group member imports a mesh; transforms are rotations, scaled | 41,277 copies of 1,753 meshes in one level |
+| terrain | neighbouring height pages share 9 samples exactly; a child equals its parent at every other sample with a border of 4 | trees and bushes stand a median 0.30 m from the decoded surface (lowest point), 0.07 m (origin) |
+| materials | the section's key finds its shader block, which names its textures | 2,214 of 2,375 drawn sections get a colour map |
 
-Across a whole Battlefield 6 install that catalogues 2.98 million assets. Payload
-blocks are Oodle or stored, and decode to 63 MB of data carrying recognisable
-Frostbite signatures.
+An earlier version read the first `cas_NN.cas` with the right number, and a
+third of the payloads looked encrypted. They were the right offsets in another
+package's blob. Nothing found is encrypted. The game's type library is: it sits
+in the encrypted initial file system, which this tool does not touch, so the
+two types placement needs were laid out from the data and are pinned by their
+GUID and signature.
 
-The 81 sampled payloads that do not decode are high-entropy from their first
-byte — a different encoding, or encrypted — and are refused rather than guessed
-at. XOR-obfuscated tables are likewise detected and declined rather than
-implemented against no sample to check.
+The coordinates are the game's own: metres, Y up. A whole level with textures
+is 13.5 million triangles and 530 MB; `--detail-budget`, `--ground-spacing` and
+a smaller `--textures` make it smaller.
 
-Not implemented: the Frostbite mesh format. The tables say what a level contains,
-where it lives, and hand you the bytes; turning those into geometry is a separate
-and much larger problem, and this does not pretend to it.
+Not implemented: the terrain's near-ground colour (the heightfield is coloured
+from the backdrop's map, 32 m a pixel), objects placed one by one rather than
+grouped, normal maps and alpha. The colour map of a surface is chosen by name
+from the textures its shader names. XOR-obfuscated tables are detected and
+declined. See [Frostbite](docs/reader-frostbite.md).
 
 ### BeamNG.drive — level archives, `.cdae`, `.ter`
 

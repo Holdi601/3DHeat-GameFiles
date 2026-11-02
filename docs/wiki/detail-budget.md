@@ -70,6 +70,7 @@ coarsest levels do not fit, copies are left out:
 | Forza | first everything 25 m or more from the driving, then what stands beside the road; within each group, what looks smallest from the road first: largest distance / size (size = the model's bounding-box diagonal times its largest scale, at least 0.25 m) |
 | BeamNG | furthest from the driving first |
 | AC Rally | furthest from the driving first, as BeamNG |
+| Battlefield 6 | smallest first: bounding-box diagonal times scale |
 
 Kerbs (and, for BeamNG, driving-surface models) are never left out, so a budget
 smaller than they cost on their own is exceeded by them and by nothing else.
@@ -99,6 +100,16 @@ replaces are not budgeted at all. See
 | Forza | the per-triangle level mask of the model's `Mesh` submeshes (bit `level + 1`); `0xFFFF` breakable pieces only for a model with no marked level |
 | BeamNG | the `.cdae` shape's `details` with a non-negative size, largest first; for `.dae`, the trailing number on mesh node names (`barrier75`, `barrier40`) |
 | AC Rally | the static mesh's stored levels of detail, finest first |
+| Battlefield 6 | the MeshSet's levels of detail, finest first, counting only the sections drawn (not the shadow and depth-only copies) |
+
+Battlefield 6's `level` has no lap, so there are no distance bands: each mesh is
+one entry, every copy at the same level. The automatic budget is the formula
+above with the terrain backdrop pinned; the heightfield is outside the budget
+and sized by `--ground-spacing`. Under a budget you give, once every mesh
+is at its coarsest, copies are left out smallest first, size being the mesh's
+bounding-box diagonal times the copy's scale, since there is no driving to
+measure distance from. The terrain backdrop is never left out. A level comes to
+about ten million triangles automatically.
 
 ## Choosing a number
 

@@ -13,13 +13,17 @@ and give me that. Everything else — which mesh is the level, how to decimate i
     python -m heat3d_gamefiles courses  [--out folder] [--only name ...]
     python -m heat3d_gamefiles terrain  <forza track folder> --out map.glb
                                         (--box x0 z0 x1 z1 | --route route.json)
+    python -m heat3d_gamefiles levels   [--install folder]
+    python -m heat3d_gamefiles level    <frostbite level> [-o map.glb]
+                                        [--detail-budget n] [--skip text ...]
 
 The file is whatever the game ships, and `identify` does not require knowing
 which: an Unreal `.pak` or IoStore `.utoc`, a Unity `.assets` or bundle, a
 Frostbite `.toc`, a Source 2 `.vpk`, a ForzaTech `.minizip` or `.modelbin`, a
 BeamNG zip, `.cdae` or `.ter`. `list` and `extract` take the archives among
 them - a `.pak`, a `.utoc`, a `.vpk`, a `.minizip` and a zip; Unity has
-`meshes`, and a Frostbite table is read from Python only.
+`meshes`, and Frostbite has `levels` and `level`, which read a whole level
+from its table of contents.
 
 The last three are the odd ones out, and deliberately. They do not take an
 archive but a lap, a library of laps, or a whole Forza track folder, because a
@@ -893,6 +897,111 @@ def _terrain(args) -> int:
     return 0
 
 
+def _frostbite_install(given: Path | None) -> Path | None:
+    """
+    A Frostbite game's folder: the one given, or the first Steam game whose
+    `Data` holds a `layout.toc`.
+    """
+    from .forzainstall import STEAM_DEFAULTS, steam_libraries
+
+    if given is not None:
+        return given
+    for library in [Path(p) for p in STEAM_DEFAULTS] + steam_libraries():
+        common = library / "steamapps" / "common"
+        if not common.is_dir():
+            continue
+        for game in sorted(common.iterdir()):
+            if (game / "Data" / "layout.toc").is_file():
+                return game
+    return None
+
+
+def _levels(args) -> int:
+    from .frostbite import UnsupportedFrostbite
+    from .frostbitebundle import level_tables
+
+    install = _frostbite_install(args.install)
+    if install is None:
+        print("no Frostbite game found in a Steam library; give --install", file=sys.stderr)
+        return 2
+    try:
+        tables = level_tables(install)
+    except UnsupportedFrostbite as exc:
+        print(exc, file=sys.stderr)
+        return 1
+    print(f"{len(tables)} levels in {install}")
+    for name, toc in sorted(tables.items()):
+        print(f"  {name:<40} {toc.stat().st_size:>12,}")
+    return 0
+
+
+def _level(args) -> int:
+    from .frostbite import UnsupportedFrostbite
+    from .frostbitelevel import build_level, write_level
+
+    install = _frostbite_install(args.install)
+    if install is None:
+        print("no Frostbite game found in a Steam library; give --install", file=sys.stderr)
+        return 2
+    out = args.out or Path(f"{Path(args.level).stem}.glb")
+    try:
+        model = build_level(
+            install,
+            args.level,
+            budget=args.detail_budget,
+            skip=tuple(args.skip or ()),
+            textures=args.textures,
+            ground_spacing=args.ground_spacing,
+        )
+    except UnsupportedFrostbite as exc:
+        print(exc, file=sys.stderr)
+        return 1
+
+    placed = model.placements
+    print(
+        f"{placed.copies():,} copies of {len(placed.meshes):,} meshes, from "
+        f"{len(placed.partitions)} static model groups"
+    )
+    for name, copies in sorted(placed.partitions.items(), key=lambda kv: -kv[1]):
+        print(f"  {copies:>8,}  {name}")
+    if placed.unresolved:
+        print(f"{placed.unresolved:,} members name a mesh this level does not carry; left out")
+    reasons: dict[str, int] = {}
+    for why in model.skipped.values():
+        reasons[why] = reasons.get(why, 0) + 1
+    for why, count in sorted(reasons.items(), key=lambda kv: -kv[1]):
+        print(f"{count:,} meshes left out: {why}")
+    print(
+        f"{model.triangles():,} triangles, budget {model.budget:,}; "
+        f"{model.coarser:,} meshes drawn at a coarser level to fit"
+    )
+    if model.dropped:
+        print(
+            f"{model.dropped:,} copies left out to fit the budget, the smallest first "
+            "(--detail-budget raises it)"
+        )
+    kinds: dict[str, list[int]] = {}
+    for part, piece in model.parts.items():
+        short = (piece.texture or "").rsplit("/", 1)[-1]
+        kind = part[: -len(short) - 1] if piece.texture and part.endswith(" " + short) else part
+        entry = kinds.setdefault(kind, [0, 0])
+        entry[0] += sum(len(f) for f in piece.faces)
+        entry[1] += 1 if piece.texture else 0
+    for kind, (triangles, textures) in sorted(kinds.items()):
+        print(f"  {triangles:>12,}  {kind}" + (f", {textures:,} texture{'s' if textures > 1 else ''}" if textures else ""))
+    if args.textures:
+        done, drawn = model.textured
+        print(f"{done:,} of {drawn:,} drawn sections carry their colour map; the rest are flat colours")
+    print(f"Ground: {model.ground}.")
+    try:
+        write_level(model, out)
+    except (UnsupportedFrostbite, ValueError) as exc:
+        print(exc, file=sys.stderr)
+        return 1
+    print(f"-> {out} ({out.stat().st_size / 1e6:,.0f} MB)")
+    return 0
+
+
 def _export_options(p) -> None:
     """The options `course` and `terrain` share: what goes into the file."""
     from .forzaplacement import DEFAULT_BUDGET
@@ -1095,12 +1204,62 @@ def main(argv: list[str] | None = None) -> int:
         help="metres to add around a route, so the verge comes with the road",
     )
 
+    p = sub.add_parser("levels", help="list the levels of an installed Frostbite game")
+    p.add_argument("--install", type=Path, default=None, help="the game's folder, if not in a Steam library")
+
+    p = sub.add_parser(
+        "level", help="export a Frostbite level: its terrain backdrop and placed meshes"
+    )
+    p.add_argument("level", help="the level's name as `levels` lists it, or its .toc")
+    p.add_argument("-o", "--out", type=Path, default=None, help="the .glb (default: <level>.glb)")
+    p.add_argument("--install", type=Path, default=None, help="the game's folder, if not in a Steam library")
+    p.add_argument(
+        "--detail-budget",
+        type=int,
+        default=None,
+        help=(
+            "a ceiling on triangles; the costliest meshes drop to coarser levels of "
+            "detail until it fits (default: every copy at its coarsest, plus a "
+            "quarter, at least 1,500,000; the terrain stays at full detail)"
+        ),
+    )
+    p.add_argument(
+        "--textures",
+        type=int,
+        nargs="?",
+        const=512,
+        default=0,
+        metavar="PIXELS",
+        help=(
+            "write each surface's colour map, no larger than PIXELS a side "
+            "(default 512 when given without a size); without it, flat colours"
+        ),
+    )
+    p.add_argument(
+        "--ground-spacing",
+        type=float,
+        default=4.0,
+        metavar="METRES",
+        help="the terrain heightfield's finest spacing (default 4; 0 leaves it out)",
+    )
+    p.add_argument(
+        "--skip",
+        action="append",
+        default=None,
+        metavar="TEXT",
+        help="leave out static model groups whose partition name contains TEXT (repeatable)",
+    )
+
     args = parser.parse_args(argv)
 
     if args.verb == "course":
         return _course(args)
     if args.verb == "courses":
         return _courses(args)
+    if args.verb == "levels":
+        return _levels(args)
+    if args.verb == "level":
+        return _level(args)
 
     if not args.path.exists():
         print(f"no such file: {args.path}", file=sys.stderr)

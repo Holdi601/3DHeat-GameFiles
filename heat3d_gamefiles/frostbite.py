@@ -58,15 +58,21 @@ files rather than assumed.
                         a wrong record stride does not produce
     asset locations     all 74,175 land inside an installed .cas blob, none past
                         the end of its file, none naming a blob that is absent
+    packages            each location names the installation package its blob
+                        belongs to, and `layout.toc` says which folder that is —
+                        all 3.3 million locations of the 144 tables resolve, and
+                        land inside the blob they name
     payloads            chains of eight-byte-headed blocks; a chain consumes the
                         payload exactly or it is not a chain
 
-218 of 299 sampled payloads decode that way, giving 63 MB carrying recognisable
-Frostbite signatures. The other 81 are high-entropy from their first byte — a
-different encoding, or encrypted — and are refused rather than guessed at.
+Every one of 300 payloads sampled from a level decodes that way. An earlier
+version of this reader ignored the package and took the first `cas_NN.cas` it
+found with the right number, and a third of the payloads it read then looked
+high-entropy from their first byte — they were the right offsets in the wrong
+blob, not encryption. Nothing found so far is encrypted.
 
-What this still does not do is turn a decoded payload into geometry. That is the
-Frostbite mesh format on top, which is a separate and much larger problem.
+Turning a decoded payload into geometry is the Frostbite mesh format on top; see
+`frostbitebundle` for what the bundles name and `frostbitemesh` for the meshes.
 """
 
 from __future__ import annotations
@@ -308,11 +314,13 @@ class Sections:
     `TocInfo.payload_offset` to reach a file position.
     """
 
-    #: Small lookup table of 20-byte records, immediately after the header.
+    #: The bundles: a hash table of one word per bundle, then a 16-byte record
+    #: per bundle (`frostbitebundle.toc_bundles` reads them) — 20 bytes each.
     lookup: tuple[int, int]
-    #: One 32-bit word per asset.
+    #: One 32-bit word per asset: the hash table over the identifiers.
     asset_index: tuple[int, int]
-    #: The assets themselves: 16-byte identifier, then a word.
+    #: The chunks themselves: a 16-byte identifier, then a word giving the
+    #: index of its location record (see `chunk_locations`).
     assets: tuple[int, int]
     #: Four words per asset — where its bytes live in the cas blobs.
     locations: tuple[int, int]
@@ -336,10 +344,9 @@ def read_sections(data: bytes, info: TocInfo, name: str = "toc") -> Sections:
     the declared offsets or it does not, and a wrong record size will not close.
     It closes on all 136 tables shipped with Battlefield 6.
 
-    What it does not do is resolve an asset to its bytes. The identifiers and
-    their locations are here, but turning one into geometry means the mesh format
-    on top, which is a separate and much larger problem — so this reports what a
-    level's table contains rather than pretending to extract from it.
+    This only finds the sections. `chunk_locations` pairs the chunks with their
+    locations, and `frostbitebundle.toc_bundles` reads the bundles stored after
+    the table.
     """
     at = info.payload_offset
     if len(data) < at + BINARY_HEADER:
@@ -394,12 +401,45 @@ def _align(value: int, to: int = 8) -> int:
 
 
 def asset_ids(data: bytes, info: TocInfo, sections: Sections) -> list[bytes]:
-    """The 16-byte identifier of every asset the table lists."""
+    """
+    The 16-byte identifier of every asset the table lists, as stored.
+
+    Stored byte-reversed: the GUID a mesh or a bundle manifest names its chunk by
+    is these sixteen bytes back to front. `chunk_locations` turns them round.
+    """
     start = info.payload_offset + sections.assets[0]
     return [
         data[start + i * ASSET_RECORD : start + i * ASSET_RECORD + 16]
         for i in range(sections.asset_count)
     ]
+
+
+def chunk_locations(data: bytes, info: TocInfo, sections: Sections) -> dict[bytes, "Location"]:
+    """
+    Where each chunk's bytes are, by the GUID the rest of the game uses for it.
+
+    The identifiers and the locations are two tables in different orders. The
+    word after each identifier joins them: its top bit is set, and the rest is
+    four times the index of the identifier's location record. Reading them in
+    file order instead pairs every chunk with somebody else's bytes — which
+    decode perfectly well, mostly as sound, and so do not look wrong until a
+    mesh comes out as noise. In a level of 73,875 chunks the words are all
+    distinct and run 0, 4, ... 4 × 73,874: a permutation, which is what an
+    index is and a coincidence is not.
+    """
+    start = info.payload_offset + sections.assets[0]
+    table = info.payload_offset + sections.locations[0]
+    out: dict[bytes, Location] = {}
+    for i in range(sections.asset_count):
+        at = start + i * ASSET_RECORD
+        (word,) = struct.unpack_from(">I", data, at + 16)
+        index = (word & 0x00FFFFFF) >> 2
+        if index >= sections.asset_count:
+            raise UnsupportedFrostbite(
+                f"chunk {i} points at location {index} of {sections.asset_count}"
+            )
+        out[data[at : at + 16][::-1]] = location_at(data, table + index * 16)
+    return out
 
 
 @dataclass(frozen=True)
@@ -410,10 +450,10 @@ class Location:
     cas: int
     offset: int
     size: int
-    #: Identifies the installation package the blob belongs to. Two words rather
-    #: than one because that is how the table stores it, and what they mean
-    #: beyond "these go together" is not established.
-    package: tuple[int, int]
+    #: The installation package the blob belongs to: the `persistentIndex` of
+    #: one of the install chunks `layout.toc` lists, which also names the folder
+    #: the package is installed in. `install_packages` resolves it.
+    package: int
 
     @property
     def end(self) -> int:
@@ -422,7 +462,9 @@ class Location:
 
 def locations(data: bytes, info: TocInfo, sections: Sections) -> list[Location]:
     """
-    Where every asset's bytes are, in file order matching `asset_ids`.
+    Where every asset's bytes are, in the order of the location table.
+
+    That is not the order of `asset_ids`; `chunk_locations` pairs the two.
 
     Four big-endian words per asset. The layout was not documented anywhere; it
     was read off the numbers and then checked against the files themselves —
@@ -430,20 +472,33 @@ def locations(data: bytes, info: TocInfo, sections: Sections) -> list[Location]:
     an installed `.cas` blob, with no record running past the end of its file and
     no record naming a blob that is not there. A wrong field order does not
     produce that.
+
+    The package is split across the first two words: the low half of the first
+    holds the high half of the package's `persistentIndex`, the high half of the
+    second its low half, and the low half of the second is the blob number::
+
+        00 00 14 FB   60 ED 00 03   ...
+              ^^^^^   ^^^^^ ^^^^^
+              package 0x14FB60ED, cas_03
+
+    The top half of the first word is zero in every record shipped.
     """
     start = info.payload_offset + sections.locations[0]
     out = []
     for i in range(sections.asset_count):
-        first, second, offset, size = struct.unpack_from(">4I", data, start + i * 16)
-        out.append(
-            Location(
-                cas=second & 0xFFFF,
-                offset=offset,
-                size=size,
-                package=(first, second >> 16),
-            )
-        )
+        out.append(location_at(data, start + i * 16))
     return out
+
+
+def location_at(data: bytes, at: int) -> Location:
+    """One sixteen-byte location record; see `locations` for the layout."""
+    first, second, offset, size = struct.unpack_from(">4I", data, at)
+    return Location(
+        cas=second & 0xFFFF,
+        offset=offset,
+        size=size,
+        package=((first & 0xFFFF) << 16) | (second >> 16),
+    )
 
 
 #: Frostbite payloads are a chain of blocks, each with an eight-byte header::
@@ -561,35 +616,103 @@ def decompress_payload(payload: bytes) -> bytes:
     return bytes(out)
 
 
+def game_root(path: str | Path) -> Path:
+    """
+    The installation folder: the one whose `Data` holds `layout.toc`.
+
+    Accepts the folder itself, its `Data`, or anything inside it — a level's
+    table, typically — so a caller holding any one file can find the rest.
+    """
+    path = Path(path).resolve()
+    for folder in [path, *path.parents]:
+        if (folder / "Data" / "layout.toc").is_file():
+            return folder
+        if folder.name.lower() == "data" and (folder / "layout.toc").is_file():
+            return folder.parent
+    raise UnsupportedFrostbite(f"no Data\\layout.toc at or above {path}")
+
+
+#: Package maps already read, by installation folder. `layout.toc` is 200 KB
+#: and a level export resolves tens of thousands of locations against it.
+_PACKAGES: dict[str, dict[int, list[Path]]] = {}
+
+
+def install_packages(root: str | Path) -> dict[int, list[Path]]:
+    """
+    Every installation package `layout.toc` declares, by `persistentIndex`, with
+    the folders it is installed in.
+
+    `layout.toc` lists the install chunks under `installManifest.installChunks`,
+    each with a `persistentIndex` — the number a location record carries — and
+    an `installBundle` such as `Win32/installation/commonbase`, which is the
+    folder its `cas_NN.cas` blobs sit in. That folder is under `Data` for the
+    base game and under `Update/<pack>/Data` for what came later, so both are
+    searched; a package may be split across several.
+
+    A package with no folder on disk is still listed, with no folders: it is
+    declared but not installed, which is worth saying differently from a number
+    nobody declared.
+    """
+    root = game_root(root)
+    key = str(root).lower()
+    if key in _PACKAGES:
+        return _PACKAGES[key]
+
+    _, tree = parse_toc(root / "Data" / "layout.toc")
+    manifest = tree.get("installManifest", {}) if isinstance(tree, dict) else {}
+    chunks = manifest.get("installChunks", []) if isinstance(manifest, dict) else []
+    bases = [root / "Data"]
+    if (root / "Update").is_dir():
+        bases += sorted(p / "Data" for p in (root / "Update").iterdir() if (p / "Data").is_dir())
+
+    found: dict[int, list[Path]] = {}
+    for chunk in chunks:
+        if not isinstance(chunk, dict) or "persistentIndex" not in chunk:
+            continue
+        bundle = str(chunk.get("installBundle", "") or "")
+        folders = [base / bundle for base in bases if bundle and (base / bundle).is_dir()]
+        found[int(chunk["persistentIndex"]) & 0xFFFFFFFF] = folders
+    _PACKAGES[key] = found
+    return found
+
+
+def cas_path(root: str | Path, location: Location) -> Path:
+    """The `cas_NN.cas` a location points into, or why there is none."""
+    packages = install_packages(root)
+    if location.package not in packages:
+        raise UnsupportedFrostbite(
+            f"package 0x{location.package:08X} is not declared in layout.toc"
+        )
+    name = f"cas_{location.cas:02d}.cas"
+    for folder in packages[location.package]:
+        if (folder / name).is_file():
+            return folder / name
+    raise UnsupportedFrostbite(
+        f"package 0x{location.package:08X} has no {name} installed"
+    )
+
+
 def read_asset(root: str | Path, location: Location) -> bytes:
     """
-    The raw bytes of one asset, from whichever installation package holds them.
+    The raw bytes of one asset, from the installation package that holds them.
 
     Raw: Frostbite stores content in compressed blocks, and unpacking those is a
-    separate matter from finding them. This gets the bytes; it does not claim to
-    interpret them.
+    separate matter from finding them — `decompress_payload` does that.
 
-    The package words are not decoded, so the blob is found by looking for a
-    `cas_NN.cas` under any installation directory that is long enough to contain
-    the record. That is honest about what is known rather than guessing a mapping
-    — and with a single package installed, which is the usual case, there is only
-    one candidate anyway.
+    The package matters. Every package numbers its blobs from `cas_01`, so a
+    blob number alone names one file per package; taking the first match reads
+    the right offsets out of the wrong file, which is what an earlier version
+    did, and the bytes that came back looked encrypted.
     """
-    root = Path(root)
-    pattern = f"cas_{location.cas:02d}.cas"
-    candidates = sorted(root.glob(f"**/installation/*/{pattern}"))
-    if not candidates:
-        candidates = sorted(root.glob(f"**/{pattern}"))
-    for candidate in candidates:
-        if candidate.stat().st_size < location.end:
-            continue
-        with open(candidate, "rb") as handle:
-            handle.seek(location.offset)
-            return handle.read(location.size)
-    raise UnsupportedFrostbite(
-        f"no {pattern} under {root} is large enough to hold bytes "
-        f"{location.offset}–{location.end}"
-    )
+    path = cas_path(root, location)
+    with open(path, "rb") as handle:
+        handle.seek(location.offset)
+        data = handle.read(location.size)
+    if len(data) != location.size:
+        raise UnsupportedFrostbite(
+            f"{path.name} ends before bytes {location.offset}–{location.end}"
+        )
+    return data
 
 
 def describe(path: str | Path) -> str:

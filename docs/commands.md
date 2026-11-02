@@ -18,6 +18,8 @@ is inside it, give me that, and turn a lap into a course.
 | [`course`](#course) | a lap | exports the course around it (Forza, BeamNG.drive, Assetto Corsa Rally) |
 | [`courses`](#courses) | a recorded lap library | runs `course` on every course in it (Forza) |
 | [`terrain`](#terrain) | a Forza track folder | cuts a region by world coordinates |
+| [`levels`](#levels-and-level-frostbite) | an installed Frostbite game | lists its levels |
+| [`level`](#levels-and-level-frostbite) | a level's name | exports the level: terrain, placed meshes, optionally their colour maps (Battlefield 6) |
 
 Each time the program starts, it may check for a newer release first. See
 [Updates](updates.md). `HEAT3D_NO_UPDATE=1` turns that check off.
@@ -374,6 +376,53 @@ Height is never part of the cut. A box outside the map, or in the sea, gives
 ```
 python -m heat3d_gamefiles terrain "<game>\media\Tracks\<map>" --box -4096 6600 -3584 7100 -o piece.glb
 python -m heat3d_gamefiles terrain "<game>\media\Tracks\<map>" --route route.json -o map.glb
+```
+
+## levels and level (Frostbite)
+
+```
+python -m heat3d_gamefiles levels [--install FOLDER]
+python -m heat3d_gamefiles level <level> [-o FILE] [--install FOLDER] [--textures [PIXELS]]
+                                 [--ground-spacing METRES] [--detail-budget N] [--skip TEXT ...]
+```
+
+`levels` lists the levels an installed Frostbite game ships, by the name of
+their table (`levels/<level>/<level>.toc`, in the base game or an update).
+`level` exports one: the terrain heightfield, every mesh the level's static
+model groups place, where they place it, and the level's terrain backdrop round
+the map. With `--textures`, every surface carries its colour map. How it is
+read is in [Frostbite](reader-frostbite.md).
+
+| Option | Default | Meaning |
+|---|---|---|
+| `<level>` | required | a name as `levels` prints it, a unique part of one, or the path of a level's `.toc` |
+| `-o`, `--out FILE` | `<level>.glb` | the `.glb` to write |
+| `--install FOLDER` | the first Steam game whose `Data` holds a `layout.toc` | the game's folder |
+| `--textures [PIXELS]` | off; 512 when given without a size | write each surface's colour map, the largest mip no bigger than PIXELS a side, and its texture coordinates, tiling. The heightfield gets the terrain backdrop's colour map at the largest size the level ships. Off, every part is a flat colour |
+| `--ground-spacing METRES` | 4 | the heightfield's finest spacing; nodes finer than this are sampled down. 0 leaves the heightfield out |
+| `--detail-budget N` | every copy at its coarsest level, plus a quarter, at least 1,500,000 | a ceiling on triangles. The meshes costing most drop a level of detail at a time until it fits; if even the coarsest levels do not, the smallest copies are left out first. The terrain backdrop is never coarsened or left out |
+| `--skip TEXT` | | leave out static model groups whose partition name contains TEXT; repeat it for several. A game mode's layer, for instance |
+
+It prints the groups and how many copies each placed, the meshes it left out and
+why, the triangles per part (and with `--textures` how many textures, and how
+many sections found their colour map), and what the ground is. Nothing is written about the level beyond the
+geometry: no names, no metadata (see [Output format](output-format.md)).
+
+The terrain budget is separate: the heightfield and the backdrop are never
+coarsened by `--detail-budget`; `--ground-spacing` sizes the heightfield.
+
+A whole level is large. For the level checked:
+
+| Options | Triangles | File |
+|---|---|---|
+| none | 13.5 million | 450 MB |
+| `--textures 512` | 13.5 million | 530 MB |
+| `--textures 256 --detail-budget 3000000 --ground-spacing 8` | 5.1 million | 175 MB |
+
+```
+python -m heat3d_gamefiles levels
+python -m heat3d_gamefiles level <level> -o level.glb --textures
+python -m heat3d_gamefiles level <level> --textures 256 --detail-budget 3000000 --ground-spacing 8
 ```
 
 ## Environment variables

@@ -32,7 +32,7 @@ Python package: `heat3d_gamefiles`. Repository:
 | Assetto Corsa Rally (Unreal 5.6) | yes: stage ground tiles, baked ground colour, placed models in flat colours | `identify`, `list`, `extract` on IoStore `.utoc`/`.ucas`; zen packages, static meshes, textures through `course` |
 | Unreal `.pak` (versions 8-12) | no | `identify`, `list`, `extract` |
 | Unity (format 22 and later) | no | `identify`, `meshes` |
-| Frostbite `.toc`/`.cas` | no | `identify` (the reader library also locates and decompresses payloads) |
+| Battlefield 6 (Frostbite `.toc`/`.cas`) | no lap; a whole level with `level`: terrain, placed meshes, their colour maps with `--textures` | `identify`, `levels`; bundles, meshes, terrain, textures and placement through `level` |
 | Source 2 `.vpk` | no | `identify`, `list`, `extract` |
 
 Laps from Assetto Corsa EVO and iRacing are refused with a reason. See
@@ -80,6 +80,10 @@ python -m heat3d_gamefiles course my_lap.json
 
 # Every course in the FH Companion library, one .glb each
 python -m heat3d_gamefiles courses -o courses
+
+# Battlefield 6: list the levels, then export one (a large file; see Commands)
+python -m heat3d_gamefiles levels
+python -m heat3d_gamefiles level <level> -o level.glb --textures
 
 # What is this file?
 python -m heat3d_gamefiles identify some_archive.pak

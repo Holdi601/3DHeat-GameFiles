@@ -44,7 +44,13 @@ requirements.txt      numpy, cryptography, lz4, Pillow, msgpack, zstandard, pyte
 | `oodle.py` | finding and calling an installed Oodle library |
 | `pak.py` | Unreal `.pak` |
 | `unity.py`, `unity_mesh.py` | Unity containers, bundles, meshes |
-| `frostbite.py` | Frostbite `.toc`, section tables, payloads |
+| `frostbite.py` | Frostbite `.toc`, section tables, installation packages, chunk locations, payloads |
+| `frostbitebundle.py` | Frostbite inline bundles, bundle manifests, a level's catalogue, the level list |
+| `frostbiteebx.py` | Frostbite RIFF EBX partitions without a type library |
+| `frostbitemesh.py` | Frostbite MeshSet and its level-of-detail chunks |
+| `frostbiteterrain.py` | Frostbite terrain streaming tree, height pages, the ground mesh |
+| `frostbitematerial.py` | Frostbite textures (BC1/BC3/BC7 mips), shader block depots, colour-map choice |
+| `frostbitelevel.py` | Frostbite static model groups, placement, the `level` export |
 | `vpk.py` | Source 2 VPK |
 
 All modules are on GitHub under
@@ -99,7 +105,8 @@ different reasons:
 | `test_acrally.py` | containers, packages, properties, transforms, the frame fit, placed models' parts and the budget, virtual textures; installed: stages and the baked ground colour |
 | `test_pak.py` | footer, entries, the block-size escape, refusals; installed: offsets and SHA-1 |
 | `test_unity.py` | refusals; installed: the object table tiles the file, version strings, mesh bounds |
-| `test_frostbite.py` | signed vs obfuscated headers, refusals; installed: every table, superbundles, section chains, distinct ids, reading bytes |
+| `test_frostbite.py` | signed vs obfuscated headers, refusals, installation packages (two packages with the same blob number); installed: every table, superbundles, section chains, distinct ids, sampled payloads from the right package |
+| `test_frostbitelevel.py` | chunk ids paired with their own locations, inline bundles, manifests, a MeshSet with a shadow section and UVs, a group member, the transform convention, a two-level terrain, colour-map choice, a texture chunk missing its largest mips, the repeating sampler; installed: the largest level's catalogue, meshes inside their bounds, group members, vegetation standing on the decoded terrain |
 | `test_vpk.py` | the directory, refusals, split archives; installed: maps open, CRCs match, the nav mesh |
 
 ## Installed-game tests
@@ -115,6 +122,7 @@ returns the paths matching any glob under them, recursively where a glob has
 | `test_pak.py` | `*/(*/){0..3}Content/Paks/*.pak` with an **unencrypted** index, up to 4 | "no shipped pak on this machine" |
 | `test_unity.py` | `resources.assets` / `sharedassets0.assets` in `*/*_Data` or `*/*/*_Data` that the reader accepts, up to 6 | "no Unity game on this machine" |
 | `test_frostbite.py` | `Battlefield*/**/*.toc` | "no Frostbite game on this machine" |
+| `test_frostbitelevel.py` | `Battlefield*/**/levels/**/*.toc` | "no Frostbite level on this machine" |
 | `test_vpk.py` | `Counter-Strike Global Offensive/game/csgo/maps/*.vpk`, up to 6 | "Counter-Strike 2 is not installed" |
 | `test_forzatech.py` | `ForzaHorizon*/media/*.zip` | "no Forza install on this machine" |
 | `test_forzaplacement.py` | the FH Companion library's circuits (start and finish within 50 m), with the most laps, that `find_track` places; or `HEAT3D_COURSE` | "no Forza install with a recorded lap library here" |

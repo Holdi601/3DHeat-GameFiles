@@ -46,6 +46,24 @@ formats. Reading them is reverse engineering of a container, which is what the
 section below is about; none of the readers here is derived from another
 project's source.
 
+The Frostbite readers (`frostbitebundle.py`, `frostbiteebx.py`,
+`frostbitemesh.py`, `frostbitelevel.py`) were worked out from Battlefield 6's
+own files. Public descriptions of older Frostbite versions served as a map of
+what to look for and supplied field names, and nothing more: the FrostyToolsuite
+modding tools (github.com/CadeEvs/FrostyToolsuite and its forks, CC BY-NC-ND 4.0;
+the newer FrostyToolsuite/FrostyToolsuite, GPL-3.0) for the binary bundle
+manifest, the RIFF EBX chunk layout and the MeshSet structure; a format note
+for Need for Speed Heat (github.com/cmprssd/nfsh, GPL-3.0) for the vertex-stream
+order and the terrain quadtree's child order; and Mattias Widmark's GDC 2012 talk
+"Terrain in Battlefield 3". No code from any of them is in this repository, and
+every offset the readers use was measured on the shipped files, which is why
+they differ from all of those sources. None of those licences is compatible
+with copying into an MIT repository, and none was copied.
+
+The game's own type library sits in its initial file system, which is
+encrypted. It is not read: no key is recovered or used, and the few types the
+level export needs were laid out from the data instead.
+
 Two formats are not undocumented. BeamNG publishes its `.cdae` shape cache's
 layout, and the reader follows that. Unreal 5's cooked property data needs each
 class's property list in order to be read; the lists embedded here

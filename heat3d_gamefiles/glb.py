@@ -47,6 +47,7 @@ _ELEMENT_ARRAY_BUFFER = 34963
 _LINEAR = 9729
 _LINEAR_MIPMAP_LINEAR = 9987
 _CLAMP_TO_EDGE = 33071
+_REPEAT = 10497
 
 _MAGIC = 0x46546C67
 _JSON = 0x4E4F534A
@@ -136,6 +137,7 @@ def write_glb(
     normals: np.ndarray | None = None,
     uvs: np.ndarray | None = None,
     quantize: bool = True,
+    repeat: bool = False,
 ) -> Path:
     """
     Write a mesh, as one part or as several.
@@ -147,6 +149,10 @@ def write_glb(
     bytes, or 44 with colour, to 20 or 24: a city course with fifteen million
     placed triangles was a gigabyte, at the edge of what a browser tab will
     load. The normals lose under half a degree, the UVs a fifteenth of a texel.
+
+    With `repeat`, textures tile: UVs are written as floats, unclamped, and the
+    sampler repeats. Frostbite's materials tile across a wall; clamped, every
+    texture past its first copy would smear its edge pixels.
 
     Raises rather than writing something a viewer would open and show wrongly:
     an index past the end of the vertex list renders as noise, a textured part
@@ -279,7 +285,7 @@ def write_glb(
                     add_view(_uv_bytes(uvs[used]), _ARRAY_BUFFER),
                     len(used), "VEC2", _UNSIGNED_SHORT, normalized=True,
                 )
-                if quantize
+                if quantize and not repeat
                 else add_accessor(
                     add_view(uvs[used].tobytes(), _ARRAY_BUFFER), len(used), "VEC2", _FLOAT
                 )
@@ -357,8 +363,8 @@ def write_glb(
             {
                 "magFilter": _LINEAR,
                 "minFilter": _LINEAR_MIPMAP_LINEAR,
-                "wrapS": _CLAMP_TO_EDGE,
-                "wrapT": _CLAMP_TO_EDGE,
+                "wrapS": _REPEAT if repeat else _CLAMP_TO_EDGE,
+                "wrapT": _REPEAT if repeat else _CLAMP_TO_EDGE,
             }
         ]
 

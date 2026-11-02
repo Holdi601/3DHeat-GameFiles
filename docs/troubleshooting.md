@@ -60,6 +60,9 @@ to do. Messages are quoted from the code, with placeholders in angle brackets.
 | `<list>.txt names <n> entries but <archive>.minizip holds <m>; the two do not belong together` | the `ChunkContentsMiniZip<n>.txt` beside the archive is from another build or another archive; without it the entries list by number |
 | `<file> carries only the path-hash index, so file names cannot be recovered from it` | names were hashed away at build time |
 | `<file> is XOR-obfuscated. That form is not implemented, ...` | a Frostbite table in the obfuscated form |
+| `no Frostbite game found in a Steam library; give --install` | `levels` or `level` found no Steam game whose `Data` holds a `layout.toc`; pass the game's folder |
+| `no level called '<name>'; did you mean one of ...?` | the name matched no level's table, or several; `levels` lists them |
+| `nothing was placed: no static model group was recognised` | the level's group members have a different type signature, after a game update or in another Frostbite game; the layout has to be measured again |
 | `mesh '<name>' is stored compressed; that encoding is not implemented` | a compressed Unity mesh |
 | `mesh vertices live in <x>.resS, which is not beside the container in <folder>` | keep the `.resS` beside the `.assets` |
 | `<file>: format <n> predates Unity 2020 ...` | an older Unity build |
