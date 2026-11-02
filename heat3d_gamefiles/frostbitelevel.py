@@ -314,6 +314,7 @@ def build_level(
     skip: tuple[str, ...] = (),
     textures: int = 0,
     ground_spacing: float = 4.0,
+    ground_texture: float = 0.0,
     report=print,
 ) -> LevelModel:
     """
@@ -321,7 +322,8 @@ def build_level(
 
     `textures` is the largest texture side to write, in pixels; 0 writes flat
     colours. The terrain heightfield is drawn no finer than `ground_spacing`
-    metres; 0 leaves it out.
+    metres; 0 leaves it out. `ground_texture`, in metres a pixel, bakes the
+    terrain decals into the heightfield's colour where they are; 0 does not.
     """
     from .forzaplacement import DEFAULT_BUDGET, auto_budget, choose_levels
 
@@ -332,7 +334,7 @@ def build_level(
     placements = find_placements(level, prefix, skip, report)
     model = LevelModel(placements=placements)
     links = None
-    if textures:
+    if textures or ground_texture:
         from .frostbitematerial import link_materials
 
         links = link_materials(level)
@@ -394,7 +396,7 @@ def build_level(
         for section in sections:
             drawn += 1
             texture = None
-            if links is not None and section.uvs is not None:
+            if textures and links is not None and section.uvs is not None:
                 key = lod.sections[section.index].key
                 texture = links.colour_map(mesh, section.material, key)
             if texture is not None and texture not in model.images:
@@ -415,12 +417,16 @@ def build_level(
             piece = model.parts.setdefault(part, Piece(texture=texture))
             uvs = np.tile(section.uvs, (copies, 1)) if texture is not None else None
             piece.add(world, tri.reshape(-1, 3), uvs)
-            if kind == BACKDROP_PART and texture is not None:
-                backdrop_uv.append((world, uvs, texture))
+            if kind == BACKDROP_PART and links is not None and section.uvs is not None:
+                # The backdrop's colour map colours the heightfield, textured
+                # export or not.
+                colour = links.colour_map(mesh, section.material, lod.sections[section.index].key)
+                if colour is not None:
+                    backdrop_uv.append((world, np.tile(section.uvs, (copies, 1)), colour))
     model.textured = (textured, drawn)
 
     if ground_spacing:
-        _add_ground(level, model, ground_spacing, backdrop_uv, links)
+        _add_ground(level, model, ground_spacing, backdrop_uv, links, ground_texture, report)
     return model
 
 
@@ -433,7 +439,9 @@ def _image(level, links, texture: str, largest: int) -> np.ndarray:
     return decode_texture(info, level.chunk(info.chunk), largest)
 
 
-def _add_ground(level, model: LevelModel, spacing: float, backdrop_uv, links=None) -> None:
+def _add_ground(
+    level, model: LevelModel, spacing: float, backdrop_uv, links=None, metres: float = 0.0, report=print
+) -> None:
     """
     The heightfield as `ground:terrain`, coloured from the terrain backdrop's
     colour map where the backdrop has one: the backdrop's texture coordinates
@@ -456,7 +464,7 @@ def _add_ground(level, model: LevelModel, spacing: float, backdrop_uv, links=Non
     except UnsupportedFrostbite as exc:
         model.ground = f"the heightfield could not be read ({exc}); only the backdrop"
         return
-    texture = uvs = None
+    texture = uvs = fit = full = None
     names = {t for _, _, t in backdrop_uv}
     if len(names) == 1:
         texture = names.pop()
@@ -473,7 +481,7 @@ def _add_ground(level, model: LevelModel, spacing: float, backdrop_uv, links=Non
             g = ground.positions[:, [0, 2]].astype(np.float64)
             uvs = (np.column_stack([g, np.ones(len(g))]) @ fit).astype(np.float32)
         else:
-            texture = None
+            texture = fit = None
     if texture is not None and uvs is not None and links is not None:
         # The heightfield is a small part of the map, so it gets its own crop
         # of the largest mip there is rather than the capped copy the backdrop
@@ -483,6 +491,7 @@ def _add_ground(level, model: LevelModel, spacing: float, backdrop_uv, links=Non
         except UnsupportedFrostbite:
             full = None
         if full is not None:
+            full = np.ascontiguousarray(full)
             h, w = full.shape[:2]
             lo = np.floor(uvs.min(axis=0) * (w, h)).astype(int).clip(0, (w - 1, h - 1))
             hi = np.ceil(uvs.max(axis=0) * (w, h)).astype(int).clip(lo + 1, (w, h))
@@ -490,14 +499,22 @@ def _add_ground(level, model: LevelModel, spacing: float, backdrop_uv, links=Non
             uvs = ((uvs * (w, h) - lo) / (hi - lo)).astype(np.float32)
             texture = texture + " (heightfield)"
             model.images[texture] = crop
-    piece = Piece(texture=texture)
-    piece.add(ground.positions, ground.faces, uvs)
-    model.parts[TERRAIN_PART] = piece
     x0, _z0, x1, _z1 = tree.square
     model.ground = (
         f"the heightfield, {x1 - x0:,.0f} m square, drawn at {spacing:g} m or coarser"
         + (", coloured from the terrain backdrop's colour map" if texture else "")
     )
+    keep = np.ones(len(ground.faces), dtype=bool)
+    if metres and fit is not None and full is not None:
+        keep = _bake_ground(level, links, model, ground, fit, full, metres, report)
+    elif metres:
+        model.ground += "; no colour map to bake on"
+    faces = ground.faces[keep]
+    if len(faces):
+        used, local = np.unique(faces, return_inverse=True)
+        piece = Piece(texture=texture)
+        piece.add(ground.positions[used], local.reshape(-1, 3), None if uvs is None else uvs[used])
+        model.parts[TERRAIN_PART] = piece
 
 
 def _fit(sets, placements, chosen, terrain, model) -> dict[str, np.ndarray]:
@@ -536,6 +553,137 @@ def _fit(sets, placements, chosen, terrain, model) -> dict[str, np.ndarray]:
         keep[mesh][index[at]] = False
         total -= cost[mesh]
         model.dropped += 1
+    return keep
+
+
+#: The largest side of one baked ground tile, in pixels.
+GROUND_TILE = 4096
+
+
+def _decal_layers(level, links, decals, largest: int = 512):
+    """What each decal batch draws with: its colour map and opacity, decoded."""
+    from .frostbitedecals import MASK_PAINT, Layer
+
+    cache: dict[str, np.ndarray | None] = {}
+
+    def image(name):
+        if name not in cache:
+            try:
+                cache[name] = _image(level, links, name, largest).astype(np.float32) / 255.0
+            except UnsupportedFrostbite:
+                cache[name] = None
+        return cache[name]
+
+    v = decals.vertices
+    layers = []
+    for batch in decals.batches:
+        tri = v[batch.first : batch.first + 3 * batch.triangles]
+        world = bool(len(tri)) and bool(np.all(tri["u"] == tri["x"]) and np.all(tri["v"] == tri["z"]))
+        colour_name, opacity_name, mask_name = (
+            batch.texture("_cv"), batch.texture("_op"), batch.texture("_rgb")
+        )
+        colour = image(colour_name) if colour_name else None
+        opacity = image(opacity_name) if opacity_name else None
+        if colour is not None:
+            layers.append(Layer(colour, None, None if opacity is None else opacity[:, :, 0], world, batch.tiling))
+        elif mask_name and image(mask_name) is not None:
+            paint, strength = next(
+                (c, k) for pattern, c, k in MASK_PAINT if pattern.search(mask_name.rsplit("/", 1)[-1])
+            )
+            layers.append(Layer(None, paint, image(mask_name).max(axis=2) * strength, world, batch.tiling))
+        else:
+            layers.append(None)
+    return layers
+
+
+def _bake_ground(level, links, model, ground, fit, full, metres: float, report) -> np.ndarray:
+    """
+    Bake tiles of ground colour under the terrain decals and cut the
+    heightfield's triangles there into parts that carry them. Returns the mask
+    of triangles left to the plain backdrop colour.
+    """
+    from .frostbitedecals import TERRAIN_DECALS, bake, read_decals
+
+    keep = np.ones(len(ground.faces), dtype=bool)
+    entries = [e for e in level.res.values() if e.res_type == TERRAIN_DECALS]
+    if not entries:
+        model.ground += "; no terrain decals to bake"
+        return keep
+    try:
+        decals = read_decals(level.read(entries[0].location), links.by_guid, entries[0].name)
+    except UnsupportedFrostbite as exc:
+        model.ground += f"; the terrain decals could not be read ({exc})"
+        return keep
+    layers = _decal_layers(level, links, decals)
+
+    v = decals.vertices
+    margin = 32.0
+    lo = np.floor((np.array([v["x"].min(), v["z"].min()]) - margin) / metres) * metres
+    hi = np.ceil((np.array([v["x"].max(), v["z"].max()]) + margin) / metres) * metres
+    g_lo = ground.positions[:, [0, 2]].min(axis=0)
+    g_hi = ground.positions[:, [0, 2]].max(axis=0)
+    lo, hi = np.maximum(lo, g_lo), np.minimum(hi, g_hi)
+    if (hi <= lo).any():
+        return keep
+    span = GROUND_TILE * metres
+    tiles_x = int(np.ceil((hi[0] - lo[0]) / span))
+    tiles_z = int(np.ceil((hi[1] - lo[1]) / span))
+
+    fh, fw = full.shape[:2]
+    full = full.astype(np.float32) / 255.0
+    centres = ground.positions[ground.faces].mean(axis=1)[:, [0, 2]]
+    baked = 0
+    for j in range(tiles_z):
+        for i in range(tiles_x):
+            x0 = lo[0] + i * span
+            z0 = lo[1] + j * span
+            w = int(round(min(span, hi[0] - x0) / metres))
+            h = int(round(min(span, hi[1] - z0) / metres))
+            if w < 2 or h < 2:
+                continue
+            inside = (
+                keep
+                & (centres[:, 0] >= x0) & (centres[:, 0] < x0 + w * metres)
+                & (centres[:, 1] >= z0) & (centres[:, 1] < z0 + h * metres)
+            )
+            if not inside.any():
+                continue
+            xs = x0 + (np.arange(w) + 0.5) * metres
+            zs = z0 + (np.arange(h) + 0.5) * metres
+            gx, gz = np.meshgrid(xs, zs)
+            uv = np.stack([gx, gz, np.ones_like(gx)], -1) @ fit
+            pu, pv = uv[..., 0] * fw - 0.5, uv[..., 1] * fh - 0.5
+            c0, r0 = np.floor(pu).astype(int), np.floor(pv).astype(int)
+            fu, fv = (pu - c0)[..., None], (pv - r0)[..., None]
+
+            def at(r, c):
+                return full[r.clip(0, fh - 1), c.clip(0, fw - 1)]
+
+            base = (
+                at(r0, c0) * (1 - fu) * (1 - fv) + at(r0, c0 + 1) * fu * (1 - fv)
+                + at(r0 + 1, c0) * (1 - fu) * fv + at(r0 + 1, c0 + 1) * fu * fv
+            )
+            image = bake(decals, layers, base, (x0, z0), metres)
+            name = f"{TERRAIN_PART} x{int(x0)} z{int(z0)}"
+            texture = f"{name} (baked)"
+            model.images[texture] = (np.clip(image, 0, 1) * 255).astype(np.uint8)
+
+            faces = ground.faces[inside]
+            used, local = np.unique(faces, return_inverse=True)
+            points = ground.positions[used]
+            uvs = np.stack(
+                [(points[:, 0] - x0) / (w * metres), (points[:, 2] - z0) / (h * metres)], 1
+            ).astype(np.float32)
+            piece = Piece(texture=texture)
+            piece.add(points, local.reshape(-1, 3), uvs)
+            model.parts[name] = piece
+            keep &= ~inside
+            baked += 1
+    drawn = sum(1 for layer in layers if layer is not None)
+    model.ground += (
+        f"; {baked} tile{'s' if baked != 1 else ''} baked at {metres:g} m a pixel "
+        f"with {drawn:,} of {len(layers):,} decal batches"
+    )
     return keep
 
 

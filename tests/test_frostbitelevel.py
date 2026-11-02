@@ -423,3 +423,84 @@ def test_vegetation_stands_on_the_decoded_terrain(catalogue):
     heights = sample_heights(tree, catalogue.chunk, points[:, 0], points[:, 2])
     off = np.abs(points[:, 1] - heights)
     assert np.nanmedian(off) < 0.5
+
+
+def _decal_res(guid: bytes) -> bytes:
+    """
+    Two decal batches of one triangle each, the first mapped by world
+    position, the second naming a texture in its tail.
+    """
+    records = b""
+    for k in range(2):
+        core = bytearray(156)
+        struct.pack_into("<II", core, 32, 3 * k, 1)
+        struct.pack_into("<f", core, 44, 10.0)
+        tail = struct.pack("<II", 96 * k, 96) + (guid if k == 1 else b"\x00" * 16) + b"\x00" * 7
+        records += bytes(core) + tail
+    head = bytearray(20 + 16 + 4)
+    struct.pack_into("<I", head, 16, 1)
+    struct.pack_into("<I", head, 36, 2)
+    from heat3d_gamefiles.frostbitedecals import VERTEX
+
+    vertices = np.zeros(6, dtype=VERTEX)
+    vertices["x"] = [0, 8, 0, 10, 12, 10]
+    vertices["z"] = [0, 0, 8, 0, 0, 2]
+    vertices["u"] = [0, 8, 0, 0, 1, 0]
+    vertices["v"] = [0, 0, 8, 0, 0, 1]
+    vertices["rgba"] = 1.0
+    vertices["u"][:3], vertices["v"][:3] = vertices["x"][:3], vertices["z"][:3]
+    return bytes(head) + records + vertices.tobytes() + b"\x00" * 32
+
+
+class TestDecals:
+    def test_batches_vertices_and_textures_are_read(self):
+        from heat3d_gamefiles.frostbitedecals import read_decals
+
+        decals = read_decals(_decal_res(b"T" * 16), {b"T" * 16: "x/t_line_op"})
+
+        assert [(b.first, b.triangles, b.tiling) for b in decals.batches] == [(0, 1, 10.0), (3, 1, 10.0)]
+        assert decals.batches[1].texture("_op") == "x/t_line_op"
+        assert decals.vertices["x"].tolist() == [0, 8, 0, 10, 12, 10]
+
+    def test_a_record_out_of_sequence_is_refused(self):
+        from heat3d_gamefiles.frostbitedecals import read_decals
+
+        res = bytearray(_decal_res(b"T" * 16))
+        struct.pack_into("<I", res, 40 + 187 + 156, 999)  # second record's byte offset
+        with pytest.raises(UnsupportedFrostbite, match="record 1"):
+            read_decals(bytes(res), {})
+
+    def test_a_decal_is_composited_by_its_alpha(self):
+        from heat3d_gamefiles.frostbitedecals import Layer, bake, read_decals
+
+        decals = read_decals(_decal_res(b"T" * 16), {})
+        decals.vertices["rgba"][:3, 3] = 0.5
+        base = np.zeros((16, 16, 3), dtype=np.float32)
+        layers = [Layer(None, (1.0, 1.0, 1.0), None, True, 10.0), None]
+
+        out = bake(decals, layers, base, (0.0, 0.0), 1.0)
+
+        assert np.allclose(out[1, 1], 0.5)  # inside the first triangle, half covered
+        assert np.allclose(out[10, 10], 0.0)  # outside it
+        assert np.allclose(out[0, 12], 0.0)  # the second batch has no layer
+
+
+@needs_level
+def test_shipped_terrain_decals_are_read(catalogue):
+    """Every record's vertex range follows the last; most batches name their textures."""
+    from heat3d_gamefiles.frostbitedecals import TERRAIN_DECALS, read_decals
+    from heat3d_gamefiles.frostbitematerial import link_materials
+
+    entries = [e for e in catalogue.res.values() if e.res_type == TERRAIN_DECALS]
+    if not entries:
+        pytest.skip("the level has no terrain decals")
+    links = link_materials(catalogue)
+    decals = read_decals(catalogue.read(entries[0].location), links.by_guid, entries[0].name)
+
+    assert sum(3 * b.triangles for b in decals.batches) == len(decals.vertices)
+    assert np.mean([bool(b.textures) for b in decals.batches]) > 0.8
+    # Decals are small: read at the wrong vertex, triangles reach across the map.
+    v = decals.vertices
+    p = np.stack([v["x"], v["z"]], 1).reshape(-1, 3, 2)
+    edge = np.linalg.norm(p - np.roll(p, 1, axis=1), axis=2).max(axis=1)
+    assert np.median(edge) < 50

@@ -379,7 +379,8 @@ python -m heat3d_gamefiles terrain "<game>\media\Tracks\<map>" --route route.jso
 ```
 python -m heat3d_gamefiles levels [--install FOLDER]
 python -m heat3d_gamefiles level <level> [-o FILE] [--install FOLDER] [--textures [PIXELS]]
-                                 [--ground-spacing METRES] [--detail-budget N] [--skip TEXT ...]
+                                 [--ground-texture [METRES]] [--ground-spacing METRES]
+                                 [--detail-budget N] [--skip TEXT ...]
 ```
 
 `levels` lists the levels an installed Frostbite game ships, by the name of
@@ -395,6 +396,7 @@ read is in [Frostbite](reader-frostbite).
 | `-o`, `--out FILE` | `<level>.glb` | the `.glb` to write |
 | `--install FOLDER` | the first Steam game whose `Data` holds a `layout.toc` | the game's folder |
 | `--textures [PIXELS]` | off; 512 when given without a size | write each surface's colour map, the largest mip no bigger than PIXELS a side, and its texture coordinates, tiling. The heightfield gets the terrain backdrop's colour map at the largest size the level ships. Off, every part is a flat colour |
+| `--ground-texture [METRES]` | off; 0.5 when given without a size | bake the terrain decals — roads, runways, aprons, painted markings — over the backdrop colour into the heightfield's colour, METRES a pixel, in tiles of at most 4,096 pixels (`ground:terrain x<x> z<z>`). Works with or without `--textures` |
 | `--ground-spacing METRES` | 4 | the heightfield's finest spacing; nodes finer than this are sampled down. 0 leaves the heightfield out |
 | `--detail-budget N` | every copy at its coarsest level, plus a quarter, at least 1,500,000 | a ceiling on triangles. The meshes costing most drop a level of detail at a time until it fits; if even the coarsest levels do not, the smallest copies are left out first. The terrain backdrop is never coarsened or left out |
 | `--skip TEXT` | | leave out static model groups whose partition name contains TEXT; repeat it for several. A game mode's layer, for instance |
@@ -413,11 +415,12 @@ A whole level is large. For the level checked:
 |---|---|---|
 | none | 13.5 million | 450 MB |
 | `--textures 512` | 13.5 million | 530 MB |
+| `--textures 512 --ground-texture 0.5` | 13.5 million | 533 MB |
 | `--textures 256 --detail-budget 3000000 --ground-spacing 8` | 5.1 million | 175 MB |
 
 ```
 python -m heat3d_gamefiles levels
-python -m heat3d_gamefiles level <level> -o level.glb --textures
+python -m heat3d_gamefiles level <level> -o level.glb --textures --ground-texture
 python -m heat3d_gamefiles level <level> --textures 256 --detail-budget 3000000 --ground-spacing 8
 ```
 

@@ -60,6 +60,7 @@ After the kind comes, depending on the game:
 | `structure:barriers armco_metal` | BeamNG placed models of one material |
 | `ground:markings`, `water:water` | flat parts, one for the whole file |
 | `ground:terrain` (Battlefield 6) | the heightfield; `ground:terrain backdrop` the distant terrain meshes, `ground:terrain blend` meshes that blend into the terrain |
+| `ground:terrain x-634 z-552` (Battlefield 6, `--ground-texture`) | the heightfield under one baked decal tile, named by the tile's low corner in metres |
 | `structure:buildings t_concreteclean_01_cs` (Battlefield 6, `--textures`) | every surface of that kind showing that colour map; without `--textures`, one part per kind, no suffix |
 
 The viewer can filter by these names. For example, "only the racing surface" is
@@ -139,6 +140,7 @@ from the triangles. AC Rally normals are always computed.
 | ground (all games but Battlefield 6) | `--texture-size`: 2048, 1024 or 512 px | one 512 m square: 25, 50 or 100 cm a pixel |
 | Battlefield 6 heightfield | the backdrop colour map's largest mip in the level, cropped | the terrain square: 32 m a pixel in the level checked |
 | Battlefield 6 surfaces | `--textures`: at most that many px a side | the surface's own texture, **tiling** |
+| Battlefield 6 baked ground | `--ground-texture`: metres a pixel, tiles of at most 4,096 px | one tile of the decals' extent: 2,048 m at 0.5 m a pixel |
 | Forza placed model | at most 256 px | the model's own UV layout |
 | BeamNG placed model | at most 256 px | the model's own UV layout, only where it does not repeat |
 | AC Rally placed model | none | flat colours |

@@ -952,6 +952,7 @@ def _level(args) -> int:
             skip=tuple(args.skip or ()),
             textures=args.textures,
             ground_spacing=args.ground_spacing,
+            ground_texture=args.ground_texture,
         )
     except UnsupportedFrostbite as exc:
         print(exc, file=sys.stderr)
@@ -1233,6 +1234,19 @@ def main(argv: list[str] | None = None) -> int:
         help=(
             "write each surface's colour map, no larger than PIXELS a side "
             "(default 512 when given without a size); without it, flat colours"
+        ),
+    )
+    p.add_argument(
+        "--ground-texture",
+        type=float,
+        nargs="?",
+        const=0.5,
+        default=0.0,
+        metavar="METRES",
+        help=(
+            "bake the terrain decals (roads, aprons, markings) into the ground's "
+            "colour, METRES a pixel (default 0.5 when given without a size), in "
+            "tiles of at most 4096 pixels"
         ),
     )
     p.add_argument(

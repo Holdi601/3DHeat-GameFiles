@@ -142,6 +142,9 @@ class MaterialLinks:
     """Section key -> the textures its shader block names, for one level."""
 
     blocks: dict[bytes, list[str]] = field(default_factory=dict)
+    #: Texture asset partition GUID -> texture name, for whatever else names
+    #: textures that way (terrain decals do).
+    by_guid: dict[bytes, str] = field(default_factory=dict)
     usage: Counter = field(default_factory=Counter)
     headers: dict[str, TextureInfo] = field(default_factory=dict)
 
@@ -182,7 +185,7 @@ def link_materials(level) -> MaterialLinks:
     from .frostbiteebx import partition_guid
 
     links = MaterialLinks()
-    by_guid: dict[bytes, str] = {}
+    by_guid = links.by_guid
     for entry in level.res.values():
         if entry.res_type != TEXTURE:
             continue

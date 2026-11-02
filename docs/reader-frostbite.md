@@ -251,6 +251,89 @@ colour pages. Those colour pages are not geographic: neighbouring pages do not
 continue one another in any of the eight orientations (edge difference 29 grey
 levels in all of them), so they are not used.
 
+## Terrain layers and decals: what is known, not yet used
+
+The game shades the terrain near a player by splatting tiling surface materials
+and drawing decals (roads, asphalt patches, runway markings) over them. Neither
+is in the export yet, which is why the ground colour is the backdrop map's. What
+was established, so the next step starts from it:
+
+**The layer list.** The terrain's `....layergraphs` res and its shader block
+depot (`....layergraphs_shaderblockdepot`) describe a layer graph of 56 nodes.
+The res lists them in order (each with a 16-byte id whose second half is the
+depot's section key), and the depot's blocks name each node's textures: one
+`_cv` colour map, `_nhs` and `_ao` maps per surface (sand, gravel, dirt road,
+cracked concrete, rock, cliff, soil and a default), plus shared detail and noise
+maps. The tiling scale of each surface was not found.
+
+**The masks.** Raster tree 1 (pages of 72 x 72) holds, per layer, a quadtree of
+33-byte records down to 64 m cells: the layer's id and hash, then the cell's box,
+two bytes, and an 85-bit presence pyramid (1 + 4 + 16 + 64 bits, row-major; 98%
+of records close as parent = OR of children). Up to 20 layers are present at a
+node. A node's chunk holds BC4 pages of 72 x 72 after its height page, but they
+do not map onto those layers one to one:
+
+- besides one BC7 colour page and a small remainder, a node with 19 layers
+  present has 38 or 39 pages, one with 20 has 40 to 43;
+- the pages come in groups of four with related content;
+- they are not weights: summed per pixel they range from 0 to over 1,000;
+- a layer present in 18 of its node's 64 cells matches no page's occupancy
+  better than 77%.
+
+The surfaces are mixed by the layer graph itself — a shader graph of masks,
+slope, height and noise — and reproducing that from the files is the open part.
+
+**The colour pages.** The BC7 pages in nodes' second chunks (136 x 136) and in
+the 4,624-byte chunks (68 x 68) are not geographic: matched against the backdrop
+colour map at their node's footprint they correlate at 0.14 to 0.47 with their
+best position anywhere, and in none of 12 checked is that position their own.
+
+**Decals** are read and baked; see [Terrain decals](#terrain-decals).
+
+## Terrain decals
+
+Source: [`frostbitedecals.py`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/heat3d_gamefiles/frostbitedecals.py).
+
+Roads, runways, concrete aprons, painted lines and letters, tyre marks: the
+`TerrainDecals` res (type `0x15E1F32E`, 10 MB in the level checked) holds them
+as flat geometry the game drapes over the terrain.
+
+| Part | Layout |
+|---|---|
+| header | at +16 a slot count n, then n 16-byte slots, then the record count |
+| records | one per draw batch, back to back, of varying length: 156 bytes of fixed fields — first vertex at +32, triangle count at +36, texture tiling in metres at +44 — then the batch's vertex bytes (offset, size), then a tail naming its textures by their assets' partition GUIDs |
+| vertices | 32 bytes: x, z (f32), 8 packed bytes, u, v (f32), r, g, b, a (f16); every batch a plain triangle list |
+| indices | u32, counting from 0 in each batch; not needed |
+
+Checks:
+
+- the 926 records' vertex ranges follow each other without gap and cover the
+  265,794 vertices exactly, and each record's first vertex × 32 is its offset;
+- read so, the triangles are compact decals (letters, strips of line, patches);
+  read one vertex off, they are slivers across the map;
+- 912 of 926 batches name textures in their tail: a colour map (`_cv`) with an
+  opacity map (`_op`, red channel), or for markings a channel mask (`_rgb`).
+
+A batch maps its texture either by world position (u = x, v = z, the texture
+repeating every tiling-metres: asphalt, concrete, gravel) or 0 to 1 across the
+decal (a line, a letter, a tyre track). Records are drawn in file order.
+
+**The bake.** `level --ground-texture M` paints, under the decals' extent and
+tiles of at most 4,096 pixels, the backdrop colour map (bilinear) and then every
+batch over it by its opacity × the vertex alpha. The heightfield's triangles
+there become `ground:terrain x<x> z<z>` parts carrying the tile. A material's
+own colour parameters are not read, so a marking drawn through a channel mask is
+painted white, an outline dark, wear and tyre marks a faint darkening.
+
+In the level checked, 909 of 926 batches draw, into four tiles at 0.5 m a
+pixel; the export grows by 3 MB and takes a few seconds more. Seen from above,
+the aprons, taxiways and road network lie under the compounds' fences and
+buildings and lead into their gates.
+
+Drawn as geometry of their own instead, decals would need alpha blending, which
+the writer does not carry, and an offset above a terrain they would z-fight
+with; baking keeps them in the ground's own colour.
+
 ## Textures and materials
 
 Source: [`frostbitematerial.py`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/heat3d_gamefiles/frostbitematerial.py).
@@ -302,8 +385,11 @@ orientations.
 
 ## Not implemented
 
-- The terrain's colour at the resolution the game draws near a player (the
-  streamed colour pages are not geographic; above).
+- The terrain's surface splatting through its layer graph (see
+  [Terrain layers and decals](#terrain-layers-and-decals-what-is-known-not-yet-used)):
+  away from decals the ground is the backdrop colour map, 32 m a pixel.
+- Decal materials' colour parameters: markings through channel masks are
+  painted in a neutral colour.
 - Objects placed one by one rather than grouped: destructible prefabs and
   gameplay objects. Each kind has its own layout to pin down.
 - Mesh levels stored inline in the res (10 meshes in a level, gadgets), skinned

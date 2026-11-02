@@ -398,6 +398,7 @@ files:
 | placement | every group member imports a mesh; transforms are rotations, scaled | 41,277 copies of 1,753 meshes in one level |
 | terrain | neighbouring height pages share 9 samples exactly; a child equals its parent at every other sample with a border of 4 | trees and bushes stand a median 0.30 m from the decoded surface (lowest point), 0.07 m (origin) |
 | materials | the section's key finds its shader block, which names its textures | 2,214 of 2,375 drawn sections get a colour map |
+| terrain decals | 926 batch records whose vertex ranges cover the vertex block exactly | runways, aprons, roads and markings baked at 0.5 m a pixel |
 
 An earlier version read the first `cas_NN.cas` with the right number, and a
 third of the payloads looked encrypted. They were the right offsets in another
@@ -410,8 +411,9 @@ The coordinates are the game's own: metres, Y up. A whole level with textures
 is 13.5 million triangles and 530 MB; `--detail-budget`, `--ground-spacing` and
 a smaller `--textures` make it smaller.
 
-Not implemented: the terrain's near-ground colour (the heightfield is coloured
-from the backdrop's map, 32 m a pixel), objects placed one by one rather than
+`--ground-texture` bakes the terrain decals — roads, aprons, markings — into the
+ground's colour. Not implemented: the terrain's surface splatting (away from
+decals the ground is the backdrop's map, 32 m a pixel), objects placed one by one rather than
 grouped, normal maps and alpha. The colour map of a surface is chosen by name
 from the textures its shader names. XOR-obfuscated tables are detected and
 declined. See [Frostbite](docs/reader-frostbite.md).

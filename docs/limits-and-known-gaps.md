@@ -48,9 +48,14 @@ produces output that looks right and is not.
   else is left out first. See [Levels of detail and the budget](detail-budget.md).
 - **Options that do not apply are ignored silently**: `--season` for BeamNG and
   AC Rally, `--track` for BeamNG and AC Rally, `--level`/`--install` for Forza.
-- **A Battlefield 6 level's ground colour is coarse.** The heightfield is coloured
-  from the terrain backdrop's colour map, 32 m a pixel at the largest mip the
-  level ships; the game's own near-ground colour is not read. Pieces of the
+- **A Battlefield 6 level's ground colour is coarse away from its decals.** The
+  heightfield is coloured from the terrain backdrop's colour map, 32 m a pixel at
+  the largest mip the level ships; `--ground-texture` bakes the roads, aprons and
+  markings over it at up to 0.5 m a pixel, with markings drawn through channel
+  masks in a neutral paint colour. The game's near-ground colour comes from splatting surface
+  materials through the terrain's layer graph, and from terrain decals (roads,
+  runway markings); neither is reproduced yet. What is known of both is in
+  [Frostbite](reader-frostbite.md#terrain-layers-and-decals-what-is-known-not-yet-used). Pieces of the
   heightfield at different resolutions meet with small steps.
 - **A Battlefield 6 colour map is chosen, not read.** A shader block names
   every texture it samples without saying which is the colour; the choice goes

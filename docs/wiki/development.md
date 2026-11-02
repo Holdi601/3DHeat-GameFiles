@@ -50,6 +50,7 @@ requirements.txt      numpy, cryptography, lz4, Pillow, msgpack, zstandard, pyte
 | `frostbitemesh.py` | Frostbite MeshSet and its level-of-detail chunks |
 | `frostbiteterrain.py` | Frostbite terrain streaming tree, height pages, the ground mesh |
 | `frostbitematerial.py` | Frostbite textures (BC1/BC3/BC7 mips), shader block depots, colour-map choice |
+| `frostbitedecals.py` | Frostbite terrain decals and the ground bake |
 | `frostbitelevel.py` | Frostbite static model groups, placement, the `level` export |
 | `vpk.py` | Source 2 VPK |
 
@@ -106,7 +107,7 @@ different reasons:
 | `test_pak.py` | footer, entries, the block-size escape, refusals; installed: offsets and SHA-1 |
 | `test_unity.py` | refusals; installed: the object table tiles the file, version strings, mesh bounds |
 | `test_frostbite.py` | signed vs obfuscated headers, refusals, installation packages (two packages with the same blob number); installed: every table, superbundles, section chains, distinct ids, sampled payloads from the right package |
-| `test_frostbitelevel.py` | chunk ids paired with their own locations, inline bundles, manifests, a MeshSet with a shadow section and UVs, a group member, the transform convention, a two-level terrain, colour-map choice, a texture chunk missing its largest mips, the repeating sampler; installed: the largest level's catalogue, meshes inside their bounds, group members, vegetation standing on the decoded terrain |
+| `test_frostbitelevel.py` | chunk ids paired with their own locations, inline bundles, manifests, a MeshSet with a shadow section and UVs, a group member, the transform convention, a two-level terrain, colour-map choice, a texture chunk missing its largest mips, the repeating sampler, decal records, a decal composited by its alpha; installed: the level's terrain decals, the largest level's catalogue, meshes inside their bounds, group members, vegetation standing on the decoded terrain |
 | `test_vpk.py` | the directory, refusals, split archives; installed: maps open, CRCs match, the nav mesh |
 
 ## Installed-game tests
