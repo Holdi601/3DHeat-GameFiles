@@ -1011,6 +1011,8 @@ def _level(args) -> int:
         )
     if model.destructible:
         print(f"{model.destructible:,} triangles of destructible meshes, in parts named '... (destructible)'.")
+    if model.sheets:
+        print(f"{model.sheets:,} section copies lay their cut-out sheet (lettering, a sign) on by a later texture coordinate set.")
     if model.overlaid:
         print(f"{model.overlaid:,} sections drawn with their object's overlay through its second texture coordinates.")
     try:

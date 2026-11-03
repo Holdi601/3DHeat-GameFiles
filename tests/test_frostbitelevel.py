@@ -43,6 +43,7 @@ from heat3d_gamefiles.frostbitelevel import (
     ebx_prefix,
     place,
 )
+from heat3d_gamefiles.frostbitematerial import MaterialLinks
 from heat3d_gamefiles.frostbitemesh import decode_lod, read_meshset
 
 from . import frostbite_fixtures as fx
@@ -452,10 +453,10 @@ def test_vegetation_stands_on_the_decoded_terrain(catalogue):
     assert np.nanmedian(off) < 0.5
 
 
-def _decal_res(guid: bytes) -> bytes:
+def _decal_res(guid: bytes, params: bytes = b"") -> bytes:
     """
     Two decal batches of one triangle each, the first mapped by world
-    position, the second naming a texture in its tail.
+    position, the second naming a texture in its tail, then `params`.
     """
     records = b""
     for k in range(2):
@@ -463,7 +464,7 @@ def _decal_res(guid: bytes) -> bytes:
         struct.pack_into("<II", core, 32, 3 * k, 1)
         struct.pack_into("<f", core, 44, 10.0)
         tail = struct.pack("<II", 96 * k, 96) + (guid if k == 1 else b"\x00" * 16) + b"\x00" * 7
-        records += bytes(core) + tail
+        records += bytes(core) + tail + (params if k == 1 else b"")
     head = bytearray(20 + 16 + 4)
     struct.pack_into("<I", head, 16, 1)
     struct.pack_into("<I", head, 36, 2)
@@ -497,6 +498,42 @@ class TestDecals:
         struct.pack_into("<I", res, 40 + 187 + 156, 999)  # second record's byte offset
         with pytest.raises(UnsupportedFrostbite, match="record 1"):
             read_decals(bytes(res), {})
+
+    def test_a_decal_s_paint_is_read_from_its_material(self):
+        from heat3d_gamefiles.frostbitedecals import read_decals
+
+        # A float3 parameter as a shader block encodes one: tag, flags, the
+        # name hash 607e, a count of one, three floats, an id.
+        paint = bytes.fromhex("f11af8250180607e01000000") + struct.pack("<3f", 0.64, 0.56, 0.48) + b"\x00" * 8
+        decals = read_decals(_decal_res(b"T" * 16, paint), {b"T" * 16: "x/t_tracks_op"})
+
+        assert decals.batches[0].paint is None
+        assert np.allclose(decals.batches[1].paint, (0.64, 0.56, 0.48))
+
+    def test_a_runway_line_and_a_track_are_drawn(self, monkeypatch):
+        from heat3d_gamefiles import frostbitelevel
+        from heat3d_gamefiles.frostbitedecals import Batch, Decals, VERTEX
+
+        images = {
+            "x/afb_line_mult": np.full((2, 2, 3), 200, np.uint8),
+            "x/t_line_op": np.full((2, 2, 3), 255, np.uint8),
+            "x/t_tracks_op": np.full((2, 2, 3), 128, np.uint8),
+        }
+        monkeypatch.setattr(frostbitelevel, "_image", lambda level, links, name, largest: images[name])
+        line = Batch(0, 1, 1.0, ["x/afb_line_mult", "x/t_line_op"])
+        track = Batch(3, 1, 1.0, ["x/t_tracks_op"], {b"\x60\x7e": (0.6, 0.5, 0.4)})
+        bare = Batch(6, 1, 1.0, ["x/t_tracks_op"])
+        decals = Decals(np.zeros(9, dtype=VERTEX), [line, track, bare])
+
+        drawn = frostbitelevel._decal_layers(None, None, decals)
+
+        # The line: white paint times its multiply map, shaped by its opacity map.
+        assert np.allclose(drawn[0].colour, 200 / 255 * np.asarray(frostbitelevel.DECAL_WHITE))
+        assert np.allclose(drawn[0].opacity, 1.0)
+        # The track: its material's paint, shaped by its opacity map.
+        assert drawn[1].flat == (0.6, 0.5, 0.4) and np.allclose(drawn[1].opacity, 128 / 255)
+        # An opacity map with no paint to draw is left out.
+        assert drawn[2] is None
 
     def test_a_decal_is_composited_by_its_alpha(self):
         from heat3d_gamefiles.frostbitedecals import Layer, bake, read_decals
@@ -1104,8 +1141,6 @@ def test_an_object_s_overlay_is_drawn_through_its_unwrap():
 
 
 def test_a_variation_draws_with_the_block_its_hash_keys():
-    from types import SimpleNamespace
-
     from heat3d_gamefiles.frostbitelevel import variant_keys, variation_hashes, with_variations
 
     rows = np.zeros((3, 4, 4), np.float32)
@@ -1119,9 +1154,61 @@ def test_a_variation_draws_with_the_block_its_hash_keys():
     # the key with the hash added to its first four bytes, the second has not.
     default = bytes.fromhex("0517785776ddd22e")
     blue = bytes.fromhex("953927e076ddd22e")  # 0x57781705 + 0x88af2290 = 0xe0273995
-    links = SimpleNamespace(blocks={default: [], blue: []})
+    links = MaterialLinks(blocks={default: [], blue: []})
     assert variant_keys(default, hashes, links) == [default, blue, default]
     assert variant_keys(default, hashes, None) == [default] * 3
+
+
+def test_a_variation_reaches_a_section_through_a_twin_block():
+    from heat3d_gamefiles.frostbitelevel import variant_keys
+
+    # Three lengths of wall whose stripes share one default block. Two have a
+    # blue variant under the variation's hash; the third has none, and the
+    # variation reaches it through its twins'.
+    a, b, c = bytes.fromhex("0517785776ddd22e"), bytes.fromhex("58d12859091bb88f"), bytes.fromhex("ccc508f8723fe88e")
+    blue_a, blue_b = bytes.fromhex("953927e076ddd22e"), bytes.fromhex("e8f3d7e1091bb88f")
+    links = MaterialLinks(blocks={k: [] for k in (a, b, c, blue_a, blue_b)})
+    for k, contents in ((a, 1), (b, 1), (c, 1), (blue_a, 2), (blue_b, 2)):
+        links.content[k] = contents
+        links.twins.setdefault(contents, []).append(k)
+    hashes = np.array([0, 0x88AF2290], np.uint32)
+    assert variant_keys(c, hashes, links) == [c, blue_a]
+    assert variant_keys(a, hashes, links) == [a, blue_a]
+    # A block with no twins is left as it is.
+    links.content[c] = 3
+    assert variant_keys(c, hashes, links) == [c, c]
+
+
+def test_a_letter_sheet_is_laid_on_by_its_own_texture_coordinates():
+    from types import SimpleNamespace
+
+    from heat3d_gamefiles.frostbitelevel import _lifted, _sheet_uvs
+
+    # A wall's number: the first set tiles the plaster nearly twice across the
+    # panel, the fourth lays the sheet on once (u -1 to 0, v 1 to 2, a few
+    # thousandths over as half floats leave it).
+    first = np.array([[-0.197, -6.84], [1.685, -6.84], [1.685, -5.828], [-0.197, -5.828]], np.float32)
+    fourth = np.array([[-1.0, 2.002], [0.0, 2.002], [0.0, 1.0], [-1.0, 1.0]], np.float32)
+    section = SimpleNamespace(uvs=first, uvs3=None, uvs4=fourth)
+    assert np.allclose(_sheet_uvs(section), [[0, 1], [1, 1], [1, 0], [0, 0]])
+    # A first set within one copy is used as it is.
+    assert _sheet_uvs(SimpleNamespace(uvs=fourth + [1.0, -1.0], uvs3=None, uvs4=fourth)) is None
+    # A fourth set that tiles is no sheet's.
+    assert _sheet_uvs(SimpleNamespace(uvs=first, uvs3=None, uvs4=fourth * 3)) is None
+
+    # Lifted off the wall along the triangles' normal, by their winding.
+    points = np.array([[0, 0, 0], [1, 0, 0], [0, 1, 0]], np.float64)
+    assert np.allclose(_lifted(points, np.array([[0, 1, 2]]), 0.01)[:, 2], 0.01)
+    assert np.allclose(_lifted(points, np.array([[0, 2, 1]]), 0.01)[:, 2], -0.01)
+
+
+def test_a_single_channel_map_decodes_as_grey():
+    from heat3d_gamefiles.frostbitematerial import TextureInfo, decode_texture
+
+    # One BC4 block: endpoints 255 and 0, every texel the first.
+    info = TextureInfo("x/t_track_op", 0, 62, 4, 4, 1, b"", (8,))
+    grey = decode_texture(info, bytes([255, 0]) + bytes(6), 4)
+    assert grey.shape == (4, 4, 3) and (grey == 255).all()
 
 
 def test_a_mesh_with_a_destruction_asset_of_its_name_is_destructible(tmp_path):

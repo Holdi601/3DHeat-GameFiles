@@ -49,9 +49,9 @@ produces output that looks right and is not.
   the largest mip the level ships — or, where no backdrop map covers it, in the
   middle colour of the terrain's surface materials; `--ground-texture`
   multiplies that by the terrain's colormap (at 0.5 m a pixel where the level
-  has one) and bakes the roads, aprons and
-  markings over it, with markings drawn through channel
-  masks in a neutral paint colour. The game mixes its surface layers in a
+  has one) and bakes the roads, aprons, runway lines, tyre tracks and
+  markings over it, in their materials' paint colour where one is set and a
+  neutral one where not; road variation masks are left out. The game mixes its surface layers in a
   shader graph that is not read; the export lays the layers' colours by their
   masks and the heightfield's slope, by a rule of its own, and a level whose
   mask pages do not fit together (18 of 33) gets one colour. Each layer is
@@ -78,11 +78,17 @@ produces output that looks right and is not.
   rock and cliff meshes, and no asset of the level is named for holes,
   tunnels or caves. Two raster trees are run-length decoded but not placed,
   and are what is left (see [Frostbite](reader-frostbite#terrain-layers)).
-- **A Battlefield 6 object variation is drawn only where the level ships its
-  blocks.** A placed copy's variation picks its sections' shader blocks by
-  key; where a mesh has no block for a variation in the level's depots, the
-  copy shows its default look, which can differ from the game's (a wall's
-  stripe red where the game paints it blue).
+- **A Battlefield 6 object variation reaches a section through its twins.**
+  A placed copy's variation picks its sections' shader blocks by key; where a
+  mesh has no block for a variation, the variant of another mesh's section
+  with an identical default block is taken (see
+  [Frostbite](reader-frostbite#textures-and-materials)). That is the
+  exporter's rule, found on a warehouse wall whose third length kept its red
+  stripe; a section with no twin that varies keeps its default look.
+- **Battlefield 6 layered materials are drawn as their base and one sheet.**
+  A lettered wall panel is drawn as its plaster with the letter sheet over
+  it; the material's other layers (overlay grime through its mask, detail
+  and moss maps) are not blended in.
 - **The navigation mesh is the AI's, not the players'.** It covers what a
   soldier can walk to: in the level checked the ground, floors and stairs, and
   some roofs, but not the tops of freight containers. The links between surfaces (jumps, ladders, vaults) are left out.

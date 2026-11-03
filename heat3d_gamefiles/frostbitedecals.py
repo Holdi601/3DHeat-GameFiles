@@ -41,12 +41,19 @@ asphalt or concrete, the texture repeating every tiling-metres) or 0 to 1
 across the decal (a line, a letter, a tyre track). Records are drawn in file
 order, later ones over earlier ones.
 
+After the texture GUIDs the tail holds the batch's material parameters,
+encoded as a shader block's are (tag, flags, a two-byte name hash, a count,
+the values, an id): the paint colour of a marking or a tyre track is the
+float3 hashed `607e` (a sandy 0.64 0.56 0.48 for tracks in sand, near black
+for tar). A batch whose colour comes from a `_mult` map - a runway's worn
+white lines, whose `_op` map is the line - is that map times the paint, white
+where the material names none.
+
 What is not read: the vertices' colour (some batches' vertices are pure
-green or blue, which tinting by them painted on a level's markings) and the
-materials' colour parameters. A marking drawn through a channel
-mask (`_rgb`) has its paint colour in the material, so it is baked in a
-neutral colour — white for lines and letters, dark for outlines and wear; a
-variation mask is not drawn.
+green or blue, which tinting by them painted on a level's markings). A
+marking drawn through a channel mask (`_rgb`) without a paint colour is baked
+in a neutral one - white for lines and letters, dark for outlines and wear;
+a variation mask is not drawn.
 """
 
 from __future__ import annotations
@@ -67,12 +74,24 @@ VERTEX = np.dtype(
 _CORE = 156
 
 
+#: A float3 material parameter in a batch's tail: name hash, three floats.
+_FLOAT3 = re.compile(rb"\xf1\x1a\xf8\x25\x01\x80(..)\x01\x00\x00\x00(.{12})", re.S)
+#: The float3 a marking, a track or a line is painted in.
+PAINT = b"\x60\x7e"
+
+
 @dataclass
 class Batch:
     first: int
     triangles: int
     tiling: float
     textures: list[str] = field(default_factory=list)
+    #: Float3 material parameters by name hash (see `PAINT`).
+    colours: dict[bytes, tuple[float, float, float]] = field(default_factory=dict)
+
+    @property
+    def paint(self) -> tuple[float, float, float] | None:
+        return self.colours.get(PAINT)
 
     def texture(self, suffix: str) -> str | None:
         for name in self.textures:
@@ -151,7 +170,12 @@ def read_decals(res: bytes, texture_guids: dict[bytes, str], name: str = "decals
             hit = texture_guids.get(tail[p : p + 16])
             if hit and hit not in names:
                 names.append(hit)
-        batches.append(Batch(f, n, tiling if tiling > 0 else 1.0, names))
+        colours = {}
+        for m in _FLOAT3.finditer(tail):
+            value = np.frombuffer(m.group(2), "<f4").astype(np.float64)
+            if np.isfinite(value).all() and (value >= 0).all() and value.max() <= 8:
+                colours.setdefault(m.group(1), tuple(float(x) for x in value))
+        batches.append(Batch(f, n, tiling if tiling > 0 else 1.0, names, colours))
     return Decals(vertices, batches)
 
 

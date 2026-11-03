@@ -72,6 +72,7 @@ import numpy as np
 from .frostbite import UnsupportedFrostbite
 from .frostbitebundle import LevelCatalogue
 from .frostbiteebx import Partition, partition_guid, read_partition
+from .frostbitematerial import CUTOUT_NAME
 from .frostbitemesh import MESHSET, decode_sections, read_meshset
 
 #: The static model group member, and the transform its instances are.
@@ -502,20 +503,17 @@ def variation_hashes(rows: np.ndarray) -> np.ndarray:
 
 def variant_keys(key: bytes, hashes: np.ndarray, links) -> list[bytes]:
     """
-    The shader block key each copy of a section draws with. A variation's
-    block is keyed by the section's own key with the variation's hash added to
-    its first four bytes, as a little-endian u32; where the level has no block
-    under that key the section is the same in that variation.
+    The shader block key each copy of a section draws with: its variation's
+    (see `MaterialLinks.variant`), or its own where the variation leaves the
+    section as it is.
     """
     if links is None:
         return [key] * len(hashes)
-    (low,) = struct.unpack_from("<I", key)
     out = []
     cache: dict[int, bytes] = {}
     for h in hashes.tolist():
         if h not in cache:
-            varied = struct.pack("<I", (low + h) & 0xFFFFFFFF) + key[4:]
-            cache[h] = varied if h and varied in links.blocks else key
+            cache[h] = links.variant(key, h) or key
         out.append(cache[h])
     return out
 
@@ -605,6 +603,9 @@ class LevelModel:
     #: Drawn sections given their object's overlay through its second texture
     #: coordinates rather than their colour map.
     overlaid: int = 0
+    #: Section copies whose cut-out sheet is laid on by a later texture
+    #: coordinate set (see `_sheet_uvs`).
+    sheets: int = 0
     #: The heightfield's flat colour when no colour map covers it.
     ground_colour: tuple[float, float, float] | None = None
 
@@ -615,6 +616,55 @@ class LevelModel:
 #: Swatches a palette side has: 16 x 16 cells of 16 texels in the 256 x 256
 #: palettes of the levels checked.
 PALETTE_CELLS = 16
+
+
+def _sheet_uvs(section) -> np.ndarray | None:
+    """
+    The texture coordinates a cut-out sheet is laid over its section with,
+    where they are not the first set.
+
+    A warehouse's painted number is a section of the wall whose first set
+    tiles the wall's plaster across the panel - u -0.2 to 1.7 - while the
+    number sheet, a single "01" in its alpha over solid paint, is laid over
+    the panel exactly once by the fourth set (u -1 to 0, v 1 to 2). Drawn
+    through the first, the panel shows the number almost twice. So where the
+    first set leaves one copy of the image and the fourth (else the third)
+    lies within one copy, spanning a real part of it, that set is used,
+    moved by whole copies into 0..1. The second set is an object's unwrap
+    for its overlay (see the overlay rule) and is not taken here.
+    """
+    if section.uvs is None or not len(section.uvs):
+        return None
+    lo, hi = section.uvs.min(axis=0), section.uvs.max(axis=0)
+    if (np.floor(lo + 0.01) == np.floor(hi - 0.01)).all():
+        return None
+    for uvs in (section.uvs4, section.uvs3):
+        if uvs is None or not len(uvs):
+            continue
+        # Stored as halves, a corner meant to sit on a whole number lands a
+        # few thousandths past it in the coarser levels of detail.
+        lo, hi = uvs.min(axis=0), uvs.max(axis=0)
+        cell = np.floor(lo + 0.01)
+        if (cell == np.floor(hi - 0.01)).all() and ((hi - lo) > 0.05).all():
+            return np.clip(uvs - cell, 0.0, 1.0).astype(np.float32)
+    return None
+
+
+#: How far a sheet is drawn in front of the surface it is painted on, in
+#: metres: enough that the two do not fight over which is nearer at a
+#: distance, too little to see.
+SHEET_LIFT = 0.01
+
+
+def _lifted(points: np.ndarray, faces: np.ndarray, distance: float) -> np.ndarray:
+    """Points moved `distance` along the normals of the triangles they make, outwards by their winding."""
+    p = points.astype(np.float64)
+    face = np.cross(p[faces[:, 1]] - p[faces[:, 0]], p[faces[:, 2]] - p[faces[:, 0]])
+    normal = np.zeros_like(p)
+    for corner in range(3):
+        np.add.at(normal, faces[:, corner], face)
+    length = np.linalg.norm(normal, axis=1, keepdims=True)
+    return p + np.where(length > 0, normal / np.maximum(length, 1e-12), 0.0) * distance
 
 
 def _unwrapped(uvs: np.ndarray) -> bool:
@@ -784,6 +834,17 @@ def build_level(
                 if texture is not None and model.images[texture] is None:
                     texture = None
                 uvs_of = section.uvs
+                image = model.images.get(texture) if texture is not None else None
+                sheet = None
+                if image is not None and CUTOUT_NAME.search(texture.rsplit("/", 1)[-1]):
+                    sheet = _sheet_uvs(section)
+                    if sheet is not None:
+                        uvs_of = sheet
+                        model.sheets += len(group)
+                        if image.ndim != 3 or image.shape[2] != 4:
+                            # Opaque - a billboard's print: it covers its
+                            # panel and needs nothing under it.
+                            sheet = None
                 overlay = links.overlay(key) if textures and links is not None else None
                 if overlay is not None and section.uvs2 is not None and _unwrapped(section.uvs2):
                     # An object's overlay (its painted bands, rust and panels) is
@@ -825,6 +886,26 @@ def build_level(
                     model.destructible += len(section.faces) * len(group)
                 if by_mesh:
                     part = f"{part} | {mesh} | {section.material}"
+                if sheet is not None:
+                    # The surface the sheet is painted on, under it: the block's
+                    # colour map other than the sheet, through the first set.
+                    # Without it the sheet's empty texels show whatever is
+                    # behind the panel - the inside of the wall.
+                    base = links.colour_map(mesh, section.material, key, skip=CUTOUT_NAME)
+                    if base is not None and base not in model.images:
+                        try:
+                            model.images[base] = _colour_map(level, links, base, textures)
+                        except UnsupportedFrostbite:
+                            model.images[base] = None
+                    if base is not None and model.images[base] is not None:
+                        base = _tinted(model, base, links.tints.get(key))
+                        under = f"{kind} {_short(base)}" + (DESTRUCTIBLE if breakable else "")
+                        if by_mesh:
+                            under = f"{under} | {mesh} | {section.material}"
+                        model.parts.setdefault(under, Piece(texture=base)).add(
+                            world, tri.reshape(-1, 3), np.tile(section.uvs, (copies, 1))
+                        )
+                        world = _lifted(world, tri.reshape(-1, 3), SHEET_LIFT)
                 piece = model.parts.setdefault(part, Piece(texture=texture))
                 uvs = np.tile(uvs_of, (copies, 1)) if texture is not None else None
                 piece.add(world, tri.reshape(-1, 3), uvs)
@@ -1295,6 +1376,9 @@ def _fit(sets, placements, chosen, terrain, model) -> dict[str, np.ndarray]:
     return keep
 
 
+#: The paint of a decal whose material names none: a runway's white lines.
+DECAL_WHITE = (0.92, 0.92, 0.90)
+
 #: The largest side of one baked ground tile, in pixels.
 GROUND_TILE = 4096
 
@@ -1318,20 +1402,33 @@ def _decal_layers(level, links, decals, largest: int = 512):
     for batch in decals.batches:
         tri = v[batch.first : batch.first + 3 * batch.triangles]
         world = bool(len(tri)) and bool(np.all(tri["u"] == tri["x"]) and np.all(tri["v"] == tri["z"]))
-        colour_name, opacity_name, mask_name = (
-            batch.texture("_cv"), batch.texture("_op"), batch.texture("_rgb")
+        colour_name, opacity_name, mask_name, mult_name = (
+            batch.texture("_cv"), batch.texture("_op"), batch.texture("_rgb"), batch.texture("_mult")
         )
         colour = image(colour_name) if colour_name else None
         opacity = image(opacity_name) if opacity_name else None
+        mult = image(mult_name) if mult_name else None
+        paint = batch.paint
         if colour is not None:
             layers.append(Layer(colour, None, None if opacity is None else opacity[:, :, 0], world, batch.tiling))
+        elif mult is not None and opacity is not None:
+            # A runway's worn white line: the line is the opacity map, its
+            # wear the multiply map over the paint.
+            layers.append(
+                Layer(mult[:, :, :3] * np.asarray(paint or DECAL_WHITE, np.float32), None, opacity[:, :, 0], world, batch.tiling)
+            )
         elif mask_name and image(mask_name) is not None:
-            paint, strength = next(
+            fallback, strength = next(
                 (c, k) for pattern, c, k in MASK_PAINT if pattern.search(mask_name.rsplit("/", 1)[-1])
             )
             layers.append(
-                Layer(None, paint, image(mask_name).max(axis=2) * strength, world, batch.tiling) if strength else None
+                Layer(None, paint or fallback, image(mask_name).max(axis=2) * strength, world, batch.tiling)
+                if strength
+                else None
             )
+        elif opacity is not None and paint is not None:
+            # A tyre track: paint in the material's colour, shaped by the opacity map.
+            layers.append(Layer(None, paint, opacity[:, :, 0], world, batch.tiling))
         else:
             layers.append(None)
     return layers

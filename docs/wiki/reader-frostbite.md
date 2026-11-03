@@ -468,6 +468,12 @@ Checks:
 - 912 of 926 batches name textures in their tail: a colour map (`_cv`) with an
   opacity map (`_op`, red channel), or for markings a channel mask (`_rgb`).
 
+After the texture GUIDs the tail carries the batch's material parameters,
+encoded as a shader block's are (see Tints below). The paint colour of a
+marking, a tyre track or a line is the float3 hashed `607e`: a sandy 0.64,
+0.56, 0.48 for tyre tracks in sand, near black for tar. Opacity maps are
+mostly format 62, one channel at 8 bytes a block, read as BC4.
+
 A batch maps its texture either by world position (u = x, v = z, the texture
 repeating every tiling-metres: asphalt, concrete, gravel) or 0 to 1 across the
 decal (a line, a letter, a tyre track). Records are drawn in file order.
@@ -477,15 +483,20 @@ tiles of at most 4,096 pixels, the backdrop colour map (bilinear) and then every
 batch over it by its opacity × the vertex alpha. The vertices' colour is not
 used: some batches' vertices are pure green or blue, which tinted a level's
 markings those colours. The heightfield's triangles there become
-`ground:terrain x<x> z<z>` parts carrying the tile. A decal batch names no
-shader block, so its material's colour parameters are not read: a marking drawn
-through a channel mask is painted white, an outline dark, wear, tyre marks,
-stains, puddles and wetness a faint darkening (stains painted white laid pale
-strips across a level's lawns). A road variation mask is not paint but varies the surface
-under it, hundreds of metres across, and is not drawn: painted white it laid
-two pale rectangles 150 to 250 m long on a level's slopes. Decals that draw a
-multiply texture (`..._mult`) with no colour map, such as a runway's
-markings, are not drawn.
+`ground:terrain x<x> z<z>` parts carrying the tile. Each batch draws with:
+
+| Batch names | Drawn as |
+|---|---|
+| a colour map (`_cv`) | the map, by its opacity map |
+| a multiply map (`_mult`) and an opacity map | the paint (white where the material names none) times the multiply map, by the opacity map: a runway's worn centre line, edge lines and threshold bars |
+| a channel mask (`_rgb`) | the paint, else white for lines and letters, dark for outlines, a faint darkening for wear, tyre marks, stains, puddles and wetness, by the mask |
+| an opacity map alone, with a paint | the paint by the opacity map: tyre tracks |
+
+A road variation mask is not paint but varies the surface under it, hundreds
+of metres across, and is not drawn, whatever its paint: painted white it laid
+two pale rectangles 150 to 250 m long on a level's slopes. The `_mult` map is
+taken as the paint's own wear, not as a darkening of the ground under it:
+it is near white, and the line's shape is in the opacity map.
 
 In the level checked, 909 of 926 batches draw, into four tiles at 0.5 m a
 pixel; the export grows by 3 MB and takes a few seconds more. Seen from above,
@@ -602,6 +613,17 @@ A variation's block brings its own textures as well as its tints: the
 painted number on the wall is a letter sheet the variation's block names.
 In one level 11,211 of 27,501 grouped copies are placed in a variation.
 
+A block is baked once for each set of contents, and the depot's entry for a
+key carries a hash of them (the second u64 of the entry). Where a section has
+no block under its variation's key, the variation still reaches it through a
+*twin*: another section whose default block has the same contents and does
+have one. One wall of a warehouse - three lengths whose stripe sections share
+one red default block - has a blue variant for two of the lengths and none
+for the third, which came out red in a blue building. A section without its
+own variant takes the variant most of its twins have; in that level 11,154
+section copies draw with a variation's block, 6,557 of them through their
+own key.
+
 **Destructible meshes.** A mesh a match can knock down has a destruction
 asset of its own name beside it (`.../br_x.destruction` for
 `.../br_x_mesh`): the breakable buildings and walls (`br_`) and many props.
@@ -619,6 +641,19 @@ never drawn). A level's generated backdrop buildings
 (`..._generated_blueprints_..._mesh`) are drawn, but their walls' material
 names only noise maps and its vertices carry no colour, so they stay plain. In the level
 checked, 2,214 of 2,375 drawn sections get a colour map.
+
+**Letter sheets.** A wall's painted number or a crane's billboard print is a
+section of its own whose colour map is a sheet (`_ca`): a letter's alpha over
+solid paint, or a print. Its first texture coordinates tile the wall's
+plaster across the panel (u -0.2 to 1.7 on one wall), which draws the sheet
+almost twice; the fourth set (`0x24`, else the third, `0x23`) lays it on
+exactly once (u -1 to 0, v 1 to 2, a few thousandths over in the coarser
+levels of detail). Where the first set leaves one copy of the image and the
+fourth or third lies within one, the sheet is drawn through that, moved into
+0 to 1. A sheet with alpha is drawn 1 cm in front of the surface it is painted
+on, which is drawn under it in the block's other colour map through the
+first set: without it the sheet's empty texels showed the inside of the wall.
+The second set is an object's unwrap for its overlay and is not used here.
 
 **Cut-out maps.** The colour map's fourth channel means different things by
 the map's name. In `_cs`, by far the most common (893 of one level's chosen

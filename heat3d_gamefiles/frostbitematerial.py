@@ -63,11 +63,13 @@ from .frostbite import UnsupportedFrostbite
 TEXTURE = 0x6BDE20BA
 SHADER_BLOCK_DEPOT = 0x73312045
 
-#: Pixel formats, as Pillow's BCn decoder numbers them.
-BC_FORMATS = {67: 7, 66: 7, 61: 3, 60: 3, 57: 1, 56: 1, 55: 1}
+#: Pixel formats, as Pillow's BCn decoder numbers them. 62 is one channel at
+#: eight bytes a block - opacity and mask maps (`_a`, `_op`) - and decodes as
+#: BC4 into grey.
+BC_FORMATS = {67: 7, 66: 7, 62: 4, 61: 3, 60: 3, 57: 1, 56: 1, 55: 1}
 #: The sRGB ones: colour maps.
 COLOUR_FORMATS = {67, 61, 57}
-_BLOCK_BYTES = {7: 16, 3: 16, 1: 8}
+_BLOCK_BYTES = {7: 16, 4: 8, 3: 16, 1: 8}
 
 _GENERIC = {"t", "vst", "mesh", "cs", "c", "ca", "cu", "d", "a", "b", "m", "com", "mil", "ind"}
 #: Names of maps that are not a surface's own colour. `t_de_` is a decal sheet:
@@ -177,7 +179,7 @@ def decode_texture(info: TextureInfo, chunk: bytes, largest: int, alpha: bool = 
                 raise UnsupportedFrostbite(
                     f"{info.name}: mip {level} holds {info.sizes[level]} bytes, not {expected}"
                 )
-            image = Image.frombytes("RGBA", (w, h), chunk[at : at + expected], "bcn", n)
+            image = Image.frombytes("L" if n == 4 else "RGBA", (w, h), chunk[at : at + expected], "bcn", n)
             return np.asarray(image.convert("RGBA" if alpha else "RGB"))
         at += info.sizes[level]
     raise UnsupportedFrostbite(f"{info.name}: no mip to decode")
@@ -233,6 +235,43 @@ class MaterialLinks:
     headers: dict[str, TextureInfo] = field(default_factory=dict)
     #: Section key -> its block's tint (see `block_tint`), where not neutral.
     tints: dict[bytes, tuple[float, float, float]] = field(default_factory=dict)
+    #: Section key -> the hash the depot gives its block's contents, and that
+    #: hash -> every key whose block has those contents.
+    content: dict[bytes, int] = field(default_factory=dict)
+    twins: dict[int, list[bytes]] = field(default_factory=dict)
+
+    def variant(self, key: bytes, variation: int) -> bytes | None:
+        """
+        The block key a section keyed `key` draws with in the object variation
+        hashed `variation`: its key with the hash added to the first four
+        bytes as a little-endian u32, where the level has a block there.
+
+        Where it has none, the variation may still reach the section: a
+        block is baked once per material, and a mesh whose default block is
+        identical to another's - the same paint stripe on the next length of
+        wall - can carry no variant of its own while the other's applies to
+        it. In the level checked one wall piece of three had no blue variant
+        of its stripe and was drawn red in a blue building. So the variant of
+        a twin with the same default contents is taken, the one most twins
+        agree on.
+        """
+        def shifted(k: bytes) -> bytes:
+            (low,) = struct.unpack_from("<I", k)
+            return struct.pack("<I", (low + variation) & 0xFFFFFFFF) + k[4:]
+
+        if not variation:
+            return None
+        own = shifted(key)
+        if own in self.blocks:
+            return own
+        votes: Counter = Counter()
+        found: dict[int, bytes] = {}
+        for twin in self.twins.get(self.content.get(key, -1), ()):
+            other = shifted(twin)
+            if twin != key and other in self.blocks:
+                votes[self.content.get(other, -1)] += 1
+                found.setdefault(self.content.get(other, -1), other)
+        return found[votes.most_common(1)[0][0]] if votes else None
 
     def variant_colour_map(self, mesh: str, material: str, key: bytes, default: bytes) -> str | None:
         """
@@ -276,13 +315,15 @@ class MaterialLinks:
                 return n
         return None
 
-    def colour_map(self, mesh: str, material: str, key: bytes) -> str | None:
+    def colour_map(self, mesh: str, material: str, key: bytes, skip: re.Pattern | None = None) -> str | None:
+        """The colour map a section keyed `key` is drawn with; `skip` leaves out the names it matches."""
         names = self.blocks.get(key)
         if not names:
             return None
         candidates = [
             n for n in set(names)
             if n in self.headers
+            and not (skip is not None and skip.search(n.rsplit("/", 1)[-1]))
             and self.headers[n].kind == 0
             and self.headers[n].format in COLOUR_FORMATS
             and not _NEVER.search(n.rsplit("/", 1)[-1])
@@ -338,7 +379,7 @@ def link_materials(level) -> MaterialLinks:
             if not 0 < where <= len(data) - 24:
                 break
             at += 16
-            block_at, _hash, size = struct.unpack_from("<QQQ", data, where)
+            block_at, contents, size = struct.unpack_from("<QQQ", data, where)
             if block_at + size > len(data):
                 continue
             ident = (entry.name, block_at)
@@ -353,6 +394,9 @@ def link_materials(level) -> MaterialLinks:
                 links.usage.update(set(names))
                 tints[ident] = block_tint(block)
             links.blocks.setdefault(key, seen[ident])
+            if key not in links.content:
+                links.content[key] = contents
+                links.twins.setdefault(contents, []).append(key)
             if tints[ident] is not None:
                 links.tints.setdefault(key, tints[ident])
     return links

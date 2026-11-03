@@ -97,6 +97,11 @@ _TRIANGLE_LIST = 3
 _USAGE_POSITION = 1
 _USAGE_TEXCOORD0 = 0x21
 _USAGE_TEXCOORD1 = 0x22
+#: The third and fourth texture coordinate sets. On a wall's lettering they
+#: lay the letter sheet over the panel exactly once, where the first set
+#: tiles the wall's plaster across it (see `frostbitelevel._sheet_uvs`).
+_USAGE_TEXCOORD2 = 0x23
+_USAGE_TEXCOORD3 = 0x24
 #: Four unsigned bytes a vertex. In the backdrops' palette materials the first
 #: two are where in the palette the vertex's colour is, x and y out of 255.
 _USAGE_PALETTE = 0x1E
@@ -240,6 +245,9 @@ class SectionGeometry:
     palette: np.ndarray | None = None
     #: The second texture coordinate set, (N, 2), if the section has one.
     uvs2: np.ndarray | None = None
+    #: The third and fourth sets, (N, 2), if the section has them.
+    uvs3: np.ndarray | None = None
+    uvs4: np.ndarray | None = None
 
 
 def _element(buffers: bytes, section: Section, element, formats, name: str) -> np.ndarray:
@@ -309,11 +317,12 @@ def decode_sections(lod: Lod, buffers: bytes, name: str = "mesh") -> list[Sectio
                 uvs = None
         bytes4 = [e for e in section.elements if e[0] == _USAGE_PALETTE and e[1] == _UBYTE4]
         palette = _element(buffers, section, bytes4[0], {_UBYTE4: ("<u1", 4)}, name) if bytes4 else None
-        second = [e for e in section.elements if e[0] == _USAGE_TEXCOORD1 and e[1] in UV_FORMATS]
-        uvs2 = _element(buffers, section, second[0], UV_FORMATS, name)[:, :2] if second else None
-        if uvs2 is not None and not np.isfinite(uvs2).all():
-            uvs2 = None
-        out.append(SectionGeometry(index, section.material, xyz, tri, uvs, palette, uvs2))
+        more = []
+        for usage in (_USAGE_TEXCOORD1, _USAGE_TEXCOORD2, _USAGE_TEXCOORD3):
+            found = [e for e in section.elements if e[0] == usage and e[1] in UV_FORMATS]
+            extra = _element(buffers, section, found[0], UV_FORMATS, name)[:, :2] if found else None
+            more.append(extra if extra is not None and np.isfinite(extra).all() else None)
+        out.append(SectionGeometry(index, section.material, xyz, tri, uvs, palette, *more))
     return out
 
 
