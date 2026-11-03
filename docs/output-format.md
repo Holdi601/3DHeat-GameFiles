@@ -30,8 +30,10 @@ scene 0
   part uses. A shared vertex array is legal glTF, but a reader that expands each
   primitive's accessors would then hold every vertex once per part.
 - `asset.generator` is `heat3d_gamefiles`.
-- **No `extras`** are written: no custom metadata, no lap, no game or track name.
-  Everything the viewer needs is in the node names.
+- **No `extras`** are written - no custom metadata, no lap, no game or track
+  name - with one exception: a Battlefield 6 part of a destructible mesh
+  carries `{"destructible": true}` on its node. Everything the viewer needs is
+  in the node names.
 
 ## Node names: the classification
 
@@ -67,6 +69,7 @@ After the kind comes, depending on the game:
 | `nav:walkable` (Battlefield 6, `--navmesh`) | the level's navigation mesh for a soldier: where one can stand, flat green |
 | `ground:terrain x-634 z-552` (Battlefield 6, `--ground-texture`) | the heightfield under one baked decal tile, named by the tile's low corner in metres |
 | `structure:buildings t_concreteclean_01_cs` (Battlefield 6, `--textures`) | every surface of that kind showing that colour map; without `--textures`, one part per kind, no suffix |
+| `structure:buildings t_concreteclean_01_cs (destructible)` (Battlefield 6) | the same, for meshes a match can destroy: those with a destruction asset of their own name (walls, houses, props). The node also carries the glTF extras `{"destructible": true}`. Their destroyed states are not exported |
 
 The viewer can filter by these names. For example, "only the racing surface" is
 `ground:road` together with `ground:kerbs`, in all three games. The prefix is also

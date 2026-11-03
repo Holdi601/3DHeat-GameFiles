@@ -988,6 +988,7 @@ def _level(args) -> int:
         )
     kinds: dict[str, list[int]] = {}
     for part, piece in model.parts.items():
+        part = part.replace(" (destructible)", "")
         short = (piece.texture or "").rsplit("/", 1)[-1]
         kind = part[: -len(short) - 1] if piece.texture and part.endswith(" " + short) else part
         entry = kinds.setdefault(kind, [0, 0])
@@ -1003,6 +1004,13 @@ def _level(args) -> int:
         print(f"Navigation mesh: {model.navmesh}.")
     if model.blockout:
         print(f"{model.blockout:,} triangles of placeholder blockout sections left out.")
+    if placed.variations:
+        print(
+            f"{placed.variations:,} grouped copies placed in an object variation; "
+            f"{model.varied:,} section copies drawn with their variation's own shader block."
+        )
+    if model.destructible:
+        print(f"{model.destructible:,} triangles of destructible meshes, in parts named '... (destructible)'.")
     if model.overlaid:
         print(f"{model.overlaid:,} sections drawn with their object's overlay through its second texture coordinates.")
     try:

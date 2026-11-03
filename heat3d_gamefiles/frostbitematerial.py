@@ -234,6 +234,26 @@ class MaterialLinks:
     #: Section key -> its block's tint (see `block_tint`), where not neutral.
     tints: dict[bytes, tuple[float, float, float]] = field(default_factory=dict)
 
+    def variant_colour_map(self, mesh: str, material: str, key: bytes, default: bytes) -> str | None:
+        """
+        A section's colour map in an object variation keyed `key`, its own
+        block keyed `default`. A variation swaps textures: where the map the
+        section shows by default is not in the variation's block, the
+        variation's map of the same kind (`_ca`, `_cs`, ...) that the default
+        block does not name takes its place - the number a wall is painted
+        with in place of the default lettering.
+        """
+        mine = self.colour_map(mesh, material, default)
+        names = self.blocks.get(key, [])
+        if mine is None or mine in names:
+            return self.colour_map(mesh, material, key)
+        kind = mine.rsplit("_", 1)[-1].lower()
+        swapped = [
+            n for n in names
+            if n not in self.blocks.get(default, []) and n.rsplit("_", 1)[-1].lower() == kind and n in self.headers
+        ]
+        return swapped[0] if len(swapped) == 1 else self.colour_map(mesh, material, key)
+
     def overlay(self, key: bytes) -> str | None:
         """The `..._overlay_cs` a block names, if it names one and its mask (`..._overlay_a`)."""
         names = self.blocks.get(key, ())

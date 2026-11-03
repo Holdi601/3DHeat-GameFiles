@@ -13,7 +13,7 @@ produces output that looks right and is not.
 | BeamNG.drive | yes | no ground cover, repeating model textures flattened |
 | Assetto Corsa Rally | yes | models flat-coloured; not yet run on a lap recorded in the game |
 | Assetto Corsa EVO | **no** | all content is in one package obfuscated with a key, and this tool recovers no keys |
-| Battlefield 6 (level export, `level`) | yes, a whole level | terrain, grouped and individually placed meshes and their colour maps, the soldiers' navigation mesh, cut-out foliage; the play area's ground colour is coarse (32 m a pixel, or one average colour); no translucency, normal maps or per-copy texture variations |
+| Battlefield 6 (level export, `level`) | yes, a whole level | terrain, grouped and individually placed meshes and their colour maps, the soldiers' navigation mesh, cut-out foliage; the play area's ground colour is coarse (32 m a pixel, or one average colour); no translucency or normal maps; destructible meshes tagged, their destroyed states not exported |
 | iRacing | **no** | tracks ship in a protected format that is not a file-extraction target |
 | anything else | **no** | there is no course reader; reconstruct from gameplay with 3DHeat GameCapture, or analyse the laps in the viewer's Race tab without a course |
 
@@ -68,6 +68,21 @@ produces output that looks right and is not.
   take the material's tint by a rule of the exporter's own, as the
   parameters' names are hashed, and a material that paints a grey map
   through a mask with several tints gets one of them.
+- **Battlefield 6 terrain holes are not cut.** Where a level's walkable ground
+  runs under the heightfield (in one level 12,120 navigation triangles more
+  than 5 m below it), the game must have cut the terrain, and the export does
+  not. Ruled out as where the holes are: the terrain's layer masks (none is
+  concentrated there), its 67 x 67 node raster, a reserved height value (no
+  height page holds 0 or 65,535), the nodes' flags (all the same), and meshes
+  or assets that cut the ground: what is placed under the ground there is
+  rock and cliff meshes, and no asset of the level is named for holes,
+  tunnels or caves. Two raster trees are run-length decoded but not placed,
+  and are what is left (see [Frostbite](reader-frostbite#terrain-layers)).
+- **A Battlefield 6 object variation is drawn only where the level ships its
+  blocks.** A placed copy's variation picks its sections' shader blocks by
+  key; where a mesh has no block for a variation in the level's depots, the
+  copy shows its default look, which can differ from the game's (a wall's
+  stripe red where the game paints it blue).
 - **The navigation mesh is the AI's, not the players'.** It covers what a
   soldier can walk to: in the level checked the ground, floors and stairs, and
   some roofs, but not the tops of freight containers. The links between surfaces (jumps, ladders, vaults) are left out.

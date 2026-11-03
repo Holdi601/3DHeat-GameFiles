@@ -585,6 +585,37 @@ its own; a map with colour is left as it is. The rule is the exporter's own:
 which channel of a mask takes which tint is not read. In one level it took
 the share of structure triangles drawn near white from 19.4% to 3.9%.
 
+**Object variations.** One mesh is placed in several looks: a warehouse
+wall with a red or a blue stripe and a different number painted on it, a
+container in green or grey. Each placed copy names its look:
+
+| Where | Field |
+|---|---|
+| static model group member | +32: an array of one pointer a copy, to an object variation or null |
+| object reference | +120: a pointer to an object variation or null |
+| object variation (`ov_...` partition, type `235f2a9c...`) | its first instance +32: the variation's u32 name hash |
+
+A section's look in a variation is the shader block keyed by the section's
+own key with the variation's hash added to its first four bytes, as a
+little-endian u32 (`05177857 76ddd22e` + `0x88af2290` = `953927e0 76ddd22e`);
+a section with no block under that key looks the same in every variation.
+The level's mesh variation databases (`meshvariationdb_win32`) list, per mesh
+and variation hash, the materials each variation touches, but not the keys:
+the rule was found from the keys themselves and holds for every section with
+variants checked (the four variations of one wall, three of its sections each).
+A variation's block brings its own textures as well as its tints: the
+painted number on the wall is a letter sheet the variation's block names.
+In one level 11,211 of 27,501 grouped copies are placed in a variation.
+
+**Destructible meshes.** A mesh a match can knock down has a destruction
+asset of its own name beside it (`.../br_x.destruction` for
+`.../br_x_mesh`): the breakable buildings and walls (`br_`) and many props.
+`level` keeps their surfaces in parts of their own, named with
+` (destructible)`, whose glTF nodes carry `{"destructible": true}`. Their
+destroyed states are the `dc_..._part<N>_mesh` meshes beside them, each
+centred on its own origin; where a part sits is in the destruction asset,
+which is not read, so the destroyed states are not exported.
+
 **Left out.** Sections of placeholder blockout materials (`M_Whitebox`: a few
 large untextured triangles some buildings keep beside their surfaces, which
 stood out of a level as white fins), meshes made for cinematics (a helicopter
@@ -725,14 +756,14 @@ the closest the files come to where players stand.
   levels whose mask pages do not fit together get one colour.
 - Decal materials' colour parameters: markings through channel masks are
   painted in a neutral colour.
-- Object blueprints that are not meshes (gameplay logic, effects, sounds),
-  and texture variations a placed object chooses.
+- Object blueprints that are not meshes (gameplay logic, effects, sounds).
+- Destroyed states of destructible meshes: their parts' places are in the
+  destruction asset, which is not read.
 - The navigation mesh's links (jumps, ladders, vaults) and its vehicle layers.
 - Mesh levels stored inline in the res (10 meshes in a level, gadgets), skinned
   and composite meshes' bones and parts, and normals (computed by the writer).
 - Normal, roughness and other maps; alpha other than a cut-out (translucent
-  glass and decals are drawn opaque); texture variations a placed copy may
-  carry.
+  glass and decals are drawn opaque).
 - Terrain holes: a holes surface shader is named, but what it reads is not
   found (see [Terrain layers](#terrain-layers)), so the heightfield is not cut
   where the walkable ground runs under it.

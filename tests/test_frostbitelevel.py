@@ -162,7 +162,7 @@ class TestPlacement:
         rows[1, 3, :3] = (-3, 2, 1)
         partition = read_partition(_group(rows))
 
-        ((index, found),) = _members(partition, "group")
+        ((index, found, variations),) = _members(partition, "group")
 
         assert partition.imports[index][0] == b"M" * 16
         assert np.allclose(found, rows)
@@ -259,7 +259,7 @@ def test_shipped_group_members_have_the_layout_this_reader_pins(catalogue):
         members = _members(read_partition(raw, name), name)
         if not members:
             continue
-        rows = np.concatenate([r for _, r in members])
+        rows = np.concatenate([r for _, r, _ in members])
         determinants = np.linalg.det(rows[:, :3, :3].astype(np.float64))
         assert np.isfinite(rows).all()
         assert (np.abs(np.abs(determinants) - 1) < 1e-3).mean() > 0.3
@@ -1066,3 +1066,60 @@ def test_an_object_s_overlay_is_drawn_through_its_unwrap():
     assert links.overlay(b"T" * 8) == "t_tank_02_overlay_cs"
     assert links.overlay(b"N" * 8) is None
     assert _unwrapped(np.array([[0.0, 0.0], [0.92, 1.0]])) and not _unwrapped(np.array([[-8.0, 0.0], [9.0, 4.0]]))
+
+
+def test_a_variation_draws_with_the_block_its_hash_keys():
+    from types import SimpleNamespace
+
+    from heat3d_gamefiles.frostbitelevel import variant_keys, variation_hashes, with_variations
+
+    rows = np.zeros((3, 4, 4), np.float32)
+    rows[:, 0, 0] = rows[:, 1, 1] = rows[:, 2, 2] = 1.0
+    rows[:, 0, 3] = 7.0  # padding as a file may leave it: not a hash
+    placed = with_variations(rows, [0, 0x88AF2290, 0x88AF2292])
+    hashes = variation_hashes(placed)
+    assert hashes.tolist() == [0, 0x88AF2290, 0x88AF2292]
+    assert np.allclose(placed[:, :3, :3], rows[:, :3, :3])
+    # A section keyed 05177857 76ddd22e: the first variation has a block under
+    # the key with the hash added to its first four bytes, the second has not.
+    default = bytes.fromhex("0517785776ddd22e")
+    blue = bytes.fromhex("953927e076ddd22e")  # 0x57781705 + 0x88af2290 = 0xe0273995
+    links = SimpleNamespace(blocks={default: [], blue: []})
+    assert variant_keys(default, hashes, links) == [default, blue, default]
+    assert variant_keys(default, hashes, None) == [default] * 3
+
+
+def test_a_mesh_with_a_destruction_asset_of_its_name_is_destructible(tmp_path):
+    import json
+    from types import SimpleNamespace
+
+    from heat3d_gamefiles.frostbitelevel import DESTRUCTIBLE, LevelModel, Piece, destructible, write_level
+
+    level = SimpleNamespace(res={"env/br_wall_01.destruction": 0, "env/br_wall_01_mesh": 0}, ebx={})
+    assert destructible(level, "env/br_wall_01_mesh")
+    assert not destructible(level, "env/crate_01_mesh")
+
+    model = LevelModel()
+    for name in ("structure:buildings", "structure:buildings" + DESTRUCTIBLE):
+        piece = Piece()
+        piece.add(np.array([[0, 0, 0], [1, 0, 0], [0, 1, 0]], np.float32), np.array([[0, 1, 2]]))
+        model.parts[name] = piece
+    out = write_level(model, tmp_path / "level.glb")
+    data = out.read_bytes()
+    (length,) = struct.unpack_from("<I", data, 12)
+    nodes = {n["name"]: n for n in json.loads(data[20 : 20 + length])["nodes"]}
+    assert nodes["structure:buildings" + DESTRUCTIBLE]["extras"] == {"destructible": True}
+    assert "extras" not in nodes["structure:buildings"]
+
+
+def test_a_variation_swaps_the_texture_its_block_replaces():
+    from heat3d_gamefiles.frostbitematerial import MaterialLinks, TextureInfo
+
+    names = ["t_de_hall_letter_a_01_ca", "t_de_hall_number_01_ca", "t_com_plaster_cs"]
+    links = MaterialLinks()
+    links.headers = {n: TextureInfo(n, 0, 67, 64, 64, 1, b"", (4096,)) for n in names}
+    links.blocks[b"D" * 8] = [names[0], names[2]]  # the default: lettering
+    links.blocks[b"V" * 8] = [names[1], names[2]]  # the variation: a number in its place
+    assert links.colour_map("x/hall_mesh", "M_Letter", b"D" * 8) == names[0]
+    assert links.variant_colour_map("x/hall_mesh", "M_Letter", b"V" * 8, b"D" * 8) == names[1]
+    assert links.variant_colour_map("x/hall_mesh", "M_Letter", b"D" * 8, b"D" * 8) == names[0]

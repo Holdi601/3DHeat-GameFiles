@@ -81,6 +81,11 @@ TRANSFORM = (bytes.fromhex("101dce064e9a64fc2a9fa9d482576ffa"), 0x5E6D8C37)
 MEMBER_SIZE = 224
 MEMBER_TRANSFORMS = 88
 MEMBER_MESH = 160
+#: An array of one pointer a copy: the object variation it is drawn in, or null.
+MEMBER_VARIATIONS = 32
+#: An object variation's type; its name hash is a u32 32 bytes into its instance.
+OBJECT_VARIATION = bytes.fromhex("235f2a9c2c2819d359772c072bc47082")
+VARIATION_HASH = 32
 TRANSFORM_SIZE = 64
 
 #: Part names by what a mesh's asset path says it is. The first match wins;
@@ -178,13 +183,18 @@ class Placements:
     unresolved: int = 0
     #: Copies placed one by one, by object and prefab references.
     objects: int = 0
+    #: Grouped copies drawn in an object variation rather than as the mesh is.
+    variations: int = 0
 
     def copies(self) -> int:
         return sum(len(t) for blocks in self.meshes.values() for t in blocks)
 
 
-def _members(partition: Partition, name: str) -> list[tuple[int, np.ndarray]]:
-    """(import index of the mesh, transforms) for each member of each group."""
+def _members(partition: Partition, name: str) -> list[tuple[int, np.ndarray, list[int | None]]]:
+    """
+    (import index of the mesh, transforms, import index of each copy's object
+    variation or None) for each member of each group.
+    """
     member = partition.type_index(*MEMBER)
     transform = partition.type_index(*TRANSFORM)
     if not member:
@@ -212,15 +222,45 @@ def _members(partition: Partition, name: str) -> list[tuple[int, np.ndarray]]:
             rows = np.frombuffer(
                 data, dtype="<f4", count=16 * block.count, offset=block.offset
             ).reshape(block.count, 4, 4)
-            out.append((index, rows.copy()))
+            variations: list[int | None] = [None] * block.count
+            chosen = partition.array_at(at + MEMBER_VARIATIONS)
+            if chosen is not None and chosen.count == block.count:
+                for k in range(chosen.count):
+                    what, which = partition.pointer(chosen.offset + 8 * k)
+                    variations[k] = which if what == "import" else None
+            out.append((index, rows.copy(), variations))
     return out
 
 
+def variation_hash(level: LevelCatalogue, name: str) -> int:
+    """An object variation partition's name hash, 0 when it is not one."""
+    entry = level.ebx.get(name)
+    if entry is None:
+        return 0
+    try:
+        part = read_partition(level.read(entry.location), name)
+    except UnsupportedFrostbite:
+        return 0
+    if not part.instances:
+        return 0
+    at = part.instances[0]
+    (kind,) = struct.unpack_from("<H", part.data, at)
+    if kind not in part.type_index(OBJECT_VARIATION) or at + VARIATION_HASH + 4 > len(part.data):
+        return 0
+    return struct.unpack_from("<I", part.data, at + VARIATION_HASH)[0]
+
+
 def find_placements(
-    level: LevelCatalogue, prefix: str, skip: tuple[str, ...] = (), report=print
+    level: LevelCatalogue,
+    prefix: str,
+    skip: tuple[str, ...] = (),
+    report=print,
+    partitions: dict[bytes, str] | None = None,
 ) -> Placements:
     """
-    Every grouped mesh copy the level's partitions place.
+    Every grouped mesh copy the level's partitions place, each carrying its
+    object variation's hash (see `with_variations`) when `partitions`
+    (partition GUID -> name) is given to find the variations by.
 
     `skip` leaves out partitions whose name contains any of the given strings —
     a game mode's layer, say, when only the common layout is wanted.
@@ -228,7 +268,8 @@ def find_placements(
     placements = Placements()
     meshes = {e.name for e in level.res.values() if e.res_type == MESHSET}
     guid_names: dict[bytes, str] = {}
-    pending: list[tuple[str, bytes, np.ndarray]] = []
+    pending: list[tuple[str, bytes, np.ndarray, np.ndarray]] = []
+    hashes: dict[bytes, int] = {}
 
     names = sorted(n for n in level.ebx if n.startswith(prefix))
     if not names:
@@ -241,22 +282,31 @@ def find_placements(
             continue
         partition = read_partition(raw, name)
         found = _members(partition, name)
-        for index, rows in found:
-            pending.append((name, partition.imports[index][0], rows))
+        for index, rows, variations in found:
+            chosen = np.zeros(len(rows), dtype=np.uint32)
+            for k, which in enumerate(variations):
+                if which is None or partitions is None:
+                    continue
+                guid = partition.imports[which][0]
+                if guid not in hashes:
+                    hashes[guid] = variation_hash(level, partitions[guid]) if guid in partitions else 0
+                chosen[k] = hashes[guid]
+            pending.append((name, partition.imports[index][0], with_variations(rows, chosen), chosen))
 
-    wanted = {guid for _, guid, _ in pending}
+    wanted = {guid for _, guid, _, _ in pending}
     for mesh in sorted(meshes):
         if mesh in level.ebx and len(guid_names) < len(wanted):
             guid = partition_guid(level.read(level.ebx[mesh].location))
             if guid in wanted:
                 guid_names[guid] = mesh
 
-    for name, guid, rows in pending:
+    for name, guid, rows, chosen in pending:
         mesh = guid_names.get(guid)
         if mesh is None:
             placements.unresolved += 1
             continue
         placements.meshes.setdefault(mesh, []).append(rows)
+        placements.variations += int(np.count_nonzero(chosen))
         short = name[len(prefix) :]
         placements.partitions[short] = placements.partitions.get(short, 0) + len(rows)
     return placements
@@ -278,6 +328,8 @@ PREFAB_BLUEPRINT = (bytes.fromhex("134919fc829d1166507c3345a01b1a05"), 0x0247807
 STAGED = re.compile(r"^(game/dev/|test/)|/deathflow/|_gameend_")
 REFERENCE_TRANSFORM = 32
 REFERENCE_BLUEPRINT = 112
+#: The object variation an object reference draws its blueprint in, or null.
+REFERENCE_VARIATION = 120
 
 #: Prefabs nest; deeper than this is a loop or a mistake.
 PREFAB_DEPTH = 8
@@ -326,6 +378,7 @@ def find_objects(
     meshes = {e.name for e in level.res.values() if e.res_type == MESHSET}
     found = Placements()
     cache: dict[str, Partition | None] = {}
+    hashes: dict[bytes, int] = {}
 
     def partition(name: str) -> Partition | None:
         if name not in cache:
@@ -339,7 +392,7 @@ def find_objects(
         return cache[name]
 
     def references(part: Partition):
-        """(transform rows, target partition) of each reference in a partition."""
+        """(transform rows, target partition, variation hash) of each reference in a partition."""
         kinds = set(part.type_index(*OBJECT_REFERENCE)) | set(part.type_index(*PREFAB_REFERENCE))
         for at in part.instances:
             (kind,) = struct.unpack_from("<H", part.data, at)
@@ -349,10 +402,19 @@ def find_objects(
             if what != "import":
                 continue
             target = names.get(part.imports[index][0])
-            if target is not None and not STAGED.search(target):
-                yield np.frombuffer(part.data, dtype="<f4", count=16, offset=at + REFERENCE_TRANSFORM), target
+            if target is None or STAGED.search(target):
+                continue
+            chosen = 0
+            if at + REFERENCE_VARIATION + 8 <= len(part.data):
+                what, which = part.pointer(at + REFERENCE_VARIATION)
+                if what == "import":
+                    guid = part.imports[which][0]
+                    if guid not in hashes:
+                        hashes[guid] = variation_hash(level, names[guid]) if guid in names else 0
+                    chosen = hashes[guid]
+            yield np.frombuffer(part.data, dtype="<f4", count=16, offset=at + REFERENCE_TRANSFORM), target, chosen
 
-    def visit(name: str, parent: np.ndarray, depth: int, origin: str) -> None:
+    def visit(name: str, parent: np.ndarray, depth: int, origin: str, variation: int = 0) -> None:
         part = partition(name)
         if part is None or depth > PREFAB_DEPTH:
             return
@@ -365,12 +427,13 @@ def find_objects(
             for mesh in dict.fromkeys(drawn):
                 rows = np.zeros((1, 4, 4), dtype=np.float32)
                 rows[0, :, :3] = parent[:, :3]
-                found.meshes.setdefault(mesh, []).append(rows)
+                found.meshes.setdefault(mesh, []).append(with_variations(rows, [variation]))
+                found.variations += bool(variation)
                 found.partitions[origin] = found.partitions.get(origin, 0) + 1
             return
-        for rows, target in references(part):
+        for rows, target, chosen in references(part):
             local = _matrix(rows.reshape(4, 4).astype(np.float64))
-            visit(target, local @ parent, depth + 1, origin)
+            visit(target, local @ parent, depth + 1, origin, chosen or variation)
 
     holders = []
     targets: set[str] = set()
@@ -381,7 +444,7 @@ def find_objects(
         part = partition(name)
         if part is None:
             continue
-        targets.update(target for _rows, target in references(part))
+        targets.update(target for _rows, target, _chosen in references(part))
         (first,) = struct.unpack_from("<H", part.data, part.instances[0]) if part.instances else (-1,)
         if first not in part.type_index(*PREFAB_BLUEPRINT):
             holders.append(name)
@@ -400,10 +463,61 @@ def find_objects(
 PROXY_MATERIAL = re.compile(r"last_?lod|billboard|vista|projection|project_?lod|(^|_)lod(_?\d+)?$", re.I)
 
 
+#: What a destructible mesh's parts are named with: a mesh is destructible
+#: when the level has a destruction asset of its own name
+#: (`.../br_x.destruction` beside `.../br_x_mesh`), the breakable buildings,
+#: walls and props a match can knock down. Its parts carry
+#: `{"destructible": true}` as glTF extras.
+DESTRUCTIBLE = " (destructible)"
+DESTRUCTION_SUFFIX = ".destruction"
+
+
+def destructible(level, mesh: str) -> bool:
+    """Whether the level has a destruction asset named after the mesh."""
+    stem = mesh[: -len("_mesh")] if mesh.endswith("_mesh") else mesh
+    return stem + DESTRUCTION_SUFFIX in level.res or stem + DESTRUCTION_SUFFIX in level.ebx
+
+
 #: Placeholder blockout materials: a few large untextured triangles some
 #: buildings keep beside their real surfaces, which stand out of the level as
 #: white fins.
 BLOCKOUT = re.compile(r"whitebox|blockout", re.I)
+
+
+def with_variations(rows: np.ndarray, hashes: np.ndarray) -> np.ndarray:
+    """
+    Rows that carry each copy's object variation hash in their fourth column,
+    which a LinearTransform does not use (0: the mesh as it is).
+    """
+    rows = rows.copy()
+    rows[:, :, 3] = 0.0
+    rows[:, 0, 3] = np.asarray(hashes, dtype=np.uint32).view(np.float32)
+    return rows
+
+
+def variation_hashes(rows: np.ndarray) -> np.ndarray:
+    """The object variation hash each copy carries (see `with_variations`)."""
+    return np.ascontiguousarray(rows[:, 0, 3]).view(np.uint32)
+
+
+def variant_keys(key: bytes, hashes: np.ndarray, links) -> list[bytes]:
+    """
+    The shader block key each copy of a section draws with. A variation's
+    block is keyed by the section's own key with the variation's hash added to
+    its first four bytes, as a little-endian u32; where the level has no block
+    under that key the section is the same in that variation.
+    """
+    if links is None:
+        return [key] * len(hashes)
+    (low,) = struct.unpack_from("<I", key)
+    out = []
+    cache: dict[int, bytes] = {}
+    for h in hashes.tolist():
+        if h not in cache:
+            varied = struct.pack("<I", (low + h) & 0xFFFFFFFF) + key[4:]
+            cache[h] = varied if h and varied in links.blocks else key
+        out.append(cache[h])
+    return out
 
 
 def _proxy(lod, finest) -> bool:
@@ -484,6 +598,10 @@ class LevelModel:
     navmesh: str = ""
     #: Triangles of placeholder blockout sections left out: see `BLOCKOUT`.
     blockout: int = 0
+    #: Drawn copies of sections given their object variation's own shader block.
+    varied: int = 0
+    #: Triangles of destructible meshes: see `DESTRUCTIBLE`.
+    destructible: int = 0
     #: Drawn sections given their object's overlay through its second texture
     #: coordinates rather than their colour map.
     overlaid: int = 0
@@ -567,11 +685,13 @@ def build_level(
     level = LevelCatalogue(toc, table.supplements)
     prefix = ebx_prefix(toc)
     report(f"{toc.stem}: {level.bundle_count} bundles, {len(level.ebx):,} partitions, {len(level.res):,} resources")
-    placements = find_placements(level, prefix, skip, report)
-    objects = find_objects(level, prefix, partition_names(level), skip)
+    names = partition_names(level)
+    placements = find_placements(level, prefix, skip, report, names)
+    objects = find_objects(level, prefix, names, skip)
     for mesh, blocks in objects.meshes.items():
         placements.meshes.setdefault(mesh, []).extend(blocks)
     placements.objects = sum(objects.partitions.values())
+    placements.variations += objects.variations
     model = LevelModel(placements=placements)
     links = None
     if textures or ground_texture:
@@ -640,70 +760,80 @@ def build_level(
             continue
         kind = category(mesh, [s.material for s in lod.sections])
         mirrored = np.linalg.det(rows[:, :3, :3].astype(np.float64)) < 0
+        variations = variation_hashes(rows)
+        breakable = destructible(level, mesh)
         for section in sections:
             if BLOCKOUT.search(section.material):
                 model.blockout += len(section.faces) * len(rows)
                 continue
             drawn += 1
-            texture = None
-            if textures and links is not None and section.uvs is not None:
-                key = lod.sections[section.index].key
-                texture = links.colour_map(mesh, section.material, key)
-            if texture is not None and texture not in model.images:
-                try:
-                    model.images[texture] = _colour_map(level, links, texture, textures)
-                except UnsupportedFrostbite:
-                    model.images[texture] = None
-            if texture is not None and model.images[texture] is None:
+            keys = variant_keys(lod.sections[section.index].key, variations, links)
+            for key in dict.fromkeys(keys):
+                chosen_rows = np.array([k == key for k in keys])
+                group, flipped = rows[chosen_rows], mirrored[chosen_rows]
+                if key != lod.sections[section.index].key:
+                    model.varied += len(group)
                 texture = None
-            uvs_of = section.uvs
-            overlay = links.overlay(lod.sections[section.index].key) if textures and links is not None else None
-            if overlay is not None and section.uvs2 is not None and _unwrapped(section.uvs2):
-                # An object's overlay (its painted bands, rust and panels) is
-                # an unwrap of the whole object in the second coordinate set,
-                # where the colour map tiles a trim sheet through the first;
-                # the overlay is what the object looks like from afar.
-                if overlay not in model.images:
+                if textures and links is not None and section.uvs is not None:
+                    texture = links.variant_colour_map(mesh, section.material, key, lod.sections[section.index].key)
+                if texture is not None and texture not in model.images:
                     try:
-                        model.images[overlay] = _colour_map(level, links, overlay, textures)
+                        model.images[texture] = _colour_map(level, links, texture, textures)
                     except UnsupportedFrostbite:
-                        model.images[overlay] = None
-                if model.images[overlay] is not None:
-                    texture, uvs_of = overlay, section.uvs2
-                    model.overlaid += 1
-            if texture is not None and links is not None:
-                texture = _tinted(model, texture, links.tints.get(lod.sections[section.index].key))
-            if texture is None and textures and links is not None and section.palette is not None:
-                # A backdrop that looks its colours up in a palette: each
-                # vertex says which swatch, so the palette is drawn through
-                # those, each at its swatch's centre.
-                palette = links.palette(lod.sections[section.index].key)
-                if palette is not None and palette not in model.images:
-                    try:
-                        model.images[palette] = _colour_map(level, links, palette, textures)
-                    except UnsupportedFrostbite:
-                        model.images[palette] = None
-                if palette is not None and model.images[palette] is not None:
-                    texture, uvs_of = palette, _palette_uvs(section.palette)
-            textured += texture is not None
-            world = place(section.positions, rows)
-            copies = len(rows)
-            tri = section.faces[None, :, :] + (np.arange(copies) * len(section.positions))[:, None, None]
-            # A mirrored copy turns its triangles inside out; winding them the
-            # other way round keeps the computed normals pointing outwards.
-            tri[mirrored] = tri[mirrored][:, :, ::-1]
-            part = kind if texture is None else f"{kind} {_short(texture)}"
-            if by_mesh:
-                part = f"{part} | {mesh} | {section.material}"
-            piece = model.parts.setdefault(part, Piece(texture=texture))
-            uvs = np.tile(uvs_of, (copies, 1)) if texture is not None else None
-            piece.add(world, tri.reshape(-1, 3), uvs)
-            if kind == BACKDROP_PART and links is not None and section.uvs is not None:
-                # The backdrop's colour map colours the heightfield, textured
-                # export or not.
-                colour = links.colour_map(mesh, section.material, lod.sections[section.index].key)
-                if colour is not None:
-                    backdrop_uv.append((world, np.tile(section.uvs, (copies, 1)), colour))
+                        model.images[texture] = None
+                if texture is not None and model.images[texture] is None:
+                    texture = None
+                uvs_of = section.uvs
+                overlay = links.overlay(key) if textures and links is not None else None
+                if overlay is not None and section.uvs2 is not None and _unwrapped(section.uvs2):
+                    # An object's overlay (its painted bands, rust and panels) is
+                    # an unwrap of the whole object in the second coordinate set,
+                    # where the colour map tiles a trim sheet through the first;
+                    # the overlay is what the object looks like from afar.
+                    if overlay not in model.images:
+                        try:
+                            model.images[overlay] = _colour_map(level, links, overlay, textures)
+                        except UnsupportedFrostbite:
+                            model.images[overlay] = None
+                    if model.images[overlay] is not None:
+                        texture, uvs_of = overlay, section.uvs2
+                        model.overlaid += 1
+                if texture is not None and links is not None:
+                    texture = _tinted(model, texture, links.tints.get(key))
+                if texture is None and textures and links is not None and section.palette is not None:
+                    # A backdrop that looks its colours up in a palette: each
+                    # vertex says which swatch, so the palette is drawn through
+                    # those, each at its swatch's centre.
+                    palette = links.palette(key)
+                    if palette is not None and palette not in model.images:
+                        try:
+                            model.images[palette] = _colour_map(level, links, palette, textures)
+                        except UnsupportedFrostbite:
+                            model.images[palette] = None
+                    if palette is not None and model.images[palette] is not None:
+                        texture, uvs_of = palette, _palette_uvs(section.palette)
+                textured += texture is not None
+                world = place(section.positions, group)
+                copies = len(group)
+                tri = section.faces[None, :, :] + (np.arange(copies) * len(section.positions))[:, None, None]
+                # A mirrored copy turns its triangles inside out; winding them the
+                # other way round keeps the computed normals pointing outwards.
+                tri[flipped] = tri[flipped][:, :, ::-1]
+                part = kind if texture is None else f"{kind} {_short(texture)}"
+                if breakable:
+                    part += DESTRUCTIBLE
+                    model.destructible += len(section.faces) * len(group)
+                if by_mesh:
+                    part = f"{part} | {mesh} | {section.material}"
+                piece = model.parts.setdefault(part, Piece(texture=texture))
+                uvs = np.tile(uvs_of, (copies, 1)) if texture is not None else None
+                piece.add(world, tri.reshape(-1, 3), uvs)
+                if kind == BACKDROP_PART and links is not None and section.uvs is not None:
+                    # The backdrop's colour map colours the heightfield, textured
+                    # export or not.
+                    colour = links.colour_map(mesh, section.material, key)
+                    if colour is not None:
+                        backdrop_uv.append((world, np.tile(section.uvs, (copies, 1)), colour))
     model.textured = (textured, drawn)
 
     if ground_spacing:
@@ -1417,7 +1547,14 @@ def write_level(model: LevelModel, out: str | Path) -> Path:
                 positions.append(block[used])
                 if textured:
                     uvs.append(np.zeros((len(used), 2), np.float32))
-                parts.append(Part(name=f"{name} (average colour)", faces=local.reshape(-1, 3) + base, colour=average))
+                parts.append(
+                    Part(
+                        name=f"{name} (average colour)",
+                        faces=local.reshape(-1, 3) + base,
+                        colour=average,
+                        extras={"destructible": True} if DESTRUCTIBLE in name else None,
+                    )
+                )
                 base += len(used)
                 model.flattened += int(dense.sum())
                 faces = faces[~dense]
@@ -1427,7 +1564,7 @@ def write_level(model: LevelModel, out: str | Path) -> Path:
         positions.append(block)
         if textured:
             uvs.append(coords if image is not None else np.zeros((len(block), 2), np.float32))
-        kind = name.split(" ", 1)[0] if image is not None else name
+        kind = name.split(" ", 1)[0] if image is not None else name.replace(DESTRUCTIBLE, "")
         parts.append(
             Part(
                 name=name,
@@ -1439,6 +1576,7 @@ def write_level(model: LevelModel, out: str | Path) -> Path:
                 ),
                 texture=image,
                 alpha_cutoff=ALPHA_CUTOFF if image is not None and image.shape[2] == 4 else None,
+                extras={"destructible": True} if DESTRUCTIBLE in name else None,
             )
         )
         base += len(block)

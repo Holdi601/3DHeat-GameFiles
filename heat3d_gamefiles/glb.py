@@ -76,6 +76,8 @@ class Part:
     #: this value (glTF `alphaMode` MASK), and the surface is drawn from both
     #: sides, as leaves on a card are.
     alpha_cutoff: float | None = None
+    #: Written as the node's glTF `extras`.
+    extras: dict | None = None
 
 
 def compute_normals(positions: np.ndarray, faces: np.ndarray) -> np.ndarray:
@@ -201,7 +203,7 @@ def write_glb(
             checked.append(
                 Part(
                     name=part.name, faces=block, colour=part.colour, texture=part.texture,
-                    alpha_cutoff=part.alpha_cutoff,
+                    alpha_cutoff=part.alpha_cutoff, extras=part.extras,
                 )
             )
     if not checked:
@@ -361,7 +363,10 @@ def write_glb(
                 ],
             }
         )
-        nodes.append({"name": part.name, "mesh": index})
+        node = {"name": part.name, "mesh": index}
+        if part.extras:
+            node["extras"] = part.extras
+        nodes.append(node)
 
     document = {
         "asset": {"version": "2.0", "generator": "heat3d_gamefiles"},
