@@ -11,6 +11,8 @@ A Texture res is a 180-byte header; the pixels are in a chunk::
     +40  the chunk's GUID
     +56  fifteen mip sizes (u32)
     +116 the size of the whole chain
+    +164 the GUID of the chunk with the largest mips, when the main chunk
+         lacks them
 
 The chunk is the mip chain, largest first — for some textures without its
 largest levels, which ship in another package; the chunk's length says where it
@@ -68,10 +70,61 @@ COLOUR_FORMATS = {67, 61, 57}
 _BLOCK_BYTES = {7: 16, 3: 16, 1: 8}
 
 _GENERIC = {"t", "vst", "mesh", "cs", "c", "ca", "cu", "d", "a", "b", "m", "com", "mil", "ind"}
+#: Names of maps that are not a surface's own colour. `t_de_` is a decal sheet:
+#: a road sign's block names its plain panel `t_com_highwaysignage_01_cs` and
+#: `t_de_com_highwaysignage_01_ca`, a sheet with a shield laid on its side,
+#: which drawn as the panel's colour shows the shield turned a quarter.
 _AVOID = re.compile(
-    r"dest|detail|decal|overlay|dirt|noise|grunge|lookup|fracture|damage|burn|blood|snow|puddle|wet|test",
+    r"^(t_)?de_|dest|detail|decal|overlay|dirt|noise|grunge|lookup|fracture|damage|burn|blood|snow|puddle|wet|test",
     re.I,
 )
+#: Maps that are never a surface's colour, whatever their name shares with
+#: the material: signed distance fields (`_sdf`, shapes for cut-outs, drawn as
+#: colour black and white stars), palettes a shader looks colours up in
+#: (drawn as colour, a confetti of swatches) and channel masks (`_rgb`: glass
+#: debris drawn through one came out cyan). `_rgba` maps are not among them:
+#: most are colour with an alpha (a power line's sheet, stairs, a fence), and
+#: taking them out replaced those with unrelated maps.
+_NEVER = re.compile(r"_sdf$|palette|_rgb$", re.I)
+
+
+#: A shader block's parameters follow its texture entries, each a type tag,
+#: two flag bytes (01 80 for one value), a two-byte hash of the parameter's
+#: name, a u32 count, the value and an eight-byte id. A float3 tag:
+_FLOAT3 = re.compile(rb"\xf1\x1a\xf8\x25\x01\x80(..)\x01\x00\x00\x00(.{12})", re.S)
+#: Float3 parameters that tint a surface's colour map, by name hash, with the
+#: value that leaves it as it is. Found by what they hold: in one level they
+#: carry a colour in 1 block in 6 whose colour map is grey and almost never
+#: where the map has colour of its own (`4141`, `a37b`, `05dd`); the others
+#: hold the colours a grey map is painted in where the material's name says
+#: so (a bridge's `..._blue` trim, a window's dark frame). Their names are
+#: hashed and not known.
+TINTS = {b"\x41\x41": 1.0, b"\xa3\x7b": 1.0, b"\xbe\xad": 1.0, b"\x05\xdd": 1.0, b"\x6a\x68": 0.5, b"\x8a\x88": 0.5, b"\xec\x64": 0.5}
+
+
+def block_tint(block: bytes) -> tuple[float, float, float] | None:
+    """
+    The product of a block's tints, each family's first value that is not
+    neutral over the neutral one (a family can hold several, one per channel
+    of a mask, most of them neutral); None when all are neutral. A value with
+    a channel near nothing, such as pure green, selects a mask's channel and
+    is passed over: taken as paint it turned brick facades green.
+    """
+    tint = np.ones(3)
+    seen = set()
+    for m in _FLOAT3.finditer(block):
+        family = m.group(1)
+        if family not in TINTS or family in seen:
+            continue
+        value = np.frombuffer(m.group(2), "<f4").astype(np.float64) / TINTS[family]
+        if not np.isfinite(value).all() or (value < 0).any() or value.max() > 8 or np.allclose(value, 1.0, atol=0.01):
+            continue
+        if value.min() < 0.02 * value.max():
+            continue  # a pure primary selects a channel of a mask; it is not a paint
+        seen.add(family)
+        tint *= value
+    tint = np.clip(tint, 0.0, 2.0)
+    return None if np.allclose(tint, 1.0, atol=0.01) else tuple(float(v) for v in tint)
 
 
 @dataclass
@@ -84,6 +137,9 @@ class TextureInfo:
     mips: int
     chunk: bytes
     sizes: tuple[int, ...]
+    #: The chunk holding the largest mips when `chunk` lacks them: they ship in
+    #: a high-resolution pack, in a table of their own (+164 in the header).
+    detail: bytes = b""
 
 
 def read_texture_header(res: bytes, name: str = "texture") -> TextureInfo:
@@ -93,13 +149,14 @@ def read_texture_header(res: bytes, name: str = "texture") -> TextureInfo:
     width, height = struct.unpack_from("<HH", res, 22)
     mips = res[30]
     sizes = struct.unpack_from("<15I", res, 56)[: max(1, min(mips, 15))]
-    return TextureInfo(name, kind, fmt, width, height, mips, res[40:56], sizes)
+    detail = res[164:180] if len(res) >= 180 and any(res[164:180]) else b""
+    return TextureInfo(name, kind, fmt, width, height, mips, res[40:56], sizes, detail)
 
 
-def decode_texture(info: TextureInfo, chunk: bytes, largest: int) -> np.ndarray:
+def decode_texture(info: TextureInfo, chunk: bytes, largest: int, alpha: bool = False) -> np.ndarray:
     """
     The largest mip the chunk holds that is no wider or taller than `largest`,
-    as 8-bit RGB.
+    as 8-bit RGB, or RGBA with `alpha`.
     """
     from PIL import Image
 
@@ -121,9 +178,36 @@ def decode_texture(info: TextureInfo, chunk: bytes, largest: int) -> np.ndarray:
                     f"{info.name}: mip {level} holds {info.sizes[level]} bytes, not {expected}"
                 )
             image = Image.frombytes("RGBA", (w, h), chunk[at : at + expected], "bcn", n)
-            return np.asarray(image.convert("RGB"))
+            return np.asarray(image.convert("RGBA" if alpha else "RGB"))
         at += info.sizes[level]
     raise UnsupportedFrostbite(f"{info.name}: no mip to decode")
+
+
+#: Colour maps whose fourth channel is opacity: `_cu` (leaves, grass, cut-out
+#: foliage) and `_ca` (colour and alpha). In `_cs`, by far the most common, it
+#: is smoothness. Across one level's chosen colour maps, the median `_cu` has
+#: 90% of its alpha within 0.1 of 0 or 1 and the median `_cs` 1%.
+CUTOUT_NAME = re.compile(r"_c[ua](_\d+)?$", re.I)
+#: Below this alpha a texel of a cut-out map is not drawn.
+ALPHA_CUTOFF = 0.5
+
+
+def is_cutout(name: str, rgba: np.ndarray) -> bool:
+    """
+    Whether a colour map's alpha cuts its surface out: named for it, and the
+    alpha mostly near 0 or 1, some of it below the cutoff and some above - an
+    opacity mask, not a gradient. One tree's leaf map carries no alpha at all
+    (none above 4 in 255, at every size): its fronds are cut by their geometry
+    and are drawn whole.
+    """
+    if not CUTOUT_NAME.search(name.rsplit("/", 1)[-1]) or rgba.ndim != 3 or rgba.shape[2] != 4:
+        return False
+    a = rgba[:, :, 3].astype(np.float32) / 255.0
+    return bool(
+        ((a < 0.1) | (a > 0.9)).mean() >= 0.75
+        and (a < ALPHA_CUTOFF).mean() >= 0.01
+        and (a >= ALPHA_CUTOFF).mean() >= 0.05
+    )
 
 
 def _words(name: str) -> set[str]:
@@ -147,6 +231,30 @@ class MaterialLinks:
     by_guid: dict[bytes, str] = field(default_factory=dict)
     usage: Counter = field(default_factory=Counter)
     headers: dict[str, TextureInfo] = field(default_factory=dict)
+    #: Section key -> its block's tint (see `block_tint`), where not neutral.
+    tints: dict[bytes, tuple[float, float, float]] = field(default_factory=dict)
+
+    def overlay(self, key: bytes) -> str | None:
+        """The `..._overlay_cs` a block names, if it names one and its mask (`..._overlay_a`)."""
+        names = self.blocks.get(key, ())
+        tails = {n.rsplit("/", 1)[-1].lower() for n in names}
+        for n in names:
+            tail = n.rsplit("/", 1)[-1].lower()
+            if (
+                tail.endswith("_overlay_cs")
+                and tail[: -len("_cs")] + "_a" in tails
+                and n in self.headers
+                and self.headers[n].kind == 0
+            ):
+                return n
+        return None
+
+    def palette(self, key: bytes) -> str | None:
+        """The palette a block names, if it names one."""
+        for n in self.blocks.get(key, ()):
+            if "palette" in n.rsplit("/", 1)[-1].lower() and n in self.headers and self.headers[n].kind == 0:
+                return n
+        return None
 
     def colour_map(self, mesh: str, material: str, key: bytes) -> str | None:
         names = self.blocks.get(key)
@@ -157,6 +265,7 @@ class MaterialLinks:
             if n in self.headers
             and self.headers[n].kind == 0
             and self.headers[n].format in COLOUR_FORMATS
+            and not _NEVER.search(n.rsplit("/", 1)[-1])
         ]
         if not candidates:
             return None
@@ -197,6 +306,7 @@ def link_materials(level) -> MaterialLinks:
             by_guid[partition_guid(level.read(level.ebx[entry.name].location))] = entry.name
 
     seen: dict[tuple[str, int], list[str]] = {}
+    tints: dict[tuple[str, int], tuple[float, float, float] | None] = {}
     for entry in level.res.values():
         if entry.res_type != SHADER_BLOCK_DEPOT:
             continue
@@ -221,5 +331,8 @@ def link_materials(level) -> MaterialLinks:
                 ]
                 seen[ident] = names
                 links.usage.update(set(names))
+                tints[ident] = block_tint(block)
             links.blocks.setdefault(key, seen[ident])
+            if tints[ident] is not None:
+                links.tints.setdefault(key, tints[ident])
     return links

@@ -60,6 +60,7 @@ After the kind comes, depending on the game:
 | `structure:barriers armco_metal` | BeamNG placed models of one material |
 | `ground:markings`, `water:water` | flat parts, one for the whole file |
 | `ground:terrain` (Battlefield 6) | the heightfield; `ground:terrain backdrop` the distant terrain meshes, `ground:terrain blend` meshes that blend into the terrain |
+| `nav:walkable` (Battlefield 6, `--navmesh`) | the level's navigation mesh for a soldier: where one can stand, flat green |
 | `ground:terrain x-634 z-552` (Battlefield 6, `--ground-texture`) | the heightfield under one baked decal tile, named by the tile's low corner in metres |
 | `structure:buildings t_concreteclean_01_cs` (Battlefield 6, `--textures`) | every surface of that kind showing that colour map; without `--textures`, one part per kind, no suffix |
 
@@ -124,22 +125,35 @@ from the triangles. AC Rally normals are always computed.
   `COLOR_0`. Where parts share vertices, the later part's colour wins, so flat
   parts are written in order of increasing importance.
 - **Images** are embedded in the binary chunk as **JPEG**, quality 90, no chroma
-  subsampling, RGB only (alpha is dropped). A 2048 px ground of grass and tree
+  subsampling, RGB only (alpha is dropped) - except a Battlefield 6 cut-out map
+  (leaves, fences), which is **PNG** with its alpha, on a material with
+  `alphaMode` MASK, `alphaCutoff` 0.5 and `doubleSided` (see
+  [Frostbite](reader-frostbite#textures-and-materials)). The 3DHeat viewer
+  discards texels below the cutoff. A 2048 px ground of grass and tree
   crowns is noise to a lossless coder: several megabytes a tile as PNG, under one
   as JPEG. An image shared by several parts is stored once.
 - One sampler for all textures: linear magnification, linear-mipmap-linear
-  minification, **clamp to edge** on both axes. Textures never repeat — except
-  in a Battlefield 6 export with `--textures`, whose materials tile: there the
-  sampler repeats and `TEXCOORD_0` is float32, unclamped
-  (`write_glb(..., repeat=True)`). That is why
-  BeamNG draws repeating model textures as flat colours (see
-  [BeamNG.drive](course-beamng#placed-models)).
+  minification, **clamp to edge** on both axes. Textures never repeat, because
+  the 3DHeat viewer packs a file's textures into one atlas and clamps every
+  coordinate to its own image; a repeating texture comes out smeared, stretched
+  along one axis, or reversed. That is why BeamNG draws repeating model
+  textures as flat colours (see [BeamNG.drive](course-beamng#placed-models)).
+  A Battlefield 6 export with `--textures`, whose materials tile, cuts each
+  triangle along the lines where its texture repeats and moves each piece into
+  0..1 instead: the same pixels on the same surface, about a fifth more
+  triangles. Triangles across which a texture repeats more than 16 times (3 in
+  10,000) keep their coordinates; for them the sampler repeats and
+  `TEXCOORD_0` is float32 (`write_glb(..., repeat=True)`). A triangle its
+  texture would cut into more than 4 pieces - bark repeating down every branch
+  of a tree, which cut turned one tree's 1,099 triangles into 51,735 - goes
+  into a part of its own, `<part> (average colour)`, in the texture's average
+  colour, as BeamNG's repeating model textures do; `level` says how many.
 
 | Texture | Size | Covers |
 |---|---|---|
 | ground (all games but Battlefield 6) | `--texture-size`: 2048, 1024 or 512 px | one 512 m square: 25, 50 or 100 cm a pixel |
 | Battlefield 6 heightfield | the backdrop colour map's largest mip in the level, cropped | the terrain square: 32 m a pixel in the level checked |
-| Battlefield 6 surfaces | `--textures`: at most that many px a side | the surface's own texture, **tiling** |
+| Battlefield 6 surfaces | `--textures`: at most that many px a side | the surface's own texture, once per piece (cut where it repeats) |
 | Battlefield 6 baked ground | `--ground-texture`: metres a pixel, tiles of at most 4,096 px | one tile of the decals' extent: 2,048 m at 0.5 m a pixel |
 | Forza placed model | at most 256 px | the model's own UV layout |
 | BeamNG placed model | at most 256 px | the model's own UV layout, only where it does not repeat |

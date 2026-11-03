@@ -380,30 +380,38 @@ python -m heat3d_gamefiles terrain "<game>\media\Tracks\<map>" --route route.jso
 python -m heat3d_gamefiles levels [--install FOLDER]
 python -m heat3d_gamefiles level <level> [-o FILE] [--install FOLDER] [--textures [PIXELS]]
                                  [--ground-texture [METRES]] [--ground-spacing METRES]
-                                 [--detail-budget N] [--skip TEXT ...]
+                                 [--navmesh] [--detail-budget N] [--skip TEXT ...] [--by-mesh]
 ```
 
 `levels` lists the levels an installed Frostbite game ships, by the name of
-their table (`levels/<level>/<level>.toc`, in the base game or an update).
+their table (`levels/<level>/<level>.toc`), with its size and where it comes
+from: `Data` for the base game, `Update/<pack>` for an update, and how many
+high-resolution tables add to it. A level an update ships has a small table of
+chunks only in the base game as well; the table with the level's bundles is the
+level (see [Frostbite](reader-frostbite#which-table-is-the-level)).
 `level` exports one: the terrain heightfield, every mesh the level's static
-model groups place, where they place it, and the level's terrain backdrop round
-the map. With `--textures`, every surface carries its colour map. How it is
-read is in [Frostbite](reader-frostbite).
+model groups place, the objects placed one by one, where they stand, and the
+level's terrain backdrop round the map. With `--textures`, every surface carries
+its colour map; with `--navmesh`, the surfaces soldiers walk on come too. How it
+is read is in [Frostbite](reader-frostbite).
 
 | Option | Default | Meaning |
 |---|---|---|
 | `<level>` | required | a name as `levels` prints it, a unique part of one, or the path of a level's `.toc` |
 | `-o`, `--out FILE` | `<level>.glb` | the `.glb` to write |
 | `--install FOLDER` | the first Steam game whose `Data` holds a `layout.toc` | the game's folder |
-| `--textures [PIXELS]` | off; 512 when given without a size | write each surface's colour map, the largest mip no bigger than PIXELS a side, and its texture coordinates, tiling. The heightfield gets the terrain backdrop's colour map at the largest size the level ships. Off, every part is a flat colour |
-| `--ground-texture [METRES]` | off; 0.5 when given without a size | bake the terrain decals — roads, runways, aprons, painted markings — over the backdrop colour into the heightfield's colour, METRES a pixel, in tiles of at most 4,096 pixels (`ground:terrain x<x> z<z>`). Works with or without `--textures` |
+| `--textures [PIXELS]` | off; 512 when given without a size | write each surface's colour map, the largest mip no bigger than PIXELS a side, and its texture coordinates. Where a texture repeats, the triangles are cut at each repeat so every coordinate lies within 0..1 (see [Output format](output-format)). The heightfield gets the terrain backdrop's colour map where that map covers it, else the middle colour of the terrain's surface materials, else the backdrop's average colour round it. Off, every part is a flat colour |
+| `--ground-texture [METRES]` | off; 0.5 when given without a size | bake the terrain decals — roads, runways, aprons, painted markings — over the ground colour, multiplied by the terrain's colormap where the level has one, into the heightfield's colour, METRES a pixel, in tiles of at most 4,096 pixels (`ground:terrain x<x> z<z>`). Works with or without `--textures` |
+| `--navmesh` | off | add the level's navigation mesh for its smallest agent, the soldier (1.8 m tall, 0.4 m wide), as the part `nav:walkable`: the ground, floors, stairs and the roofs a soldier can reach, without the links (jumps, ladders, vaults) between them |
 | `--ground-spacing METRES` | 4 | the heightfield's finest spacing; nodes finer than this are sampled down. 0 leaves the heightfield out |
 | `--detail-budget N` | every copy at its coarsest level, plus a quarter, at least 1,500,000 | a ceiling on triangles. The meshes costing most drop a level of detail at a time until it fits; if even the coarsest levels do not, the smallest copies are left out first. The terrain backdrop is never coarsened or left out |
 | `--skip TEXT` | | leave out static model groups whose partition name contains TEXT; repeat it for several. A game mode's layer, for instance |
+| `--by-mesh` | off | for finding what a part is: one part per source mesh and material, named `<part> \| <mesh> \| <material>`; a much larger file |
 
 It prints the groups and how many copies each placed, the meshes it left out and
 why, the triangles per part (and with `--textures` how many textures, and how
-many sections found their colour map), and what the ground is. Nothing is written about the level beyond the
+many sections found their colour map), what the ground is, and with
+`--navmesh` how many navigation tiles were read. Nothing is written about the level beyond the
 geometry: no names, no metadata (see [Output format](output-format)).
 
 The terrain budget is separate: the heightfield and the backdrop are never
@@ -418,9 +426,15 @@ A whole level is large. For the level checked:
 | `--textures 512 --ground-texture 0.5` | 13.5 million | 533 MB |
 | `--textures 256 --detail-budget 3000000 --ground-spacing 8` | 5.1 million | 175 MB |
 
+A second level, shipped by an update, with `--textures 512 --ground-texture 0.5
+--navmesh`: 12.4 million triangles, 235,000 of them walkable, 460 MB. A level
+thick with trees comes to 24 million and about 1 GB; `--detail-budget` brings
+it down.
+
 ```
 python -m heat3d_gamefiles levels
 python -m heat3d_gamefiles level <level> -o level.glb --textures --ground-texture
+python -m heat3d_gamefiles level <level> --textures 512 --ground-texture 0.5 --navmesh
 python -m heat3d_gamefiles level <level> --textures 256 --detail-budget 3000000 --ground-spacing 8
 ```
 

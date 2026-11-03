@@ -412,9 +412,10 @@ is 13.5 million triangles and 530 MB; `--detail-budget`, `--ground-spacing` and
 a smaller `--textures` make it smaller.
 
 `--ground-texture` bakes the terrain decals — roads, aprons, markings — into the
-ground's colour. Not implemented: the terrain's surface splatting (away from
-decals the ground is the backdrop's map, 32 m a pixel), objects placed one by one rather than
-grouped, normal maps and alpha. The colour map of a surface is chosen by name
+ground's colour, over its surface layers laid by their masks and the
+heightfield's slope (a rule of the exporter's own; the game's layer graph is
+not read). Not implemented: terrain holes, objects placed one by one rather
+than grouped, normal maps and alpha. The colour map of a surface is chosen by name
 from the textures its shader names. XOR-obfuscated tables are detected and
 declined. See [Frostbite](docs/reader-frostbite.md).
 

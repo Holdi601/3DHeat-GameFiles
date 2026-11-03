@@ -252,7 +252,7 @@ class LevelCatalogue:
     the same bytes.
     """
 
-    def __init__(self, toc: str | Path):
+    def __init__(self, toc: str | Path, supplements=()):
         self.toc = Path(toc)
         self.root = game_root(self.toc)
         data = self.toc.read_bytes()
@@ -260,6 +260,15 @@ class LevelCatalogue:
         self.chunks: dict[bytes, Location] = chunk_locations(
             data, info, read_sections(data, info, self.toc.name)
         )
+        # High-resolution packs ship further chunks of the level — a texture's
+        # largest mips — in tables of their own.
+        for extra in supplements:
+            more = Path(extra).read_bytes()
+            extra_info = read_header(more, Path(extra).name)
+            for guid, where in chunk_locations(
+                more, extra_info, read_sections(more, extra_info, Path(extra).name)
+            ).items():
+                self.chunks.setdefault(guid, where)
         self.ebx: dict[str, Entry] = {}
         self.res: dict[str, Entry] = {}
         self.bundle_count = 0
@@ -287,20 +296,68 @@ class LevelCatalogue:
         return [e for e in self.res.values() if e.res_type == res_type]
 
 
-def level_tables(root: str | Path) -> dict[str, Path]:
-    """
-    Every level the installation ships, by the name its table carries.
+@dataclass(frozen=True)
+class LevelTable:
+    """Where one level's tables are, across the installation's layers."""
 
-    A level's table sits in a folder of its own name under `levels`, in the base
-    game's `Data` or in an update's — `levels/<level>/<level>.toc`.
+    name: str
+    #: The table with the level's bundles.
+    toc: Path
+    #: `Data`, or `Update/<pack>`: which layer that table comes from.
+    source: str
+    #: Tables of the same level that carry chunks and no bundles: the
+    #: high-resolution packs' extra texture and mesh data.
+    supplements: tuple[Path, ...] = ()
+
+
+def _layer(root: Path, toc: Path) -> str:
+    parts = toc.relative_to(root).parts
+    return "Data" if parts[0] == "Data" else f"{parts[0]}/{parts[1]}"
+
+
+def _bundle_count(toc: Path) -> int:
+    try:
+        data = toc.read_bytes()
+        info = read_header(data, toc.name)
+        read_sections(data, info, toc.name)
+        return struct.unpack_from(">I", data, info.payload_offset + 8)[0]
+    except (UnsupportedFrostbite, OSError, struct.error):
+        return -1
+
+
+def level_sources(root: str | Path) -> dict[str, LevelTable]:
+    """
+    Every level the installation ships, by the name its table carries, with
+    the layer it comes from.
+
+    A level's table sits in a folder of its own name under `levels`
+    (`levels/<level>/<level>.toc`), in the base game's `Data` or in an
+    update's `Update/<pack>/Data`, and a level can have several: the update
+    that ships it, and high-resolution packs that add a table of chunks only.
+    The one with the level's bundles — the most of them, a later layer winning
+    a tie — is the level; tables without bundles are its supplements. Taking
+    the first found instead picks, for a level an update ships, a 64 KB table
+    of high-resolution chunks with no content of its own.
     """
     root = game_root(root)
-    found: dict[str, Path] = {}
     bases = [root / "Data"]
     if (root / "Update").is_dir():
         bases += sorted(p / "Data" for p in (root / "Update").iterdir() if (p / "Data").is_dir())
-    for base in bases:
+    candidates: dict[str, list[tuple[int, int, Path]]] = {}
+    for layer, base in enumerate(bases):
         for toc in sorted(base.glob("**/levels/**/*.toc")):
             if toc.parent.name.lower() == toc.stem.lower():
-                found.setdefault(toc.stem.lower(), toc)
+                candidates.setdefault(toc.stem.lower(), []).append((_bundle_count(toc), layer, toc))
+    found: dict[str, LevelTable] = {}
+    for name, items in candidates.items():
+        bundles, _layer_index, toc = max(items, key=lambda item: (item[0], item[1]))
+        if bundles <= 0:
+            continue
+        extra = tuple(p for b, _l, p in items if b == 0)
+        found[name] = LevelTable(name, toc, _layer(root, toc), extra)
     return found
+
+
+def level_tables(root: str | Path) -> dict[str, Path]:
+    """Every level's main table, by name; see `level_sources`."""
+    return {name: table.toc for name, table in level_sources(root).items()}

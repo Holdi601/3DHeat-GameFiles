@@ -72,6 +72,10 @@ class Part:
     #: An 8-bit sRGB image, (height, width, 3). The part's primitive is drawn
     #: with it through the file's UVs instead of through vertex colour.
     texture: np.ndarray | None = None
+    #: With a texture of four channels: its alpha cuts the surface out below
+    #: this value (glTF `alphaMode` MASK), and the surface is drawn from both
+    #: sides, as leaves on a card are.
+    alpha_cutoff: float | None = None
 
 
 def compute_normals(positions: np.ndarray, faces: np.ndarray) -> np.ndarray:
@@ -104,6 +108,15 @@ def _jpeg(image: np.ndarray) -> bytes:
     Image.fromarray(np.ascontiguousarray(image[:, :, :3], dtype=np.uint8)).save(
         out, format="JPEG", quality=JPEG_QUALITY, subsampling=0
     )
+    return out.getvalue()
+
+
+def _png(image: np.ndarray) -> bytes:
+    """RGBA as PNG: JPEG has no alpha, and a cut-out mask must stay sharp."""
+    from PIL import Image
+
+    out = io.BytesIO()
+    Image.fromarray(np.ascontiguousarray(image, dtype=np.uint8), "RGBA").save(out, format="PNG")
     return out.getvalue()
 
 
@@ -186,7 +199,10 @@ def write_glb(
             raise ValueError(f"{part.name} has a texture and the file has no UVs")
         if len(block):
             checked.append(
-                Part(name=part.name, faces=block, colour=part.colour, texture=part.texture)
+                Part(
+                    name=part.name, faces=block, colour=part.colour, texture=part.texture,
+                    alpha_cutoff=part.alpha_cutoff,
+                )
             )
     if not checked:
         raise ValueError("nothing to write: the mesh has no triangles")
@@ -275,8 +291,11 @@ def write_glb(
         if part.texture is not None:
             key = id(part.texture)
             if key not in image_of:
+                masked = part.alpha_cutoff is not None and part.texture.shape[2] == 4
                 images.append(
-                    {"bufferView": add_view(_jpeg(part.texture), None), "mimeType": "image/jpeg"}
+                    {"bufferView": add_view(_png(part.texture), None), "mimeType": "image/png"}
+                    if masked
+                    else {"bufferView": add_view(_jpeg(part.texture), None), "mimeType": "image/jpeg"}
                 )
                 textures.append({"source": len(images) - 1, "sampler": 0})
                 image_of[key] = len(textures) - 1
@@ -298,6 +317,10 @@ def write_glb(
                     "roughnessFactor": 1.0,
                 },
             }
+            if part.alpha_cutoff is not None and part.texture.shape[2] == 4:
+                material.update(
+                    alphaMode="MASK", alphaCutoff=float(part.alpha_cutoff), doubleSided=True
+                )
         else:
             if colours is not None:
                 attributes["COLOR_0"] = (

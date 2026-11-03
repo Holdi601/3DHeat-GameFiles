@@ -182,6 +182,9 @@ class TestPlacement:
         assert category("common/env/architecture/hangar_mesh", ["M_Wall"]) == "structure:buildings"
         assert category("level/generated/backdrop_mesh", ["M_TerrainBackdrop"]) == "ground:terrain backdrop"
         assert category("common/env/props/crate_mesh", ["M_Crate"]) == "structure:props"
+        # A backdrop tile with a plain terrain material, and terrain that is not backdrop.
+        assert category("lv/bd_x_terrainlv_04_far_mesh", ["M_X_TerrainLv_04_Far"]) == "ground:terrain backdrop"
+        assert category("lv/rock_blend_mesh", ["M_RockTerrainBlend"]) == "ground:terrain blend"
 
     def test_the_partition_prefix_comes_from_the_table_path(self):
         toc = Path("X:/Game/Data/Win32/game/a/levels/lv/lv.toc")
@@ -341,6 +344,30 @@ class TestMaterials:
         assert links.colour_map("x/ind_hut_01_mesh", "M_ConcreteWall_01", b"K" * 8) == "t_concreteclean_01_cs"
         assert links.colour_map("x/ind_hut_01_mesh", "M_Trim", b"K" * 8) == "t_ind_hut_01_trim_cs"
 
+    def test_a_decal_sheet_loses_to_the_surface_s_own_map(self):
+        from heat3d_gamefiles.frostbitematerial import MaterialLinks, TextureInfo
+
+        names = ["t_de_com_sign_01_ca", "t_com_sign_01_cs"]
+        links = MaterialLinks()
+        links.headers = {n: TextureInfo(n, 0, 67, 64, 64, 1, b"", (4096,)) for n in names}
+        links.blocks[b"S" * 8] = names
+        links.usage.update({"t_de_com_sign_01_ca": 1, "t_com_sign_01_cs": 5})
+        # Both match the material and the mesh; the sheet is used less, and
+        # used to win on that.
+        assert links.colour_map("x/com_sign_01_mesh", "M_Sign", b"S" * 8) == "t_com_sign_01_cs"
+
+    def test_distance_fields_and_palettes_are_never_the_colour(self):
+        from heat3d_gamefiles.frostbitematerial import MaterialLinks, TextureInfo
+
+        names = ["t_bd_vegetationtown_atlas_a_sdf", "bd_seu_buildingstown_palette", "t_com_oak_01_leaves_cu"]
+        links = MaterialLinks()
+        links.headers = {n: TextureInfo(n, 0, 67, 64, 64, 1, b"", (4096,)) for n in names}
+        links.blocks[b"V" * 8] = names
+        links.blocks[b"P" * 8] = names[1:2]
+        # The atlas and the palette share the material's words; the leaves do not.
+        assert links.colour_map("x/vegetationtown_mesh", "M_VegetationTown", b"V" * 8) == "t_com_oak_01_leaves_cu"
+        assert links.colour_map("x/buildingstown_mesh", "M_BuildingsTown", b"P" * 8) is None
+
     def test_a_block_with_only_shared_detail_maps_stays_flat(self):
         links = self.links()
         assert links.colour_map("x/ind_hut_01_mesh", "M_Glass", b"D" * 8) is None
@@ -449,7 +476,8 @@ def _decal_res(guid: bytes) -> bytes:
     vertices["v"] = [0, 0, 8, 0, 0, 1]
     vertices["rgba"] = 1.0
     vertices["u"][:3], vertices["v"][:3] = vertices["x"][:3], vertices["z"][:3]
-    return bytes(head) + records + vertices.tobytes() + b"\x00" * 32
+    # One u32 index per vertex, then sixteen bytes, end the res.
+    return bytes(head) + records + vertices.tobytes() + bytes(4 * len(vertices) + 16)
 
 
 class TestDecals:
@@ -504,3 +532,537 @@ def test_shipped_terrain_decals_are_read(catalogue):
     p = np.stack([v["x"], v["z"]], 1).reshape(-1, 3, 2)
     edge = np.linalg.norm(p - np.roll(p, 1, axis=1), axis=2).max(axis=1)
     assert np.median(edge) < 50
+
+
+class TestLevelLayers:
+    """Which table is a level, when the base game and its updates each ship one."""
+
+    @staticmethod
+    def table(root: Path, base: str, name: str, bundles: int) -> Path:
+        path = root / base / "Win32" / "game" / "levels" / name / f"{name}.toc"
+        path.parent.mkdir(parents=True, exist_ok=True)
+        blobs = [fx.bundle_blob([(1, 1, 0, 4)])] * bundles
+        path.write_bytes(fx.level_table([(b"G" * 16, fx.location(1, 1, 0, 4))], blobs))
+        return path
+
+    @staticmethod
+    def install(tmp_path: Path) -> Path:
+        (tmp_path / "Data").mkdir()
+        (tmp_path / "Data" / "layout.toc").write_bytes(b"")
+        return tmp_path
+
+    def test_an_update_s_complete_table_wins_over_a_stub_in_data(self, tmp_path):
+        from heat3d_gamefiles.frostbitebundle import level_sources
+
+        root = self.install(tmp_path)
+        stub = self.table(root, "Data", "lv_a", 0)
+        real = self.table(root, "Update/Pack/Data", "lv_a", 2)
+        extra = self.table(root, "Update/Hres/Data/Win32/installation/detail/pkg", "lv_a", 0)
+
+        (table,) = level_sources(root).values()
+
+        assert table.toc == real and table.source == "Update/Pack"
+        assert set(table.supplements) == {stub, extra}
+
+    def test_a_level_only_in_data_comes_from_data(self, tmp_path):
+        from heat3d_gamefiles.frostbitebundle import level_sources
+
+        root = self.install(tmp_path)
+        own = self.table(root, "Data", "lv_b", 1)
+        self.table(root, "Update/Hres/Data", "lv_c", 0)  # chunks only: not a level
+
+        found = level_sources(root)
+
+        assert set(found) == {"lv_b"}
+        assert found["lv_b"].toc == own and found["lv_b"].source == "Data"
+
+    def test_of_two_complete_tables_the_later_layer_wins(self, tmp_path):
+        from heat3d_gamefiles.frostbitebundle import level_sources
+
+        root = self.install(tmp_path)
+        self.table(root, "Data", "lv_d", 1)
+        newer = self.table(root, "Update/Patch/Data", "lv_d", 1)
+
+        assert level_sources(root)["lv_d"].toc == newer
+
+
+def _nav_tile(points, polygons, box=((0, 0, 0), (16, 10, 16)), detail=None) -> bytes:
+    """
+    A navigation tile: `polygons` are (vertex indices, kind); `detail`, if
+    given, is (detail vertices, [(first vertex, first triangle, vertex count,
+    triangle count) per polygon], triangles of three indices).
+    """
+    from heat3d_gamefiles.frostbitenav import MAGIC, POLYGON, VERTICES
+
+    extra, meshes, triangles = detail if detail else ([], [], [])
+    head = bytearray(VERTICES)
+    head[:4] = MAGIC
+    struct.pack_into("<I", head, 4, 7)
+    struct.pack_into(
+        "<9I", head, 24, len(polygons), len(points), 0, len(meshes), len(extra), len(triangles), 0, 0, len(meshes)
+    )
+    struct.pack_into("<3f", head, 188, 1.8, 0.18, 0.4)
+    struct.pack_into("<6f", head, 200, *box[0], *box[1])
+    body = bytes(head) + np.asarray(points, dtype="<f4").tobytes()
+    body += bytes(-len(body) % 8)
+    for indices, kind in polygons:
+        record = bytearray(POLYGON)
+        struct.pack_into("<6H", record, 4, *(list(indices) + [0xFFFF] * 6)[:6])
+        record[30] = len(indices)
+        record[31] = (kind << 6) | 63
+        body += bytes(record)
+    for mesh in meshes:
+        body += struct.pack("<IIBB2x", *mesh)
+    body += np.asarray(extra, dtype="<f4").tobytes()
+    for tri in triangles:
+        body += bytes(list(tri) + [0])
+    return body
+
+
+class TestNavigation:
+    points = [(1, 0, 1), (9, 0, 1), (9, 0, 9), (1, 0, 9), (4, 1, 4), (300, 120, -500), (0, 0, 0)]
+
+    def test_surfaces_are_read_and_links_left_out(self):
+        from heat3d_gamefiles.frostbitenav import read_tile
+
+        blob = _nav_tile(self.points, [((0, 1, 2, 3), 0), ((0, 4, 1), 2), ((5, 6, 2, 3), 1)])
+
+        agent, vertices, polygons = read_tile(blob)
+
+        assert np.allclose(agent, (1.8, 0.18, 0.4))
+        assert np.allclose(vertices[:5], self.points[:5])
+        # The link reaches 500 m out of its 16 m tile and is no surface; with
+        # no detail meshes, the polygons are fanned.
+        assert polygons == [(0, 1, 2), (0, 2, 3), (0, 4, 1)]
+
+    def test_a_polygon_s_detail_mesh_gives_its_surface(self):
+        from heat3d_gamefiles.frostbitenav import read_tile
+
+        # A flat square whose detail mesh raises its middle by a metre: four
+        # triangles round one detail vertex, index 4 (after the 4 corners).
+        detail = ([(5, 1, 5)], [(0, 0, 1, 4)], [(0, 1, 4), (1, 2, 4), (2, 3, 4), (3, 0, 4)])
+        blob = _nav_tile(self.points[:4], [((0, 1, 2, 3), 0)], detail=detail)
+
+        _agent, vertices, triangles = read_tile(blob)
+
+        assert triangles == [(0, 1, 4), (1, 2, 4), (2, 3, 4), (3, 0, 4)]
+        assert np.allclose(vertices[4], (5, 1, 5))
+
+    def test_a_surface_outside_its_tile_is_refused(self):
+        from heat3d_gamefiles.frostbitenav import read_tile
+
+        with pytest.raises(UnsupportedFrostbite, match="outside"):
+            read_tile(_nav_tile(self.points, [((0, 5, 2), 0)]))
+
+    def test_an_index_past_the_vertices_is_refused(self):
+        from heat3d_gamefiles.frostbitenav import read_tile
+
+        with pytest.raises(UnsupportedFrostbite, match="vertex"):
+            read_tile(_nav_tile(self.points, [((0, 1, 9), 0)]))
+
+
+class TestUntile:
+    """Repeating textures cut into pieces that each sit inside 0..1."""
+
+    @staticmethod
+    def signed_area(points, faces):
+        t = points[faces].astype(np.float64)
+        return (np.cross(t[:, 1] - t[:, 0], t[:, 2] - t[:, 0])[:, 2] / 2).sum()
+
+    def test_every_piece_shows_the_same_pixels_inside_0_to_1(self):
+        from heat3d_gamefiles.frostbitelevel import untile
+
+        # Texture coordinates equal to x and y: however a triangle is cut, a
+        # point's coordinates must stay its position less whole repeats.
+        rng = np.random.default_rng(3)
+        uv = (rng.random((40, 2)) * 7 - 3).astype(np.float32)
+        points = np.column_stack([uv, np.zeros(len(uv))]).astype(np.float32)
+        faces = rng.integers(0, len(uv), (60, 3))
+        faces = faces[np.ptp(faces, axis=1) > 0]
+
+        out_points, out_faces, out_uv = untile(points, faces, uv)
+
+        assert len(out_faces) > len(faces)
+        assert out_uv.min() >= 0 and out_uv.max() <= 1
+        offset = out_uv - out_points[:, :2]
+        assert np.allclose(offset, np.round(offset), atol=1e-4)
+        # Flat, so the signed areas add up only if every piece is wound as
+        # its triangle was.
+        assert np.isclose(self.signed_area(out_points, out_faces), self.signed_area(points, faces), rtol=1e-5)
+
+    def test_triangles_inside_keep_their_shared_vertices(self):
+        from heat3d_gamefiles.frostbitelevel import untile
+
+        points = np.array([[0, 0, 0], [1, 0, 0], [1, 1, 0], [0, 1, 0]], dtype=np.float32)
+        uv = np.array([[0, 0], [1, 0], [1, 1], [0, 1]], dtype=np.float32)
+        faces = np.array([[0, 1, 2], [0, 2, 3]])
+
+        out = untile(points, faces, uv)
+
+        assert out[0] is points and out[1] is faces and out[2] is uv
+
+    def test_a_texture_repeating_too_often_is_left_as_it_is(self):
+        from heat3d_gamefiles.frostbitelevel import untile
+
+        points = np.array([[0, 0, 0], [1, 0, 0], [0, 1, 0]], dtype=np.float32)
+        uv = np.array([[0, 0], [40, 0], [0, 1]], dtype=np.float32)
+
+        _points, out_faces, out_uv = untile(points, np.array([[0, 1, 2]]), uv)
+
+        assert len(out_faces) == 1 and np.allclose(out_uv, uv)
+
+
+def test_a_level_without_backdrop_takes_its_surfaces_middle_colour(monkeypatch):
+    from types import SimpleNamespace
+
+    from heat3d_gamefiles import frostbitelevel
+    from heat3d_gamefiles.frostbitematerial import SHADER_BLOCK_DEPOT, MaterialLinks
+
+    shades = {"t_sand_cv": 200, "t_gravel_cv": 150, "t_soil_cv": 100, "t_ter_defaulttexture_cv": 255, "t_sand_nhs": 0}
+    links = MaterialLinks()
+    links.by_guid = {bytes([i]) * 16: name for i, name in enumerate(shades, 1)}
+    links.headers = {name: None for name in shades}
+    depot = SimpleNamespace(res_type=SHADER_BLOCK_DEPOT, name="x/terrain.layergraphs_shaderblockdepot", location=0)
+    other = SimpleNamespace(res_type=SHADER_BLOCK_DEPOT, name="x/sub_world_shaderblockdepot", location=1)
+    blobs = [b"\0" * 7 + b"".join(links.by_guid) + b"\0" * 5, b"\x01" * 16]
+    level = SimpleNamespace(res={"a": depot, "b": other}, read=lambda at: blobs[at])
+    monkeypatch.setattr(
+        frostbitelevel, "_image", lambda _level, _links, name, _largest: np.full((4, 4, 3), shades[name], np.uint8)
+    )
+
+    colour = frostbitelevel._surface_colour(level, links)
+
+    # The median of sand, gravel and soil; the default surface and the
+    # non-colour map are left out.
+    assert np.allclose(colour, 150 / 255)
+
+
+def test_only_a_named_mask_of_alpha_cuts_a_surface_out():
+    from heat3d_gamefiles.frostbitematerial import is_cutout
+
+    leaves = np.full((8, 8, 4), 255, np.uint8)
+    leaves[:4, :, 3] = 0  # half the card is empty
+    smooth = leaves.copy()
+    smooth[:, :, 3] = np.linspace(20, 230, 64).reshape(8, 8)  # a gradient: smoothness
+
+    assert is_cutout("x/t_tree_01_leaves_cu", leaves)
+    assert is_cutout("x/t_seaweed_01_ca_1", leaves)
+    assert not is_cutout("x/t_tree_01_bark_cs", leaves)  # in `_cs` alpha is smoothness
+    assert not is_cutout("x/t_tree_01_leaves_cu", smooth)
+    assert not is_cutout("x/t_tree_01_leaves_cu", np.full((8, 8, 4), 255, np.uint8))  # nothing cut
+    empty = leaves.copy()
+    empty[:, :, 3] = 0  # no alpha at all: fronds cut by geometry, drawn whole
+    assert not is_cutout("x/t_tree_02_leaves_cu", empty)
+
+
+def test_a_cut_out_texture_is_a_masked_two_sided_png(tmp_path):
+    import io
+    import json
+
+    from PIL import Image
+
+    from heat3d_gamefiles.glb import Part, write_glb
+
+    positions = np.array([[0, 0, 0], [1, 0, 0], [0, 1, 0], [5, 0, 0], [6, 0, 0], [5, 1, 0]], dtype=np.float32)
+    leaves = np.zeros((4, 4, 4), dtype=np.uint8)
+    leaves[:, :2] = (40, 120, 40, 255)
+    wall = np.full((4, 4, 3), 180, dtype=np.uint8)
+    out = write_glb(
+        tmp_path / "t.glb", positions,
+        parts=[
+            Part("structure:trees leaves", np.array([[0, 1, 2]]), texture=leaves, alpha_cutoff=0.5),
+            Part("structure:buildings wall", np.array([[3, 4, 5]]), texture=wall),
+        ],
+        uvs=np.zeros((6, 2), dtype=np.float32),
+    )
+    raw = out.read_bytes()
+    (length,) = struct.unpack_from("<I", raw, 12)
+    doc = json.loads(raw[20 : 20 + length])
+    masked, opaque = doc["materials"]
+
+    assert masked["alphaMode"] == "MASK" and masked["alphaCutoff"] == 0.5 and masked["doubleSided"]
+    assert "alphaMode" not in opaque and "doubleSided" not in opaque
+    assert [i["mimeType"] for i in doc["images"]] == ["image/png", "image/jpeg"]
+    view = doc["bufferViews"][doc["images"][0]["bufferView"]]
+    binary = raw[20 + length + 8 :]
+    png = Image.open(io.BytesIO(binary[view["byteOffset"] : view["byteOffset"] + view["byteLength"]]))
+    assert png.mode == "RGBA" and np.asarray(png)[0, 3, 3] == 0
+
+
+def test_a_texture_too_dense_to_cut_is_drawn_in_its_average_colour(tmp_path):
+    import json
+
+    from heat3d_gamefiles.frostbitelevel import LevelModel, Piece, write_level
+
+    model = LevelModel()
+    bark = Piece(texture="t_bark_cs")
+    # A long thin branch whose bark repeats twelve times along it.
+    bark.add(
+        np.array([[0, 0, 0], [0.1, 0, 0], [0, 5, 0]], dtype=np.float32), np.array([[0, 1, 2]]),
+        np.array([[0, 0], [1, 0], [0, 12]], dtype=np.float32),
+    )
+    wall = Piece(texture="t_wall_cs")
+    wall.add(
+        np.array([[5, 0, 0], [6, 0, 0], [5, 1, 0]], dtype=np.float32), np.array([[0, 1, 2]]),
+        np.array([[0, 0], [1, 0], [0, 1]], dtype=np.float32),
+    )
+    model.parts = {"structure:trees t_bark_cs": bark, "structure:buildings t_wall_cs": wall}
+    model.images = {
+        "t_bark_cs": np.full((4, 4, 3), (100, 60, 20), np.uint8),
+        "t_wall_cs": np.full((4, 4, 3), 200, np.uint8),
+    }
+
+    out = write_level(model, tmp_path / "t.glb")
+
+    raw = out.read_bytes()
+    (length,) = struct.unpack_from("<I", raw, 12)
+    doc = json.loads(raw[20 : 20 + length])
+    by_name = {m["name"]: m["pbrMetallicRoughness"] for m in doc["materials"]}
+    assert model.flattened == 1
+    assert "baseColorTexture" in by_name["structure:buildings t_wall_cs"]
+    # The branch has a part of its own, in the bark's average colour, and is not
+    # cut into twelve or more; the textured part it came from is left empty.
+    assert "baseColorTexture" not in by_name["structure:trees t_bark_cs (average colour)"]
+    assert "structure:trees t_bark_cs" not in by_name
+    assert sum(doc["accessors"][p["indices"]]["count"] for m in doc["meshes"] for p in m["primitives"]) == 6
+
+
+def _bc7_solid(rgb) -> bytes:
+    """One BC7 block (mode 6) of a single opaque colour."""
+    bits, at = 1 << 6, 7  # mode 6
+    for channel in (*rgb, 255):
+        for _endpoint in range(2):
+            bits |= (channel >> 1) << at
+            at += 7
+    for channel in (rgb[0] & 1, rgb[0] & 1):  # p-bits: the low bit
+        bits |= channel << at
+        at += 1
+    return bits.to_bytes(16, "little")  # indices all 0: endpoint 0
+
+
+def test_the_colormap_pages_lie_on_their_quadrants():
+    from types import SimpleNamespace
+
+    from heat3d_gamefiles.frostbiteterrain import COLOUR_QUADRANTS, MASK_PAGE, TerrainTree, read_colormap
+
+    colours = [(200, 40, 40), (40, 200, 40), (40, 40, 200), (200, 200, 40)]
+    pages = b"".join(_bc7_solid(c) * (33 * 33) for c in colours)
+    node = SimpleNamespace(depth=1, ix=1, iz=0, second=b"C" * 16)
+    tree = TerrainTree(265, 1280.0, (0.0, 0.0, 512.0, 512.0), [node])
+    chunks = {b"C" * 16: bytes(MASK_PAGE) + pages}  # one mask page before the colormap
+
+    cm = read_colormap(tree, chunks.__getitem__, chunks.__contains__)
+
+    assert cm.metres == 1.0 and cm.origin == (256.0, 0.0)
+    for colour, (qx, qz) in zip(colours, COLOUR_QUADRANTS):
+        x, z = 256 + 64 + 128 * qx, 64 + 128 * qz
+        got = cm.sample(np.array([x], float), np.array([z], float))[0] * 255
+        assert np.allclose(got, colour, atol=2), (colour, got)
+    assert np.isnan(cm.sample(np.array([10.0]), np.array([10.0]))).all()  # outside the node
+
+
+def test_the_colormap_follows_the_mask_pages_the_mask_tree_counts():
+    import struct
+    from types import SimpleNamespace
+
+    from heat3d_gamefiles.frostbiteterrain import MASK_HEADER, MASKS, TerrainTree, read_colormap
+
+    # One uncompressed mask page (the group of quadrant (1, 0) has one), the
+    # colormap, then four pages of another raster in a flat colour.
+    record = struct.pack("<HH4f", 3, 0, 256.0, 0.0, 384.0, 128.0) + bytes([1, 0]) + bytes(11)
+    group = struct.pack("<HHI", 0, 1, 1) + record + bytes(1)
+    body = struct.pack("<I", 66) + bytes(MASK_HEADER - 4) + group
+    node = SimpleNamespace(depth=0, ix=0, iz=0, second=b"C" * 16)
+    tree = TerrainTree(265, 1280.0, (0.0, 0.0, 512.0, 512.0), [node], rasters={MASKS: body})
+    colormap = _bc7_solid((200, 120, 40)) * (33 * 33) * 4
+    other = _bc7_solid((0, 190, 190)) * (33 * 33) * 4
+    chunks = {b"C" * 16: bytes(66 * 66) + colormap + other}
+
+    cm = read_colormap(tree, chunks.__getitem__, chunks.__contains__)
+
+    got = cm.sample(np.array([100.0, 400.0]), np.array([100.0, 400.0])) * 255
+    assert np.allclose(got, (200, 120, 40), atol=2), got
+
+
+def test_a_chunk_of_many_colormaps_lengths_is_another_layout():
+    from types import SimpleNamespace
+
+    from heat3d_gamefiles.frostbiteterrain import COLOUR_PAGES, TerrainTree, read_colormap
+
+    node = SimpleNamespace(depth=0, ix=0, iz=0, second=b"C" * 16)
+    tree = TerrainTree(265, 1280.0, (0.0, 0.0, 512.0, 512.0), [node])
+    chunks = {b"C" * 16: bytes(10 * COLOUR_PAGES)}
+
+    assert read_colormap(tree, chunks.__getitem__, chunks.__contains__) is None
+
+
+@pytest.mark.parametrize("tile", [66, 72])
+def test_mask_pages_land_on_their_quadrants(tile):
+    import struct
+    from types import SimpleNamespace
+
+    from heat3d_gamefiles.frostbiteterrain import MASK_HEADER, MASKS, TerrainTree, read_masks
+
+    border = (tile - 64) // 2
+
+    def page(low, high):
+        # Rows along z: the core's lower half `low`, its upper half `high`; the border 1.
+        image = np.ones((tile, tile), np.uint8)
+        image[border : border + 32, border : border + 64] = low
+        image[border + 32 : border + 64, border : border + 64] = high
+        if tile == 66:
+            return image.tobytes()
+        # BC4, one solid block per 4 x 4 texels.
+        return b"".join(
+            bytes([image[by * 4, bx * 4]] * 2) + bytes(6) for by in range(18) for bx in range(18)
+        )
+
+    def record(layer, box, full=False, deeper=False):
+        return struct.pack("<HH4f", layer, 0, *box) + bytes([0 if deeper else 1, 1 if full else 0]) + bytes(11)
+
+    def group(records, pages):
+        return struct.pack("<HHI", 0, len(records), pages) + b"".join(records) + bytes(1)
+
+    q = lambda x, z, side=256.0, at=(0.0, 0.0): (at[0] + x * side, at[1] + z * side, at[0] + (x + 1) * side, at[1] + (z + 1) * side)
+    # The root: layer 5 paged in (0, 0) and (1, 1), full in (1, 0), absent in
+    # (0, 1); layer 6 paged in (0, 1) only. Layer 5 goes on in (1, 1)'s group.
+    root = group(
+        [record(5, q(0, 0)), record(5, q(1, 0), full=True), record(5, q(1, 1), deeper=True), record(6, q(0, 1))], 3
+    )
+    child = group([record(5, q(0, 0, 128.0, (256.0, 256.0)))], 1)
+    empty = struct.pack("<HHH", 1, 0, 0) + bytes(1)  # a group without records: 7 bytes
+    body = struct.pack("<I", tile) + bytes(MASK_HEADER - 4) + root + empty + child
+    node = SimpleNamespace(depth=0, ix=0, iz=0, chunk=b"N" * 16, flags=0, second=b"S" * 16)
+    tree = TerrainTree(265, 1280.0, (0.0, 0.0, 512.0, 512.0), [node], rasters={MASKS: body})
+    chunks = {b"N" * 16: page(40, 50) + page(80, 80) + page(120, 120), b"S" * 16: page(200, 200)}
+
+    masks = read_masks(tree, chunks.__getitem__, chunks.__contains__)
+    five = masks.raster(5, (0.0, 0.0), 8.0, (64, 64)) * 255
+    six = masks.raster(6, (0.0, 0.0), 8.0, (64, 64)) * 255
+
+    at = lambda image, x, z: round(float(image[int(z // 8), int(x // 8)]))
+    assert (at(five, 100, 60), at(five, 100, 200)) == (40, 50)  # rows along z, border cut
+    assert at(five, 300, 100) == 255  # full
+    assert at(five, 100, 300) == 0  # named by the group, absent in the quadrant
+    # The child group replaces its node: its one quadrant paged, the others empty.
+    assert at(five, 300, 300) == 200 and at(five, 450, 450) == 0
+    assert at(six, 100, 300) == 120 and at(six, 300, 100) == 0
+
+
+def test_mask_pages_whose_borders_disagree_are_refused():
+    import struct
+    from types import SimpleNamespace
+
+    from heat3d_gamefiles.frostbite import UnsupportedFrostbite
+    from heat3d_gamefiles.frostbiteterrain import MASK_HEADER, MASKS, TerrainTree, read_masks
+
+    # Two pages of one layer side by side along x, a ramp across both: the
+    # left page's right border holds the right page's first core columns.
+    ramp = np.arange(130, dtype=np.uint8)  # texel x of the two cores and their borders
+    left = np.tile(ramp[0:66], (66, 1))
+    right = np.tile(ramp[64:130], (66, 1))
+
+    def record(box):
+        return struct.pack("<HH4f", 2, 0, *box) + bytes([1, 0]) + bytes(11)
+
+    group = struct.pack("<HHI", 0, 2, 2) + record((0.0, 0.0, 256.0, 256.0)) + record((256.0, 0.0, 512.0, 256.0)) + bytes(1)
+    body = struct.pack("<I", 66) + bytes(MASK_HEADER - 4) + group
+    node = SimpleNamespace(depth=0, ix=0, iz=0, chunk=b"N" * 16, flags=0, second=None)
+    tree = TerrainTree(265, 1280.0, (0.0, 0.0, 512.0, 512.0), [node], rasters={MASKS: body})
+
+    chunks = {b"N" * 16: left.tobytes() + right.tobytes()}
+    assert read_masks(tree, chunks.__getitem__, chunks.__contains__) is not None
+
+    chunks = {b"N" * 16: right.tobytes() + left.tobytes()}  # the pages swapped
+    with pytest.raises(UnsupportedFrostbite, match="0 of 1 borders agree"):
+        read_masks(tree, chunks.__getitem__, chunks.__contains__)
+
+
+def _float3(family: bytes, value) -> bytes:
+    """One float3 parameter of a shader block: tag, flags, name hash, count, value, id."""
+    return bytes.fromhex("f11af8250180") + family + struct.pack("<I3f", 1, *value) + bytes(8)
+
+
+def test_a_block_s_tint_is_each_family_s_first_value_that_is_not_neutral():
+    from heat3d_gamefiles.frostbitematerial import block_tint
+
+    # The first of a family is neutral (0.5 where 0.5 leaves the map as it is),
+    # the second blue; another family halves the brightness.
+    block = (
+        bytes(40)
+        + _float3(bytes.fromhex("8a88"), (0.5, 0.5, 0.5))
+        + _float3(bytes.fromhex("8a88"), (0.0, 0.5, 0.002))  # a channel selector, not a paint
+        + _float3(bytes.fromhex("8a88"), (0.05, 0.1, 0.2))
+        + _float3(bytes.fromhex("8a88"), (0.2, 0.2, 0.2))
+        + _float3(bytes.fromhex("4141"), (0.5, 0.5, 0.5))
+        + _float3(bytes.fromhex("1234"), (0.0, 1.0, 0.0))  # not a tint
+    )
+    assert np.allclose(block_tint(block), (0.05, 0.1, 0.2))
+    assert block_tint(bytes(40) + _float3(bytes.fromhex("8a88"), (0.5, 0.5, 0.5))) is None
+
+
+def test_a_grey_map_takes_its_tint_and_a_coloured_one_keeps_its_colour():
+    from types import SimpleNamespace
+
+    from heat3d_gamefiles.frostbitelevel import _tinted
+
+    model = SimpleNamespace(images={"grey": np.full((4, 4, 3), 200, np.uint8), "red": np.zeros((4, 4, 3), np.uint8)})
+    model.images["red"][..., 0] = 200
+    name = _tinted(model, "grey", (1.0, 0.5, 0.25))
+    assert name != "grey" and model.images[name][0, 0, 0] == 200 > model.images[name][0, 0, 1] > model.images[name][0, 0, 2]
+    assert _tinted(model, "red", (1.0, 0.5, 0.25)) == "red"
+    assert _tinted(model, "grey", None) == "grey"
+
+
+def test_a_palette_vertex_draws_its_swatch_s_centre():
+    from heat3d_gamefiles.frostbitelevel import _palette_uvs
+
+    palette = np.array([[0, 0, 0, 255], [153, 32, 0, 255], [255, 255, 219, 64]], np.float32)
+    assert np.allclose(_palette_uvs(palette), [[1 / 32, 1 / 32], [9.5 / 16, 2.5 / 16], [15.5 / 16, 15.5 / 16]])
+
+
+def test_blockout_cinematic_lighting_and_channel_mask_names_are_left_out():
+    from heat3d_gamefiles.frostbitedecals import MASK_PAINT
+    from heat3d_gamefiles.frostbitelevel import BLOCKOUT, CINEMATIC, LIGHTING
+    from heat3d_gamefiles.frostbitematerial import MaterialLinks, TextureInfo
+
+    assert BLOCKOUT.search("M_Whitebox") and not BLOCKOUT.search("M_WhiteBrick")
+    assert CINEMATIC.search("common/hardware/vehicles/heli/art/cinematics/ob_heli_cin_mesh")
+    assert LIGHTING.search("common/lighting/meshes/plane_light_blocker_01_mesh")
+    paint = next(k for pattern, _c, k in MASK_PAINT if pattern.search("t_road_variationmask_01_rgb"))
+    assert paint == 0.0  # a variation mask is not drawn
+    stain = next((c, k) for pattern, c, k in MASK_PAINT if pattern.search("t_town_stains_01_a_rgb"))
+    assert stain[1] < 1 and max(stain[0]) < 0.5  # a stain darkens
+    names = ["t_com_glassdebris_01_rgb", "t_com_glass_01_cs"]
+    links = MaterialLinks()
+    links.headers = {n: TextureInfo(n, 0, 67, 64, 64, 1, b"", (4096,)) for n in names}
+    links.blocks[b"G" * 8] = names
+    assert links.colour_map("x/glassdebris_01_mesh", "M_GlassDebris", b"G" * 8) == "t_com_glass_01_cs"
+    names = ["t_town_stairs_01_b_rgba", "t_com_detail_01_cs"]
+    links.headers.update({n: TextureInfo(n, 0, 67, 64, 64, 1, b"", (4096,)) for n in names})
+    links.blocks[b"S" * 8] = names
+    assert links.colour_map("x/town_stairs_01_mesh", "M_Stairs", b"S" * 8) == "t_town_stairs_01_b_rgba"  # colour and alpha
+
+
+def test_a_coarse_slope_grid_is_spread_back_bilinearly():
+    from heat3d_gamefiles.frostbitelevel import _upsample
+
+    coarse = np.array([[0.0, 8.0], [16.0, 24.0]], np.float32)
+    fine = _upsample(coarse, 8, 16, 16)
+    assert fine.shape == (16, 16)
+    assert fine[0, 0] == 0 and fine[0, 4] == 4 and fine[4, 0] == 8 and fine[8, 8] == 24
+    assert len(np.unique(fine)) > 4  # a ramp, not four blocks
+
+
+def test_an_object_s_overlay_is_drawn_through_its_unwrap():
+    from heat3d_gamefiles.frostbitelevel import _unwrapped
+    from heat3d_gamefiles.frostbitematerial import MaterialLinks, TextureInfo
+
+    names = ["t_tank_02_trim_cs", "t_tank_02_overlay_cs", "t_tank_02_overlay_a"]
+    links = MaterialLinks()
+    links.headers = {n: TextureInfo(n, 0, 67, 64, 64, 1, b"", (4096,)) for n in names}
+    links.blocks[b"T" * 8] = names
+    links.blocks[b"N" * 8] = names[:2]  # an overlay without its mask is not taken
+    assert links.overlay(b"T" * 8) == "t_tank_02_overlay_cs"
+    assert links.overlay(b"N" * 8) is None
+    assert _unwrapped(np.array([[0.0, 0.0], [0.92, 1.0]])) and not _unwrapped(np.array([[-8.0, 0.0], [9.0, 4.0]]))

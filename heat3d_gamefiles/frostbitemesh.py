@@ -96,6 +96,11 @@ _PREFIX = 16
 _TRIANGLE_LIST = 3
 _USAGE_POSITION = 1
 _USAGE_TEXCOORD0 = 0x21
+_USAGE_TEXCOORD1 = 0x22
+#: Four unsigned bytes a vertex. In the backdrops' palette materials the first
+#: two are where in the palette the vertex's colour is, x and y out of 255.
+_USAGE_PALETTE = 0x1E
+_UBYTE4 = 13
 
 
 @dataclass
@@ -231,6 +236,10 @@ class SectionGeometry:
     #: The first texture coordinate set, (N, 2), or None if the section has
     #: none. Not wrapped into 0..1: Frostbite materials tile.
     uvs: np.ndarray | None
+    #: The four-byte element `_USAGE_PALETTE`, (N, 4) uint8, if the section has it.
+    palette: np.ndarray | None = None
+    #: The second texture coordinate set, (N, 2), if the section has one.
+    uvs2: np.ndarray | None = None
 
 
 def _element(buffers: bytes, section: Section, element, formats, name: str) -> np.ndarray:
@@ -298,7 +307,13 @@ def decode_sections(lod: Lod, buffers: bytes, name: str = "mesh") -> list[Sectio
             uvs = _element(buffers, section, uv[0], UV_FORMATS, name)[:, :2]
             if not np.isfinite(uvs).all():
                 uvs = None
-        out.append(SectionGeometry(index, section.material, xyz, tri, uvs))
+        bytes4 = [e for e in section.elements if e[0] == _USAGE_PALETTE and e[1] == _UBYTE4]
+        palette = _element(buffers, section, bytes4[0], {_UBYTE4: ("<u1", 4)}, name) if bytes4 else None
+        second = [e for e in section.elements if e[0] == _USAGE_TEXCOORD1 and e[1] in UV_FORMATS]
+        uvs2 = _element(buffers, section, second[0], UV_FORMATS, name)[:, :2] if second else None
+        if uvs2 is not None and not np.isfinite(uvs2).all():
+            uvs2 = None
+        out.append(SectionGeometry(index, section.material, xyz, tri, uvs, palette, uvs2))
     return out
 
 

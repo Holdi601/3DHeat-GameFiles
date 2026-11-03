@@ -95,6 +95,23 @@ eight more naming package and blob when the entry's flag byte has its top bit
 set. Check: on every bundle, the last entry ends exactly where the flag bytes
 begin.
 
+### Which table is the level
+
+A level can have several tables of the same name: one in the base game's
+`Data`, one in each update (`Update/<pack>/Data`) that ships or changes it, and
+one in each high-resolution pack
+(`Update/<pack>/Data/Win32/installation/detail/<package>/...`). Only some hold
+bundles. For a level an update ships, the table in the base game is 64 KB of
+chunks and no bundles, and the 4.4 MB one in the update is the level; taking the
+first table found exported nothing of it.
+
+So the level is the table with the most bundles, a later layer winning a tie
+(base game first, then updates in name order), and the tables of the same name
+without bundles are its **supplements**: their chunks are added to the level's,
+for they hold the largest mips of its textures. A texture header names that
+chunk at +164 (see [Textures and materials](#textures-and-materials)). `levels`
+prints where each level comes from and how many supplements it has.
+
 ## Bundle manifests
 
 A bundle's first entry is its manifest, stored uncompressed. It is the binary
@@ -190,6 +207,49 @@ thousandth, the rest are scaled or mirrored. The type GUIDs and signatures are
 the same in a second level. A game update that changes the layout changes the
 signature, and the reader then finds nothing rather than misreading.
 
+### Objects placed one by one
+
+What the pipeline cannot group — destructible objects, containers, debris — is
+placed by **object references** and **prefab references** in the
+level's partitions:
+
+| Type (GUID, signature) | Layout |
+|---|---|
+| object reference `a9a6a6ad…`, `0xC4856BEC` | `+32` the transform (as above), `+112` the object blueprint (import) |
+| prefab reference `117c746e…`, `0xDE3FE9B4` | the same; the blueprint is a prefab, a partition of further references |
+
+Prefabs nest; a copy lands at its own transform times its parent's (row
+vectors), down to eight levels. An object blueprint is drawn as the meshes it
+imports, leaving out the destroyed states (`dc_...`). A grouped prefab is
+referenced as its `..._nongroupable_autogen` remainder, so nothing is drawn
+twice.
+
+The walk starts only from the level's worlds and layers. A partition whose
+first instance is a prefab blueprint (`134919fc…`, `0x0247807D`) is a prefab's
+definition, and a level keeps many under its own folder, placed by its worlds
+in ways other than these references; walked from as if it were a world, a
+prefab puts its contents at its local coordinates. In one level that piled
+1,742 copies of barriers, sandbags and chairs round the world's origin, 120 m
+under the ground. Worlds and layers have `a10ebe0f…`, `0xD3D16C3C` first.
+
+Blueprints staged out of play are not followed: development and test assets
+(`game/dev/`, `test/`), the round-end cinematic's set (`..._gameend_...`: a
+helicopter and light blockers 47 m under the ground, in each of three levels)
+and the death camera's controller (`.../deathflow/...`, whose gadgets stand at
+the world's origin). They are recognised by their asset path, not their layer:
+the same lighting layer that holds the cinematic set places a level's real
+warehouse walls and roofs. After both rules no copy in three levels lies more
+than 10 m under the terrain, where 1,759 did. Check: in one level,
+1,574 copies, each standing on the terrain where the game shows it.
+
+**Levels of detail that stand in.** A mesh's last level of detail may switch
+to a distant-view stand-in with a material of its own: `M_LastLod`,
+`M_Billboard`, `M_Vista`, `M_ProjectionLod` (215 meshes in one level). A
+power pylon's lattice of 32,080 triangles ends in a 164-triangle `M_Vista`
+silhouette, which the budget chose and which up close is a solid spike 64 m
+tall. A level of detail that brings in such a material, one its finest level
+does not have, is never chosen; the mesh's coarsest is the last real one.
+
 ## Terrain
 
 Source: [`frostbiteterrain.py`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/heat3d_gamefiles/frostbiteterrain.py).
@@ -240,48 +300,147 @@ default: 3.7 million triangles for the level checked, whose finest nodes are
 0.5 m). Pieces of different resolution meet with small steps; nothing stitches
 them.
 
-A node's chunk also holds 72 x 72 BC4 pages (masks and detail rasters,
-continuous across nodes) and, in its second chunk, 136 x 136 or 68 x 68 BC7
-colour pages. Those colour pages are not geographic: neighbouring pages do not
-continue one another in any of the eight orientations (edge difference 29 grey
-levels in all of them), so they are not used.
+A node's chunk also holds the pages of the layer masks after its height page,
+and its second chunk ends with the node's colormap (see
+[Terrain layers](#terrain-layers)).
 
-## Terrain layers and decals: what is known, not yet used
+## Terrain layers
 
 The game shades the terrain near a player by splatting tiling surface materials
-and drawing decals (roads, asphalt patches, runway markings) over them. Neither
-is in the export yet, which is why the ground colour is the backdrop map's. What
-was established, so the next step starts from it:
+by painted masks, with a colormap over them, and drawing decals (roads,
+asphalt patches, runway markings) on top. Frostbite's own account of the system
+(Widmark, "Terrain in Battlefield 3", GDC 2012) lists the terrain's rasters as
+the heightfield, shader splatting masks, a colormap "used as an overlay on top
+of shader splatting", physics materials, a destruction depth mask, an albedo
+map for bounce light and additional mask channels; a raster's tiles carry a
+border for the rendering algorithms. The streaming tree of the levels checked
+has seven raster trees, typed 0, 1, 2, 4, 5, 7 and 8, whose headers begin with
+their tile size: 265 for the heightfield (type 0) and type 2, 72 or 66 for the
+masks (type 1), 132 with a border of 2 for the colormap (type 4), 260 with a
+border of 2 for type 5.
 
-**The layer list.** The terrain's `....layergraphs` res and its shader block
-depot (`....layergraphs_shaderblockdepot`) describe a layer graph of 56 nodes.
-The res lists them in order (each with a 16-byte id whose second half is the
-depot's section key), and the depot's blocks name each node's textures: one
-`_cv` colour map, `_nhs` and `_ao` maps per surface (sand, gravel, dirt road,
-cracked concrete, rock, cliff, soil and a default), plus shared detail and noise
-maps. The tiling scale of each surface was not found.
+**The layer list.** The terrain's `....layergraphs` res lists one 32-byte entry
+per layer, in the order the mask records number them (34 entries, 34 depot
+sections and layer indices 0 to 33 in one level); each entry's id ends with
+its section key in the layer graph's shader block depot
+(`....layergraphs_shaderblockdepot`), whose block names the layer's maps: one
+`_cv` colour map, `_nhs` and `_ao` maps per surface, plus shared detail and
+noise maps. Many layers name no maps at all: they are sources the layer graph
+reads. A layer's colour is its `_cv` map's mean; the tiling scale is not found.
+The terrain asset ends with one five-byte entry per layer (a byte, then a u32
+layer index or -1).
 
-**The masks.** Raster tree 1 (pages of 72 x 72) holds, per layer, a quadtree of
-33-byte records down to 64 m cells: the layer's id and hash, then the cell's box,
-two bytes, and an 85-bit presence pyramid (1 + 4 + 16 + 64 bits, row-major; 98%
-of records close as parent = OR of children). Up to 20 layers are present at a
-node. A node's chunk holds BC4 pages of 72 x 72 after its height page, but they
-do not map onto those layers one to one:
+**The masks.** Raster tree 1 is the masks' quadtree. Its body starts with 59
+bytes, the page's side at 0: 72 where the pages are BC4 (72 x 72, 2,592
+bytes), 66 where they are uncompressed eight-bit (4,356 bytes). Then comes one
+group per node, depth first:
 
-- besides one BC7 colour page and a small remainder, a node with 19 layers
-  present has 38 or 39 pages, one with 20 has 40 to 43;
-- the pages come in groups of four with related content;
-- they are not weights: summed per pixel they range from 0 to over 1,000;
-- a layer present in 18 of its node's 64 cells matches no page's occupancy
-  better than 77%.
+| Part | Layout |
+|---|---|
+| group | u16; u16 record count; u32 page count; the records; a zero byte. A group without records is 7 bytes in all |
+| record | 33 bytes: u16 layer, u16 hash, the quadrant's box (four floats), two flag bytes, an 85-bit presence pyramid |
 
-The surfaces are mixed by the layer graph itself — a shader graph of masks,
-slope, height and noise — and reproducing that from the files is the open part.
+A group's records are its node's four quadrants, layer by layer, each layer's
+quadrants in the order (0, 0), (1, 0), (1, 1), (0, 1). A record with the
+second flag set covers its quadrant whole and has no page; one without it has
+the next page; a quadrant without a record of a layer its group names is empty
+of that layer; the first flag is clear exactly when the layer goes on in the
+quadrant's own group, one level down, which replaces it there. The page count
+is the number of records with a page.
 
-**The colour pages.** The BC7 pages in nodes' second chunks (136 x 136) and in
-the 4,624-byte chunks (68 x 68) are not geographic: matched against the backdrop
-colour map at their node's footprint they correlate at 0.14 to 0.47 with their
-best position anywhere, and in none of 12 checked is that position their own.
+The pages: a streaming node's own group's pages follow, in its chunk, the
+height page, a 4,358-byte 16-bit section and a 67 x 67 eight-bit raster (from
+the chunk's start when it has no height page); its second chunk holds the
+pages of its four quadrants' groups one level down, quadrants in the
+colormap's order, then the colormap. A page is the quadrant's 64 x 64 texels,
+rows along z and columns along x, with a border copied from its neighbours: 4
+texels on a BC4 page, 1 on an uncompressed one.
+
+The borders prove the placing without judgement: two pages of one layer side by
+side must carry each other's edge texels. `read_masks` checks that for every
+pair it places and refuses a level where fewer than 99% agree. Of 33 levels,
+13 are read, with all but one of 192,808 borders agreeing (every one in 12 of
+them); 2 have no painted masks; 18 are refused, 17 by the check (0% to 94% of
+their borders agree: their nodes' chunks hold more than this layout knows) and
+one because two of its groups describe the same node. A refused level's ground
+takes the middle colour of its surface materials, and the export says why.
+In one level the borders facing a full quadrant are exactly 255 and those
+facing an empty one exactly 0 (2,042 of 2,050).
+
+The 4,358-byte section and the 67 x 67 raster before the pages are not read:
+the section's 2,179 values run from 27,042 to 30,929, with no small values and
+no sentinel.
+
+**The ground's colour.** The layer graph mixes the layers in a compiled shader
+graph of masks, slope, height and noise, which is not read. `--ground-texture`
+colours the ground by a rule of its own, said here as such:
+
+- layers whose colour map is named for distance are the far view's stand-ins
+  and are left out;
+- the textured layers covering nine tenths of the terrain or more are the
+  base. Their masks are full nearly everywhere, so where each lies is the
+  shader's choice, not theirs: those named for rock or cliff colour slopes
+  steeper than 40 degrees, those named for gravel flat ground (the other base
+  layers when none is), blended between 20 and 40 degrees by the
+  heightfield's slope (taken every 4 m and spread bilinearly over the baked
+  texels: repeated in 4 m blocks it drew the rocky colour as hard-edged
+  patches);
+- every other textured layer is laid over the base by its own mask, in layer
+  order;
+- the colormap is laid over the result as the engine does it, twice the
+  ground's colour times the map's, so that mid-grey leaves it as it is; where
+  the colormap has no texels the ground takes the map's median brightness, in
+  grey.
+
+Checked against the median ground colour of gameplay frames of three levels
+(chroma as red and blue over green): the baked play area comes to 1.00 / 0.69
+against the frames' 1.19 / 0.78 in one, whose grass layers are green where the
+frames show dry grass, 1.19 / 0.82 against 1.01 / 1.04 in another, whose
+colormap itself is warm (1.13 / 0.88), and 1.05 / 0.91 against 0.93 / 0.92 in
+a third without a colormap. The frames are lit and graded, so
+this measures the tint, not the brightness.
+
+**The colormap.** A node's second chunk holds, after the mask pages of its
+quadrants' groups, four BC7 pages of 132 x 132 (17,424 bytes each), one per
+quadrant of the node, in the order (low x, high z), (high x, high z), (high x,
+low z), (low x, low z). The mask tree says how many bytes the mask pages take,
+so the colormap is found by count, not by the chunk's end: in one level the
+coarser nodes carry four more such pages after it, another raster in one flat
+colour, and reading the chunk's last four pages lost the colormap over nine
+tenths of the terrain. Without that count the colormap was also missed in
+levels with uncompressed mask pages, whose pages are not a whole number of
+BC4 ones; one level's colormap went from 0.4 to 0.94 of its terrain. The order was fitted: against the edges of
+each quadrant's heightfield, every page of the nodes with features matches one
+quadrant, unflipped, at 0.3 to 0.54 where the next best placement is below
+0.2. Stitched by it, a level's pages join without a seam into the roads, water
+and built-up areas of the test level, at 0.5 m a texel in the play area. Where
+the layers do the work the colormap is near-neutral (median 110, 107, 104);
+elsewhere it can carry full colour. A level whose second chunks hold only
+uncompressed mask pages has no colormap read. An earlier round of this reader
+called these pages not geographic: it matched them against the backdrop map,
+which can be another landscape altogether, and placed each page on its whole
+node instead of a quadrant.
+
+**The bounce-light albedo** was looked for and not found: the root and
+first-level nodes' chunks are whole mask pages, and type 5's payload is not
+located.
+
+**Holes.** A level's terrain asset (res type `0x1CA38E06`) names three shaders:
+a default surface shader, a holes surface shader and a default source shader.
+Which layer the holes shader reads is not found, so the heightfield is not cut.
+In one level the navigation mesh runs on rock meshes 20 to 50 m under the
+heightfield, where the game must have cut it away (12,120 of its triangles
+more than 5 m under it). Looked for and not found there: a layer's mask (the
+closest averages 0.69 over those triangles against 0.51 elsewhere), the
+67 x 67 raster, a reserved height (no height page of the level holds 0 or
+65,535) and a node flag (every node below the root has flags 1). Raster trees
+7 and 8 are what is left. Both are run-length coded: a byte equal to the one
+before it is followed by a count of further copies (`ff ff 84` is 134 bytes
+of 255). Tree 7 (tile 256, 341 nodes: a full quadtree of five levels, four
+bits a sample) decodes to 9.8 MB of byte pairs of values 0 to 3; tree 8 (tile
+265) to 2.95 MB, nine in ten bytes 255, with its other values in runs that
+start every 36,170 bytes. Neither's tiles are placed yet, so neither is
+known to hold the holes.
 
 **Decals** are read and baked; see [Terrain decals](#terrain-decals).
 
@@ -315,10 +474,18 @@ decal (a line, a letter, a tyre track). Records are drawn in file order.
 
 **The bake.** `level --ground-texture M` paints, under the decals' extent and
 tiles of at most 4,096 pixels, the backdrop colour map (bilinear) and then every
-batch over it by its opacity × the vertex alpha. The heightfield's triangles
-there become `ground:terrain x<x> z<z>` parts carrying the tile. A material's
-own colour parameters are not read, so a marking drawn through a channel mask is
-painted white, an outline dark, wear and tyre marks a faint darkening.
+batch over it by its opacity × the vertex alpha. The vertices' colour is not
+used: some batches' vertices are pure green or blue, which tinted a level's
+markings those colours. The heightfield's triangles there become
+`ground:terrain x<x> z<z>` parts carrying the tile. A decal batch names no
+shader block, so its material's colour parameters are not read: a marking drawn
+through a channel mask is painted white, an outline dark, wear, tyre marks,
+stains, puddles and wetness a faint darkening (stains painted white laid pale
+strips across a level's lawns). A road variation mask is not paint but varies the surface
+under it, hundreds of metres across, and is not drawn: painted white it laid
+two pale rectangles 150 to 250 m long on a level's slopes. Decals that draw a
+multiply texture (`..._mult`) with no colour map, such as a runway's
+markings, are not drawn.
 
 In the level checked, 909 of 926 batches draw, into four tiles at 0.5 m a
 pixel; the export grows by 3 MB and takes a few seconds more. Seen from above,
@@ -336,8 +503,10 @@ Source: [`frostbitematerial.py`](https://github.com/Holdi601/3DHeat-GameFiles/bl
 A Texture res (type `0x6BDE20BA`) is a 180-byte header: type and pixel format
 at +8, width and height at +22, mip count at +30, the chunk GUID at +40, fifteen
 mip sizes at +56. The chunk is the mip chain, largest first. Some chunks lack
-their largest mips, which ship in another package, and the chunk's length says
-which mip it starts at.
+their largest mips, which ship in a high-resolution pack, and the chunk's length
+says which mip it starts at. That pack's chunk is named at +164; it is read
+from the level's [supplements](#which-table-is-the-level) when a mip the main
+chunk lacks is wanted, and its length plus the main chunk's is the whole chain.
 
 | Format | Decoded as | Evidence |
 |---|---|---|
@@ -361,16 +530,94 @@ among the shared detail maps. A block names every texture the shader samples,
 and which one is the colour map is not stated, so it is chosen: an sRGB 2D
 texture whose name holds most words of the material's name
 (`M_ConcreteWall_01`: concrete, wall), then of the mesh's, then one that is not
-a detail, decal or damage map, then the one fewest blocks use. A section whose
-only candidates are shared detail maps stays flat-coloured. In the level
+a detail, decal (`t_de_...`) or damage map, then the one fewest blocks use. A
+road sign's block names its panel `t_com_highwaysignage_01_cs` and a decal
+sheet `t_de_com_highwaysignage_01_ca` with a shield laid on its side; both match
+the words, and without the decal rule the sheet won on use and the sign showed
+the shield turned a quarter, through every texture coordinate set the section
+has. Signed distance fields (`..._sdf`), palettes and channel masks (`_rgb`)
+are never chosen, whatever words they share (`_rgba` maps are: most are colour
+with an alpha, and leaving them out swapped a power line's and a staircase's
+own maps for unrelated ones): a backdrop's vegetation
+atlas `..._atlas_a_sdf` drawn as colour showed black and white stars for
+trees, a backdrop's building palette a confetti of swatches for walls, and
+glass debris drawn through its channel mask came out cyan. A section whose
+only candidates are shared detail maps stays flat-coloured.
+
+**Palettes.** A backdrop's buildings take their colours from a palette, 256 x
+256 texels of 16 x 16 swatches: each vertex carries four bytes (usage `0x1E`)
+whose first two say where in the palette its colour is, x and y out of 255.
+`level` draws such a section with the palette as its texture, each vertex at
+the centre of its swatch. Drawn so, a level's backdrop blocks come out in
+pastel walls, terracotta and dark windows where they were plain white.
+
+**Overlays.** Large objects tile a trim sheet through their first texture
+coordinates and lay an overlay over it through the second, which lie within
+0 to 1: an unwrap of the whole object. The overlay (`..._overlay_cs`, with its
+mask `..._overlay_a`) carries what the object looks like from afar, an oil
+tank's red bands and rust; drawn with the trim sheet alone, the tanks of one
+level came out as grey panels. A section whose block names an overlay with its
+mask, and whose second coordinates are such an unwrap, is drawn with the
+overlay through them (36 sections in that level).
+
+**Tints.** Many colour maps are grey (their channels' means within 6% of each
+other): the shader paints them with colours from the block's parameters. After
+its texture entries (49 bytes each) a block lists its parameters, each a type
+tag (`f11af825` a float3, `a5e1f2de` a float4, `c1b1a014` a float,
+`4a4fc3a1` an integer), the flag bytes `01 80` for one value, a two-byte hash
+of the parameter's name, a u32 count, the value and an eight-byte id. The
+names are not stored. Seven float3 name hashes act as tints: in one level
+three of them hold a colour in about 1 block in 6 whose map is grey and almost
+never where the map has colour of its own, and the others hold the colours a
+grey map is painted in where the material's name says so (a bridge's
+`..._blue` trim: 0.047, 0.098, 0.171 against a neutral 0.5). A family can hold
+several values, one per channel of a mask, most of them neutral, and a value
+with a channel near nothing (pure green on brick facades) selects a mask's
+channel rather than paints. `level` multiplies a grey colour map, in linear
+light, by each family's first value that is neither neutral nor such a
+selector, over its neutral one, and keeps the result as a texture of
+its own; a map with colour is left as it is. The rule is the exporter's own:
+which channel of a mask takes which tint is not read. In one level it took
+the share of structure triangles drawn near white from 19.4% to 3.9%.
+
+**Left out.** Sections of placeholder blockout materials (`M_Whitebox`: a few
+large untextured triangles some buildings keep beside their surfaces, which
+stood out of a level as white fins), meshes made for cinematics (a helicopter
+placed where its scene starts) and lighting helpers (planes that block light,
+never drawn). A level's generated backdrop buildings
+(`..._generated_blueprints_..._mesh`) are drawn, but their walls' material
+names only noise maps and its vertices carry no colour, so they stay plain. In the level
 checked, 2,214 of 2,375 drawn sections get a colour map.
 
-Texture coordinates are vertex usage `0x21`, two halves (format 6) or two
-floats (format 2). They tile, so a textured export writes them as floats with a
-repeating sampler (see [Output format](output-format)).
+**Cut-out maps.** The colour map's fourth channel means different things by
+the map's name. In `_cs`, by far the most common (893 of one level's chosen
+maps), it is smoothness: 1% of a median map's alpha lies within 0.1 of 0 or 1.
+In `_cu` (leaves, grass) and `_ca` (colour and alpha) it is opacity: 90% and
+87%. A colour map named `..._cu` or `..._ca` whose alpha is at least 75% near
+0 or 1, at least 1% below 0.5 and at least 5% above is written with its alpha,
+as PNG, and its
+material as glTF `alphaMode` MASK, `alphaCutoff` 0.5, double-sided; leaf cards
+then show leaves, not their black corners. One tree's leaf map has no alpha at
+all (4 of 255 at most): its fronds are cut by geometry, and with only the first
+two conditions the whole crown was cut away.
 
-The heightfield has no colour map of its own that could be read. It is coloured
-from the terrain backdrop's: the backdrop's texture coordinates are a linear
+Texture coordinates are vertex usage `0x21`, two halves (format 6) or two
+floats (format 2). Sections carry up to three more sets (`0x22` to `0x24`) for
+decal and detail layers. The coordinates tile: a container's ribbed side runs
+from -1.6 to 1.8, the terrain backdrop's tiles lie wholly outside 0..1, and in
+one level 23% of the textured triangles reach outside 0..1. A renderer that
+clamps them — the 3DHeat viewer does, packing all textures into one atlas —
+smears the ribs to twice their width, turns a concrete floor into streaks along
+one axis, and gives a tower's steel beams their texture's edge colour. So the
+export cuts each triangle along the lines where its texture repeats and moves
+each piece into 0..1 (see [Output format](output-format)); afterwards 0.03%
+of the textured triangles, across which a texture repeats more than 16 times,
+reach outside. A triangle the cutting would make more than 4 pieces of is
+drawn in its texture's average colour instead: bark repeats down every branch,
+and cut, a level's trees went from 6.4 to 24 million triangles.
+
+The heightfield has no colour map of its own that could be read. Where one of
+the terrain backdrop's maps covers it, it is coloured from that: the backdrop's texture coordinates are a linear
 function of world x and z (99% of its vertices within 0.001 of it; the map
 covers a 65,536 m square, turned a quarter), and the same function gives the
 heightfield's. The level ships that map's mips from 2,048 px down, so the
@@ -378,19 +625,115 @@ heightfield gets 32 m a pixel. Its dark rock lies on the steep ground: the
 correlation of darkness with slope is 0.48, and at most 0.34 for the seven other
 orientations.
 
+Another level's backdrop is eight near and eight far tiles round the play area,
+each repeating its own texture across the tile, and none reaches the
+heightfield. Each backdrop texture is fitted on its own, and when none covers
+the heightfield it takes the average colour the backdrop shows within a
+kilometre of the terrain square, which `--ground-texture` bakes the decals over.
+A backdrop material is one whose name holds `TerrainBackdrop`, or `BD_` and
+`Terrain` (`M_BD_<site>_Terrain..._Near`); or a backdrop mesh
+(`bd_..._terrain<site>_04_far_mesh`) carries a plain terrain material
+(`M_<region>_Terrain<site>_04_Far`), which the first two rules missed in one
+level and so coloured its ground from its surfaces instead.
+
+Where no backdrop map covers the heightfield, though, it takes the middle
+colour of the terrain's own surfaces before the backdrop's average: the `_cv`
+colour maps its layer graph's shader blocks name (27 in one level: sands,
+gravels, soils, grass, cracked concrete), each averaged, then the median of
+each channel, leaving out the engine's default surface. A backdrop can be
+another landscape altogether: in one level its average (95, 99, 80 in sRGB)
+turned the play area's ground a grey the game does not show. With `--ground-texture`, that colour is
+multiplied by twice the colormap, which mid-grey leaves as it is, and baked
+with the decals over both the decals' and the colormap's extent.
+
+Against the game, the median ground colour of each level's baked play area
+and of gameplay frames (rows 55 to 72% of the picture beside the HUD, 24
+frames each; sRGB; frames are lit and graded, so the ratios r/g and b/g are
+the fair comparison):
+
+| Level | Frames | Backdrop's average | Now |
+|---|---|---|---|
+| first | 167, 140, 109 (1.19, 0.78) | 95, 99, 80 (0.96, 0.81) | 117, 108, 86 (1.08, 0.80) |
+| second | 72, 71, 74 (1.01, 1.04) | 117, 110, 104 (1.06, 0.95) | 146, 135, 117 (1.08, 0.87) |
+| third | 83, 89, 82 (0.93, 0.92) | 160, 148, 136 (1.08, 0.92) | 148, 137, 117 (1.08, 0.85) |
+
+The first is put right; the other two were a little nearer in hue before. One
+colour for a whole level cannot be right everywhere; the masks would be.
+
+## Navigation mesh
+
+Source: [`frostbitenav.py`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/heat3d_gamefiles/frostbitenav.py).
+
+A level ships one partition per agent, `<level>/dbt/<level>_navmesh_layer_<n>`:
+in one level layer 0 is the soldier (1.8 m tall, 0.18 m step, 0.4 m radius) and
+two others are vehicles (3.5 and 10 m tall). Each partition holds two arrays:
+
+| Array | Element |
+|---|---|
+| tiles | 28 bytes: u32 0, u32 hash, u32 0, u32 chunk index, u16 tile x, u16 tile z, u32 offset, u32 size |
+| chunks | 20 bytes: the chunk's GUID, u32 size |
+
+A tile is `size` bytes at `offset` in chunk `chunk index`, little-endian, and
+laid out as Detour's (Recast Navigation) behind a longer header:
+
+| Offset | Contents |
+|---|---|
+| 0 | `VAND`, version 7 |
+| 24 | counts: polygons, vertices, links, detail meshes, detail vertices, detail triangles, bounding-volume nodes, off-mesh links, the first off-mesh polygon |
+| 188 | agent height, step, radius |
+| 200 | the tile's bounding box, six floats |
+| 232 | vertices: x, y, z floats, world coordinates |
+| next 8-byte boundary | polygons, 32 bytes: u32, six u16 vertex indices, six u16 neighbours, u16 flags, the vertex count at +30, at +31 the area (low six bits) and kind (top two) |
+| then, packed | links (16 bytes), detail meshes (12: first detail vertex u32, first detail triangle u32, vertex and triangle count u8), detail vertices (three floats), detail triangles (three indices and flags), bounding-volume nodes (16), off-mesh links (80) |
+
+In every tile of three levels (17,702) these add up to the tile's size to the
+byte, and the detail meshes number the polygons before the first off-mesh one.
+
+A polygon is flat between its corners; its **detail mesh** holds the
+surface's real height over bumps, rocks and steps, and is what is drawn. A
+detail triangle's index below the polygon's corner count is that corner,
+otherwise detail vertex `first + index - corners`. Fanning the polygons
+instead put 9.3% of one level's triangles more than half a metre under the
+terrain and 5.6% with the detail meshes, and 15,544 triangles had an edge over
+20 m against 8,915; none is longer than a 16 m tile's diagonal plus the step
+up a slope.
+
+Kind 0 is ground, kind 2 small steep patches (about 45 degrees, a square metre
+each), kind 1 a link between surfaces: its corners span 125 m of height or more
+and lie outside the tile, some at the origin. Links are left out; the rest are
+drawn by their detail meshes, or fanned in a tile without any.
+
+Checks: the chunks' sizes add up to the tiles' exactly (20,677,772 bytes in 305
+chunks for 9,744 tiles of 16 m); every surface vertex lies within its tile's box
+give or take 1.2 m; 99.87% of the triangles face up. A tile that fails is
+refused and counted, and in that level none is.
+
+What the soldier's mesh covers, seen from above in the test level: the ground,
+floors, stairs and some roofs, and not the tops of freight containers. It is the AI's map of where a soldier can stand,
+the closest the files come to where players stand.
+
 ## Not implemented
 
-- The terrain's surface splatting through its layer graph (see
-  [Terrain layers and decals](#terrain-layers-and-decals-what-is-known-not-yet-used)):
-  away from decals the ground is the backdrop colour map, 32 m a pixel.
+- The terrain's layer graph, which mixes its surface layers (see
+  [Terrain layers](#terrain-layers)): the ground's colour follows a rule of
+  this reader's own from the layers' masks and the heightfield's slope, and
+  levels whose mask pages do not fit together get one colour.
 - Decal materials' colour parameters: markings through channel masks are
   painted in a neutral colour.
-- Objects placed one by one rather than grouped: destructible prefabs and
-  gameplay objects. Each kind has its own layout to pin down.
+- Object blueprints that are not meshes (gameplay logic, effects, sounds),
+  and texture variations a placed object chooses.
+- The navigation mesh's links (jumps, ladders, vaults) and its vehicle layers.
 - Mesh levels stored inline in the res (10 meshes in a level, gadgets), skinned
   and composite meshes' bones and parts, and normals (computed by the writer).
-- Normal, roughness and other maps; alpha (cut-out leaves and fences are drawn
-  solid); texture variations a placed copy may carry.
+- Normal, roughness and other maps; alpha other than a cut-out (translucent
+  glass and decals are drawn opaque); texture variations a placed copy may
+  carry.
+- Terrain holes: a holes surface shader is named, but what it reads is not
+  found (see [Terrain layers](#terrain-layers)), so the heightfield is not cut
+  where the walkable ground runs under it.
+- Which tint goes with which channel of a material's mask: a grey colour map
+  takes the first tint that is not neutral (see
+  [Textures and materials](#textures-and-materials)).
 - Effects (`fx/` paths) and the cable meshes, whose bounding boxes are tens of
   kilometres long; they are left out and counted in the summary.
 - The XOR-obfuscated table form.

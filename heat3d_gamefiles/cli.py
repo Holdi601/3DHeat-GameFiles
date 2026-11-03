@@ -918,20 +918,21 @@ def _frostbite_install(given: Path | None) -> Path | None:
 
 def _levels(args) -> int:
     from .frostbite import UnsupportedFrostbite
-    from .frostbitebundle import level_tables
+    from .frostbitebundle import level_sources
 
     install = _frostbite_install(args.install)
     if install is None:
         print("no Frostbite game found in a Steam library; give --install", file=sys.stderr)
         return 2
     try:
-        tables = level_tables(install)
+        tables = level_sources(install)
     except UnsupportedFrostbite as exc:
         print(exc, file=sys.stderr)
         return 1
     print(f"{len(tables)} levels in {install}")
-    for name, toc in sorted(tables.items()):
-        print(f"  {name:<40} {toc.stat().st_size:>12,}")
+    for name, table in sorted(tables.items()):
+        extra = f" (+{len(table.supplements)} high-resolution)" if table.supplements else ""
+        print(f"  {name:<40} {table.toc.stat().st_size:>12,}  {table.source}{extra}")
     return 0
 
 
@@ -953,6 +954,8 @@ def _level(args) -> int:
             textures=args.textures,
             ground_spacing=args.ground_spacing,
             ground_texture=args.ground_texture,
+            navmesh=args.navmesh,
+            by_mesh=args.by_mesh,
         )
     except UnsupportedFrostbite as exc:
         print(exc, file=sys.stderr)
@@ -965,6 +968,8 @@ def _level(args) -> int:
     )
     for name, copies in sorted(placed.partitions.items(), key=lambda kv: -kv[1]):
         print(f"  {copies:>8,}  {name}")
+    if placed.objects:
+        print(f"  {placed.objects:>8,}  placed one by one (object and prefab references)")
     if placed.unresolved:
         print(f"{placed.unresolved:,} members name a mesh this level does not carry; left out")
     reasons: dict[str, int] = {}
@@ -994,11 +999,22 @@ def _level(args) -> int:
         done, drawn = model.textured
         print(f"{done:,} of {drawn:,} drawn sections carry their colour map; the rest are flat colours")
     print(f"Ground: {model.ground}.")
+    if args.navmesh:
+        print(f"Navigation mesh: {model.navmesh}.")
+    if model.blockout:
+        print(f"{model.blockout:,} triangles of placeholder blockout sections left out.")
+    if model.overlaid:
+        print(f"{model.overlaid:,} sections drawn with their object's overlay through its second texture coordinates.")
     try:
         write_level(model, out)
     except (UnsupportedFrostbite, ValueError) as exc:
         print(exc, file=sys.stderr)
         return 1
+    if model.flattened:
+        print(
+            f"{model.flattened:,} triangle{'s' if model.flattened > 1 else ''} repeat their texture too "
+            "densely to cut and are drawn in its average colour."
+        )
     print(f"-> {out} ({out.stat().st_size / 1e6:,.0f} MB)")
     return 0
 
@@ -1247,6 +1263,22 @@ def main(argv: list[str] | None = None) -> int:
             "bake the terrain decals (roads, aprons, markings) into the ground's "
             "colour, METRES a pixel (default 0.5 when given without a size), in "
             "tiles of at most 4096 pixels"
+        ),
+    )
+    p.add_argument(
+        "--navmesh",
+        action="store_true",
+        help=(
+            "add the soldiers' walkable surfaces from the level's navigation mesh "
+            "as the part nav:walkable"
+        ),
+    )
+    p.add_argument(
+        "--by-mesh",
+        action="store_true",
+        help=(
+            "for finding what a part is: one part per source mesh and material, "
+            "named '<part> | <mesh> | <material>' (a much larger file)"
         ),
     )
     p.add_argument(

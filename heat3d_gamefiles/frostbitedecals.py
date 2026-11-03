@@ -12,9 +12,9 @@ field below was measured on a level's 10 MB res and checked as noted::
     records      variable length, one per draw batch, back to back
     vertices     32 bytes each: x, z (f32), 8 packed bytes, u, v (f32),
                  r, g, b, a (f16)
-    the rest     u32 indices, which only count up within each batch; the
-                 batches are plain triangle lists and are drawn from the
-                 vertices directly
+    indices      one u32 per vertex, counting up within each batch, then
+                 sixteen bytes; the batches are plain triangle lists and are
+                 drawn from the vertices directly
 
 A record begins with 156 bytes of fixed fields — at +32 its first vertex, at
 +36 its triangle count, at +44 its texture tiling in metres — then its vertex
@@ -29,11 +29,9 @@ The checks that hold the reading together:
   cover the vertex block exactly — 926 of 926 records, 265,794 vertices;
 - each record's first vertex times 32 is its byte offset, and its triangle
   count times 96 its byte size;
-- the vertex block's start is where world-mapped batches have u = x and v = z
-  in the same vertex, which is how their textures are laid on the ground; of
-  the starts that score so, a whole vertex either way splits every triangle
-  across its neighbours, which the triangles' size gives away, and a whole
-  triangle earlier begins in record bytes, whose "colours" are not 0 to 1;
+- the vertex block ends 4 bytes a vertex and 16 bytes before the end of the
+  res, which puts its start right after the records' last tail, and every
+  vertex there has a finite, non-negative colour (up to 4: tints may brighten);
 - triangles drawn from the vertices so read are compact decals — painted
   letters, strips of road line, patches of asphalt; read one slot later they
   are slivers reaching across the map.
@@ -43,9 +41,12 @@ asphalt or concrete, the texture repeating every tiling-metres) or 0 to 1
 across the decal (a line, a letter, a tyre track). Records are drawn in file
 order, later ones over earlier ones.
 
-What is not read: the materials' colour parameters. A marking drawn through a
-channel mask (`_rgb`) has its paint colour in the material, so it is baked in
-a neutral colour — white for lines and letters, dark for outlines and wear.
+What is not read: the vertices' colour (some batches' vertices are pure
+green or blue, which tinting by them painted on a level's markings) and the
+materials' colour parameters. A marking drawn through a channel
+mask (`_rgb`) has its paint colour in the material, so it is baked in a
+neutral colour — white for lines and letters, dark for outlines and wear; a
+variation mask is not drawn.
 """
 
 from __future__ import annotations
@@ -125,51 +126,18 @@ def read_decals(res: bytes, texture_guids: dict[bytes, str], name: str = "decals
         at = found + _CORE + 8
     total = first
 
-    # The vertex block: after the last record, where world-mapped batches
-    # carry their own position as texture coordinates.
-    scores = []
-    for start in range(at, min(at + 4096, len(res) - 32 * total) + 1):
-        block = np.frombuffer(res, dtype=VERTEX, count=min(total, 1024), offset=start)
-        with np.errstate(all="ignore"):
-            real = (np.abs(block["x"]) > 1) & (np.abs(block["x"]) < 1e5) & (np.abs(block["z"]) < 1e5)
-            scores.append((np.mean(real & (block["u"] == block["x"]) & (block["v"] == block["z"])), start))
-    top = max(scores)[0] if scores else 0
-    if top < 0.01:
+    # The vertex block: the res ends with it, then one u32 index per vertex
+    # and sixteen bytes, so its start follows from the vertex count.
+    vertex_at = len(res) - 36 * total - 16
+    if vertex_at < at:
+        raise UnsupportedFrostbite(f"{name}: {total} vertices do not fit after the records")
+    head = np.frombuffer(res, dtype=VERTEX, count=min(total, 1024), offset=vertex_at)
+    with np.errstate(all="ignore"):
+        rgba = head["rgba"].astype(np.float32)
+        sane = np.isfinite(rgba).all(axis=1) & (rgba >= 0).all(axis=1) & (rgba <= 4).all(axis=1)
+    if sane.mean() < 0.95:
         raise UnsupportedFrostbite(f"{name}: no vertex block where one should start")
-    # A start a whole vertex earlier or later scores as well, but then every
-    # triangle takes a corner from its neighbour: the true start is the one
-    # whose triangles are smallest.
-    def spread(start: int) -> float:
-        n = min(total, 3 * 3000) // 3 * 3
-        block = np.frombuffer(res, dtype=VERTEX, count=n, offset=start)
-        with np.errstate(all="ignore"):
-            p = np.stack([block["x"], block["z"]], 1).astype(np.float64).reshape(-1, 3, 2)
-            edge = np.linalg.norm(p - np.roll(p, 1, axis=1), axis=2).max(axis=1)
-        return float(np.nanmedian(edge)) if np.isfinite(edge).any() else np.inf
-
-    good = [start for score, start in scores if score >= 0.9 * top]
-    phase = min({g % 96 for g in good}, key=lambda r: spread(min(g for g in good if g % 96 == r)))
-
-    # Within that phase a start a whole triangle off is still compact; the
-    # block starts at the earliest one whose first vertices are vertices —
-    # colour and opacity between 0 and 1, finite positions — not record bytes.
-    def plausible(start: int) -> bool:
-        head = np.frombuffer(res, dtype=VERTEX, count=3, offset=start)
-        with np.errstate(all="ignore"):
-            rgba = head["rgba"].astype(np.float32)
-            return bool(
-                np.isfinite(rgba).all() and (rgba >= 0).all() and (rgba <= 1).all()
-                and (np.abs(head["x"]) < 1e5).all() and (np.abs(head["z"]) < 1e5).all()
-            )
-
-    first_start = next(
-        (g for g in range(min(g for g in good if g % 96 == phase) % 96 + at - at % 96, at + 4097, 96)
-         if g >= at and plausible(g)),
-        None,
-    )
-    if first_start is None:
-        raise UnsupportedFrostbite(f"{name}: no vertex block where one should start")
-    best = (top, first_start)
+    best = (1.0, vertex_at)
     vertices = np.frombuffer(res, dtype=VERTEX, count=total, offset=best[1]).copy()
 
     batches: list[Batch] = []
@@ -188,10 +156,15 @@ def read_decals(res: bytes, texture_guids: dict[bytes, str], name: str = "decals
 
 
 #: How a marking drawn through a channel mask is painted, for want of the
-#: material's own colour: (pattern, colour, strength). Wear and tyre marks
-#: are a faint darkening, an outline a dark one, anything else white paint.
+#: material's own colour: (pattern, colour, strength). A variation mask is not
+#: paint at all but varies the surface under it, hundreds of metres across, and
+#: is not drawn (strength 0): drawn as white paint it laid pale rectangles on a
+#: level's slopes. Wear, tyre marks, stains, puddles and wetness are a faint
+#: darkening (stains painted white laid pale strips on a level's lawns), an
+#: outline a dark one, anything else white paint.
 MASK_PAINT = (
-    (re.compile(r"wear|track|dirt|patch", re.I), (0.25, 0.23, 0.20), 0.35),
+    (re.compile(r"variation", re.I), (1.0, 1.0, 1.0), 0.0),
+    (re.compile(r"wear|track|dirt|patch|stain|puddle|wet", re.I), (0.25, 0.23, 0.20), 0.35),
     (re.compile(r"outline", re.I), (0.15, 0.15, 0.15), 1.0),
     (re.compile(r"", re.I), (0.92, 0.92, 0.90), 1.0),
 )
