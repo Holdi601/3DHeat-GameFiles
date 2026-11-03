@@ -1421,14 +1421,15 @@ def _bake_ground(level, links, model, ground, base_colour, metres: float, report
     return keep
 
 
-#: Triangles whose texture repeats more often than this across them are left
-#: as they are rather than cut into that many pieces a side.
+#: Only for clamped output (`write_level(..., clamped=True)`): triangles whose
+#: texture repeats more often than this across them are left as they are rather
+#: than cut into that many pieces a side.
 UNTILE_MOST = 16
-#: A triangle its texture would cut into more pieces than this is drawn in the
-#: texture's average colour, in a part of its own. Bark repeats down every
-#: branch of a tree: cut, one tree's 1,099 triangles became 51,735, and a
-#: level's trees 6.4 million became 24 million. Cut-out maps (leaves) are
-#: never flattened.
+#: Only for clamped output: a triangle its texture would cut into more pieces
+#: than this is drawn in the texture's average colour, in a part of its own.
+#: Bark repeats down every branch of a tree: cut, one tree's 1,099 triangles
+#: became 51,735, and a level's trees 6.4 million became 24 million. Cut-out
+#: maps (leaves) are never flattened.
 UNTILE_PIECES = 4
 
 
@@ -1440,12 +1441,13 @@ def untile(
 
     Frostbite repeats textures: a container's ribbed side runs from -1.6 to
     1.8, and a fifth of a level's textured triangles reach outside 0..1. A
-    renderer that packs textures into an atlas cannot repeat one and clamps
-    instead - the 3DHeat viewer does - and the texture comes out smeared,
-    stretched along one axis or reversed, differently for every texture. So
-    each triangle is cut along the whole-number lines it crosses, and each
-    piece moved by whole repeats into 0..1: the same pixels on the same
-    surface. Triangles already inside keep their shared vertices.
+    renderer that packs textures into an atlas and clamps them, rather than
+    wrapping each in its own cell as the 3DHeat viewer does, draws such a
+    texture smeared, stretched along one axis or reversed, differently for
+    every texture. For that renderer - `write_level(..., clamped=True)` - each
+    triangle is cut along the whole-number lines it crosses, and each piece
+    moved by whole repeats into 0..1: the same pixels on the same surface.
+    Triangles already inside keep their shared vertices.
     """
     eps = 1e-4
     tri_uv = uvs[faces].astype(np.float64)
@@ -1523,7 +1525,18 @@ def _split(xyz: np.ndarray, tex: np.ndarray, axis: int, cut: np.ndarray):
     return out_p, out_t
 
 
-def write_level(model: LevelModel, out: str | Path) -> Path:
+def write_level(model: LevelModel, out: str | Path, clamped: bool = False) -> Path:
+    """
+    The level as a binary glTF.
+
+    Textures repeat as the game repeats them: UVs are written as they are,
+    unclamped, with a REPEAT sampler, and a brick wall is one triangle pair
+    whose UV runs 0 to 40. `clamped` is for a consumer that cannot repeat a
+    texture - an atlas that clamps each image into its cell: every textured
+    triangle is cut into pieces inside 0..1 (`untile`), and one its texture
+    would cut into more than `UNTILE_PIECES` is drawn in the texture's average
+    colour instead, in a part named '... (average colour)'.
+    """
     from .frostbitematerial import ALPHA_CUTOFF
     from .glb import Part, write_glb
 
@@ -1539,6 +1552,7 @@ def write_level(model: LevelModel, out: str | Path) -> Path:
         image = model.images.get(piece.texture) if piece.texture else None
         if piece.texture:
             coords = np.concatenate(piece.uvs)
+        if piece.texture and clamped:
             dense = _pieces(faces, coords) > UNTILE_PIECES
             if image is not None and image.shape[2] == 3 and dense.any():
                 # Repeating too densely to cut: its average colour instead.

@@ -789,10 +789,8 @@ def test_a_cut_out_texture_is_a_masked_two_sided_png(tmp_path):
     assert png.mode == "RGBA" and np.asarray(png)[0, 3, 3] == 0
 
 
-def test_a_texture_too_dense_to_cut_is_drawn_in_its_average_colour(tmp_path):
-    import json
-
-    from heat3d_gamefiles.frostbitelevel import LevelModel, Piece, write_level
+def _repeating_model():
+    from heat3d_gamefiles.frostbitelevel import LevelModel, Piece
 
     model = LevelModel()
     bark = Piece(texture="t_bark_cs")
@@ -811,8 +809,45 @@ def test_a_texture_too_dense_to_cut_is_drawn_in_its_average_colour(tmp_path):
         "t_bark_cs": np.full((4, 4, 3), (100, 60, 20), np.uint8),
         "t_wall_cs": np.full((4, 4, 3), 200, np.uint8),
     }
+    return model
 
+
+def test_a_repeating_texture_keeps_its_uvs_and_repeats(tmp_path):
+    import json
+
+    from heat3d_gamefiles.frostbitelevel import write_level
+
+    model = _repeating_model()
     out = write_level(model, tmp_path / "t.glb")
+
+    raw = out.read_bytes()
+    (length,) = struct.unpack_from("<I", raw, 12)
+    doc = json.loads(raw[20 : 20 + length])
+    # Nothing cut and nothing flattened: two triangles, as placed.
+    assert model.flattened == 0
+    assert [m["name"] for m in doc["materials"]] == ["structure:buildings t_wall_cs", "structure:trees t_bark_cs"]
+    assert sum(doc["accessors"][p["indices"]]["count"] for m in doc["meshes"] for p in m["primitives"]) == 6
+    # The bark's UVs run to 12 down the branch, and the sampler repeats them.
+    binary = raw[20 + length + 8 :]
+    highest = 0.0
+    for a in (p["attributes"]["TEXCOORD_0"] for m in doc["meshes"] for p in m["primitives"]):
+        accessor = doc["accessors"][a]
+        view = doc["bufferViews"][accessor["bufferView"]]
+        start = view.get("byteOffset", 0) + accessor.get("byteOffset", 0)
+        assert accessor["componentType"] == 5126
+        uv = np.frombuffer(binary, np.float32, accessor["count"] * 2, start)
+        highest = max(highest, float(uv.max()))
+    assert highest == 12
+    assert all(s["wrapS"] == 10497 and s["wrapT"] == 10497 for s in doc["samplers"])
+
+
+def test_clamped_output_draws_a_texture_too_dense_to_cut_in_its_average_colour(tmp_path):
+    import json
+
+    from heat3d_gamefiles.frostbitelevel import write_level
+
+    model = _repeating_model()
+    out = write_level(model, tmp_path / "t.glb", clamped=True)
 
     raw = out.read_bytes()
     (length,) = struct.unpack_from("<I", raw, 12)

@@ -108,7 +108,7 @@ The default is the **quantised** form (`quantize=True`). It needs the
 |---|---|---|
 | `POSITION` | float32 VEC3, with min/max | float32 VEC3 |
 | `NORMAL` | int8 VEC3 normalised, padded to 4 bytes (stride 4) | float32 VEC3 |
-| `TEXCOORD_0` (textured parts only) | uint16 VEC2 normalised, clamped to 0-1 | float32 VEC2 |
+| `TEXCOORD_0` (textured parts only) | uint16 VEC2 normalised, clamped to 0-1; float32 VEC2 where textures repeat (Battlefield 6) | float32 VEC2 |
 | `COLOR_0` (untextured parts, when any part has a colour) | uint8 VEC3 normalised, padded to 4 bytes | float32 VEC3 |
 | indices | uint16 when the part has at most 65,535 vertices, else uint32 | uint32 |
 
@@ -140,21 +140,23 @@ from the triangles. AC Rally normals are always computed.
   crowns is noise to a lossless coder: several megabytes a tile as PNG, under one
   as JPEG. An image shared by several parts is stored once.
 - One sampler for all textures: linear magnification, linear-mipmap-linear
-  minification, **clamp to edge** on both axes. Textures never repeat, because
-  the 3DHeat viewer packs a file's textures into one atlas and clamps every
-  coordinate to its own image; a repeating texture comes out smeared, stretched
-  along one axis, or reversed. That is why BeamNG draws repeating model
-  textures as flat colours (see [BeamNG.drive](course-beamng.md#placed-models)).
-  A Battlefield 6 export with `--textures`, whose materials tile, cuts each
-  triangle along the lines where its texture repeats and moves each piece into
-  0..1 instead: the same pixels on the same surface, about a fifth more
-  triangles. Triangles across which a texture repeats more than 16 times (3 in
-  10,000) keep their coordinates; for them the sampler repeats and
-  `TEXCOORD_0` is float32 (`write_glb(..., repeat=True)`). A triangle its
-  texture would cut into more than 4 pieces - bark repeating down every branch
-  of a tree, which cut turned one tree's 1,099 triangles into 51,735 - goes
-  into a part of its own, `<part> (average colour)`, in the texture's average
-  colour, as BeamNG's repeating model textures do; `level` says how many.
+  minification, **clamp to edge** on both axes, for the course exports, whose
+  textures cover their surfaces once. BeamNG draws repeating model textures as
+  flat colours (see [BeamNG.drive](course-beamng.md#placed-models)).
+- A Battlefield 6 export with `--textures`, whose materials tile, writes the
+  game's own texture coordinates, unclamped, as float32 `TEXCOORD_0` even in
+  the quantised form, with a sampler that **repeats** on both axes
+  (`write_glb(..., repeat=True)`): a brick wall is one pair of triangles whose
+  UV runs 0 to 40. The 3DHeat viewer wraps such a texture inside its atlas (see
+  its *Model levels* page). For a renderer that cannot repeat a texture,
+  `level --clamped-uvs` (`write_level(..., clamped=True)`) cuts each triangle
+  along the lines where its texture repeats and moves each piece into 0..1:
+  the same pixels on the same surface, about a fifth more triangles. Triangles
+  across which a texture repeats more than 16 times keep their coordinates. A
+  triangle its texture would cut into more than 4 pieces - bark repeating down
+  every branch of a tree, which cut turned one tree's 1,099 triangles into
+  51,735 - goes into a part of its own, `<part> (average colour)`, in the
+  texture's average colour; `level` says how many.
 
 | Texture | Size | Covers |
 |---|---|---|

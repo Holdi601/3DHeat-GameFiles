@@ -1014,7 +1014,7 @@ def _level(args) -> int:
     if model.overlaid:
         print(f"{model.overlaid:,} sections drawn with their object's overlay through its second texture coordinates.")
     try:
-        write_level(model, out)
+        write_level(model, out, clamped=args.clamped_uvs)
     except (UnsupportedFrostbite, ValueError) as exc:
         print(exc, file=sys.stderr)
         return 1
@@ -1287,6 +1287,16 @@ def main(argv: list[str] | None = None) -> int:
         help=(
             "for finding what a part is: one part per source mesh and material, "
             "named '<part> | <mesh> | <material>' (a much larger file)"
+        ),
+    )
+    p.add_argument(
+        "--clamped-uvs",
+        action="store_true",
+        help=(
+            "for a renderer that cannot repeat a texture: cut every textured "
+            "triangle into pieces with UVs inside 0..1, and draw the ones that "
+            "would need more than 4 pieces in their texture's average colour "
+            "(default: UVs as the game has them, with a repeating sampler)"
         ),
     )
     p.add_argument(

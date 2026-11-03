@@ -636,16 +636,18 @@ Texture coordinates are vertex usage `0x21`, two halves (format 6) or two
 floats (format 2). Sections carry up to three more sets (`0x22` to `0x24`) for
 decal and detail layers. The coordinates tile: a container's ribbed side runs
 from -1.6 to 1.8, the terrain backdrop's tiles lie wholly outside 0..1, and in
-one level 23% of the textured triangles reach outside 0..1. A renderer that
-clamps them — the 3DHeat viewer does, packing all textures into one atlas —
-smears the ribs to twice their width, turns a concrete floor into streaks along
-one axis, and gives a tower's steel beams their texture's edge colour. So the
-export cuts each triangle along the lines where its texture repeats and moves
-each piece into 0..1 (see [Output format](output-format)); afterwards 0.03%
-of the textured triangles, across which a texture repeats more than 16 times,
-reach outside. A triangle the cutting would make more than 4 pieces of is
-drawn in its texture's average colour instead: bark repeats down every branch,
-and cut, a level's trees went from 6.4 to 24 million triangles.
+one level 23% of the textured triangles reach outside 0..1. They are written
+as they are, with a repeating sampler; the 3DHeat viewer wraps each repeating
+texture inside its atlas. A renderer that clamps them instead smears the ribs
+to twice their width, turns a concrete floor into streaks along one axis, and
+gives a tower's steel beams their texture's edge colour; for it,
+`--clamped-uvs` cuts each triangle along the lines where its texture repeats
+and moves each piece into 0..1 (see [Output format](output-format)).
+Afterwards 0.03% of the textured triangles, across which a texture repeats more
+than 16 times, reach outside, and a triangle the cutting would make more than
+4 pieces of is drawn in its texture's average colour instead: bark repeats
+down every branch, and cut, a level's trees went from 6.4 to 24 million
+triangles.
 
 The heightfield has no colour map of its own that could be read. Where one of
 the terrain backdrop's maps covers it, it is coloured from that: the backdrop's texture coordinates are a linear
