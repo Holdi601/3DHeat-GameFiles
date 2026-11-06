@@ -205,6 +205,7 @@ COLOR_UBYTE4 = 28
 TANGENT_1010102 = 24
 #: R16_UINT. Indices, three to a triangle.
 INDEX_SHORT = 57
+INDEX_LONG = 42
 
 #: Every attribute that is not the position is four bytes, which is what lets a
 #: buffer's stride and its attribute count be checked against each other.
@@ -761,17 +762,18 @@ def read_geometry(model: ModelFile, *, lod: int | None = 0) -> Geometry:
     vertices = read_vertices(model)
 
     indices = read_buffer(model.raw(by["IndB"][0]))
-    if indices.format != INDEX_SHORT or indices.stride != 2:
+    wide = {INDEX_SHORT: (2, "<u2"), INDEX_LONG: (4, "<u4")}.get(indices.format)
+    if wide is None or indices.stride != wide[0]:
         raise UnsupportedForza(
             f"{model.path.name} stores indices as format {indices.format} at "
-            f"{indices.stride} bytes; only unsigned shorts are implemented"
+            f"{indices.stride} bytes; only unsigned shorts and longs are implemented"
         )
     if indices.count % 3:
         raise UnsupportedForza(
             f"{model.path.name} has {indices.count} indices, which is not whole "
             "triangles"
         )
-    faces = np.frombuffer(indices.data, dtype="<u2").reshape(-1, 3).astype(np.int32)
+    faces = np.frombuffer(indices.data, dtype=wide[1]).reshape(-1, 3).astype(np.int32)
 
     labels: tuple[str, ...] = ()
     masks = None

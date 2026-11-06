@@ -304,6 +304,24 @@ Example Circuit: 12 laps, 18,400 samples, 41,200 m driven
 wrote example_circuit.glb (79,000,000 bytes)
 ```
 
+## cars
+
+```
+python -m heat3d_gamefiles cars -o forza.h3dcars
+python -m heat3d_gamefiles cars --game "<game folder>" -o forza.h3dcars
+```
+
+Every car of an installed Forza at the game's own low detail, in one file for
+the viewer's race tab: the `ProxyLOD` model each car archive under `media/Cars`
+carries, about 900 triangles, with the car's number as the telemetry states it,
+its make, model tag and year from the archive's name, and its wheels and tail
+lights. Takes seconds and writes about 5 MB. Run it again when the game gets new
+cars. An archive with no such model (a traffic prop) is named and left out. The
+format is in [`forzacars.py`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/heat3d_gamefiles/forzacars.py).
+
+The shapes are in metres, the game's own: 1:1 with the car. The file holds the
+game's content, so it is for the machine it was made on, not for passing around.
+
 ## courses
 
 ```

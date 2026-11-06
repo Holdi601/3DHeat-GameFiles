@@ -48,6 +48,7 @@ courses/
 
 # Maps, levels, models and game archives, by type.
 *.glb
+*.h3dcars
 *.gltf
 *.obj
 *.stl

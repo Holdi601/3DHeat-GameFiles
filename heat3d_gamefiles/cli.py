@@ -768,6 +768,47 @@ def export_course(driven, target: Path, args) -> int:
     return 0
 
 
+def _cars(args) -> int:
+    """
+    Every car of an installed Forza, at the game's own reduced quality, in one
+    file for the viewer's race tab. Run it again when the game gets new cars.
+    """
+    from .forzacars import cars_of_game, read_car, write_pack
+    from .forzainstall import game_folders
+
+    if args.game:
+        games = [Path(args.game)]
+    else:
+        games = [g for g in game_folders() if cars_of_game(g)]
+    if not games:
+        print("no installed Forza with cars found; name its folder with --game", file=sys.stderr)
+        return 1
+    game = games[-1]
+    archives = cars_of_game(game)
+    if not archives:
+        print(f"{game} has no media/Cars folder", file=sys.stderr)
+        return 1
+    print(f"reading {len(archives)} cars from {game}")
+    cars, without, failed = [], [], []
+    for archive in archives:
+        try:
+            car = read_car(archive)
+        except Exception as error:
+            failed.append(f"{archive.name}: {error}")
+            continue
+        if car is None:
+            without.append(archive.name)
+        else:
+            cars.append(car)
+    size = write_pack(cars, args.out, source=game.name)
+    print(f"{args.out}: {len(cars)} cars, {size / 1e6:.1f} MB")
+    if without:
+        print(f"no stand-in model in {len(without)}: {', '.join(without)}")
+    for line in failed:
+        print(f"failed: {line}", file=sys.stderr)
+    return 1 if failed else 0
+
+
 def _courses(args) -> int:
     """
     Every course in a recorded lap library, one file each.
@@ -1200,6 +1241,10 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--margin", type=float, default=80.0, help="metres either side of the driving (default 80)")
     p.set_defaults(run=_courses)
 
+    p = sub.add_parser("cars", help="every car of an installed Forza at low detail, in one file for the viewer")
+    p.add_argument("-o", "--out", type=Path, default=Path("forza.h3dcars"), help="the file to write (default ./forza.h3dcars)")
+    p.add_argument("--game", type=Path, default=None, help="the game's folder, if not the installed one found")
+
     p = sub.add_parser(
         "terrain", help="cut a piece of Forza terrain out, by world coordinates"
     )
@@ -1322,6 +1367,8 @@ def main(argv: list[str] | None = None) -> int:
         return _course(args)
     if args.verb == "courses":
         return _courses(args)
+    if args.verb == "cars":
+        return _cars(args)
     if args.verb == "levels":
         return _levels(args)
     if args.verb == "level":
