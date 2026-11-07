@@ -64,6 +64,13 @@ The game's own type library sits in its initial file system, which is
 encrypted. It is not read: no key is recovered or used, and the few types the
 level export needs were laid out from the data instead.
 
+The Enfusion readers (`enfusion.py`, `enfusionworld.py`) and the Unreal
+landscape reader (`unreallandscape.py`) were worked out from Arma Reforger's
+and Hell Let Loose: Vietnam's own installed files, with nothing else as a
+source; nothing in either game is encrypted. Bohemia Interactive publishes its
+game scripts under the Arma Public Licence, which is not MIT-compatible; none
+of them was read for this or copied.
+
 Two formats are not undocumented. BeamNG publishes its `.cdae` shape cache's
 layout, and the reader follows that. Unreal 5's cooked property data needs each
 class's property list in order to be read; the lists embedded here

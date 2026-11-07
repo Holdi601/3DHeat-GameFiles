@@ -18,6 +18,8 @@ produces output that looks right and is not.
 | Assetto Corsa Rally | yes | models flat-coloured; not yet run on a lap recorded in the game |
 | Assetto Corsa EVO | **no** | all content is in one package obfuscated with a key, and this tool recovers no keys |
 | Battlefield 6 (level export, `level`) | yes, a whole level | terrain, grouped and individually placed meshes and their colour maps, the soldiers' navigation mesh, cut-out foliage; the play area's ground colour is coarse (32 m a pixel, or one average colour); no translucency or normal maps; destructible meshes tagged, their destroyed states not exported |
+| Hell Let Loose: Vietnam (map export, `ue-map`) | yes, a whole map | the landscape exact; buildings as the map's simplified HLOD meshes, not the full-detail models; water bodies; no foliage, decals or ground colour |
+| Arma Reforger (world export, `enfusion-world`) | yes, a whole world | terrain in its own colours and the sea; buildings, props and rocks as their models' boxes, not their triangles; trees on request (`--trees`), as boxes; no lakes, rivers or child entities |
 | iRacing | **no** | tracks ship in a protected format that is not a file-extraction target |
 | anything else | **no** | there is no course reader; reconstruct from gameplay with 3DHeat GameCapture, or analyse the laps in the viewer's Race tab without a course |
 
@@ -32,6 +34,8 @@ produces output that looks right and is not.
 | Source 2 | compiled assets (`.vmdl_c`, `.vtex_c`); the CS2 nav mesh (version 36) |
 | ForzaTech | position formats other than four scaled shorts; index formats other than u16; texture codes other than 0, 9, 13; the terrain shader's material layers; tangents |
 | BeamNG | skinned and decal meshes; animation; procedural ground cover; scenery round the edge of the world |
+| Unreal landscapes and World Partition maps | landscapes whose heightmaps live in the cooked cells; edit layers and holes; Nanite landscape meshes; full-detail models placed in the cells; foliage; landscape materials |
+| Enfusion | model triangles (`.xob` geometry is compressed in a layout not read); `.edds` with pre-DX10 headers; nested-object values in world files (skipped, counted); child entities; generated lakes and rivers; `list`/`extract` on a `.pak` |
 
 ## Behaviour worth knowing
 

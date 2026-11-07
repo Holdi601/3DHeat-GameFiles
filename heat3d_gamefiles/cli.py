@@ -1361,8 +1361,17 @@ def main(argv: list[str] | None = None) -> int:
         help="leave out static model groups whose partition name contains TEXT (repeatable)",
     )
 
+    from . import enfusionworld, unreallevel
+
+    unreallevel.add_verbs(sub)
+    enfusionworld.add_verbs(sub)
+
     args = parser.parse_args(argv)
 
+    if args.verb in ("ue-maps", "ue-map"):
+        return unreallevel.run(args)
+    if args.verb in ("enfusion-worlds", "enfusion-world"):
+        return enfusionworld.run(args)
     if args.verb == "course":
         return _course(args)
     if args.verb == "courses":

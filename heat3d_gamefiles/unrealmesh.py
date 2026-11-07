@@ -100,13 +100,23 @@ def _native_start(data: bytes, body_setup: int) -> int | None:
         at += 1
 
 
-def read_static_mesh(package: Package, *, all_levels: bool = True) -> StaticMesh:
-    """The static mesh a package holds."""
-    mesh_export = next((e for e in package.exports if package.class_name(e).endswith(".StaticMesh")), None)
+def read_static_mesh(package: Package, *, all_levels: bool = True, export=None) -> StaticMesh:
+    """
+    The static mesh a package holds - or, given `export`, that one of several:
+    a World Partition map keeps its merged HLOD meshes in its own package.
+    """
+    if export is None:
+        mesh_export = next((e for e in package.exports if package.class_name(e).endswith(".StaticMesh")), None)
+        body = next((e for e in package.exports if package.class_name(e).endswith(".BodySetup")), None)
+    else:
+        mesh_export = export
+        body = next(
+            (e for e in package.exports if package.class_name(e).endswith(".BodySetup") and package.outer_export(e) is export),
+            None,
+        )
     if mesh_export is None:
         raise MeshError(f"{package.path} holds no static mesh")
     data = package.export_data(mesh_export)
-    body = next((e for e in package.exports if package.class_name(e).endswith(".BodySetup")), None)
     start = _native_start(data, body.index + 1 if body is not None else 0)
     if start is None:
         raise MeshError(f"{package.path}: the native data was not found")
@@ -123,8 +133,20 @@ def read_static_mesh(package: Package, *, all_levels: bool = True) -> StaticMesh
     if not 0 < count <= 16:
         raise MeshError(f"{count} levels of detail")
     out = StaticMesh(name=mesh_export.name)
+    # Unreal 5.6 writes each level's bounds after its sections; 5.3-5.5 do
+    # not. The 5.6 layout is tried first and the other only if it does not
+    # read, and the first level decides for the rest.
+    bounds = None
     for level in range(count):
-        lod = _read_lod(r)
+        if bounds is None:
+            at = r.at
+            try:
+                lod, bounds = _read_lod(r, bounds=True), True
+            except (MeshError, struct.error, ValueError):
+                r.at = at
+                lod, bounds = _read_lod(r, bounds=False), False
+        else:
+            lod = _read_lod(r, bounds=bounds)
         if lod is None:
             break
         out.lods.append(lod)
@@ -135,7 +157,7 @@ def read_static_mesh(package: Package, *, all_levels: bool = True) -> StaticMesh
     return out
 
 
-def _read_lod(r: _Reader) -> Lod | None:
+def _read_lod(r: _Reader, bounds: bool = True) -> Lod | None:
     strip = r.take("<H")
     count = r.take("<i")
     if not 0 <= count <= 4096:
@@ -145,9 +167,12 @@ def _read_lod(r: _Reader) -> Lod | None:
         material, first, triangles, _lo, _hi = r.take("<iIIII")
         r.skip(20)  # five bool32 flags
         sections.append(Section(material, first, triangles))
-    r.skip(56)  # bounds: origin, extent, radius, as doubles
+    if bounds:
+        r.skip(56)  # bounds: origin, extent, radius, as doubles (Unreal 5.6)
     r.take("<f")  # max deviation
     cooked_out, inlined = r.take("<II")
+    if cooked_out > 1 or inlined > 1:
+        raise MeshError("level of detail flags are not flags")
     if cooked_out or not inlined:
         return None
     r.take("<I")  # ray tracing geometry flag

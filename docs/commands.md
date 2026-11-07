@@ -462,6 +462,61 @@ python -m heat3d_gamefiles level <level> --textures 512 --ground-texture 0.5 --n
 python -m heat3d_gamefiles level <level> --textures 256 --detail-budget 3000000 --ground-spacing 8
 ```
 
+## ue-maps and ue-map (Unreal 5 World Partition)
+
+```
+python -m heat3d_gamefiles ue-maps <game>
+python -m heat3d_gamefiles ue-map  <game> <map> [-o FILE] [--ground-spacing METRES] [--no-structures] [--no-water]
+```
+
+`<game>` is the game's folder, its `Content/Paks`, or the name of its folder
+in a Steam library (`"Hell Let Loose - Vietnam"`). `ue-maps` lists every map
+that has cooked World Partition cells beside it. `ue-map` exports one as
+`ground:<map>` (the landscape), `structure:<map>` (the map's merged HLOD
+meshes) and `water:<map>` (its water bodies where they stand above the
+ground), in Unreal centimetres with Y and Z swapped. How each is read and
+checked is in the [README](../README.md#unreal-5-world-partition-maps--ue-map).
+
+| Option | Default | Meaning |
+|---|---|---|
+| `<map>` | required | a name as `ue-maps` prints it, or a unique part of one |
+| `-o`, `--out FILE` | `<map>.glb` | the `.glb` to write |
+| `--ground-spacing METRES` | 2 | the landscape's vertex spacing in the file, rounded to a whole number of its own quads |
+| `--no-structures`, `--no-water` | | leave that part out |
+
+It prints the triangles per part, how many landscape components were read and
+how many of the vertices they store twice disagree. A 3 km map at 2 m is about
+4.6 million ground triangles.
+
+## enfusion-worlds and enfusion-world (Arma Reforger)
+
+```
+python -m heat3d_gamefiles enfusion-worlds [--install FOLDER]
+python -m heat3d_gamefiles enfusion-world <world> [-o FILE] [--install FOLDER] [--ground-spacing METRES]
+                                          [--texture-size PIXELS] [--no-structures] [--trees]
+```
+
+`enfusion-worlds` lists every world with a terrain, by its folder under
+`worlds/`. `enfusion-world` exports one: `ground:<world>` (the terrain, in the
+colours of its supertexture tiles), `water:<world>` (the sea, at height zero)
+and `structure:<world>` (every placed model's box), in the game's own metres -
+x east, y up, z north. How each is read and checked is in the
+[README](../README.md#arma-reforger--enfusion-pak-terrain-and-world-files).
+
+| Option | Default | Meaning |
+|---|---|---|
+| `<world>` | required | a world as `enfusion-worlds` prints it |
+| `-o`, `--out FILE` | `<world>.glb` | the `.glb` to write |
+| `--install FOLDER` | the Steam library that holds the game | the game's folder |
+| `--ground-spacing METRES` | 2 (the terrain's own) | the terrain's vertex spacing in the file |
+| `--texture-size PIXELS` | 4096 | the ground colour image's larger side; 0 for flat colour |
+| `--no-structures` | | leave the placed models out |
+| `--trees` | off | also place trees and other vegetation, as boxes |
+
+It prints the triangles per part, how many tile-edge vertices disagree, how
+many entities the world file holds and how many boxes were placed, and what was
+left out and why.
+
 ## Environment variables
 
 | Variable | Effect |
