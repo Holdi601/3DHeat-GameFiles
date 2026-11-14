@@ -3,38 +3,38 @@
 <rect width="968" height="26" rx="8" fill="#2c2e35"/><rect y="18" width="968" height="8" fill="#2c2e35"/>
 <circle cx="16" cy="13" r="5" fill="#ff5f57"/><circle cx="32" cy="13" r="5" fill="#febc2e"/><circle cx="48" cy="13" r="5" fill="#28c840"/>
 <text x="484.0" y="17" fill="#9aa0aa" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="12" text-anchor="middle">python -m heat3d_gamefiles --help</text>
-<g font-family="Consolas,Menlo,DejaVu Sans Mono,monospace" font-size="13" xml:space="preserve">
-<text x="16" y="46" fill="#7ee787">$ python -m heat3d_gamefiles --help</text>
-<text x="16" y="64" fill="#d6d9df">usage: heat3d_gamefiles [-h]</text>
-<text x="16" y="82" fill="#d6d9df">                        {identify,list,extract,meshes,course,courses,cars,terrain,levels,level,ue-maps,ue-map,enfusion-…</text>
-<text x="16" y="100" fill="#d6d9df"></text>
-<text x="16" y="118" fill="#d6d9df">Read level data out of shipped game archives.</text>
-<text x="16" y="136" fill="#d6d9df"></text>
-<text x="16" y="154" fill="#d6d9df">positional arguments:</text>
-<text x="16" y="172" fill="#d6d9df">  {identify,list,extract,meshes,course,courses,cars,terrain,levels,level,ue-maps,ue-map,enfusion-worlds,enfusion-world}</text>
-<text x="16" y="190" fill="#d6d9df">    identify            say what a file is</text>
-<text x="16" y="208" fill="#d6d9df">    list                list what is inside an archive</text>
-<text x="16" y="226" fill="#d6d9df">    extract             write one entry to disk</text>
-<text x="16" y="244" fill="#d6d9df">    meshes              list the meshes in a Unity container</text>
-<text x="16" y="262" fill="#d6d9df">    course              export the ground around a lap, working out the rest</text>
-<text x="16" y="280" fill="#d6d9df">    courses             export every course in a recorded lap library, one</text>
-<text x="16" y="298" fill="#d6d9df">                        file each</text>
-<text x="16" y="316" fill="#d6d9df">    cars                every car of an installed Forza at low detail, in one</text>
-<text x="16" y="334" fill="#d6d9df">                        file for the viewer</text>
-<text x="16" y="352" fill="#d6d9df">    terrain             cut a piece of Forza terrain out, by world coordinates</text>
-<text x="16" y="370" fill="#d6d9df">    levels              list the levels of an installed Frostbite game</text>
-<text x="16" y="388" fill="#d6d9df">    level               export a Frostbite level: its terrain backdrop and</text>
-<text x="16" y="406" fill="#d6d9df">                        placed meshes</text>
-<text x="16" y="424" fill="#d6d9df">    ue-maps             list the World Partition maps of an Unreal 5 game</text>
-<text x="16" y="442" fill="#d6d9df">    ue-map              export an Unreal 5 World Partition map: landscape,</text>
-<text x="16" y="460" fill="#d6d9df">                        HLOD structures, water</text>
-<text x="16" y="478" fill="#d6d9df">    enfusion-worlds     list the worlds of an installed Arma Reforger</text>
-<text x="16" y="496" fill="#d6d9df">    enfusion-world      export an Arma Reforger world: terrain, its colour,</text>
-<text x="16" y="514" fill="#d6d9df">                        the sea, building boxes</text>
-<text x="16" y="532" fill="#d6d9df"></text>
-<text x="16" y="550" fill="#d6d9df">options:</text>
-<text x="16" y="568" fill="#d6d9df">  -h, --help            show this help message and exit</text>
-<text x="16" y="586" fill="#d6d9df"></text>
-<text x="16" y="604" fill="#d6d9df">Encrypted archives need a key you already hold; this tool has none and</text>
-<text x="16" y="622" fill="#d6d9df">recovers none. What you point it at is subject to that game&#x27;s own licence.</text>
+<g font-family="Consolas,Menlo,DejaVu Sans Mono,monospace" font-size="13" xml:space="preserve" style="white-space:pre">
+<text x="16" y="46" fill="#7ee787" xml:space="preserve" style="white-space:pre">$&#160;python&#160;-m&#160;heat3d_gamefiles&#160;--help</text>
+<text x="16" y="64" fill="#d6d9df" xml:space="preserve" style="white-space:pre">usage:&#160;heat3d_gamefiles&#160;[-h]</text>
+<text x="16" y="82" fill="#d6d9df" xml:space="preserve" style="white-space:pre">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;{identify,list,extract,meshes,course,courses,cars,terrain,levels,level,ue-maps,ue-map,enfusion-…</text>
+<text x="16" y="100" fill="#d6d9df" xml:space="preserve" style="white-space:pre"></text>
+<text x="16" y="118" fill="#d6d9df" xml:space="preserve" style="white-space:pre">Read&#160;level&#160;data&#160;out&#160;of&#160;shipped&#160;game&#160;archives.</text>
+<text x="16" y="136" fill="#d6d9df" xml:space="preserve" style="white-space:pre"></text>
+<text x="16" y="154" fill="#d6d9df" xml:space="preserve" style="white-space:pre">positional&#160;arguments:</text>
+<text x="16" y="172" fill="#d6d9df" xml:space="preserve" style="white-space:pre">&#160;&#160;{identify,list,extract,meshes,course,courses,cars,terrain,levels,level,ue-maps,ue-map,enfusion-worlds,enfusion-world}</text>
+<text x="16" y="190" fill="#d6d9df" xml:space="preserve" style="white-space:pre">&#160;&#160;&#160;&#160;identify&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;say&#160;what&#160;a&#160;file&#160;is</text>
+<text x="16" y="208" fill="#d6d9df" xml:space="preserve" style="white-space:pre">&#160;&#160;&#160;&#160;list&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;list&#160;what&#160;is&#160;inside&#160;an&#160;archive</text>
+<text x="16" y="226" fill="#d6d9df" xml:space="preserve" style="white-space:pre">&#160;&#160;&#160;&#160;extract&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;write&#160;one&#160;entry&#160;to&#160;disk</text>
+<text x="16" y="244" fill="#d6d9df" xml:space="preserve" style="white-space:pre">&#160;&#160;&#160;&#160;meshes&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;list&#160;the&#160;meshes&#160;in&#160;a&#160;Unity&#160;container</text>
+<text x="16" y="262" fill="#d6d9df" xml:space="preserve" style="white-space:pre">&#160;&#160;&#160;&#160;course&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;export&#160;the&#160;ground&#160;around&#160;a&#160;lap,&#160;working&#160;out&#160;the&#160;rest</text>
+<text x="16" y="280" fill="#d6d9df" xml:space="preserve" style="white-space:pre">&#160;&#160;&#160;&#160;courses&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;export&#160;every&#160;course&#160;in&#160;a&#160;recorded&#160;lap&#160;library,&#160;one</text>
+<text x="16" y="298" fill="#d6d9df" xml:space="preserve" style="white-space:pre">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;file&#160;each</text>
+<text x="16" y="316" fill="#d6d9df" xml:space="preserve" style="white-space:pre">&#160;&#160;&#160;&#160;cars&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;every&#160;car&#160;of&#160;an&#160;installed&#160;Forza&#160;at&#160;low&#160;detail,&#160;in&#160;one</text>
+<text x="16" y="334" fill="#d6d9df" xml:space="preserve" style="white-space:pre">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;file&#160;for&#160;the&#160;viewer</text>
+<text x="16" y="352" fill="#d6d9df" xml:space="preserve" style="white-space:pre">&#160;&#160;&#160;&#160;terrain&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;cut&#160;a&#160;piece&#160;of&#160;Forza&#160;terrain&#160;out,&#160;by&#160;world&#160;coordinates</text>
+<text x="16" y="370" fill="#d6d9df" xml:space="preserve" style="white-space:pre">&#160;&#160;&#160;&#160;levels&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;list&#160;the&#160;levels&#160;of&#160;an&#160;installed&#160;Frostbite&#160;game</text>
+<text x="16" y="388" fill="#d6d9df" xml:space="preserve" style="white-space:pre">&#160;&#160;&#160;&#160;level&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;export&#160;a&#160;Frostbite&#160;level:&#160;its&#160;terrain&#160;backdrop&#160;and</text>
+<text x="16" y="406" fill="#d6d9df" xml:space="preserve" style="white-space:pre">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;placed&#160;meshes</text>
+<text x="16" y="424" fill="#d6d9df" xml:space="preserve" style="white-space:pre">&#160;&#160;&#160;&#160;ue-maps&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;list&#160;the&#160;World&#160;Partition&#160;maps&#160;of&#160;an&#160;Unreal&#160;5&#160;game</text>
+<text x="16" y="442" fill="#d6d9df" xml:space="preserve" style="white-space:pre">&#160;&#160;&#160;&#160;ue-map&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;export&#160;an&#160;Unreal&#160;5&#160;World&#160;Partition&#160;map:&#160;landscape,</text>
+<text x="16" y="460" fill="#d6d9df" xml:space="preserve" style="white-space:pre">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;HLOD&#160;structures,&#160;water</text>
+<text x="16" y="478" fill="#d6d9df" xml:space="preserve" style="white-space:pre">&#160;&#160;&#160;&#160;enfusion-worlds&#160;&#160;&#160;&#160;&#160;list&#160;the&#160;worlds&#160;of&#160;an&#160;installed&#160;Arma&#160;Reforger</text>
+<text x="16" y="496" fill="#d6d9df" xml:space="preserve" style="white-space:pre">&#160;&#160;&#160;&#160;enfusion-world&#160;&#160;&#160;&#160;&#160;&#160;export&#160;an&#160;Arma&#160;Reforger&#160;world:&#160;terrain,&#160;its&#160;colour,</text>
+<text x="16" y="514" fill="#d6d9df" xml:space="preserve" style="white-space:pre">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;the&#160;sea,&#160;building&#160;boxes</text>
+<text x="16" y="532" fill="#d6d9df" xml:space="preserve" style="white-space:pre"></text>
+<text x="16" y="550" fill="#d6d9df" xml:space="preserve" style="white-space:pre">options:</text>
+<text x="16" y="568" fill="#d6d9df" xml:space="preserve" style="white-space:pre">&#160;&#160;-h,&#160;--help&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;show&#160;this&#160;help&#160;message&#160;and&#160;exit</text>
+<text x="16" y="586" fill="#d6d9df" xml:space="preserve" style="white-space:pre"></text>
+<text x="16" y="604" fill="#d6d9df" xml:space="preserve" style="white-space:pre">Encrypted&#160;archives&#160;need&#160;a&#160;key&#160;you&#160;already&#160;hold;&#160;this&#160;tool&#160;has&#160;none&#160;and</text>
+<text x="16" y="622" fill="#d6d9df" xml:space="preserve" style="white-space:pre">recovers&#160;none.&#160;What&#160;you&#160;point&#160;it&#160;at&#160;is&#160;subject&#160;to&#160;that&#160;game&#x27;s&#160;own&#160;licence.</text>
 </g></svg>

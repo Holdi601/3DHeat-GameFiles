@@ -3,23 +3,23 @@
 <rect width="968" height="26" rx="8" fill="#2c2e35"/><rect y="18" width="968" height="8" fill="#2c2e35"/>
 <circle cx="16" cy="13" r="5" fill="#ff5f57"/><circle cx="32" cy="13" r="5" fill="#febc2e"/><circle cx="48" cy="13" r="5" fill="#28c840"/>
 <text x="484.0" y="17" fill="#9aa0aa" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="12" text-anchor="middle">course: a lap into a course</text>
-<g font-family="Consolas,Menlo,DejaVu Sans Mono,monospace" font-size="13" xml:space="preserve">
-<text x="16" y="46" fill="#7ee787">$ python -m heat3d_gamefiles course lap.json --install &quot;C:\Games\BeamNG.drive&quot; -o course.glb --margin 30 --texture-size…</text>
-<text x="16" y="64" fill="#d6d9df">lap: 120 samples, 50 m driven (BeamNG.drive)</text>
-<text x="16" y="82" fill="#d6d9df">  on example_level: 100% of the lap lies on its terrain</text>
-<text x="16" y="100" fill="#d6d9df">  cutting 30 m either side of the driving: 0.01 km2</text>
-<text x="16" y="118" fill="#d6d9df"></text>
-<text x="16" y="136" fill="#d6d9df">  what the ground is made of:</text>
-<text x="16" y="154" fill="#d6d9df">      6,688 triangles  81.6%  terrain</text>
-<text x="16" y="172" fill="#d6d9df">      1,504 triangles  18.4%  road</text>
-<text x="16" y="190" fill="#d6d9df">  and modelled: 2 road triangles</text>
-<text x="16" y="208" fill="#d6d9df"></text>
-<text x="16" y="226" fill="#d6d9df">  baked 4 ground textures at 512 px (100 cm a pixel): 2 road decals and 1 modelled surfaces painted</text>
-<text x="16" y="244" fill="#d6d9df"></text>
-<text x="16" y="262" fill="#d6d9df">  placed on it (7 triangles of a 1,500,000 budget):</text>
-<text x="16" y="280" fill="#d6d9df">          1 barriers</text>
-<text x="16" y="298" fill="#d6d9df">          1 props</text>
-<text x="16" y="316" fill="#d6d9df">          1 rocks</text>
-<text x="16" y="334" fill="#d6d9df"></text>
-<text x="16" y="352" fill="#d6d9df">wrote course.glb (206,728 bytes)</text>
+<g font-family="Consolas,Menlo,DejaVu Sans Mono,monospace" font-size="13" xml:space="preserve" style="white-space:pre">
+<text x="16" y="46" fill="#7ee787" xml:space="preserve" style="white-space:pre">$&#160;python&#160;-m&#160;heat3d_gamefiles&#160;course&#160;lap.json&#160;--install&#160;&quot;C:\Games\BeamNG.drive&quot;&#160;-o&#160;course.glb&#160;--margin&#160;30&#160;--texture-size…</text>
+<text x="16" y="64" fill="#d6d9df" xml:space="preserve" style="white-space:pre">lap:&#160;120&#160;samples,&#160;50&#160;m&#160;driven&#160;(BeamNG.drive)</text>
+<text x="16" y="82" fill="#d6d9df" xml:space="preserve" style="white-space:pre">&#160;&#160;on&#160;example_level:&#160;100%&#160;of&#160;the&#160;lap&#160;lies&#160;on&#160;its&#160;terrain</text>
+<text x="16" y="100" fill="#d6d9df" xml:space="preserve" style="white-space:pre">&#160;&#160;cutting&#160;30&#160;m&#160;either&#160;side&#160;of&#160;the&#160;driving:&#160;0.01&#160;km2</text>
+<text x="16" y="118" fill="#d6d9df" xml:space="preserve" style="white-space:pre"></text>
+<text x="16" y="136" fill="#d6d9df" xml:space="preserve" style="white-space:pre">&#160;&#160;what&#160;the&#160;ground&#160;is&#160;made&#160;of:</text>
+<text x="16" y="154" fill="#d6d9df" xml:space="preserve" style="white-space:pre">&#160;&#160;&#160;&#160;&#160;&#160;6,688&#160;triangles&#160;&#160;81.6%&#160;&#160;terrain</text>
+<text x="16" y="172" fill="#d6d9df" xml:space="preserve" style="white-space:pre">&#160;&#160;&#160;&#160;&#160;&#160;1,504&#160;triangles&#160;&#160;18.4%&#160;&#160;road</text>
+<text x="16" y="190" fill="#d6d9df" xml:space="preserve" style="white-space:pre">&#160;&#160;and&#160;modelled:&#160;2&#160;road&#160;triangles</text>
+<text x="16" y="208" fill="#d6d9df" xml:space="preserve" style="white-space:pre"></text>
+<text x="16" y="226" fill="#d6d9df" xml:space="preserve" style="white-space:pre">&#160;&#160;baked&#160;4&#160;ground&#160;textures&#160;at&#160;512&#160;px&#160;(100&#160;cm&#160;a&#160;pixel):&#160;2&#160;road&#160;decals&#160;and&#160;1&#160;modelled&#160;surfaces&#160;painted</text>
+<text x="16" y="244" fill="#d6d9df" xml:space="preserve" style="white-space:pre"></text>
+<text x="16" y="262" fill="#d6d9df" xml:space="preserve" style="white-space:pre">&#160;&#160;placed&#160;on&#160;it&#160;(7&#160;triangles&#160;of&#160;a&#160;1,500,000&#160;budget):</text>
+<text x="16" y="280" fill="#d6d9df" xml:space="preserve" style="white-space:pre">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;1&#160;barriers</text>
+<text x="16" y="298" fill="#d6d9df" xml:space="preserve" style="white-space:pre">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;1&#160;props</text>
+<text x="16" y="316" fill="#d6d9df" xml:space="preserve" style="white-space:pre">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;1&#160;rocks</text>
+<text x="16" y="334" fill="#d6d9df" xml:space="preserve" style="white-space:pre"></text>
+<text x="16" y="352" fill="#d6d9df" xml:space="preserve" style="white-space:pre">wrote&#160;course.glb&#160;(206,728&#160;bytes)</text>
 </g></svg>
