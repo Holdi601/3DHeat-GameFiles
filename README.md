@@ -1,6 +1,13 @@
-# Game-file exporter
+# 3DHeat GameFiles
 
-Reads level data out of the archives a game already ships, for the 3DHeat viewer.
+Reads level data out of the archives a game already ships, for the
+[3DHeat](https://github.com/Holdi601/3DHeat) viewer
+([viewer documentation](https://holdi601.github.io/3DHeat/)).
+
+**Documentation:** [holdi601.github.io/3DHeat-GameFiles](https://holdi601.github.io/3DHeat-GameFiles/)
+- one page per command, step by step, with examples.
+
+![Where GameFiles fits between the game and the viewer](docs/assets/img/where-it-fits.svg)
 
 This is the third route to a level's geometry, and it exists because the other
 two leave a gap:
@@ -26,6 +33,20 @@ The case it answers is a developer who has the build but not the project — a
 different studio's title, an old branch, a build from a partner. An engine export
 is better whenever it is available.
 
+## What it is useful for
+
+- **Drawing heat on the real track.** Record laps in Forza, BeamNG.drive or
+  Assetto Corsa Rally, run `course` on one, and the viewer draws your laps on
+  the course they were driven on - road, verge, kerbs, barriers - in the same
+  coordinates as the telemetry.
+- **Whole multiplayer levels.** Battlefield 6 levels, Unreal 5 World Partition
+  maps and Arma Reforger worlds as one `.glb`, so position data from those
+  games has its ground and buildings under it.
+- **Cars in their own shape.** `cars` gives the viewer's race tab every Forza
+  car at the game's own low detail and true size.
+- **Looking inside a game's archives.** `identify`, `list` and `extract` say
+  what a file is and take one entry out, for any of the formats below.
+
 ## What it does
 
 **It reads containers.** Parsing an archive format is ordinary file handling, and
@@ -40,6 +61,21 @@ inside the tool, which is also how the established extractors are built.
 
 **What you point it at is your responsibility.** Games carry their own licence
 terms; no design choice here discharges them.
+
+## Install
+
+Python 3.13 (older versions are not checked), Windows (games are found through
+Steam's library list and `%LOCALAPPDATA%`):
+
+```
+git clone https://github.com/Holdi601/3DHeat-GameFiles.git
+cd 3DHeat-GameFiles
+pip install -r requirements.txt
+python -m heat3d_gamefiles --help
+```
+
+Unreal content compressed with Oodle needs an Oodle library already on the
+machine (below). Nothing else is downloaded.
 
 ## Using it
 
@@ -56,10 +92,53 @@ python -m heat3d_gamefiles ue-maps  <game folder | Steam game folder name>
 python -m heat3d_gamefiles ue-map   <game folder | Steam game folder name> <map> [-o map.glb]
 python -m heat3d_gamefiles enfusion-worlds
 python -m heat3d_gamefiles enfusion-world <world> [-o world.glb]
+python -m heat3d_gamefiles levels   [--install folder]                 # Battlefield 6
+python -m heat3d_gamefiles level    <level> [-o level.glb] [--textures] [--navmesh]
+python -m heat3d_gamefiles cars     [-o forza.h3dcars] [--game folder] # every Forza car
 ```
 
 Run from this folder with the packages in `requirements.txt` installed
 (`pip install -r requirements.txt`).
+
+### Every option
+
+| Verb | Options |
+|---|---|
+| `identify` | `<file>` |
+| `list` | `<archive>`, `--filter TEXT`, `--limit N`, `--key HEX` (an AES-256 key you already hold; only an encrypted `.pak`) |
+| `extract` | `<archive> <path inside>`, `--out FILE`, `--key HEX` |
+| `meshes` | `<unity file>`, `--limit N` |
+| `course` | `<lap file \| lap folder \| course name>`, `-o FILE`, `--game forza\|beamng\|acrally`, `--track FOLDER` (Forza), `--level NAME` and `--install FOLDER` (BeamNG, AC Rally), `--margin M` (80), `--texture-size 2048\|1024\|512`, `--no-textures`, `--season summer\|autumn\|winter\|spring`, `--no-placed`, `--trees`, `--detail-budget N` |
+| `courses` | `-o FOLDER` (`./courses`), `--library FILE`, `--only NAME ...`, `--force`, `--track FOLDER`, `--margin M`, and the texture/season/placed/trees/budget options of `course` |
+| `terrain` | `<forza track folder>`, `-o FILE`, `--box X0 Z0 X1 Z1` or `--route ROUTE.json`, `--margin M`, and the texture/season/placed/trees/budget options of `course` |
+| `cars` | `-o FILE` (`./forza.h3dcars`), `--game FOLDER` |
+| `levels` | `--install FOLDER` |
+| `level` | `<level>`, `-o FILE`, `--install FOLDER`, `--textures [PIXELS]`, `--ground-texture [METRES]`, `--navmesh`, `--ground-spacing M` (4), `--detail-budget N`, `--skip TEXT`, `--by-mesh`, `--clamped-uvs` |
+| `ue-maps` | `<game folder \| Steam folder name>` |
+| `ue-map` | `<game> <map>`, `-o FILE`, `--ground-spacing M` (2), `--no-structures`, `--no-water` |
+| `enfusion-worlds` | `--install FOLDER` |
+| `enfusion-world` | `<world>`, `-o FILE`, `--install FOLDER`, `--ground-spacing M` (2), `--texture-size PIXELS` (4096; 0 for none), `--no-structures`, `--trees` |
+
+Each verb is explained step by step, with its output, in the
+[documentation](https://holdi601.github.io/3DHeat-GameFiles/commands.html).
+Exit codes: 0 done, 1 the work failed, 2 a usage error.
+
+### Output
+
+Every export is one binary glTF (`.glb`): one node per part, in world space,
+in the game's own coordinates and metres, so the game's telemetry lies on it.
+The node name says what each part is - `ground:` (the surface the heat lies
+on), `structure:` (what stands on it), `water:`, and `nav:walkable` for a
+Battlefield 6 navigation mesh. No metadata about the game is written. Details:
+[Output format](https://holdi601.github.io/3DHeat-GameFiles/output-format.html).
+
+![The part prefixes and what they mean](docs/assets/img/glb-parts.svg)
+
+Load it in the 3DHeat viewer's Level panel. The match files the other 3DHeat
+tools write are described in the viewer's
+[One file a match: `.3dheat`](https://holdi601.github.io/3DHeat/container.html);
+a match refers to its level by name and checksum, and the `.glb` stays beside
+it.
 
 `course` is the one to start with: give it a lap and it exports the track
 around it - ground, road, kerbs, barriers, tyre walls, signs - as one textured
@@ -631,4 +710,8 @@ settings, exports - are never touched. To update on request: `python -m heat3d_u
 MIT - see [`LICENSE`](LICENSE), and [`LICENSES.md`](LICENSES.md) for the
 third-party packages it uses and what the games it reads oblige.
 
-Documentation: the [wiki](https://github.com/Holdi601/3DHeat-GameFiles/wiki).
+Documentation: [holdi601.github.io/3DHeat-GameFiles](https://holdi601.github.io/3DHeat-GameFiles/)
+(the same pages are in [`docs/`](docs/)), and the
+[wiki](https://github.com/Holdi601/3DHeat-GameFiles/wiki). The viewer:
+[Holdi601/3DHeat](https://github.com/Holdi601/3DHeat), documented at
+[holdi601.github.io/3DHeat](https://holdi601.github.io/3DHeat/).

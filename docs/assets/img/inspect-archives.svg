@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="843" height="284" viewBox="0 0 843 284" role="img" aria-label="identify, list and extract on a zip">
+<rect width="843" height="284" rx="8" fill="#1e1f24"/>
+<rect width="843" height="26" rx="8" fill="#2c2e35"/><rect y="18" width="843" height="8" fill="#2c2e35"/>
+<circle cx="16" cy="13" r="5" fill="#ff5f57"/><circle cx="32" cy="13" r="5" fill="#febc2e"/><circle cx="48" cy="13" r="5" fill="#28c840"/>
+<text x="421.5" y="17" fill="#9aa0aa" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="12" text-anchor="middle">identify, list and extract on a zip</text>
+<g font-family="Consolas,Menlo,DejaVu Sans Mono,monospace" font-size="13" xml:space="preserve">
+<text x="16" y="46" fill="#7ee787">$ python -m heat3d_gamefiles identify example_level.zip</text>
+<text x="16" y="64" fill="#d6d9df">example_level.zip  (771 bytes)</text>
+<text x="16" y="82" fill="#d6d9df">  zip archive, 4 entries</text>
+<text x="16" y="100" fill="#d6d9df">    holds      2x.json, 1x.ter, 1x.cdae</text>
+<text x="16" y="118" fill="#d6d9df">    levels     example_level (laid out as a BeamNG.drive level)</text>
+<text x="16" y="136" fill="#7ee787">$ python -m heat3d_gamefiles list example_level.zip</text>
+<text x="16" y="154" fill="#d6d9df">4 entries</text>
+<text x="16" y="172" fill="#d6d9df">         6,000  deflate levels/example_level/art/shapes/barrier.cdae</text>
+<text x="16" y="190" fill="#d6d9df">        20,000  deflate levels/example_level/art/terrain/example_level.ter</text>
+<text x="16" y="208" fill="#d6d9df">            44  deflate levels/example_level/info.json</text>
+<text x="16" y="226" fill="#d6d9df">           600  deflate levels/example_level/main.level.json</text>
+<text x="16" y="244" fill="#7ee787">$ python -m heat3d_gamefiles extract example_level.zip levels/example_level/info.json --out outinfo.json</text>
+<text x="16" y="262" fill="#d6d9df">44 bytes -&gt; out\info.json</text>
+</g></svg>

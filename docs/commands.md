@@ -20,11 +20,20 @@ is inside it, give me that, and turn a lap into a course.
 | [`terrain`](#terrain) | a Forza track folder | cuts a region by world coordinates |
 | [`levels`](#levels-and-level-frostbite) | an installed Frostbite game | lists its levels |
 | [`level`](#levels-and-level-frostbite) | a level's name | exports the level: terrain, placed meshes, optionally their colour maps (Battlefield 6) |
+| [`cars`](#cars) | an installed Forza | every car at low detail, in one file for the viewer's race tab |
+| [`ue-maps`](#ue-maps-and-ue-map-unreal-5-world-partition) | an Unreal 5 game | lists its World Partition maps |
+| [`ue-map`](#ue-maps-and-ue-map-unreal-5-world-partition) | a map's name | exports the map: landscape, HLOD structures, water |
+| [`enfusion-worlds`](#enfusion-worlds-and-enfusion-world-arma-reforger) | an installed Arma Reforger | lists its worlds |
+| [`enfusion-world`](#enfusion-worlds-and-enfusion-world-arma-reforger) | a world's name | exports the world: terrain in its colours, the sea, buildings as boxes |
 
 Each time the program starts, it may check for a newer release first. See
 [Updates](updates.md). `HEAT3D_NO_UPDATE=1` turns that check off.
 
 Source: [`cli.py`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/heat3d_gamefiles/cli.py).
+Step-by-step pages: [Inspecting archives](inspecting-archives.md), [Course export](course-export.md),
+[Whole levels](whole-levels.md), [Forza cars](forza-cars.md).
+
+![python -m heat3d_gamefiles --help](assets/img/help.svg)
 
 ## Exit codes
 
@@ -475,7 +484,7 @@ that has cooked World Partition cells beside it. `ue-map` exports one as
 `ground:<map>` (the landscape), `structure:<map>` (the map's merged HLOD
 meshes) and `water:<map>` (its water bodies where they stand above the
 ground), in Unreal centimetres with Y and Z swapped. How each is read and
-checked is in the [README](../README.md#unreal-5-world-partition-maps--ue-map).
+checked is in the [README](https://github.com/Holdi601/3DHeat-GameFiles#unreal-5-world-partition-maps--ue-map).
 
 | Option | Default | Meaning |
 |---|---|---|
@@ -501,7 +510,7 @@ python -m heat3d_gamefiles enfusion-world <world> [-o FILE] [--install FOLDER] [
 colours of its supertexture tiles), `water:<world>` (the sea, at height zero)
 and `structure:<world>` (every placed model's box), in the game's own metres -
 x east, y up, z north. How each is read and checked is in the
-[README](../README.md#arma-reforger--enfusion-pak-terrain-and-world-files).
+[README](https://github.com/Holdi601/3DHeat-GameFiles#arma-reforger--enfusion-pak-terrain-and-world-files).
 
 | Option | Default | Meaning |
 |---|---|---|

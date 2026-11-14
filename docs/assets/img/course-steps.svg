@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1294" height="148" viewBox="0 0 1294 148" role="img" aria-label="course: from a lap to a course">
+<rect width="1294" height="148" rx="10" fill="#f7f8fa" stroke="#d0d4db"/>
+<text x="20" y="30" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#1f2328">course: from a lap to a course</text>
+<rect x="20" y="46" width="150" height="78" rx="8" fill="#e8f0fe" stroke="#7a8aa6"/>
+<text x="95.0" y="68" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="13.5" font-weight="600" fill="#1f2328" text-anchor="middle">Read the lap</text>
+<text x="95.0" y="86" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">positions only</text>
+<text x="95.0" y="103" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">any lap shape</text>
+<path d="M174 85.0 H198" stroke="#4a5568" stroke-width="2"/><path d="M198 80.0 L205 85.0 L198 90.0Z" fill="#4a5568"/>
+<rect x="204" y="46" width="150" height="78" rx="8" fill="#e8f0fe" stroke="#7a8aa6"/>
+<text x="279.0" y="68" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="13.5" font-weight="600" fill="#1f2328" text-anchor="middle">Which game</text>
+<text x="279.0" y="86" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">--game, the file,</text>
+<text x="279.0" y="103" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">else Forza</text>
+<path d="M358 85.0 H382" stroke="#4a5568" stroke-width="2"/><path d="M382 80.0 L389 85.0 L382 90.0Z" fill="#4a5568"/>
+<rect x="388" y="46" width="150" height="78" rx="8" fill="#e8f0fe" stroke="#7a8aa6"/>
+<text x="463.0" y="68" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="13.5" font-weight="600" fill="#1f2328" text-anchor="middle">Find install</text>
+<text x="463.0" y="86" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">Steam libraries</text>
+<text x="463.0" y="103" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">or --track/--install</text>
+<path d="M542 85.0 H566" stroke="#4a5568" stroke-width="2"/><path d="M566 80.0 L573 85.0 L566 90.0Z" fill="#4a5568"/>
+<rect x="572" y="46" width="150" height="78" rx="8" fill="#e8f0fe" stroke="#7a8aa6"/>
+<text x="647.0" y="68" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="13.5" font-weight="600" fill="#1f2328" text-anchor="middle">Where driven</text>
+<text x="647.0" y="86" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">tiles / terrain</text>
+<text x="647.0" y="103" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">the lap lies on</text>
+<path d="M726 85.0 H750" stroke="#4a5568" stroke-width="2"/><path d="M750 80.0 L757 85.0 L750 90.0Z" fill="#4a5568"/>
+<rect x="756" y="46" width="150" height="78" rx="8" fill="#e8f0fe" stroke="#7a8aa6"/>
+<text x="831.0" y="68" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="13.5" font-weight="600" fill="#1f2328" text-anchor="middle">Corridor</text>
+<text x="831.0" y="86" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">--margin m</text>
+<text x="831.0" y="103" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">either side</text>
+<path d="M910 85.0 H934" stroke="#4a5568" stroke-width="2"/><path d="M934 80.0 L941 85.0 L934 90.0Z" fill="#4a5568"/>
+<rect x="940" y="46" width="150" height="78" rx="8" fill="#e8f0fe" stroke="#7a8aa6"/>
+<text x="1015.0" y="68" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="13.5" font-weight="600" fill="#1f2328" text-anchor="middle">Ground + models</text>
+<text x="1015.0" y="86" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">classed parts,</text>
+<text x="1015.0" y="103" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">--detail-budget</text>
+<path d="M1094 85.0 H1118" stroke="#4a5568" stroke-width="2"/><path d="M1118 80.0 L1125 85.0 L1118 90.0Z" fill="#4a5568"/>
+<rect x="1124" y="46" width="150" height="78" rx="8" fill="#e8f0fe" stroke="#7a8aa6"/>
+<text x="1199.0" y="68" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="13.5" font-weight="600" fill="#1f2328" text-anchor="middle">Write .glb</text>
+<text x="1199.0" y="86" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">one node</text>
+<text x="1199.0" y="103" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">per part</text>
+</svg>

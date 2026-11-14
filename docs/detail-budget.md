@@ -36,6 +36,8 @@ box.
 
 ## Stepping down to fit
 
+![How placed models step down to fit the budget](assets/img/detail-budget.svg)
+
 The cost of a (model, band) entry is copies x triangles at its current level.
 While the total is over the budget, the entry costing most steps down one level,
 and that repeats until the total fits or nothing can step further. Pinned entries

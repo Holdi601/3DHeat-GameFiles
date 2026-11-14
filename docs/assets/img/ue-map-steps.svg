@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1051" height="148" viewBox="0 0 1051 148" role="img" aria-label="ue-map: an Unreal 5 World Partition map">
+<rect width="1051" height="148" rx="10" fill="#f7f8fa" stroke="#d0d4db"/>
+<text x="20" y="30" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#1f2328">ue-map: an Unreal 5 World Partition map</text>
+<rect x="20" y="46" width="175" height="78" rx="8" fill="#e8f0fe" stroke="#7a8aa6"/>
+<text x="107.5" y="68" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="13.5" font-weight="600" fill="#1f2328" text-anchor="middle">ue-maps &lt;game&gt;</text>
+<text x="107.5" y="86" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">maps with cooked</text>
+<text x="107.5" y="103" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">World Partition cells</text>
+<path d="M199 85.0 H223" stroke="#4a5568" stroke-width="2"/><path d="M223 80.0 L230 85.0 L223 90.0Z" fill="#4a5568"/>
+<rect x="229" y="46" width="175" height="78" rx="8" fill="#e8f0fe" stroke="#7a8aa6"/>
+<text x="316.5" y="68" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="13.5" font-weight="600" fill="#1f2328" text-anchor="middle">Landscape</text>
+<text x="316.5" y="86" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">components, heights</text>
+<text x="316.5" y="103" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">--ground-spacing</text>
+<path d="M408 85.0 H432" stroke="#4a5568" stroke-width="2"/><path d="M432 80.0 L439 85.0 L432 90.0Z" fill="#4a5568"/>
+<rect x="438" y="46" width="175" height="78" rx="8" fill="#e8f0fe" stroke="#7a8aa6"/>
+<text x="525.5" y="68" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="13.5" font-weight="600" fill="#1f2328" text-anchor="middle">HLOD meshes</text>
+<text x="525.5" y="86" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">merged buildings</text>
+<text x="525.5" y="103" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">(--no-structures)</text>
+<path d="M617 85.0 H641" stroke="#4a5568" stroke-width="2"/><path d="M641 80.0 L648 85.0 L641 90.0Z" fill="#4a5568"/>
+<rect x="647" y="46" width="175" height="78" rx="8" fill="#e8f0fe" stroke="#7a8aa6"/>
+<text x="734.5" y="68" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="13.5" font-weight="600" fill="#1f2328" text-anchor="middle">Water bodies</text>
+<text x="734.5" y="86" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">above the ground</text>
+<text x="734.5" y="103" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">(--no-water)</text>
+<path d="M826 85.0 H850" stroke="#4a5568" stroke-width="2"/><path d="M850 80.0 L857 85.0 L850 90.0Z" fill="#4a5568"/>
+<rect x="856" y="46" width="175" height="78" rx="8" fill="#e8f0fe" stroke="#7a8aa6"/>
+<text x="943.5" y="68" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="13.5" font-weight="600" fill="#1f2328" text-anchor="middle">&lt;map&gt;.glb</text>
+<text x="943.5" y="86" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">ground:&lt;map&gt;</text>
+<text x="943.5" y="103" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">structure:&lt;map&gt; water:&lt;map&gt;</text>
+</svg>

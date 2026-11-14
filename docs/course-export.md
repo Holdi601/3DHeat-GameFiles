@@ -1,6 +1,6 @@
 ---
 title: Course export
-nav_order: 3
+nav_order: 4
 has_children: true
 ---
 
@@ -15,6 +15,8 @@ differs:
 - [BeamNG.drive](course-beamng.md): zip archives, a terrain heightfield, compiled shapes
 - [Assetto Corsa Rally](course-assetto-corsa-rally.md): Unreal 5 IoStore, a World Partition stage
 - [Levels of detail and the budget](detail-budget.md): how many triangles the placed models get, and which copies stay
+
+![The steps of a course export](assets/img/course-steps.svg)
 
 ## The steps
 
@@ -38,6 +40,11 @@ differs:
 7. **Place the models** standing in the corridor, by category, at a level of
    detail chosen by distance and a triangle budget.
 8. **Write the `.glb`**: one named node per part. See [Output format](output-format.md).
+
+What a run prints - here on a synthetic BeamNG.drive install the tests build,
+a 50 m lap down a strip of road:
+
+![course run on a synthetic BeamNG.drive level](assets/img/course-run.svg)
 
 ## The corridor
 

@@ -1,6 +1,6 @@
 ---
 title: Output format
-nav_order: 5
+nav_order: 8
 ---
 
 # Output format
@@ -36,6 +36,8 @@ scene 0
   in the node names.
 
 ## Node names: the classification
+
+![The part prefixes and what they mean](assets/img/glb-parts.svg)
 
 The viewer takes a part's class from the **node** name (falling back to the mesh
 name), and only when it matches
@@ -188,3 +190,16 @@ files. Only the 3DHeat viewer has been checked; other viewers are unverified. A
 reader without the extension refuses the file, because it is marked required. The files can be large: about 80 MB for a
 country circuit, up to several hundred MB for a city course with the automatic
 budget.
+
+## In 3DHeat
+
+Load the `.glb` in the [3DHeat](https://github.com/Holdi601/3DHeat) viewer's
+Level panel; the telemetry you record in the same game lies on it, because both
+keep the game's coordinates. The viewer's own documentation
+([holdi601.github.io/3DHeat](https://holdi601.github.io/3DHeat/)) covers the
+Level panel and the match files the other tools write
+([One file a match: `.3dheat`](https://holdi601.github.io/3DHeat/container.html)).
+A level is not stored in each `.3dheat` file: a match names it in its
+`references` (`kind: "level"`, name and sha256) and the `.glb` stays beside
+the matches.
+

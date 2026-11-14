@@ -12,6 +12,13 @@ track around that lap. That means the ground, the road told apart from verge and
 grass, and kerbs, barriers, tyre walls, signs and buildings. It needs nothing
 else from you.
 
+It is part of [3DHeat](https://github.com/Holdi601/3DHeat), a viewer for
+realtime 3D telemetry heatmaps, race analysis and match review
+([documentation](https://holdi601.github.io/3DHeat/)). The `.glb` files this
+tool writes are the levels the viewer draws the heat on.
+
+![Where GameFiles fits between the game and the viewer](assets/img/where-it-fits.svg)
+
 It is one of three ways to get a level's geometry into 3DHeat:
 
 | Route | Needs | Gives |
@@ -34,6 +41,9 @@ Python package: `heat3d_gamefiles`. Repository:
 | Unity (format 22 and later) | no | `identify`, `meshes` |
 | Battlefield 6 (Frostbite `.toc`/`.cas`) | no lap; a whole level with `level`: terrain, placed meshes, their colour maps with `--textures` | `identify`, `levels`; bundles, meshes, terrain, textures and placement through `level` |
 | Source 2 `.vpk` | no | `identify`, `list`, `extract` |
+| Unreal 5 World Partition games | no lap; a whole map with `ue-map`: landscape, HLOD buildings and props, water | `ue-maps` |
+| Arma Reforger (Enfusion) | no lap; a whole world with `enfusion-world`: terrain in its colours, the sea, buildings as boxes | `enfusion-worlds` |
+| Forza (cars) | `cars`: every car at low detail, for the viewer's race tab | |
 
 Laps from Assetto Corsa EVO and iRacing are refused with a reason. See
 [Limits and known gaps](limits-and-known-gaps.md).
@@ -85,6 +95,15 @@ python -m heat3d_gamefiles courses -o courses
 python -m heat3d_gamefiles levels
 python -m heat3d_gamefiles level <level> -o level.glb --textures
 
+# Unreal 5 World Partition and Arma Reforger: list, then export
+python -m heat3d_gamefiles ue-maps "<game>"
+python -m heat3d_gamefiles ue-map "<game>" <map> -o map.glb
+python -m heat3d_gamefiles enfusion-worlds
+python -m heat3d_gamefiles enfusion-world <world> -o world.glb
+
+# Every Forza car, for the viewer's race tab
+python -m heat3d_gamefiles cars -o forza.h3dcars
+
 # What is this file?
 python -m heat3d_gamefiles identify some_archive.pak
 ```
@@ -95,11 +114,17 @@ Open the `.glb` in the 3DHeat viewer. The game's own world coordinates are kept
 ## Map of this documentation
 
 - [Commands](commands.md): every verb and option, with examples.
+- [Inspecting archives](inspecting-archives.md): `identify`, `list`, `extract`, `meshes`, step by step.
 - [Course export](course-export.md): how a lap becomes a course, for all games.
   - [Forza Horizon](course-forza-horizon.md)
   - [BeamNG.drive](course-beamng.md)
   - [Assetto Corsa Rally](course-assetto-corsa-rally.md)
   - [Levels of detail and the budget](detail-budget.md)
+- [Whole levels](whole-levels.md): a level, map or world without a lap.
+  - [Battlefield 6 levels](level-battlefield.md): `levels`, `level`
+  - [Unreal 5 maps](level-unreal-world-partition.md): `ue-maps`, `ue-map`
+  - [Arma Reforger worlds](level-arma-reforger.md): `enfusion-worlds`, `enfusion-world`
+- [Forza cars](forza-cars.md): `cars`, the car file for the viewer's race tab.
 - [Lap inputs](lap-inputs.md): every lap file shape the tool accepts.
 - [Output format](output-format.md): what is inside the `.glb`.
 - [Archive readers](archive-readers.md): one page per container format, covering
@@ -119,3 +144,8 @@ Open the `.glb` in the 3DHeat viewer. The game's own world coordinates are kept
 | [3DHeat Unreal Exporter](https://github.com/Holdi601/3DHeat-UnrealExporter) | an Unreal Editor plugin that exports a level as glTF |
 | [3DHeat CS2](https://github.com/Holdi601/3DHeat-CS2) | Counter-Strike 2 demos into heatmap tables and match summaries |
 | [3DHeat Watcher](https://github.com/Holdi601/3DHeat-Watcher) | records your play in the background from what games publish |
+
+The viewer itself: [Holdi601/3DHeat](https://github.com/Holdi601/3DHeat), documented
+at [holdi601.github.io/3DHeat](https://holdi601.github.io/3DHeat/); its match files
+are described in [One file a match: `.3dheat`](https://holdi601.github.io/3DHeat/container.html).
+

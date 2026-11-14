@@ -1,6 +1,6 @@
 ---
 title: Rules and licences
-nav_order: 9
+nav_order: 12
 ---
 
 # Rules and licences
