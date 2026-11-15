@@ -11,7 +11,7 @@ from __future__ import annotations
 import glob
 from pathlib import Path
 
-from heat3d_gamefiles.forzainstall import STEAM_DEFAULTS, steam_libraries
+from heat3d_gamefiles.steam import STEAM_DEFAULTS, steam_libraries
 
 
 def steam_common() -> list[Path]:

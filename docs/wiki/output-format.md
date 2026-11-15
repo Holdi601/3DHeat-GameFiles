@@ -32,7 +32,7 @@ scene 0
   - a Battlefield 6 part of a destructible mesh carries `{"destructible": true}` on its node;
   - a Forza course says what it holds in `asset.extras` (format version, matched
     route id, how many copies of the race's own layer, venues; see
-    [Forza Horizon courses](course-forza-horizon#writing-the-file)), and its
+    [Forza Horizon courses](https://holdi601.github.io/3DHeat-Ext-Forza/course-forza-horizon.html#writing-the-file)), and its
     switched-on parts carry their layer on the node: `{"layer": "event", "route": <id>}`
     for the race's own layer, `{"layer": "layer"}` for another switched-on layer,
     `{"layer": "venue"}` for a venue's ground.
@@ -114,7 +114,7 @@ what stands on it.
 - **Assetto Corsa Rally:** the lap's frame. Unreal centimetres become metres,
   Unreal Z becomes y, and Unreal X and Y become x and z in whichever of the eight
   orientations the lap fitted (see
-  [Assetto Corsa Rally](course-assetto-corsa-rally#which-stage-and-which-way-round)).
+  [Assetto Corsa Rally](https://holdi601.github.io/3DHeat-Ext-ACRally/course-assetto-corsa-rally.html#which-stage-and-which-way-round)).
   Triangles are re-wound where that mapping mirrors.
 
 Each export keeps the axes its telemetry uses, so the recording and the level
@@ -158,14 +158,14 @@ from the triangles. AC Rally normals are always computed.
   subsampling, RGB only (alpha is dropped) - except a Battlefield 6 cut-out map
   (leaves, fences), which is **PNG** with its alpha, on a material with
   `alphaMode` MASK, `alphaCutoff` 0.5 and `doubleSided` (see
-  [Frostbite](reader-frostbite#textures-and-materials)). The 3DHeat viewer
+  [Frostbite](https://holdi601.github.io/3DHeat-Ext-Battlefield/reader-frostbite.html#textures-and-materials)). The 3DHeat viewer
   discards texels below the cutoff. A 2048 px ground of grass and tree
   crowns is noise to a lossless coder: several megabytes a tile as PNG, under one
   as JPEG. An image shared by several parts is stored once.
 - One sampler for all textures: linear magnification, linear-mipmap-linear
   minification, **clamp to edge** on both axes, for the course exports, whose
   textures cover their surfaces once. BeamNG draws repeating model textures as
-  flat colours (see [BeamNG.drive](course-beamng#placed-models)).
+  flat colours (see [BeamNG.drive](https://holdi601.github.io/3DHeat-Ext-BeamNG/course-beamng.html#placed-models)).
 - A Battlefield 6 export with `--textures`, whose materials tile, writes the
   game's own texture coordinates, unclamped, as float32 `TEXCOORD_0` even in
   the quantised form, with a sampler that **repeats** on both axes

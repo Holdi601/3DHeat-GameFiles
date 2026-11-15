@@ -96,7 +96,7 @@ The summary reports
 A whole-building stand-in counts as one copy, at a distance measured to the
 building's nearest edge. It is kept or left out as a unit. The modular pieces it
 replaces are not budgeted at all. See
-[Forza Horizon](course-forza-horizon#buildings-drawn-whole).
+[Forza Horizon](https://holdi601.github.io/3DHeat-Ext-Forza/course-forza-horizon.html#buildings-drawn-whole).
 
 ## What a level of detail is, per game
 

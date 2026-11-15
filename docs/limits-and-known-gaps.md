@@ -64,11 +64,11 @@ produces output that looks right and is not.
   masks and the heightfield's slope, by a rule of its own, and a level whose
   mask pages do not fit together gets one colour. Each layer is
   its colour map's mean, not its texture. See
-  [Frostbite](reader-frostbite.md#terrain-layers). Pieces of the
+  [Frostbite](https://holdi601.github.io/3DHeat-Ext-Battlefield/reader-frostbite.html#terrain-layers). Pieces of the
   heightfield at different resolutions meet with small steps.
 - **A Battlefield 6 colour map is chosen, not read.** A shader block names
   every texture it samples without saying which is the colour; the choice goes
-  by name (see [Frostbite](reader-frostbite.md#textures-and-materials)) and can
+  by name (see [Frostbite](https://holdi601.github.io/3DHeat-Ext-Battlefield/reader-frostbite.html#textures-and-materials)) and can
   pick a trim or detail sheet for a surface. Decal sheets (`t_de_...`) lose to
   the surface's own map; a sign's decal drawn as its panel showed its shield
   turned a quarter. Distance fields, palettes and channel masks are never
@@ -84,12 +84,12 @@ produces output that looks right and is not.
   or assets that cut the ground: what is placed under the ground there is
   rock and cliff meshes, and no asset of the level is named for holes,
   tunnels or caves. Two raster trees are run-length decoded but not placed,
-  and are what is left (see [Frostbite](reader-frostbite.md#terrain-layers)).
+  and are what is left (see [Frostbite](https://holdi601.github.io/3DHeat-Ext-Battlefield/reader-frostbite.html#terrain-layers)).
 - **A Battlefield 6 object variation reaches a section through its twins.**
   A placed copy's variation picks its sections' shader blocks by key; where a
   mesh has no block for a variation, the variant of another mesh's section
   with an identical default block is taken (see
-  [Frostbite](reader-frostbite.md#textures-and-materials)). That is the
+  [Frostbite](https://holdi601.github.io/3DHeat-Ext-Battlefield/reader-frostbite.html#textures-and-materials)). That is the
   exporter's rule; a section with no twin that varies keeps its default look.
 - **Battlefield 6 layered materials are drawn as their base and one sheet.**
   A wall panel with lettering is drawn as its plaster with the letter sheet over

@@ -5,6 +5,15 @@ section below says which documentation page explains each feature.
 
 ## Unreleased
 
+- Each game's reader is its own project now, so a problem with one game's terms
+  touches only that game: Forza (3DHeat-Ext-Forza, `heat3d-forza-maps`),
+  Battlefield/Frostbite (3DHeat-Ext-Battlefield), BeamNG.drive
+  (3DHeat-Ext-BeamNG), Assetto Corsa Rally (3DHeat-Ext-ACRally) and Arma
+  Reforger/Enfusion (3DHeat-Ext-Reforger), moved with their history, tests and
+  pages. GameFiles keeps the engine-format readers and the shared plumbing as a
+  library (`pyproject.toml`, `heat3d-gamefiles`; new core modules `steam`,
+  `detail`, `unrealmath`), and its game verbs run the game's tool with the same
+  arguments (`external.py`), or say where to get it and exit 2.
 - Documentation: a "Before you start" page, plain-words openers, a generated
   command reference, diagrams drawn from `tools/docs_diagrams.py`, a release
   checklist. `identify` prints `2 x .json` instead of `2x.json`.

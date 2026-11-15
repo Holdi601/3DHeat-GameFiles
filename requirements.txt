@@ -5,17 +5,12 @@ numpy>=2.0
 # dependency of reading unencrypted archives, which is every one tested so far.
 cryptography>=42.0
 
-# LZ4: Forza's archives are mostly LZ4 blocks, and some Unity bundles are too.
+# LZ4: some Unity bundles and IoStore partitions are LZ4 blocks.
 lz4>=4.3
 
 # Decoding block-compressed textures (BC1, BC7) and writing the JPEGs a textured
-# export carries. Needed by the Forza `course` export; nothing else uses it.
+# export carries (the glTF writer and the Unreal texture reader).
 Pillow>=10.0
-
-# BeamNG's compiled shapes (.cdae) are MessagePack, a few of them zstd-compressed.
-# Needed by the BeamNG `course` export; nothing else uses them.
-msgpack>=1.0
-zstandard>=0.22
 
 pytest>=8.0
 

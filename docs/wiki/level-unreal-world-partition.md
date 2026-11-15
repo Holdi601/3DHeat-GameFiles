@@ -46,7 +46,7 @@ editor and no project are needed, only the installed game.
 |---|---|---|
 | `<game>` | required | the game's folder, its `Content/Paks`, or its Steam folder name |
 | `<map>` | required | a name as `ue-maps` prints it, or a unique part of one |
-| `-o`, `--out FILE` | `<map>.glb` | the file to write |
+| `-o`, `--out FILE` | `<map>.glb` (in `$HEAT3D_LEVELS/<game>/` when that is set) | the file to write |
 | `--ground-spacing METRES` | 2 | the landscape's vertex spacing, rounded to a whole number of its own quads |
 | `--no-structures` | | leave the HLOD buildings and props out |
 | `--no-water` | | leave the water bodies out |

@@ -1,41 +1,28 @@
 """
-Command line for the game-file exporter.
+Command line for the game-file readers.
 
 Verbs in the order the questions come up: what engine is this, what is inside,
-and give me that. Everything else — which mesh is the level, how to decimate it
-— belongs to the viewer's own import, not here.
+and give me that. Everything else - which mesh is the level, how to decimate it
+- belongs to the viewer's own import, not here.
 
     python -m heat3d_gamefiles identify <path>
     python -m heat3d_gamefiles list     <archive> [--filter text] [--limit n]
     python -m heat3d_gamefiles extract  <archive> <path inside> [--out file]
     python -m heat3d_gamefiles meshes   <unity .assets> [--limit n]
-    python -m heat3d_gamefiles course   <lap> [--out map.glb]
-    python -m heat3d_gamefiles courses  [--out folder] [--only name ...]
-    python -m heat3d_gamefiles terrain  <forza track folder> --out map.glb
-                                        (--box x0 z0 x1 z1 | --route route.json)
-    python -m heat3d_gamefiles levels   [--install folder]
-    python -m heat3d_gamefiles level    <frostbite level> [-o map.glb]
-                                        [--detail-budget n] [--skip text ...]
+    python -m heat3d_gamefiles ue-maps / ue-map   (Unreal World Partition levels)
 
 The file is whatever the game ships, and `identify` does not require knowing
 which: an Unreal `.pak` or IoStore `.utoc`, a Unity `.assets` or bundle, a
-Frostbite `.toc`, a Source 2 `.vpk`, a ForzaTech `.minizip` or `.modelbin`, a
-BeamNG zip, `.cdae` or `.ter`. `list` and `extract` take the archives among
-them - a `.pak`, a `.utoc`, a `.vpk`, a `.minizip` and a zip; Unity has
-`meshes`, and Frostbite has `levels` and `level`, which read a whole level
-from its table of contents.
+Source 2 `.vpk`, a zip. `list` and `extract` take the archives among them.
 
-The last three are the odd ones out, and deliberately. They do not take an
-archive but a lap, a library of laps, or a whole Forza track folder, because a
-piece of map is spread across four archives and their manifests, and it is asked
-for by *place* rather than by name.
-
-`course` is the one to reach for: give it a lap and it exports the ground around
-it. It works out which game is installed, which of its tracks the lap was driven
-on, and where to cut, so the only thing anyone has to know is which lap they
-mean. `courses` does that for every course in a recorded library. `terrain` is
-the same cut with all of that spelled out by hand, for when the answer is a box
-rather than a drive.
+Each game's own reader lives in its own repository and is run as a command
+(external.py): `course` (Forza, BeamNG.drive and Assetto Corsa Rally laps),
+`courses`, `races`, `cars` and `terrain` (heat3d-forza-maps), `levels` and
+`level` (heat3d-battlefield-maps), `enfusion-worlds` and `enfusion-world`
+(heat3d-reforger-maps) keep working here by running that tool with the same
+arguments; `identify`, `list` and `extract` ask it for the files that are its
+game's own (a ForzaTech `.minizip` or model, a Frostbite `.toc`, a BeamNG
+`.cdae` or `.ter`).
 """
 
 from __future__ import annotations
@@ -49,13 +36,6 @@ from . import levelshome
 
 def _identify(path: Path) -> str:
     """Name the container format, by reading it rather than by extension."""
-    from .frostbite import (
-        UnsupportedFrostbite,
-        parse_toc,
-        read_header,
-        read_sections,
-        superbundles,
-    )
     from .pak import UnsupportedPak, read_footer
     from .unity import UnsupportedUnity, read_serialized
 
@@ -98,22 +78,6 @@ def _identify(path: Path) -> str:
         pass
 
     try:
-        data = path.read_bytes()[:64]
-        info = read_header(data, path.name)
-        lines.append(f"  Frostbite table of contents, {info.kind}")
-        lines.append(f"    tree begins at {info.payload_offset}")
-        whole = path.read_bytes()
-        try:
-            sections = read_sections(whole, info, path.name)
-            lines.append(f"    assets     {sections.asset_count:,}")
-        except UnsupportedFrostbite:
-            names = superbundles(parse_toc(path)[1])
-            lines.append(f"    superbundles {len(names)}")
-        return "\n".join(lines)
-    except UnsupportedFrostbite:
-        pass
-
-    try:
         from .vpk import UnsupportedVpk, VpkArchive
 
         archive = VpkArchive(path)
@@ -126,27 +90,14 @@ def _identify(path: Path) -> str:
     except UnsupportedVpk:
         pass
 
-    found = _identify_beamng(path)
-    if found is not None:
-        return "\n".join(lines + found)
+    # The games' own formats are read by their own tools (external.py).
+    from .external import identify as identify_elsewhere
 
-    try:
-        from .forzatech import UnsupportedForza, read_model
-
-        model = read_model(path)
-        lines.append(f"  ForzaTech model, version {model.version}")
-        lines.append(f"    chunks     {len(model)}")
-        lines.append(
-            "    holds      "
-            + ", ".join(f"{n}x{t}" for t, n in list(model.counts().items())[:6])
-        )
-        lines.append("    note       chunk contents are not decoded")
-        return "\n".join(lines)
-    except UnsupportedForza as exc:
-        lines.append("  not a format this tool reads")
-        lines.append(f"    {exc}")
+    told = identify_elsewhere(path)
+    if told is not None:
+        return told
+    lines.append("  not a format this tool reads (nor an installed game tool)")
     return "\n".join(lines)
-
 
 def _head(path: Path, size: int) -> bytes:
     with path.open("rb") as handle:
@@ -156,7 +107,6 @@ def _head(path: Path, size: int) -> bytes:
 def _identify_by_magic(path: Path) -> list[str] | None:
     """An IoStore table of contents or partition, a `.minizip`, a zip; else None."""
     from .iostore import MAGIC as IOSTORE_MAGIC
-    from .minizip import MAGIC as MINIZIP_MAGIC
 
     head = _head(path, 16)
     if head == IOSTORE_MAGIC:
@@ -169,7 +119,13 @@ def _identify_by_magic(path: Path) -> list[str] | None:
             f"    contents   {path.with_suffix('.utoc').name}, which is what identify, list and extract take",
         ]
     if head[:4] == MINIZIP_MAGIC:
-        return _identify_minizip(path)
+        # Forza's archive: its tool says what is in it.
+        from .external import TOOLS
+
+        done = TOOLS["forza"].run(["identify", str(path.resolve())], capture=True)
+        if done is not None and done.returncode == 0:
+            return done.stdout.rstrip().splitlines()[1:] or ["  ForzaTech .minizip archive"]
+        return ["  ForzaTech .minizip archive", "    " + (TOOLS["forza"].missing() if done is None else done.stderr.strip())]
     if head[:4] in _ZIP_MAGIC:
         return _identify_zip(path)
     return None
@@ -204,33 +160,6 @@ def _identify_iostore(path: Path) -> list[str]:
     return lines
 
 
-def _identify_minizip(path: Path) -> list[str]:
-    from .minizip import Contents, MiniZip, UnsupportedMiniZip, manifest_of
-
-    try:
-        archive = MiniZip(path)
-    except UnsupportedMiniZip as exc:
-        return ["  ForzaTech .minizip archive, but not one this reads", f"    {exc}"]
-    with archive:
-        lines = [
-            f"  ForzaTech .minizip archive, version {archive.version}",
-            f"    entries    {archive.count:,} in {archive.segments:,} segments",
-        ]
-    manifest = manifest_of(path)
-    if manifest is not None and manifest.exists():
-        names = len(Contents(manifest))
-        disagree = (
-            f" - {names:,} names for {archive.count:,} entries, so they do not belong together"
-            if names != archive.count
-            else ""
-        )
-        lines.append(f"    names      {manifest.name}{disagree}")
-    else:
-        # The archive stores no names; without the manifest an entry is a number.
-        lines.append("    names      no manifest beside it, so entries go by number (#0, #1, ...)")
-    return lines
-
-
 def _identify_zip(path: Path) -> list[str]:
     import zipfile
     from collections import Counter
@@ -254,64 +183,13 @@ def _identify_zip(path: Path) -> list[str]:
     return lines
 
 
-def _identify_beamng(path: Path) -> list[str] | None:
-    """A BeamNG `.cdae` shape or `.ter` terrain, by their contents; else None."""
-    import struct
-
-    from .beamngshape import SHAPE_VERSION
-
-    head = _head(path, 8)
-    if len(head) == 8 and struct.unpack_from("<I", head)[0] & 0xFF == SHAPE_VERSION:
-        from .beamngshape import read_shape
-
-        try:
-            shape = read_shape(path.read_bytes())
-        except Exception:  # noqa: BLE001 - whatever does not parse is not a shape
-            shape = None
-        if shape is not None:
-            return [
-                f"  BeamNG.drive shape (.cdae), version {SHAPE_VERSION}",
-                f"    meshes     {len(shape.meshes):,}",
-                f"    detail     {len(shape.levels())} drawn levels",
-                f"    materials  {', '.join(shape.materials[:6]) or 'none'}",
-            ]
-    if len(head) < 5:
-        return None
-    # A `.ter`: a version byte, the side, side x side heights and as many layer
-    # bytes, then the layer names. No magic, so all of it has to add up.
-    side = int.from_bytes(head[1:5], "little")
-    if not 2 <= side <= 16384:
-        return None
-    at = 5 + side * side * 3
-    with path.open("rb") as handle:
-        handle.seek(at)
-        tail = handle.read(4 + 256 * 256)
-    if len(tail) < 4:
-        return None
-    count = int.from_bytes(tail[:4], "little")
-    if not 0 < count <= 255:
-        return None
-    names, at = [], 4
-    for _ in range(count):
-        if at >= len(tail) or at + 1 + tail[at] > len(tail):
-            return None
-        name = tail[at + 1 : at + 1 + tail[at]]
-        if not name or not all(32 <= c < 127 for c in name):
-            return None
-        names.append(name.decode("ascii"))
-        at += 1 + tail[at]
-    return [
-        f"  BeamNG.drive terrain (.ter), version {head[0]}",
-        f"    heights    {side:,} x {side:,}",
-        f"    layers     {', '.join(names[:6])}" + (f" and {len(names) - 6} more" if len(names) > 6 else ""),
-    ]
-
-
 #: What a zip begins with: a local file header, or the end record of an empty one.
 _ZIP_MAGIC = (b"PK\x03\x04", b"PK\x05\x06")
+#: A ForzaTech `.minizip`, which the Forza tool reads.
+MINIZIP_MAGIC = b"PGZP"
 
 #: What `list` and `extract` open, for the message when a file is none of them.
-_ARCHIVES = "an Unreal .pak or IoStore .utoc, a Source 2 .vpk, a ForzaTech .minizip, or a zip"
+_ARCHIVES = "an Unreal .pak or IoStore .utoc, a Source 2 .vpk, or a zip (a ForzaTech .minizip through heat3d-forza-maps)"
 
 
 class ArchiveError(Exception):
@@ -417,55 +295,6 @@ class _IoStoreListing(_Listing):
         return self.container.read(self.container.files[name])
 
 
-class _MiniZipListing(_Listing):
-    """
-    A `.minizip`, by the names in the manifest beside it, or by entry number
-    (`#12`) where there is none. The number works either way.
-    """
-
-    CODECS = {0x00: "stored", 0x08: "deflate", 0x1F: "lz4"}
-
-    def __init__(self, path: Path) -> None:
-        from .minizip import Contents, MiniZip, UnsupportedMiniZip, manifest_of
-
-        self.archive = MiniZip(path)
-        manifest = manifest_of(path)
-        if manifest is not None and manifest.exists():
-            names = Contents(manifest).names
-            if len(names) != self.archive.count:
-                self.archive.close()
-                raise UnsupportedMiniZip(
-                    f"{manifest.name} names {len(names):,} entries but {path.name} holds "
-                    f"{self.archive.count:,}; the two do not belong together"
-                )
-        else:
-            names = [f"#{i}" for i in range(self.archive.count)]
-        self._index: dict[str, int] = {}
-        for number, name in enumerate(names):
-            self._index.setdefault(name, number)
-        super().__init__(self._index)
-
-    def _number(self, name: str) -> int | None:
-        if name in self._index:
-            return self._index[name]
-        if name.startswith("#") and name[1:].isdigit() and int(name[1:]) < self.archive.count:
-            return int(name[1:])
-        return None
-
-    def __contains__(self, name: str) -> bool:
-        return self._number(name) is not None
-
-    def describe(self, name):
-        entry = self.archive.entry(self._number(name))
-        return entry.size, self.CODECS.get(entry.codec, f"unknown({entry.codec})")
-
-    def read(self, name):
-        return self.archive.read(self._number(name))
-
-    def close(self) -> None:
-        self.archive.close()
-
-
 class _ZipListing(_Listing):
     """A plain zip: BeamNG's level and content archives, Forza's model zips."""
 
@@ -495,7 +324,6 @@ def _reader_errors() -> tuple[type[BaseException], ...]:
     import zipfile
 
     from .iostore import IoStoreError
-    from .minizip import UnsupportedMiniZip
     from .oodle import OodleUnavailable
     from .pak import EncryptedPak, UnsupportedPak
     from .vpk import UnsupportedVpk
@@ -506,7 +334,6 @@ def _reader_errors() -> tuple[type[BaseException], ...]:
         EncryptedPak,
         UnsupportedVpk,
         IoStoreError,
-        UnsupportedMiniZip,
         OodleUnavailable,
         zipfile.BadZipFile,
         # What zipfile raises for a method it has no codec for, and for an
@@ -532,7 +359,6 @@ def _open_archive(path: Path, key: str | None) -> _Listing:
     import struct
 
     from .iostore import MAGIC as IOSTORE_MAGIC
-    from .minizip import MAGIC as MINIZIP_MAGIC
     from .pak import PAK_MAGIC, PakArchive
     from .vpk import VPK_MAGIC, VpkArchive
 
@@ -543,8 +369,6 @@ def _open_archive(path: Path, key: str | None) -> _Listing:
     if path.suffix.lower() == ".ucas" and path.with_suffix(".utoc").exists():
         # A partition has no header; its table of contents is what opens it.
         return _IoStoreListing(path.with_suffix(".utoc"))
-    if head[:4] == MINIZIP_MAGIC:
-        return _MiniZipListing(path)
     if head[:4] == struct.pack("<I", VPK_MAGIC):
         return _VpkListing(VpkArchive(path))
     if head[:4] in _ZIP_MAGIC:
@@ -559,201 +383,8 @@ def _open_archive(path: Path, key: str | None) -> _Listing:
     return _PakListing(PakArchive(path, aes_key=aes))
 
 
-def _write_course(
-    out, track, target, args, low, high, route=None, corridor=None, route_id=None, route_assets=None
-) -> Path:
-    """
-    Bake, place, plan and write: the part of an export both verbs share.
-
-    Textures are baked per tile from the track's own maps unless turned off,
-    and a tile whose maps are missing falls back to flat colour rather than
-    failing the export - detail is optional, geometry is not. The same goes for
-    placed models: kerbs, barriers and the rest are added from the track's
-    placement files, each with its own texture where the game gives it one,
-    and with the detail going to what stands nearest `route`, the driving.
-    """
-    import numpy as np
-
-    from .courseexport import bake_tiles, lift_decals, plan_parts, planar_uvs
-    from .glb import Part, compute_normals, write_glb
-
-    images = {}
-    if not args.no_textures and out.tile_keys:
-        images = bake_tiles(
-            track, out.tile_keys, size=args.texture_size, season=args.season
-        )
-        missing = len(out.tile_keys) - len(images)
-        note = f", {missing} without maps" if missing else ""
-        print(
-            f"\n  baked {len(images)} ground textures at {args.texture_size} px "
-            f"({512 / args.texture_size * 100:.0f} cm a pixel){note}"
-        )
-
-    plan = plan_parts(out, images)
-    total = sum(plan.counts.values())
-    print("\n  what the ground is made of:")
-    for label, many in sorted(plan.counts.items(), key=lambda kv: -kv[1]):
-        print(f"    {many:9,} triangles  {many / total:5.1%}  {label}")
-
-    ground_normals = out.normals if out.normals is not None else compute_normals(out.positions, out.faces)
-    parts, decal_positions, decal_normals = lift_decals(plan.parts, out.positions, ground_normals)
-    positions = [out.positions, decal_positions]
-    normals = [ground_normals, decal_normals]
-    uvs = [
-        planar_uvs(out) if plan.textured else np.zeros((len(out.positions), 2), np.float32),
-        np.zeros((len(decal_positions), 2), np.float32),
-    ]
-    textured = plan.textured
-    if not args.no_placed:
-        from .forzaplacement import DEFAULT_CATEGORIES, VEGETATION, place_in_track
-
-        categories = DEFAULT_CATEGORIES + (VEGETATION if args.trees else ())
-        placed = place_in_track(
-            track,
-            low,
-            high,
-            categories=categories,
-            budget=args.detail_budget,
-            season=args.season,
-            textures=not args.no_textures,
-            route=route,
-            corridor=corridor,
-            route_id=route_id,
-            route_assets=route_assets,
-        )
-        if placed.parts:
-            print(
-                f"\n  placed on it ({placed.triangles():,} triangles of a "
-                f"{placed.budget:,} budget, {len(placed.textures)} textures):"
-            )
-            print(placed.summary())
-        offset = len(out.positions) + len(decal_positions)
-        for name, mesh in sorted(placed.parts.items()):
-            positions.append(mesh.positions)
-            normals.append(mesh.normals)
-            uvs.append(mesh.uvs if mesh.uvs is not None else np.zeros((len(mesh.positions), 2), np.float32))
-            texture = placed.textures.get(mesh.texture) if mesh.texture else None
-            textured = textured or texture is not None
-            layer = _layer_extras(name.split(" ")[0], route_id)
-            parts.append(
-                Part(
-                    name=name,
-                    faces=mesh.faces + offset,
-                    colour=None if texture is not None else mesh.colour,
-                    texture=texture,
-                    extras=layer,
-                )
-            )
-            offset += len(mesh.positions)
-
-    about = {"course_format": COURSE_FORMAT, "route": route_id}
-    if not args.no_placed:
-        about.update(
-            event_copies=sum(placed.event.values()),
-            event_kinds=sorted(placed.event),
-            hidden=placed.hidden,
-            venue=sorted(placed.venue),
-            layers=sorted(placed.layers),
-        )
-    written = write_glb(
-        target,
-        np.concatenate(positions),
-        parts=parts,
-        normals=np.concatenate(normals),
-        uvs=np.concatenate(uvs).astype(np.float32) if textured else None,
-        extras=about,
-    )
-    print(f"\nwrote {written} ({written.stat().st_size:,} bytes)")
-    return written
-
-
-#: What a Forza course file holds, as its glTF `asset.extras.course_format`
-#: says: 2 adds the race's own layer, a venue's ground and the world-space
-#: models. `courses` re-exports a file older than this.
-COURSE_FORMAT = 2
-
-
-def course_format(path: Path) -> int:
-    """The `course_format` a course file was written with; 0 if it does not say."""
-    import json
-    import struct
-
-    try:
-        with open(path, "rb") as handle:
-            head = handle.read(20)
-            if len(head) < 20 or head[:4] != b"glTF":
-                return 0
-            (length,) = struct.unpack_from("<I", head, 12)
-            document = json.loads(handle.read(length))
-    except (OSError, ValueError):
-        return 0
-    return int(document.get("asset", {}).get("extras", {}).get("course_format", 0))
-
-
-def _layer_extras(part: str, route_id) -> dict | None:
-    """
-    What a part is, for a viewer that switches layers on and off: the race's
-    own layer (`event`), another switched-on layer (`layer`) or a venue's own
-    ground (`venue`). The free-roam world carries nothing.
-    """
-    from .forzaplacement import EVENT_PART, LAYER_PART, VENUE_PART
-
-    if part.startswith(EVENT_PART.format("")):
-        return {"layer": "event", "route": route_id}
-    if part.startswith(LAYER_PART.format("")):
-        return {"layer": "layer"}
-    if part == VENUE_PART:
-        return {"layer": "venue"}
-    return None
-
-
-#: The folder under `HEAT3D_LEVELS` for a game the lap names in more than one way.
-_COURSE_FOLDERS = {"assetto-corsa-rally": "acrally"}
-
-
-def _course(args) -> int:
-    """
-    A lap in, the ground around it out.
-
-    Everything between those two is derivable and so is derived: which game is
-    installed, which of its tracks these coordinates belong to, and what to
-    cut. The alternative is a command line carrying a forty-character path to a
-    folder inside a game someone already has installed, which nobody should have
-    to look up to export a corner of a racetrack.
-    """
-    from .lapinput import UnreadableLap, read
-
-    try:
-        driven = read(args.lap)
-    except UnreadableLap as exc:
-        print(exc, file=sys.stderr)
-        return 1
-    game = (getattr(args, "game", None) or driven.game or "forza").lower()
-    target = args.out or levelshome.default(
-        _slug(driven.name) + ".glb", _COURSE_FOLDERS.get(game, "forza" if game.startswith("forza") else game), "courses"
-    )
-    target.parent.mkdir(parents=True, exist_ok=True)
-    if game == "beamng":
-        from .beamngcourse import export
-
-        if len(driven) < 2:
-            print(f"{driven.name} holds no driving", file=sys.stderr)
-            return 1
-        print(f"{driven.name}: {len(driven):,} samples, {driven.metres:,.0f} m driven (BeamNG.drive)")
-        return export(driven, target, args, install=getattr(args, "install", None))
-    if game in ("assetto-corsa-rally", "acrally"):
-        from .acrallycourse import export as export_rally
-
-        if len(driven) < 2:
-            print(f"{driven.name} holds no driving", file=sys.stderr)
-            return 1
-        print(f"{driven.name}: {len(driven):,} samples, {driven.metres:,.0f} m driven (Assetto Corsa Rally)")
-        return export_rally(driven, target, args, paks=getattr(args, "install", None))
-    if not game.startswith("forza"):
-        print(_no_course(game), file=sys.stderr)
-        return 1
-    return export_course(driven, target, args)
-
+#: A lap's game -> the tool that exports its course (Forza's is the default).
+_COURSE_TOOLS = {"beamng": "beamng", "acrally": "acrally", "assetto-corsa-rally": "acrally"}
 
 #: Why a game's lap cannot be turned into a course from its files yet. Said
 #: plainly, with the route that does work for every game.
@@ -777,616 +408,32 @@ def _no_course(game: str) -> str:
     )
 
 
-def _slug(name: str) -> str:
-    """A course name as a file name: `Example Circuit` -> `example_circuit`."""
-    import re
-
-    return re.sub(r"[^a-z0-9]+", "_", name.lower()).strip("_") or "course"
-
-
-def export_course(driven, target: Path, args) -> int:
+def _course(argv: list[str]) -> int:
     """
-    Export the ground and everything on it along one course's driving.
-
-    The cut is a corridor `args.margin` metres either side of the driven line,
-    not the driving's bounding box: the same thing for a circuit, and a tenth
-    of it for a point-to-point sprint, whose box is mostly hillside nobody
-    drives past.
+    A lap in, the ground around it out - by the lap's game's own tool, run with
+    the same arguments. The lap says which game it is from; `--game` overrides.
     """
-    from .corridor import Corridor
-    from .forzainstall import find_track
-    from .forzaterrain import extract_from_track
+    from .external import delegate
+    from .lapinput import UnreadableLap, read
 
-    if len(driven) < 2:
-        print(f"{driven.name} holds no driving", file=sys.stderr)
-        return 1
-
-    corridor = Corridor(driven.positions, args.margin)
-    low, high = driven.box(args.margin)
-    laps = f"{driven.laps} laps, " if driven.laps > 1 else ""
-    print(
-        f"{driven.name}: {laps}{len(driven):,} samples, {driven.metres:,.0f} m driven"
-    )
-
-    track = args.track
-    if track is None:
+    pick = argparse.ArgumentParser(add_help=False)
+    pick.add_argument("lap", nargs="?")
+    pick.add_argument("--game", default=None)
+    known, _rest = pick.parse_known_args(argv[1:])
+    game = known.game
+    if known.lap and not game and not {"-h", "--help"} & set(argv):
         try:
-            track = find_track(low, high)
-        except FileNotFoundError as exc:
+            game = read(known.lap).game
+        except UnreadableLap as exc:
             print(exc, file=sys.stderr)
             return 1
-        print(f"  on {track.name}, in {track.parents[2].name}")
-
-    corridor, low, high = _with_venues(track, driven, corridor, low, high, args.margin)
-
-    from .forzaroute import match, read_routes
-
-    from .forzaroute import route_assets as assets_of
-
-    route, fit = match(driven.positions, read_routes(track))
-    route_id = route.id if route is not None else None
-    assets = assets_of(track, route_id) if route_id is not None else None
-    if route is not None:
-        print(f"  the game's route {route.id} (driven line within {fit:.0f} m of it)")
-        if assets is not None:
-            markers = ", ".join(f"{n:,} {k}" for k, n in sorted(assets.markers.items()))
-            print(
-                f"  its own layer: {assets.copies:,} copies of {len(assets.models)} models, "
-                f"{len(assets.hidden):,} free-roam objects hidden"
-                + (f"; not drawn: {markers}" if markers else "")
-            )
-    else:
-        print("  no route of the game's matches the driving; only the free-roam world is placed")
-    print(
-        f"  cutting {args.margin:,.0f} m either side of the driving: "
-        f"{corridor.area / 1e6:,.2f} km2 of a {high[0] - low[0]:,.0f} by "
-        f"{high[1] - low[1]:,.0f} m box"
-    )
-    out = extract_from_track(track, low, high, corridor=corridor)
-    if not len(out.faces):
-        print(
-            f"\nno terrain there. {track.name} has tiles nearby but none that "
-            "cover the driving, which usually means the lap and the track are "
-            "from different games.",
-            file=sys.stderr,
-        )
-        return 1
-
-    print()
-    print(out.summary())
-    _write_course(
-        out, track, target, args, low, high, route=driven.positions, corridor=corridor,
-        route_id=route_id, route_assets=assets,
-    )
-    return 0
-
-
-def _with_venues(track, driven, corridor, low, high, margin):
-    """
-    Widen the cut to the whole of every venue the driving passes through.
-
-    A stadium circuit uses part of its stadium's floor, and the grandstands,
-    walls and barriers that make it a stadium stand around the rest of it. A
-    venue is drawn whole or it is not the venue: so where the driving touches
-    a site's own ground (see `forzaplacement.WORLD_REACH`), the corridor takes
-    in all of that ground's footprint, and everything placed on it comes too.
-    """
-    import numpy as np
-
-    from .corridor import Corridor
-    from .forzaplacement import Track
-
-    with Track(track) as opened:
-        venues = opened.venues(low, high, corridor)
-    if not venues:
-        return corridor, low, high
-    step = max(10.0, margin / 2)
-    points = [np.asarray(driven.positions, dtype=np.float64)[:, [0, 2]]]
-    for _stem, lo, hi in venues:
-        xs = np.arange(lo[0], hi[0] + step, step)
-        zs = np.arange(lo[2], hi[2] + step, step)
-        gx, gz = np.meshgrid(xs, zs, indexing="ij")
-        points.append(np.stack([gx.ravel(), gz.ravel()], axis=1))
-    plane = np.concatenate(points)
-    corridor = Corridor(plane, margin)
-    low = (min(low[0], float(plane[:, 0].min()) - margin), min(low[1], float(plane[:, 1].min()) - margin))
-    high = (max(high[0], float(plane[:, 0].max()) + margin), max(high[1], float(plane[:, 1].max()) + margin))
-    names = ", ".join(sorted({stem for stem, _lo, _hi in venues})[:3])
-    print(f"  through a venue ({names}): cutting all of its ground, {corridor.area / 1e6:,.2f} km2")
-    return corridor, low, high
-
-
-def _cars(args) -> int:
-    """
-    Every car of an installed Forza, at the game's own reduced quality, in one
-    file for the viewer's race tab. Run it again when the game gets new cars.
-    """
-    from .forzacars import cars_of_game, read_car, write_pack
-    from .forzainstall import game_folders
-
-    if args.game:
-        games = [Path(args.game)]
-    else:
-        games = [g for g in game_folders() if cars_of_game(g)]
-    if not games:
-        print("no installed Forza with cars found; name its folder with --game", file=sys.stderr)
-        return 1
-    game = games[-1]
-    archives = cars_of_game(game)
-    if not archives:
-        print(f"{game} has no media/Cars folder", file=sys.stderr)
-        return 1
-    print(f"reading {len(archives)} cars from {game}")
-    cars, without, failed = [], [], []
-    for archive in archives:
-        try:
-            car = read_car(archive)
-        except Exception as error:
-            failed.append(f"{archive.name}: {error}")
-            continue
-        if car is None:
-            without.append(archive.name)
-        else:
-            cars.append(car)
-    out = args.out or levelshome.default("forza.h3dcars", "forza")
-    out.parent.mkdir(parents=True, exist_ok=True)
-    size = write_pack(cars, out, source=game.name)
-    print(f"{out}: {len(cars)} cars, {size / 1e6:.1f} MB")
-    if without:
-        print(f"no stand-in model in {len(without)}: {', '.join(without)}")
-    for line in failed:
-        print(f"failed: {line}", file=sys.stderr)
-    return 1 if failed else 0
-
-
-def _courses(args) -> int:
-    """
-    Every course in a recorded lap library, one file each.
-
-    Carries on past a course that fails, and says at the end which did; a
-    course already exported is skipped unless `--force`, so a run that was
-    interrupted picks up where it stopped.
-    """
-    import time
-
-    from .lapinput import UnreadableLap, default_library, read
-
-    try:
-        library = Path(args.library) if args.library else default_library()
-    except UnreadableLap as exc:
-        print(exc, file=sys.stderr)
-        return 1
-    if not library.is_dir():
-        print("no recorded lap library found; name one with --library", file=sys.stderr)
-        return 1
-    folder = Path(args.out) if args.out else levelshome.default("courses", "forza")
-    folder.mkdir(parents=True, exist_ok=True)
-    courses = sorted(
-        p for p in Path(library).iterdir() if p.is_dir() and " (course_" in p.name
-    )
-    if args.only:
-        wanted = [w.lower() for w in args.only]
-        courses = [p for p in courses if any(w in p.name.lower() for w in wanted)]
-    results = []
-    for number, (course, target) in enumerate(_course_files(courses, folder), 1):
-        name = course.name.split(" (course_")[0]
-        if target.exists() and not args.force and course_format(target) >= COURSE_FORMAT:
-            results.append((name, "kept", target.stat().st_size, 0.0))
-            continue
-        print(f"\n=== {number}/{len(courses)}: {name} ===")
-        started = time.time()
-        try:
-            driven = read(course)
-            status = export_course(driven, target, args)
-        except (UnreadableLap, OSError, ValueError, MemoryError) as exc:
-            print(f"  failed: {exc}", file=sys.stderr)
-            status = 1
-        took = time.time() - started
-        size = target.stat().st_size if target.exists() and status == 0 else 0
-        results.append((name, "written" if status == 0 else "FAILED", size, took))
-
-    print("\n" + "-" * 72)
-    for name, status, size, took in results:
-        extra = f"{size / 1e6:8.1f} MB" if size else " " * 11
-        timing = f"{took:6.0f} s" if took else ""
-        print(f"  {status:8} {extra}  {timing:>8}  {name}")
-    failed = [r for r in results if r[1] == "FAILED"]
-    print(f"\n{len(results) - len(failed)} of {len(results)} courses in {folder}")
-    return 1 if failed else 0
-
-
-def _course_files(courses: list[Path], folder: Path) -> list[tuple[Path, Path]]:
-    """
-    Each recorded course and the file it is written to: its name as a file
-    name. Where two courses carry one name (a recorder that named a new circuit
-    after an old one), the one recorded first keeps it and the other is named
-    after where it starts as well, so neither overwrites the other.
-    """
-    import os
-
-    def created(course: Path) -> float:
-        try:
-            found = os.stat(course)
-        except OSError:
-            return float("inf")
-        return getattr(found, "st_birthtime", found.st_ctime)
-
-    by_slug: dict[str, list[Path]] = {}
-    for course in courses:
-        by_slug.setdefault(_slug(course.name.split(" (course_")[0]), []).append(course)
-    target_of = {}
-    for slug, group in by_slug.items():
-        for rank, course in enumerate(sorted(group, key=lambda c: (created(c), c.name))):
-            if rank:
-                start = course.name.split("(course_", 1)[-1].split("_to_")[0]
-                target_of[course] = folder / f"{slug}_{_slug(start.replace('-', 'm'))}.glb"
-            else:
-                target_of[course] = folder / f"{slug}.glb"
-    return [(course, target_of[course]) for course in courses]
-
-
-def _races(args) -> int:
-    """
-    Every race the installed game defines, and what each adds to the world.
-
-    For each route the game ships a definition of: how many copies of its own
-    assets it places (and how many of those the track has models for), what
-    kinds they are, how many free-roam objects it hides, whether its line
-    passes through a venue's own ground, which recorded course was driven on it
-    and whether that course's export (in `--out`) already carries the race's
-    layer. With `--markdown` the table is written there too.
-    """
-    import numpy as np
-
-    from .forzainstall import track_folders
-    from .forzaplacement import Track
-    from .forzaroute import defined_routes, match, read_routes, route_assets
-
-    tracks = [args.track] if args.track else [t for t in track_folders() if defined_routes(t)]
-    if not tracks:
-        print("no installed Forza with route definitions found; name its track folder with --track", file=sys.stderr)
-        return 1
-    track = Path(tracks[0])
-    routes = {r.id: r for r in read_routes(track)}
-    defined = defined_routes(track)
-    print(f"{len(defined)} races defined in {track.parents[2].name} ({track.name}), {len(routes)} with an AI line")
-
-    recorded: dict[int, list[tuple[str, Path]]] = {}
-    from .lapinput import UnreadableLap, default_library, read
-
-    try:
-        library = Path(args.library) if args.library else default_library()
-    except UnreadableLap:
-        library = None
-    folder = Path(args.out) if args.out else levelshome.default("courses", "forza")
-    if library is not None and library.is_dir():
-        courses = sorted(p for p in library.iterdir() if p.is_dir() and "course_" in p.name)
-        for course, target in _course_files([c for c in courses if " (course_" in c.name], folder) + [
-            (c, folder / (_slug(c.name) + ".glb")) for c in courses if " (course_" not in c.name
-        ]:
-            try:
-                driven = read(course)
-            except (UnreadableLap, OSError, ValueError):
-                continue
-            route, _fit = match(driven.positions, list(routes.values()))
-            if route is not None:
-                recorded.setdefault(route.id, []).append((course.name.split(" (course_")[0], target))
-
-    with Track(track) as opened:
-        venues = [(stem, lo, hi) for stem, part, lo, hi in opened.world_models() if part.startswith("ground:venue")]
-        rows = []
-        for route_id in sorted(defined):
-            assets = route_assets(track, route_id)
-            shipped = {stem for stem in assets.models if stem in opened.clusters}
-            drawn = sum(len(v) for k, v in assets.models.items() if k in shipped)
-            kinds: dict[str, int] = {}
-            for stem, copies in assets.models.items():
-                kinds[assets.kinds[stem]] = kinds.get(assets.kinds[stem], 0) + len(copies)
-            line = routes[route_id].points if route_id in routes else None
-            if line is None and assets.models:
-                line = np.concatenate(list(assets.models.values()))[:, :3]
-            touched = []
-            if line is not None and len(line):
-                plane = line[:, [0, 2]]
-                for stem, lo, hi in venues:
-                    if ((plane[:, 0] >= lo[0] - 10) & (plane[:, 0] <= hi[0] + 10)
-                            & (plane[:, 1] >= lo[2] - 10) & (plane[:, 1] <= hi[2] + 10)).any():
-                        touched.append(stem)
-            for name, target in recorded.get(route_id, [(None, None)]):
-                exported = target is not None and target.exists()
-                current = exported and course_format(target) >= COURSE_FORMAT
-                rows.append(
-                    dict(
-                        route=route_id,
-                        course=name or "",
-                        copies=assets.copies,
-                        drawn=drawn,
-                        kinds=", ".join(f"{k} {n}" for k, n in sorted(kinds.items(), key=lambda kv: -kv[1])),
-                        markers=", ".join(f"{k} {n}" for k, n in sorted(assets.markers.items())),
-                        hidden=len(assets.hidden),
-                        venue=", ".join(sorted(touched)),
-                        export=("current" if current else "older format") if exported else ("not exported" if name else ""),
-                    )
-                )
-
-    print(f"\n{'route':>6} {'copies':>7} {'drawn':>6} {'hidden':>6}  venue  export          course")
-    for row in rows:
-        print(
-            f"{row['route']:>6} {row['copies']:>7,} {row['drawn']:>6,} {row['hidden']:>6,}  "
-            f"{'yes' if row['venue'] else 'no ':5}  {row['export']:15} {row['course']}"
-        )
-    races = {row["route"] for row in rows}
-    with_layer = {row["route"] for row in rows if row["copies"]}
-    with_venue = {row["route"] for row in rows if row["venue"]}
-    driven_on = {row["route"] for row in rows if row["course"]}
-    stale = [row for row in rows if row["export"] in ("older format", "not exported")]
-    print(
-        f"\n{len(races)} races: {len(with_layer)} with assets of their own, {len(with_venue)} through a venue, "
-        f"{len(driven_on)} driven in the lap library, {len(stale)} recorded courses to export again"
-    )
-    if args.markdown:
-        lines = [
-            "| route | recorded course | own assets | drawn | kinds | not geometry | hidden | venue | export |",
-            "|---:|---|---:|---:|---|---|---:|---|---|",
-        ]
-        for row in rows:
-            lines.append(
-                f"| {row['route']} | {row['course']} | {row['copies']} | {row['drawn']} | {row['kinds']} | "
-                f"{row['markers']} | {row['hidden']} | {row['venue'] or 'no'} | {row['export']} |"
-            )
-        Path(args.markdown).write_text("\n".join(lines) + "\n", encoding="utf-8")
-        print(f"wrote {args.markdown}")
-    return 0
-
-
-def _route_box(path: Path, margin: float) -> tuple[tuple[float, float], tuple[float, float]]:
-    """
-    The ground a recorded lap covers, widened a little.
-
-    The margin is not cosmetic. A lap is a line, and a line's bounding box in the
-    plane is the road and nothing either side of it — no verge, no barrier, no
-    hill the road runs along. A hundred metres is enough to see what the driver
-    saw.
-    """
-    import json
-
-    # utf-8-sig, as `lapinput` reads JSON: a file written by a .NET tool, or
-    # saved by Notepad, starts with a byte-order mark that plain utf-8 refuses.
-    data = json.loads(path.read_text(encoding="utf-8-sig"))
-    box = data.get("bounds") if isinstance(data, dict) else None
-    if not box:
-        raise SystemExit(
-            f"{path} has no bounds; --route takes a route file with "
-            '"bounds": {"min": [x, y, z], "max": [x, y, z]}'
-        )
-    low, high = box["min"], box["max"]
-    return (
-        (low[0] - margin, low[2] - margin),
-        (high[0] + margin, high[2] + margin),
-    )
-
-
-def _terrain(args) -> int:
-    from .forzaterrain import extract_from_track
-    from .glb import write_glb
-
-    if bool(args.box) == bool(args.route):
-        print("give exactly one of --box and --route", file=sys.stderr)
-        return 2
-    route = corridor = None
-    if args.route:
-        from .corridor import Corridor
-        from .lapinput import UnreadableLap, read_file
-
-        low, high = _route_box(args.route, args.margin)
-        try:
-            route = read_file(args.route)
-        except UnreadableLap:
-            route = None
-        # A route file that only carries its bounds is a box, not a line.
-        if route is not None and len(route) >= 10:
-            corridor = Corridor(route, args.margin)
-    else:
-        x0, z0, x1, z1 = args.box
-        low, high = (min(x0, x1), min(z0, z1)), (max(x0, x1), max(z0, z1))
-
-    span = (high[0] - low[0], high[1] - low[1])
-    print(
-        f"cutting {span[0]:,.0f} by {span[1]:,.0f} metres "
-        f"at x {low[0]:,.0f}..{high[0]:,.0f}, z {low[1]:,.0f}..{high[1]:,.0f}"
-    )
-    out = extract_from_track(args.path, low, high, corridor=corridor)
-    if not len(out.faces):
-        print(
-            "no terrain there.\n"
-            "  The coordinates are the game's own metres, as its telemetry reports\n"
-            "  them. A box outside the map, or in the sea, is empty rather than an\n"
-            "  error.",
-            file=sys.stderr,
-        )
-        return 1
-
-    print(out.summary())
-    _write_course(out, args.path, args.out, args, low, high, route=route, corridor=corridor)
-    return 0
-
-
-def _frostbite_install(given: Path | None) -> Path | None:
-    """
-    A Frostbite game's folder: the one given, or the first Steam game whose
-    `Data` holds a `layout.toc`.
-    """
-    from .steam import STEAM_DEFAULTS, steam_libraries
-
-    if given is not None:
-        return given
-    for library in [Path(p) for p in STEAM_DEFAULTS] + steam_libraries():
-        common = library / "steamapps" / "common"
-        if not common.is_dir():
-            continue
-        for game in sorted(common.iterdir()):
-            if (game / "Data" / "layout.toc").is_file():
-                return game
-    return None
-
-
-def _levels(args) -> int:
-    from .frostbite import UnsupportedFrostbite
-    from .frostbitebundle import level_sources
-
-    install = _frostbite_install(args.install)
-    if install is None:
-        print("no Frostbite game found in a Steam library; give --install", file=sys.stderr)
-        return 2
-    try:
-        tables = level_sources(install)
-    except UnsupportedFrostbite as exc:
-        print(exc, file=sys.stderr)
-        return 1
-    print(f"{len(tables)} levels in {install}")
-    for name, table in sorted(tables.items()):
-        extra = f" (+{len(table.supplements)} high-resolution)" if table.supplements else ""
-        print(f"  {name:<40} {table.toc.stat().st_size:>12,}  {table.source}{extra}")
-    return 0
-
-
-def _level(args) -> int:
-    from .frostbite import UnsupportedFrostbite
-    from .frostbitelevel import build_level, write_level
-
-    install = _frostbite_install(args.install)
-    if install is None:
-        print("no Frostbite game found in a Steam library; give --install", file=sys.stderr)
-        return 2
-    out = args.out or levelshome.default(f"{Path(args.level).stem}.glb", levelshome.game_folder(install))
-    out.parent.mkdir(parents=True, exist_ok=True)
-    try:
-        model = build_level(
-            install,
-            args.level,
-            budget=args.detail_budget,
-            skip=tuple(args.skip or ()),
-            textures=args.textures,
-            ground_spacing=args.ground_spacing,
-            ground_texture=args.ground_texture,
-            navmesh=args.navmesh,
-            by_mesh=args.by_mesh,
-        )
-    except UnsupportedFrostbite as exc:
-        print(exc, file=sys.stderr)
-        return 1
-
-    placed = model.placements
-    print(
-        f"{placed.copies():,} copies of {len(placed.meshes):,} meshes, from "
-        f"{len(placed.partitions)} static model groups"
-    )
-    for name, copies in sorted(placed.partitions.items(), key=lambda kv: -kv[1]):
-        print(f"  {copies:>8,}  {name}")
-    if placed.objects:
-        print(f"  {placed.objects:>8,}  placed one by one (object and prefab references)")
-    if placed.unresolved:
-        print(f"{placed.unresolved:,} members name a mesh this level does not carry; left out")
-    reasons: dict[str, int] = {}
-    for why in model.skipped.values():
-        reasons[why] = reasons.get(why, 0) + 1
-    for why, count in sorted(reasons.items(), key=lambda kv: -kv[1]):
-        print(f"{count:,} meshes left out: {why}")
-    print(
-        f"{model.triangles():,} triangles, budget {model.budget:,}; "
-        f"{model.coarser:,} meshes drawn at a coarser level to fit"
-    )
-    if model.dropped:
-        print(
-            f"{model.dropped:,} copies left out to fit the budget, the smallest first "
-            "(--detail-budget raises it)"
-        )
-    kinds: dict[str, list[int]] = {}
-    for part, piece in model.parts.items():
-        part = part.replace(" (destructible)", "")
-        short = (piece.texture or "").rsplit("/", 1)[-1]
-        kind = part[: -len(short) - 1] if piece.texture and part.endswith(" " + short) else part
-        entry = kinds.setdefault(kind, [0, 0])
-        entry[0] += sum(len(f) for f in piece.faces)
-        entry[1] += 1 if piece.texture else 0
-    for kind, (triangles, textures) in sorted(kinds.items()):
-        print(f"  {triangles:>12,}  {kind}" + (f", {textures:,} texture{'s' if textures > 1 else ''}" if textures else ""))
-    if args.textures:
-        done, drawn = model.textured
-        print(f"{done:,} of {drawn:,} drawn sections carry their colour map; the rest are flat colours")
-    print(f"Ground: {model.ground}.")
-    if args.navmesh:
-        print(f"Navigation mesh: {model.navmesh}.")
-    if model.blockout:
-        print(f"{model.blockout:,} triangles of placeholder blockout sections left out.")
-    if placed.variations:
-        print(
-            f"{placed.variations:,} grouped copies placed in an object variation; "
-            f"{model.varied:,} section copies drawn with their variation's own shader block."
-        )
-    if model.destructible:
-        print(f"{model.destructible:,} triangles of destructible meshes, in parts named '... (destructible)'.")
-    if model.sheets:
-        print(f"{model.sheets:,} section copies lay their cut-out sheet (lettering, a sign) on by a later texture coordinate set.")
-    if model.overlaid:
-        print(f"{model.overlaid:,} sections drawn with their object's overlay through its second texture coordinates.")
-    try:
-        write_level(model, out, clamped=args.clamped_uvs)
-    except (UnsupportedFrostbite, ValueError) as exc:
-        print(exc, file=sys.stderr)
-        return 1
-    if model.flattened:
-        print(
-            f"{model.flattened:,} triangle{'s' if model.flattened > 1 else ''} repeat their texture too "
-            "densely to cut and are drawn in its average colour."
-        )
-    print(f"-> {out} ({out.stat().st_size / 1e6:,.0f} MB)")
-    return 0
-
-
-def _export_options(p) -> None:
-    """The options `course` and `terrain` share: what goes into the file."""
-    from .detail import DEFAULT_BUDGET
-
-    p.add_argument(
-        "--texture-size",
-        type=int,
-        choices=(2048, 1024, 512),
-        default=2048,
-        help="ground texture per 512 m tile, in pixels (2048 = 25 cm a pixel)",
-    )
-    p.add_argument(
-        "--no-textures",
-        action="store_true",
-        help="flat colours only: a far smaller file, and no ground detail",
-    )
-    p.add_argument(
-        "--season",
-        choices=("summer", "autumn", "winter", "spring"),
-        default="summer",
-        help="which season's ground maps and model textures to use",
-    )
-    p.add_argument(
-        "--no-placed",
-        action="store_true",
-        help="terrain only: leave out kerbs, barriers, tyre walls, signs and buildings",
-    )
-    p.add_argument(
-        "--trees",
-        action="store_true",
-        help="also place trees and bushes (many triangles, and they hide the road)",
-    )
-    p.add_argument(
-        "--detail-budget",
-        type=int,
-        default=None,
-        help=(
-            "a ceiling on triangles for everything placed; the costliest models drop "
-            "to coarser levels of detail until it fits, and past that the furthest "
-            "copies are left out (default: enough to keep every copy, and at least "
-            f"{DEFAULT_BUDGET:,}; kerbs always stay at full detail)"
-        ),
-    )
+    game = (game or "forza").lower()
+    if game.startswith("forza"):
+        return delegate("forza", argv)
+    if game in _COURSE_TOOLS:
+        return delegate(_COURSE_TOOLS[game], argv)
+    print(_no_course(game), file=sys.stderr)
+    return 1
 
 
 def _list(archive: _Listing, args) -> int:
@@ -1426,6 +473,14 @@ def main(argv: list[str] | None = None) -> int:
             "own licence."
         ),
     )
+    from .external import VERBS, delegate
+
+    argv = list(sys.argv[1:] if argv is None else argv)
+    if argv and argv[0] in VERBS:
+        return delegate(VERBS[argv[0]], argv)
+    if argv and argv[0] == "course":
+        return _course(argv)
+
     sub = parser.add_subparsers(dest="verb", required=True)
 
     p = sub.add_parser("identify", help="say what a file is")
@@ -1450,236 +505,28 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("path", type=Path)
     p.add_argument("--limit", type=int, default=25)
 
-    p = sub.add_parser(
-        "course", help="export the ground around a lap, working out the rest"
-    )
-    _export_options(p)
-    p.add_argument(
-        "lap",
-        help=(
-            "a lap or course: a file written by heat3d_capture, a lap or course "
-            "folder from a recorded library, or just a course's name"
-        ),
-    )
-    p.add_argument(
-        "-o",
-        "--out",
-        type=Path,
-        default=None,
-        help=(
-            "where to write the .glb (default: the course's name, in "
-            "$HEAT3D_LEVELS/<game>/courses when that is set, else here)"
-        ),
-    )
-    p.add_argument(
-        "--track",
-        type=Path,
-        default=None,
-        help="the track folder, if the installed game should not be searched for",
-    )
-    p.add_argument(
-        "--margin",
-        type=float,
-        default=80.0,
-        help="metres of ground to keep either side of the driving (default 80)",
-    )
-    p.add_argument(
-        "--game",
-        choices=("forza", "beamng", "acrally"),
-        default=None,
-        help="which game the lap is from (default: what the lap file says, else Forza)",
-    )
-    p.add_argument(
-        "--level",
-        default=None,
-        help="BeamNG, AC Rally: the level or stage, if it should not be found from the lap",
-    )
-    p.add_argument(
-        "--install",
-        type=Path,
-        default=None,
-        help="BeamNG, AC Rally: the game's folder, if it is not in a Steam library",
-    )
-    p.set_defaults(run=_course)
+    # Run by the game's own tool with the same arguments (external.py); `<verb> --help` shows its options.
+    for verb, help_text in (
+        ("course", "export the ground around a lap (by the Forza, BeamNG.drive or AC Rally tool)"),
+        ("courses", "every course in a recorded lap library (heat3d-forza-maps)"),
+        ("races", "every race an installed Forza defines (heat3d-forza-maps)"),
+        ("cars", "every car of an installed Forza at low detail (heat3d-forza-maps)"),
+        ("terrain", "a piece of Forza terrain by world coordinates (heat3d-forza-maps)"),
+        ("levels", "the levels of an installed Frostbite game (heat3d-battlefield-maps)"),
+        ("level", "a Frostbite level as one .glb (heat3d-battlefield-maps)"),
+        ("enfusion-worlds", "the worlds of an installed Arma Reforger (heat3d-reforger-maps)"),
+        ("enfusion-world", "an Arma Reforger world as one .glb (heat3d-reforger-maps)"),
+    ):
+        sub.add_parser(verb, help=help_text, add_help=False)
 
-    p = sub.add_parser(
-        "courses", help="export every course in a recorded lap library, one file each"
-    )
-    _export_options(p)
-    p.add_argument(
-        "-o", "--out", default=None, help="folder to write into (default $HEAT3D_LEVELS/forza/courses, else ./courses)"
-    )
-    p.add_argument(
-        "--library",
-        default=None,
-        help="the lap library (default: FH Companion's, under %%LOCALAPPDATA%%)",
-    )
-    p.add_argument("--only", nargs="+", default=None, help="just the courses whose names contain these")
-    p.add_argument("--force", action="store_true", help="export again what is already there")
-    p.add_argument("--track", type=Path, default=None, help="the track folder, if not the installed game's")
-    p.add_argument("--margin", type=float, default=80.0, help="metres either side of the driving (default 80)")
-    p.set_defaults(run=_courses)
-
-    p = sub.add_parser(
-        "races", help="every race an installed Forza defines: its own assets, venues, and the exports of it"
-    )
-    p.add_argument(
-        "-o", "--out", default=None, help="the folder `courses` writes to (default as for `courses`)"
-    )
-    p.add_argument("--library", default=None, help="the lap library (default: FH Companion's)")
-    p.add_argument("--track", type=Path, default=None, help="the track folder, if not the installed game's")
-    p.add_argument("--markdown", type=Path, default=None, help="also write the table here")
-    p.set_defaults(run=_races)
-
-    p = sub.add_parser("cars", help="every car of an installed Forza at low detail, in one file for the viewer")
-    p.add_argument(
-        "-o", "--out", type=Path, default=None,
-        help="the file to write (default $HEAT3D_LEVELS/forza/forza.h3dcars, else ./forza.h3dcars)",
-    )
-    p.add_argument("--game", type=Path, default=None, help="the game's folder, if not the installed one found")
-
-    p = sub.add_parser(
-        "terrain", help="cut a piece of Forza terrain out, by world coordinates"
-    )
-    _export_options(p)
-    p.add_argument("path", type=Path, help="a track folder under media/Tracks")
-    p.add_argument("-o", "--out", type=Path, required=True)
-    p.add_argument(
-        "--box",
-        type=float,
-        nargs=4,
-        metavar=("X0", "Z0", "X1", "Z1"),
-        default=None,
-        help="the region to cut, in the game's metres",
-    )
-    p.add_argument(
-        "--route",
-        type=Path,
-        default=None,
-        help=(
-            'a route JSON with "bounds" {"min": [x, y, z], "max": [x, y, z]}, as '
-            "heat3d_capture route and laps write it; its x and z extent is the region, "
-            "and its positions, if it has at least 10, narrow it to a corridor"
-        ),
-    )
-    p.add_argument(
-        "--margin",
-        type=float,
-        default=100.0,
-        help="metres to add around a route, so the verge comes with the road",
-    )
-
-    p = sub.add_parser("levels", help="list the levels of an installed Frostbite game")
-    p.add_argument("--install", type=Path, default=None, help="the game's folder, if not in a Steam library")
-
-    p = sub.add_parser(
-        "level", help="export a Frostbite level: its terrain backdrop and placed meshes"
-    )
-    p.add_argument("level", help="the level's name as `levels` lists it, or its .toc")
-    p.add_argument(
-        "-o", "--out", type=Path, default=None,
-        help="the .glb (default: <level>.glb, in $HEAT3D_LEVELS/<game> when that is set)",
-    )
-    p.add_argument("--install", type=Path, default=None, help="the game's folder, if not in a Steam library")
-    p.add_argument(
-        "--detail-budget",
-        type=int,
-        default=None,
-        help=(
-            "a ceiling on triangles; the costliest meshes drop to coarser levels of "
-            "detail until it fits (default: every copy at its coarsest, plus a "
-            "quarter, at least 1,500,000; the terrain stays at full detail)"
-        ),
-    )
-    p.add_argument(
-        "--textures",
-        type=int,
-        nargs="?",
-        const=512,
-        default=0,
-        metavar="PIXELS",
-        help=(
-            "write each surface's colour map, no larger than PIXELS a side "
-            "(default 512 when given without a size); without it, flat colours"
-        ),
-    )
-    p.add_argument(
-        "--ground-texture",
-        type=float,
-        nargs="?",
-        const=0.5,
-        default=0.0,
-        metavar="METRES",
-        help=(
-            "bake the terrain decals (roads, aprons, markings) into the ground's "
-            "colour, METRES a pixel (default 0.5 when given without a size), in "
-            "tiles of at most 4096 pixels"
-        ),
-    )
-    p.add_argument(
-        "--navmesh",
-        action="store_true",
-        help=(
-            "add the soldiers' walkable surfaces from the level's navigation mesh "
-            "as the part nav:walkable"
-        ),
-    )
-    p.add_argument(
-        "--by-mesh",
-        action="store_true",
-        help=(
-            "for finding what a part is: one part per source mesh and material, "
-            "named '<part> | <mesh> | <material>' (a much larger file)"
-        ),
-    )
-    p.add_argument(
-        "--clamped-uvs",
-        action="store_true",
-        help=(
-            "for a renderer that cannot repeat a texture: cut every textured "
-            "triangle into pieces with UVs inside 0..1, and draw the ones that "
-            "would need more than 4 pieces in their texture's average colour "
-            "(default: UVs as the game has them, with a repeating sampler)"
-        ),
-    )
-    p.add_argument(
-        "--ground-spacing",
-        type=float,
-        default=4.0,
-        metavar="METRES",
-        help="the terrain heightfield's finest spacing (default 4; 0 leaves it out)",
-    )
-    p.add_argument(
-        "--skip",
-        action="append",
-        default=None,
-        metavar="TEXT",
-        help="leave out static model groups whose partition name contains TEXT (repeatable)",
-    )
-
-    from . import enfusionworld, unreallevel
+    from . import unreallevel
 
     unreallevel.add_verbs(sub)
-    enfusionworld.add_verbs(sub)
 
     args = parser.parse_args(argv)
 
     if args.verb in ("ue-maps", "ue-map"):
         return unreallevel.run(args)
-    if args.verb in ("enfusion-worlds", "enfusion-world"):
-        return enfusionworld.run(args)
-    if args.verb == "course":
-        return _course(args)
-    if args.verb == "courses":
-        return _courses(args)
-    if args.verb == "races":
-        return _races(args)
-    if args.verb == "cars":
-        return _cars(args)
-    if args.verb == "levels":
-        return _levels(args)
-    if args.verb == "level":
-        return _level(args)
 
     if not args.path.exists():
         print(f"no such file: {args.path}", file=sys.stderr)
@@ -1690,6 +537,8 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     if args.verb in ("list", "extract"):
+        if _head(args.path, 4) == MINIZIP_MAGIC:
+            return delegate("forza", argv)
         try:
             archive = _open_archive(args.path, args.key)
         except BadKey as exc:
@@ -1705,9 +554,6 @@ def main(argv: list[str] | None = None) -> int:
             return 1
         finally:
             archive.close()
-
-    if args.verb == "terrain":
-        return _terrain(args)
 
     if args.verb == "meshes":
         from .unity import read_serialized

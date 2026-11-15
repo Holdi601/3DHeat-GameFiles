@@ -24,8 +24,6 @@ source is what counts, not this file.
 | cryptography | Apache-2.0 / BSD-3-Clause | Only for archives the user holds a key for |
 | lz4 | BSD-3-Clause | Optional; some Unity bundles need it |
 | Pillow | MIT-CMU (HPND) | Decoding block-compressed textures, writing JPEGs |
-| msgpack | Apache-2.0 | BeamNG's compiled shapes (`.cdae`) |
-| zstandard | BSD-3-Clause | The few `.cdae` shapes that are zstd-compressed |
 | pytest | MIT | Development only |
 
 All permissive. This exporter carries no restriction of its own.

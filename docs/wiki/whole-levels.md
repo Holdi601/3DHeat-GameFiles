@@ -8,9 +8,9 @@ a whole level, map or world at once:
 
 | Game or engine | List | Export | Page |
 |---|---|---|---|
-| Battlefield 6 (Frostbite) | `levels` | `level <level>` | [Battlefield 6 levels](level-battlefield) |
+| Battlefield 6 (Frostbite) | `levels` | `level <level>` | [Battlefield 6 levels](https://holdi601.github.io/3DHeat-Ext-Battlefield/level-battlefield.html) |
 | Unreal 5 World Partition games | `ue-maps <game>` | `ue-map <game> <map>` | [Unreal 5 maps](level-unreal-world-partition) |
-| Arma Reforger (Enfusion) | `enfusion-worlds` | `enfusion-world <world>` | [Arma Reforger worlds](level-arma-reforger) |
+| Arma Reforger (Enfusion) | `enfusion-worlds` | `enfusion-world <world>` | [Arma Reforger worlds](https://holdi601.github.io/3DHeat-Ext-Reforger/level-arma-reforger.html) |
 
 Each pair works the same way: the first verb lists what the installed game
 holds, the second writes one of them as a single `.glb` in the game's own

@@ -5,7 +5,7 @@ contents and the `.ucas` data it indexes. A `.pak` is still there, but it holds
 little more than a footer. The readers here go from the container down to
 geometry and pixels, as far as a course needs. They were built and checked on
 Assetto Corsa Rally (Unreal 5.6.1, modified) and are reached through the
-[Assetto Corsa Rally](course-assetto-corsa-rally) course export, and
+[Assetto Corsa Rally](https://holdi601.github.io/3DHeat-Ext-ACRally/course-assetto-corsa-rally.html) course export, and
 `identify`, `list` and `extract` take a `.utoc` (or the `.ucas` beside it): the
 files its directory names, by their path under the mount point. A container
 without a directory index names no files and is not listed.

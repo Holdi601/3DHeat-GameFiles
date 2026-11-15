@@ -44,7 +44,7 @@ Written by the 3DHeat telemetry recorders (`heat3d_capture telemetry` ([3DHeat G
 - `track` is used by Assetto Corsa Rally to try the named stage first.
 - Axes: y is height. Forza and AC Rally laps use the game's horizontal axes as the
   recorder writes them. BeamNG laps are expected in the viewer's frame,
-  `(x, z, -y)` of BeamNG's Z-up world (see [BeamNG.drive](course-beamng.md#the-laps-frame)).
+  `(x, z, -y)` of BeamNG's Z-up world (see [BeamNG.drive](https://holdi601.github.io/3DHeat-Ext-BeamNG/course-beamng.html#the-laps-frame)).
 
 ### 2. A route file
 
@@ -138,7 +138,7 @@ to a corridor and steer the detail.
 | name | the file's stem, or the folder's name, with ` (course_...)` removed; it becomes the default output file name |
 | distance driven | the sum of the gaps between consecutive samples (printed as `m driven`; across a folder this includes the jumps between files) |
 | box | the x and z extent widened by `--margin`; height is never bounded |
-| corridor | the x and z of every sample, see [Course export](course-export.md#the-corridor) |
+| corridor | the x and z of every sample, see [Course export](https://holdi601.github.io/3DHeat-Ext-Forza/course-export.html#the-corridor) |
 | detail | each placed copy's distance to the nearest sample, see [Levels of detail and the budget](detail-budget.md) |
 
 A lap with fewer than two samples is refused ("holds no driving").

@@ -36,6 +36,26 @@ It is one of three ways to get a level's geometry into 3DHeat:
 Python package: `heat3d_gamefiles`. Repository:
 [Holdi601/3DHeat-GameFiles](https://github.com/Holdi601/3DHeat-GameFiles). Licence: MIT.
 
+
+## The games' own readers
+
+Each game's reader is its own project, so a problem with one game's terms
+touches only that game: install the one for your game (its page says how), and
+both its own command and the verbs here work. GameFiles runs the game's tool
+with the arguments you gave it; nothing of the tool is imported. It is found as
+its command on `PATH`, as its installed package, or as its folder in
+`HEAT3D_<GAME>_MAPS` or beside GameFiles (`exporters/ext/<game>-maps` in a 3DHeat
+checkout, or `3DHeat-Ext-<Game>` next to this folder). When it is not
+installed, the verb says where to get it and exits with code 2.
+
+| Game | Its own tool | Verbs here that run it |
+|---|---|---|
+| Forza Horizon / Motorsport | [3DHeat-Ext-Forza](https://holdi601.github.io/3DHeat-Ext-Forza/) (`heat3d-forza-maps`) | `course` (Forza laps), `courses`, `races`, `cars`, `terrain`; `identify`, `list`, `extract` of a `.minizip` |
+| Battlefield (Frostbite) | [3DHeat-Ext-Battlefield](https://holdi601.github.io/3DHeat-Ext-Battlefield/) (`heat3d-battlefield-maps`) | `levels`, `level`; `identify` of a Frostbite `.toc` |
+| BeamNG.drive | [3DHeat-Ext-BeamNG](https://holdi601.github.io/3DHeat-Ext-BeamNG/) (`heat3d-beamng-maps`) | `course` (BeamNG laps); `identify` of a `.cdae` or `.ter` |
+| Assetto Corsa Rally | [3DHeat-Ext-ACRally](https://holdi601.github.io/3DHeat-Ext-ACRally/) (`heat3d-acrally-maps`) | `course` (AC Rally laps) |
+| Arma Reforger (Enfusion) | [3DHeat-Ext-Reforger](https://holdi601.github.io/3DHeat-Ext-Reforger/) (`heat3d-reforger-maps`) | `enfusion-worlds`, `enfusion-world` |
+
 ## What it can do
 
 | Game or engine | Course export (`course`) | Archive reading |
@@ -131,16 +151,16 @@ Open the `.glb` in the 3DHeat viewer. The game's own world coordinates are kept
 - [Commands](commands): every verb and option, with examples.
 - [Command reference](cli-reference): every verb's `--help`, generated from the code.
 - [Inspecting archives](inspecting-archives): `identify`, `list`, `extract`, `meshes`, step by step.
-- [Course export](course-export): how a lap becomes a course, for all games.
-  - [Forza Horizon](course-forza-horizon)
-  - [BeamNG.drive](course-beamng)
-  - [Assetto Corsa Rally](course-assetto-corsa-rally)
+- [Course export](https://holdi601.github.io/3DHeat-Ext-Forza/course-export.html): how a lap becomes a course, for all games.
+  - [Forza Horizon](https://holdi601.github.io/3DHeat-Ext-Forza/course-forza-horizon.html)
+  - [BeamNG.drive](https://holdi601.github.io/3DHeat-Ext-BeamNG/course-beamng.html)
+  - [Assetto Corsa Rally](https://holdi601.github.io/3DHeat-Ext-ACRally/course-assetto-corsa-rally.html)
   - [Levels of detail and the budget](detail-budget)
 - [Whole levels](whole-levels): a level, map or world without a lap.
-  - [Battlefield 6 levels](level-battlefield): `levels`, `level`
+  - [Battlefield 6 levels](https://holdi601.github.io/3DHeat-Ext-Battlefield/level-battlefield.html): `levels`, `level`
   - [Unreal 5 maps](level-unreal-world-partition): `ue-maps`, `ue-map`
-  - [Arma Reforger worlds](level-arma-reforger): `enfusion-worlds`, `enfusion-world`
-- [Forza cars](forza-cars): `cars`, the car file for the viewer's race tab.
+  - [Arma Reforger worlds](https://holdi601.github.io/3DHeat-Ext-Reforger/level-arma-reforger.html): `enfusion-worlds`, `enfusion-world`
+- [Forza cars](https://holdi601.github.io/3DHeat-Ext-Forza/forza-cars.html): `cars`, the car file for the viewer's race tab.
 - [Lap inputs](lap-inputs): every lap file shape the tool accepts.
 - [Output format](output-format): what is inside the `.glb`.
 - [Archive readers](archive-readers): one page per container format, covering

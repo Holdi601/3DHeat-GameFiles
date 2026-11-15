@@ -19,6 +19,21 @@ site and pick a language at the top. The viewer is documented at
 
 ![Where GameFiles fits between the game and the viewer](docs/assets/img/where-it-fits.svg)
 
+**Each game's reader is its own project.** So that a problem with one game's
+terms touches only that game, the readers of the games' own formats live in
+their own repositories and build on this one as a library:
+[3DHeat-Ext-Forza](https://github.com/Holdi601/3DHeat-Ext-Forza) (`heat3d-forza-maps`),
+[3DHeat-Ext-Battlefield](https://github.com/Holdi601/3DHeat-Ext-Battlefield) (`heat3d-battlefield-maps`),
+[3DHeat-Ext-BeamNG](https://github.com/Holdi601/3DHeat-Ext-BeamNG) (`heat3d-beamng-maps`),
+[3DHeat-Ext-ACRally](https://github.com/Holdi601/3DHeat-Ext-ACRally) (`heat3d-acrally-maps`) and
+[3DHeat-Ext-Reforger](https://github.com/Holdi601/3DHeat-Ext-Reforger) (`heat3d-reforger-maps`).
+This repository keeps the engine-format readers (Unreal pak and IoStore, Unity,
+Source 2 VPK, the Oodle loader) and what every export shares (glTF writer, lap
+files, corridor, surfaces, detail budget). Its game verbs - `course`, `courses`,
+`races`, `cars`, `terrain`, `levels`, `level`, `enfusion-worlds`,
+`enfusion-world` - keep working: they run the game's tool with the same
+arguments when it is installed, and say where to get it when it is not.
+
 ## What it is useful for
 
 - **Drawing heat on the real track.** Record laps in Forza, BeamNG.drive or
@@ -109,17 +124,17 @@ placeholder: type your own value, without the angle brackets.
 | `list` | `<archive>`, `--filter TEXT`, `--limit N`, `--key HEX` (an AES-256 key you already hold; only an encrypted `.pak`) |
 | `extract` | `<archive> <path inside>`, `--out FILE`, `--key HEX` |
 | `meshes` | `<unity file>`, `--limit N` |
-| `course` | `<lap file \| lap folder \| course name>`, `-o FILE`, `--game forza\|beamng\|acrally`, `--track FOLDER` (Forza), `--level NAME` and `--install FOLDER` (BeamNG, AC Rally), `--margin M` (80), `--texture-size 2048\|1024\|512`, `--no-textures`, `--season summer\|autumn\|winter\|spring`, `--no-placed`, `--trees`, `--detail-budget N` |
-| `courses` | `-o FOLDER` (`./courses`, or `$HEAT3D_LEVELS/forza/courses`), `--library FILE`, `--only NAME ...`, `--force`, `--track FOLDER`, `--margin M`, and the texture/season/placed/trees/budget options of `course` |
-| `races` | `-o FOLDER` (as `courses`), `--library FILE`, `--track FOLDER`, `--markdown FILE` |
-| `terrain` | `<forza track folder>`, `-o FILE`, `--box X0 Z0 X1 Z1` or `--route ROUTE.json`, `--margin M`, and the texture/season/placed/trees/budget options of `course` |
-| `cars` | `-o FILE` (`./forza.h3dcars`, or `$HEAT3D_LEVELS/forza/forza.h3dcars`), `--game FOLDER` |
-| `levels` | `--install FOLDER` |
-| `level` | `<level>`, `-o FILE`, `--install FOLDER`, `--textures [PIXELS]`, `--ground-texture [METRES]`, `--navmesh`, `--ground-spacing M` (4), `--detail-budget N`, `--skip TEXT`, `--by-mesh`, `--clamped-uvs` |
+| `course` | `<lap file \| lap folder \| course name>`, `-o FILE`, `--game forza\|beamng\|acrally`, `--track FOLDER` (Forza), `--level NAME` and `--install FOLDER` (BeamNG, AC Rally), `--margin M` (80), `--texture-size 2048\|1024\|512`, `--no-textures`, `--season summer\|autumn\|winter\|spring`, `--no-placed`, `--trees`, `--detail-budget N` (run by the Forza, BeamNG or AC Rally tool) |
+| `courses` | `-o FOLDER` (`./courses`, or `$HEAT3D_LEVELS/forza/courses`), `--library FILE`, `--only NAME ...`, `--force`, `--track FOLDER`, `--margin M`, and the texture/season/placed/trees/budget options of `course` (run by the Forza tool) |
+| `races` | `-o FOLDER` (as `courses`), `--library FILE`, `--track FOLDER`, `--markdown FILE` (run by the Forza tool) |
+| `terrain` | `<forza track folder>`, `-o FILE`, `--box X0 Z0 X1 Z1` or `--route ROUTE.json`, `--margin M`, and the texture/season/placed/trees/budget options of `course` (run by the Forza tool) |
+| `cars` | `-o FILE` (`./forza.h3dcars`, or `$HEAT3D_LEVELS/forza/forza.h3dcars`), `--game FOLDER` (run by the Forza tool) |
+| `levels` | `--install FOLDER` (run by the Battlefield tool) |
+| `level` | `<level>`, `-o FILE`, `--install FOLDER`, `--textures [PIXELS]`, `--ground-texture [METRES]`, `--navmesh`, `--ground-spacing M` (4), `--detail-budget N`, `--skip TEXT`, `--by-mesh`, `--clamped-uvs` (run by the Battlefield tool) |
 | `ue-maps` | `<game folder \| Steam folder name>` |
 | `ue-map` | `<game> <map>`, `-o FILE`, `--ground-spacing M` (2), `--no-structures`, `--no-water` |
-| `enfusion-worlds` | `--install FOLDER` |
-| `enfusion-world` | `<world>`, `-o FILE`, `--install FOLDER`, `--ground-spacing M` (2), `--texture-size PIXELS` (4096; 0 for none), `--no-structures`, `--trees` |
+| `enfusion-worlds` | `--install FOLDER` (run by the Reforger tool) |
+| `enfusion-world` | `<world>`, `-o FILE`, `--install FOLDER`, `--ground-spacing M` (2), `--texture-size PIXELS` (4096; 0 for none), `--no-structures`, `--trees` (run by the Reforger tool) |
 
 Each verb is explained step by step, with its output, in the
 [documentation](https://holdi601.github.io/3DHeat-GameFiles/commands.html).
@@ -151,9 +166,9 @@ around it - ground, road, kerbs, barriers, tyre walls, signs - as one textured
 `.glb` for the viewer, with nothing else to supply. It reads which game the lap
 is from out of the file (`heat3d-lap` files say; anything else is Forza's), finds
 the installed game, the level or stage, and - for Assetto Corsa Rally - which
-way round its axes are. See [ForzaTech](https://holdi601.github.io/3DHeat-GameFiles/course-forza-horizon.html),
-[BeamNG](https://holdi601.github.io/3DHeat-GameFiles/course-beamng.html) and
-[Assetto Corsa Rally](https://holdi601.github.io/3DHeat-GameFiles/course-assetto-corsa-rally.html).
+way round its axes are. See [ForzaTech](https://holdi601.github.io/3DHeat-Ext-Forza/course-forza-horizon.html),
+[BeamNG](https://holdi601.github.io/3DHeat-Ext-BeamNG/course-beamng.html) and
+[Assetto Corsa Rally](https://holdi601.github.io/3DHeat-Ext-ACRally/course-assetto-corsa-rally.html).
 
 ```
 python -m heat3d_gamefiles course <beamng or ac rally lap .json>   # all it needs
@@ -201,12 +216,12 @@ crash*. One page per format:
 | Unreal 5 | IoStore containers, packages, static meshes, textures | [Unreal 5 IoStore](https://holdi601.github.io/3DHeat-GameFiles/reader-unreal-iostore.html) |
 | Unity | objects and meshes, Unity 2020 to 6000 | [Unity](https://holdi601.github.io/3DHeat-GameFiles/reader-unity.html) |
 | Source 2 | `.vpk` lists and extracts, checksum-checked | [Source 2 VPK](https://holdi601.github.io/3DHeat-GameFiles/reader-source2-vpk.html) |
-| ForzaTech | a lap in, the course around it out | [Forza Horizon courses](https://holdi601.github.io/3DHeat-GameFiles/course-forza-horizon.html), [ForzaTech](https://holdi601.github.io/3DHeat-GameFiles/reader-forzatech.html) |
-| Frostbite | a Battlefield 6 level: terrain, every placed mesh, textures | [Battlefield 6 levels](https://holdi601.github.io/3DHeat-GameFiles/level-battlefield.html), [Frostbite](https://holdi601.github.io/3DHeat-GameFiles/reader-frostbite.html) |
-| BeamNG | a lap in, the level around it out | [BeamNG.drive courses](https://holdi601.github.io/3DHeat-GameFiles/course-beamng.html), [BeamNG](https://holdi601.github.io/3DHeat-GameFiles/reader-beamng.html) |
-| Assetto Corsa Rally | a lap in, the stage around it out | [Assetto Corsa Rally courses](https://holdi601.github.io/3DHeat-GameFiles/course-assetto-corsa-rally.html) |
+| ForzaTech | a lap in, the course around it out | [Forza Horizon courses](https://holdi601.github.io/3DHeat-Ext-Forza/course-forza-horizon.html), [ForzaTech](https://holdi601.github.io/3DHeat-Ext-Forza/reader-forzatech.html) |
+| Frostbite | a Battlefield 6 level: terrain, every placed mesh, textures | [Battlefield 6 levels](https://holdi601.github.io/3DHeat-Ext-Battlefield/level-battlefield.html), [Frostbite](https://holdi601.github.io/3DHeat-Ext-Battlefield/reader-frostbite.html) |
+| BeamNG | a lap in, the level around it out | [BeamNG.drive courses](https://holdi601.github.io/3DHeat-Ext-BeamNG/course-beamng.html), [BeamNG](https://holdi601.github.io/3DHeat-Ext-BeamNG/reader-beamng.html) |
+| Assetto Corsa Rally | a lap in, the stage around it out | [Assetto Corsa Rally courses](https://holdi601.github.io/3DHeat-Ext-ACRally/course-assetto-corsa-rally.html) |
 | Unreal 5 World Partition | a whole map: landscape, merged buildings, water | [Unreal 5 maps](https://holdi601.github.io/3DHeat-GameFiles/level-unreal-world-partition.html) |
-| Enfusion | an Arma Reforger world: terrain, sea, buildings as boxes | [Arma Reforger worlds](https://holdi601.github.io/3DHeat-GameFiles/level-arma-reforger.html) |
+| Enfusion | an Arma Reforger world: terrain, sea, buildings as boxes | [Arma Reforger worlds](https://holdi601.github.io/3DHeat-Ext-Reforger/level-arma-reforger.html) |
 
 ## Tests
 
