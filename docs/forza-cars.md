@@ -38,7 +38,7 @@ at its true size.
 
 | Option | Default | Meaning |
 |---|---|---|
-| `-o`, `--out FILE` | `./forza.h3dcars` | the file to write |
+| `-o`, `--out FILE` | `./forza.h3dcars`, or `$HEAT3D_LEVELS/forza/forza.h3dcars` when that is set | the file to write |
 | `--game FOLDER` | the installed game found | the game's folder |
 
 ## What is in the file

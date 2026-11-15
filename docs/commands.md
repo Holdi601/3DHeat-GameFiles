@@ -234,7 +234,7 @@ Rally) which way round the axes are. See [Course export](course-export.md).
 
 | Option | Default | Games | Meaning |
 |---|---|---|---|
-| `-o`, `--out FILE` | `<course name>.glb` in the current folder | all | where to write; the name is lower-cased, with runs of other characters turned into `_` |
+| `-o`, `--out FILE` | `<course name>.glb` in the current folder, or in `$HEAT3D_LEVELS/<game>/courses/` when that is set | all | where to write; the name is lower-cased, with runs of other characters turned into `_` |
 | `--game {forza,beamng,acrally}` | what the lap file says, else `forza` | all | which game the lap is from |
 | `--margin M` | 80 | all | metres of ground kept either side of the driving |
 | `--texture-size {2048,1024,512}` | 2048 | all | ground texture pixels per 512 m tile (2048 = 25 cm a pixel) |
@@ -353,7 +353,7 @@ export directly and does not read `--game`, `--level` or `--install`.
 
 | Option | Default | Meaning |
 |---|---|---|
-| `-o`, `--out FOLDER` | `courses` | the folder to write into (created if missing) |
+| `-o`, `--out FOLDER` | `courses`, or `$HEAT3D_LEVELS/forza/courses` when that is set | the folder to write into (created if missing) |
 | `--library DIR` | `%LOCALAPPDATA%\FHCompanion\laps` | the lap library |
 | `--only TEXT [TEXT ...]` | all | only the courses whose folder names contain one of these (case-insensitive) |
 | `--force` | off | export again what already has a `.glb` |
@@ -392,7 +392,7 @@ it writes nothing but the optional table.
 
 | Option | Default | Meaning |
 |---|---|---|
-| `-o`, `--out FOLDER` | `courses` | the folder `courses` writes to, whose files are checked |
+| `-o`, `--out FOLDER` | as for `courses` | the folder `courses` writes to, whose files are checked |
 | `--library DIR` | `%LOCALAPPDATA%\FHCompanion\laps` | the lap library |
 | `--track DIR` | searched | the track folder, if not the installed game's |
 | `--markdown FILE` | none | also write the table there, as Markdown |
@@ -477,7 +477,7 @@ is read is in [Frostbite](reader-frostbite.md).
 | Option | Default | Meaning |
 |---|---|---|
 | `<level>` | required | a name as `levels` prints it, a unique part of one, or the path of a level's `.toc` |
-| `-o`, `--out FILE` | `<level>.glb` | the `.glb` to write |
+| `-o`, `--out FILE` | `<level>.glb` (in `$HEAT3D_LEVELS/<game>/` when that is set) | the `.glb` to write |
 | `--install FOLDER` | the first Steam game whose `Data` holds a `layout.toc` | the game's folder |
 | `--textures [PIXELS]` | off; 512 when given without a size | write each surface's colour map, the largest mip no bigger than PIXELS a side, and its texture coordinates as the game has them, with a repeating sampler (see [Output format](output-format.md)). The heightfield gets the terrain backdrop's colour map where that map covers it, else the middle colour of the terrain's surface materials, else the backdrop's average colour round it. Off, every part is a flat colour |
 | `--ground-texture [METRES]` | off; 0.5 when given without a size | bake the terrain decals — roads, runways, aprons, painted markings — over the ground colour, multiplied by the terrain's colour map where the level has one, into the heightfield's colour, METRES a pixel, in tiles of at most 4,096 pixels (`ground:terrain x<x> z<z>`). Works with or without `--textures` |
@@ -527,7 +527,7 @@ in metres. How each is read and checked: [Unreal 5 maps](level-unreal-world-part
 | Option | Default | Meaning |
 |---|---|---|
 | `<map>` | required | a name as `ue-maps` prints it, or a unique part of one |
-| `-o`, `--out FILE` | `<map>.glb` | the `.glb` to write |
+| `-o`, `--out FILE` | `<map>.glb` (in `$HEAT3D_LEVELS/<game>/` when that is set) | the `.glb` to write |
 | `--ground-spacing METRES` | 2 | the landscape's vertex spacing in the file, rounded to a whole number of its own quads |
 | `--no-structures`, `--no-water` | | leave that part out |
 
@@ -553,7 +553,7 @@ x east, y up, z north. How each is read and checked:
 | Option | Default | Meaning |
 |---|---|---|
 | `<world>` | required | a world as `enfusion-worlds` prints it |
-| `-o`, `--out FILE` | `<world>.glb` | the `.glb` to write |
+| `-o`, `--out FILE` | `<world>.glb` (in `$HEAT3D_LEVELS/<game>/` when that is set) | the `.glb` to write |
 | `--install FOLDER` | the Steam library that holds the game | the game's folder |
 | `--ground-spacing METRES` | 2 (the terrain's own) | the terrain's vertex spacing in the file |
 | `--texture-size PIXELS` | 4096 | the ground colour image's larger side; 0 for flat colour |
@@ -569,6 +569,7 @@ left out and why.
 | Variable | Effect |
 |---|---|
 | `HEAT3D_OODLE` | path to an `oo2core_*_win64.dll`, or a folder holding one; see [Oodle](reader-oodle.md) |
+| `HEAT3D_LEVELS` | one folder for every export made without `-o`: each game's go in `<HEAT3D_LEVELS>/<game>/` (courses in `<game>/courses/`, the car pack in `forza/`). Unset, they go in the current folder |
 | `HEAT3D_NO_UPDATE` | any value other than empty, `0`, `false`, `no` turns the update check off; see [Updates](updates.md) |
 | `LOCALAPPDATA` | where the FH Companion library, BeamNG's user folder and the update cache are looked for |
 | `HEAT3D_COURSE` | tests only: the course the installed-game kerb test uses; see [Development](development.md) |

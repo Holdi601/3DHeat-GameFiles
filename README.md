@@ -110,10 +110,10 @@ placeholder: type your own value, without the angle brackets.
 | `extract` | `<archive> <path inside>`, `--out FILE`, `--key HEX` |
 | `meshes` | `<unity file>`, `--limit N` |
 | `course` | `<lap file \| lap folder \| course name>`, `-o FILE`, `--game forza\|beamng\|acrally`, `--track FOLDER` (Forza), `--level NAME` and `--install FOLDER` (BeamNG, AC Rally), `--margin M` (80), `--texture-size 2048\|1024\|512`, `--no-textures`, `--season summer\|autumn\|winter\|spring`, `--no-placed`, `--trees`, `--detail-budget N` |
-| `courses` | `-o FOLDER` (`./courses`), `--library FILE`, `--only NAME ...`, `--force`, `--track FOLDER`, `--margin M`, and the texture/season/placed/trees/budget options of `course` |
-| `races` | `-o FOLDER` (`./courses`), `--library FILE`, `--track FOLDER`, `--markdown FILE` |
+| `courses` | `-o FOLDER` (`./courses`, or `$HEAT3D_LEVELS/forza/courses`), `--library FILE`, `--only NAME ...`, `--force`, `--track FOLDER`, `--margin M`, and the texture/season/placed/trees/budget options of `course` |
+| `races` | `-o FOLDER` (as `courses`), `--library FILE`, `--track FOLDER`, `--markdown FILE` |
 | `terrain` | `<forza track folder>`, `-o FILE`, `--box X0 Z0 X1 Z1` or `--route ROUTE.json`, `--margin M`, and the texture/season/placed/trees/budget options of `course` |
-| `cars` | `-o FILE` (`./forza.h3dcars`), `--game FOLDER` |
+| `cars` | `-o FILE` (`./forza.h3dcars`, or `$HEAT3D_LEVELS/forza/forza.h3dcars`), `--game FOLDER` |
 | `levels` | `--install FOLDER` |
 | `level` | `<level>`, `-o FILE`, `--install FOLDER`, `--textures [PIXELS]`, `--ground-texture [METRES]`, `--navmesh`, `--ground-spacing M` (4), `--detail-budget N`, `--skip TEXT`, `--by-mesh`, `--clamped-uvs` |
 | `ue-maps` | `<game folder \| Steam folder name>` |
@@ -183,6 +183,11 @@ Most shipped Unreal content is Oodle-compressed. Oodle is proprietary and has no
 redistributable build, so this finds a library instead of carrying one — any
 installed game or engine that ships `oo2core_*.dll` has one, and
 `HEAT3D_OODLE=<path>` points at it directly.
+
+An export made without `-o` lands in the current folder - unless
+`HEAT3D_LEVELS` names one folder for all of them, in which case each game's go
+in `<HEAT3D_LEVELS>/<game>/` (courses in `<game>/courses/`). Set it once to keep
+every extraction in one place, ready for one backup.
 
 ## How far each engine goes
 

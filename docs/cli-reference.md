@@ -138,7 +138,8 @@ options:
                         past that the furthest copies are left out (default: enough to
                         keep every copy, and at least 1,500,000; kerbs always stay at
                         full detail)
-  -o, --out OUT         where to write the .glb (default: the course's name)
+  -o, --out OUT         where to write the .glb (default: the course's name, in
+                        $HEAT3D_LEVELS/<game>/courses when that is set, else here)
   --track TRACK         the track folder, if the installed game should not be searched
                         for
   --margin MARGIN       metres of ground to keep either side of the driving (default
@@ -179,7 +180,8 @@ options:
                         past that the furthest copies are left out (default: enough to
                         keep every copy, and at least 1,500,000; kerbs always stay at
                         full detail)
-  -o, --out OUT         folder to write into (default ./courses)
+  -o, --out OUT         folder to write into (default $HEAT3D_LEVELS/forza/courses,
+                        else ./courses)
   --library LIBRARY     the lap library (default: FH Companion's, under
                         %LOCALAPPDATA%)
   --only ONLY [ONLY ...]
@@ -197,7 +199,7 @@ usage: heat3d_gamefiles races [-h] [-o OUT] [--library LIBRARY] [--track TRACK]
 
 options:
   -h, --help           show this help message and exit
-  -o, --out OUT        the folder `courses` writes to (default ./courses)
+  -o, --out OUT        the folder `courses` writes to (default as for `courses`)
   --library LIBRARY    the lap library (default: FH Companion's)
   --track TRACK        the track folder, if not the installed game's
   --markdown MARKDOWN  also write the table here
@@ -210,7 +212,8 @@ usage: heat3d_gamefiles cars [-h] [-o OUT] [--game GAME]
 
 options:
   -h, --help     show this help message and exit
-  -o, --out OUT  the file to write (default ./forza.h3dcars)
+  -o, --out OUT  the file to write (default $HEAT3D_LEVELS/forza/forza.h3dcars, else
+                 ./forza.h3dcars)
   --game GAME    the game's folder, if not the installed one found
 ```
 
@@ -277,7 +280,8 @@ positional arguments:
 
 options:
   -h, --help            show this help message and exit
-  -o, --out OUT         the .glb (default: <level>.glb)
+  -o, --out OUT         the .glb (default: <level>.glb, in $HEAT3D_LEVELS/<game> when
+                        that is set)
   --install INSTALL     the game's folder, if not in a Steam library
   --detail-budget DETAIL_BUDGET
                         a ceiling on triangles; the costliest meshes drop to coarser
@@ -335,7 +339,8 @@ positional arguments:
 
 options:
   -h, --help            show this help message and exit
-  -o, --out OUT         the .glb (default: <map>.glb)
+  -o, --out OUT         the .glb (default: <map>.glb, in $HEAT3D_LEVELS/<game> when
+                        that is set)
   --ground-spacing METRES
                         the landscape's vertex spacing in the file, rounded to its own
                         grid (default 2)
@@ -367,7 +372,8 @@ positional arguments:
 
 options:
   -h, --help            show this help message and exit
-  -o, --out OUT         the .glb (default: <world>.glb)
+  -o, --out OUT         the .glb (default: <world>.glb, in $HEAT3D_LEVELS/<game> when
+                        that is set)
   --install INSTALL     the game's folder, if not in a Steam library
   --ground-spacing METRES
                         terrain vertex spacing in the file (default 2, the terrain's

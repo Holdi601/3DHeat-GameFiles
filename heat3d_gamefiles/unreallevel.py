@@ -35,6 +35,7 @@ from pathlib import Path
 
 import numpy as np
 
+from . import levelshome
 from .iostore import Store
 from .unrealmesh import MeshError, read_static_mesh
 from .unreallandscape import Landscape, LandscapeError, read_landscape
@@ -353,7 +354,7 @@ def add_verbs(sub) -> None:
     p = sub.add_parser("ue-map", help="export an Unreal 5 World Partition map: landscape, HLOD structures, water")
     p.add_argument("game", help=where)
     p.add_argument("map", help="the map's name as `ue-maps` lists it")
-    p.add_argument("-o", "--out", type=Path, default=None, help="the .glb (default: <map>.glb)")
+    p.add_argument("-o", "--out", type=Path, default=None, help="the .glb (default: <map>.glb, in $HEAT3D_LEVELS/<game> when that is set)")
     p.add_argument(
         "--ground-spacing",
         type=float,
@@ -377,7 +378,8 @@ def run(args) -> int:
         for path in list_maps(store):
             print(f"  {map_name(path):<32} {path}")
         return 0
-    out = args.out or Path(f"{_safe(args.map)}.glb")
+    out = args.out or levelshome.default(f"{_safe(args.map)}.glb", levelshome.game_folder(args.game))
+    out.parent.mkdir(parents=True, exist_ok=True)
     try:
         report = export_map(
             paks,

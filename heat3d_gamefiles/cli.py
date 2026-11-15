@@ -44,6 +44,8 @@ import argparse
 import sys
 from pathlib import Path
 
+from . import levelshome
+
 
 def _identify(path: Path) -> str:
     """Name the container format, by reading it rather than by extension."""
@@ -722,8 +724,11 @@ def _course(args) -> int:
     except UnreadableLap as exc:
         print(exc, file=sys.stderr)
         return 1
-    target = args.out or Path(_slug(driven.name) + ".glb")
     game = (getattr(args, "game", None) or driven.game or "forza").lower()
+    target = args.out or levelshome.default(
+        _slug(driven.name) + ".glb", "forza" if game.startswith("forza") else game, "courses"
+    )
+    target.parent.mkdir(parents=True, exist_ok=True)
     if game == "beamng":
         from .beamngcourse import export
 
@@ -919,8 +924,10 @@ def _cars(args) -> int:
             without.append(archive.name)
         else:
             cars.append(car)
-    size = write_pack(cars, args.out, source=game.name)
-    print(f"{args.out}: {len(cars)} cars, {size / 1e6:.1f} MB")
+    out = args.out or levelshome.default("forza.h3dcars", "forza")
+    out.parent.mkdir(parents=True, exist_ok=True)
+    size = write_pack(cars, out, source=game.name)
+    print(f"{out}: {len(cars)} cars, {size / 1e6:.1f} MB")
     if without:
         print(f"no stand-in model in {len(without)}: {', '.join(without)}")
     for line in failed:
@@ -948,7 +955,7 @@ def _courses(args) -> int:
     if not library.is_dir():
         print("no recorded lap library found; name one with --library", file=sys.stderr)
         return 1
-    folder = Path(args.out)
+    folder = Path(args.out) if args.out else levelshome.default("courses", "forza")
     folder.mkdir(parents=True, exist_ok=True)
     courses = sorted(
         p for p in Path(library).iterdir() if p.is_dir() and " (course_" in p.name
@@ -1047,7 +1054,7 @@ def _races(args) -> int:
         library = Path(args.library) if args.library else default_library()
     except UnreadableLap:
         library = None
-    folder = Path(args.out)
+    folder = Path(args.out) if args.out else levelshome.default("courses", "forza")
     if library is not None and library.is_dir():
         courses = sorted(p for p in library.iterdir() if p.is_dir() and "course_" in p.name)
         for course, target in _course_files([c for c in courses if " (course_" in c.name], folder) + [
@@ -1247,7 +1254,8 @@ def _level(args) -> int:
     if install is None:
         print("no Frostbite game found in a Steam library; give --install", file=sys.stderr)
         return 2
-    out = args.out or Path(f"{Path(args.level).stem}.glb")
+    out = args.out or levelshome.default(f"{Path(args.level).stem}.glb", levelshome.game_folder(install))
+    out.parent.mkdir(parents=True, exist_ok=True)
     try:
         model = build_level(
             install,
@@ -1454,7 +1462,10 @@ def main(argv: list[str] | None = None) -> int:
         "--out",
         type=Path,
         default=None,
-        help="where to write the .glb (default: the course's name)",
+        help=(
+            "where to write the .glb (default: the course's name, in "
+            "$HEAT3D_LEVELS/<game>/courses when that is set, else here)"
+        ),
     )
     p.add_argument(
         "--track",
@@ -1491,7 +1502,9 @@ def main(argv: list[str] | None = None) -> int:
         "courses", help="export every course in a recorded lap library, one file each"
     )
     _export_options(p)
-    p.add_argument("-o", "--out", default="courses", help="folder to write into (default ./courses)")
+    p.add_argument(
+        "-o", "--out", default=None, help="folder to write into (default $HEAT3D_LEVELS/forza/courses, else ./courses)"
+    )
     p.add_argument(
         "--library",
         default=None,
@@ -1506,14 +1519,19 @@ def main(argv: list[str] | None = None) -> int:
     p = sub.add_parser(
         "races", help="every race an installed Forza defines: its own assets, venues, and the exports of it"
     )
-    p.add_argument("-o", "--out", default="courses", help="the folder `courses` writes to (default ./courses)")
+    p.add_argument(
+        "-o", "--out", default=None, help="the folder `courses` writes to (default as for `courses`)"
+    )
     p.add_argument("--library", default=None, help="the lap library (default: FH Companion's)")
     p.add_argument("--track", type=Path, default=None, help="the track folder, if not the installed game's")
     p.add_argument("--markdown", type=Path, default=None, help="also write the table here")
     p.set_defaults(run=_races)
 
     p = sub.add_parser("cars", help="every car of an installed Forza at low detail, in one file for the viewer")
-    p.add_argument("-o", "--out", type=Path, default=Path("forza.h3dcars"), help="the file to write (default ./forza.h3dcars)")
+    p.add_argument(
+        "-o", "--out", type=Path, default=None,
+        help="the file to write (default $HEAT3D_LEVELS/forza/forza.h3dcars, else ./forza.h3dcars)",
+    )
     p.add_argument("--game", type=Path, default=None, help="the game's folder, if not the installed one found")
 
     p = sub.add_parser(
@@ -1554,7 +1572,10 @@ def main(argv: list[str] | None = None) -> int:
         "level", help="export a Frostbite level: its terrain backdrop and placed meshes"
     )
     p.add_argument("level", help="the level's name as `levels` lists it, or its .toc")
-    p.add_argument("-o", "--out", type=Path, default=None, help="the .glb (default: <level>.glb)")
+    p.add_argument(
+        "-o", "--out", type=Path, default=None,
+        help="the .glb (default: <level>.glb, in $HEAT3D_LEVELS/<game> when that is set)",
+    )
     p.add_argument("--install", type=Path, default=None, help="the game's folder, if not in a Steam library")
     p.add_argument(
         "--detail-budget",

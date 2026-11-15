@@ -61,6 +61,7 @@ from pathlib import Path
 
 import numpy as np
 
+from . import levelshome
 from .enfusion import EnfusionError, FileSystem, find_install, read_edds
 
 _ABSOLUTE_Y = 1 << 51
@@ -658,7 +659,7 @@ def add_verbs(sub) -> None:
     p.add_argument("--install", type=Path, default=None, help="the game's folder, if not in a Steam library")
     p = sub.add_parser("enfusion-world", help="export an Arma Reforger world: terrain, its colour, the sea, building boxes")
     p.add_argument("world", help="the world's name as `enfusion-worlds` lists it")
-    p.add_argument("-o", "--out", type=Path, default=None, help="the .glb (default: <world>.glb)")
+    p.add_argument("-o", "--out", type=Path, default=None, help="the .glb (default: <world>.glb, in $HEAT3D_LEVELS/<game> when that is set)")
     p.add_argument("--install", type=Path, default=None, help="the game's folder, if not in a Steam library")
     p.add_argument("--ground-spacing", type=float, default=2.0, metavar="METRES", help="terrain vertex spacing in the file (default 2, the terrain's own)")
     p.add_argument("--texture-size", type=int, default=4096, metavar="PIXELS", help="the ground colour image's larger side (default 4096; 0 for none)")
@@ -678,7 +679,8 @@ def run(args) -> int:
         for world, terr in list_worlds(fs):
             print(f"  {world:<40} {terr}")
         return 0
-    out = args.out or Path(f"{args.world.replace('/', '_')}.glb")
+    out = args.out or levelshome.default(f"{args.world.replace('/', '_')}.glb", levelshome.game_folder(install))
+    out.parent.mkdir(parents=True, exist_ok=True)
     try:
         report = export_world(
             install,

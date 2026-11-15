@@ -57,7 +57,7 @@ terrain decals baked into the ground and the soldiers' walkable surfaces.
 | Option | Default | Meaning |
 |---|---|---|
 | `<level>` | required | a name as `levels` prints it, a unique part of one, or a level's `.toc` |
-| `-o`, `--out FILE` | `<level>.glb` | the file to write |
+| `-o`, `--out FILE` | `<level>.glb` (in `$HEAT3D_LEVELS/<game>/` when that is set) | the file to write |
 | `--install FOLDER` | found in the Steam libraries | the game's folder |
 | `--textures [PIXELS]` | off; 512 without a size | each surface's colour map, at most PIXELS a side |
 | `--ground-texture [METRES]` | off; 0.5 without a size | bake roads, aprons and markings into the ground's colour, METRES a pixel |

@@ -46,7 +46,7 @@ a box, in the game's own metres.
 | Option | Default | Meaning |
 |---|---|---|
 | `<world>` | required | a world as `enfusion-worlds` prints it |
-| `-o`, `--out FILE` | `<world>.glb` | the file to write |
+| `-o`, `--out FILE` | `<world>.glb` (in `$HEAT3D_LEVELS/<game>/` when that is set) | the file to write |
 | `--install FOLDER` | the Steam library that holds the game | the game's folder |
 | `--ground-spacing METRES` | 2 (the terrain's own) | the terrain's vertex spacing in the file |
 | `--texture-size PIXELS` | 4096 | the ground colour image's larger side; 0 for flat colour |
