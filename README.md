@@ -28,7 +28,7 @@ site and pick a language at the top. The viewer is documented at
 - **Whole multiplayer levels.** Battlefield 6 levels, Unreal 5 World Partition
   maps and Arma Reforger worlds as one `.glb`, so position data from those
   games has its ground and buildings under it.
-- **Cars in their own shape.** `cars` gives the viewer's Race tab every Forza
+- **Cars in their own shape.** `cars` gives the viewer's Race analysis tab every Forza
   car at the game's own low detail and true size.
 - **Looking inside a game's archives.** `identify`, `list` and `extract` say
   what a file is and take one entry out.
@@ -138,7 +138,7 @@ Battlefield 6 navigation mesh. No metadata about the game is written. Details:
 
 ![The part prefixes and what they mean](docs/assets/img/glb-parts.svg)
 
-Load it in the 3DHeat viewer's Level panel. The match files the other 3DHeat
+Load it in the 3DHeat viewer's Background / Background / level panel. The match files the other 3DHeat
 tools write are described in the viewer's
 [One file a match: `.3dheat`](https://holdi601.github.io/3DHeat/container.html);
 a match refers to its level by name and checksum, and the `.glb` stays beside

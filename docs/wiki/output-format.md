@@ -1,7 +1,7 @@
 # Output format
 
 A `.glb` is one 3D file: the ground, the buildings and the water of a track or
-level, which you open in the 3DHeat viewer's Level panel.
+level, which you open in the 3DHeat viewer's Background / Background / level panel.
 
 Every export (`course`, `courses`, `terrain`, `level`, `ue-map`, `enfusion-world`) writes one **binary glTF 2.0**
 file (`.glb`). It is deliberately small and flat, and laid out the way the 3DHeat
@@ -205,10 +205,10 @@ budget.
 ## In 3DHeat
 
 Load the `.glb` in the [3DHeat](https://github.com/Holdi601/3DHeat) viewer's
-Level panel; the telemetry you record in the same game lies on it, because both
+Background / Background / level panel; the telemetry you record in the same game lies on it, because both
 keep the game's coordinates. The viewer's own documentation
 ([holdi601.github.io/3DHeat](https://holdi601.github.io/3DHeat/)) covers the
-Level panel and the match files the other tools write
+Background / Background / level panel and the match files the other tools write
 ([One file a match: `.3dheat`](https://holdi601.github.io/3DHeat/container.html)).
 A level is not stored in each `.3dheat` file: a match names it in its
 `references` (`kind: "level"`, name and sha256) and the `.glb` stays beside

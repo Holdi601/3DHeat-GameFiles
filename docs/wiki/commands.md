@@ -264,7 +264,7 @@ count (see [Lap inputs](lap-inputs)).
 
 A refusal also suggests the alternatives: reconstruct the course from gameplay
 (3DHeat GameCapture), or analyse the laps without a course, because the viewer's
-Race tab draws a road from them.
+Race analysis tab draws a road from them.
 
 ### Examples
 

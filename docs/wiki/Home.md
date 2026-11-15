@@ -49,7 +49,7 @@ Python package: `heat3d_gamefiles`. Repository:
 | Source 2 `.vpk` | no | `identify`, `list`, `extract` |
 | Unreal 5 World Partition games | no lap; a whole map with `ue-map` (listed by `ue-maps`): landscape, HLOD buildings and props, water | - |
 | Arma Reforger (Enfusion) | no lap; a whole world with `enfusion-world` (listed by `enfusion-worlds`): terrain in its colours, the sea, buildings as boxes | - |
-| Forza (cars) | `cars`: every car at low detail, for the viewer's Race tab | - |
+| Forza (cars) | `cars`: every car at low detail, for the viewer's Race analysis tab | - |
 
 Laps from Assetto Corsa EVO and iRacing are refused with a reason. See
 [Limits and known gaps](limits-and-known-gaps).
@@ -173,4 +173,4 @@ Open the `.glb` in the 3DHeat viewer. The game's own world coordinates are kept
 
 The viewer's match files are described in
 [One file a match: `.3dheat`](https://holdi601.github.io/3DHeat/container.html);
-a level made here is loaded beside them in the viewer's Level panel.
+a level made here is loaded beside them in the viewer's Background / Background / level panel.

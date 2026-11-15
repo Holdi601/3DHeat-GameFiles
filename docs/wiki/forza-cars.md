@@ -1,7 +1,7 @@
 # Forza cars: `cars`
 
 Writes every car of an installed Forza at the game's own low detail into one
-file for the viewer's Race tab (it draws a car for each lap you drove), so each recorded car is drawn in its own shape
+file for the viewer's Race analysis tab (it draws a car for each lap you drove), so each recorded car is drawn in its own shape
 at its true size.
 
 ![cars --help](https://raw.githubusercontent.com/Holdi601/3DHeat-GameFiles/main/docs/assets/img/cars-help.svg)

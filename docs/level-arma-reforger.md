@@ -39,7 +39,7 @@ a box, in the game's own metres.
    python -m heat3d_gamefiles enfusion-world <world> --ground-spacing 4 --no-structures
    ```
 
-4. **Open `world.glb`** in the 3DHeat viewer's Level panel ([loading a level](https://holdi601.github.io/3DHeat/levels.html)).
+4. **Open `world.glb`** in the 3DHeat viewer's Background / Background / level panel ([loading a level](https://holdi601.github.io/3DHeat/levels.html)).
 
 ## Options
 

@@ -37,7 +37,7 @@ editor and no project are needed, only the installed game.
    python -m heat3d_gamefiles ue-map "<game>" <map> --ground-spacing 4
    ```
 
-4. **Open `map.glb`** in the 3DHeat viewer's Level panel
+4. **Open `map.glb`** in the 3DHeat viewer's Background / Background / level panel
    ([loading a level](https://holdi601.github.io/3DHeat/levels.html)).
 
 ## Options

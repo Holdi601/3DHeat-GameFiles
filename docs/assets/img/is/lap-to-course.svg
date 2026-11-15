@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="330" viewBox="0 0 860 330" role="img" aria-label="A lap goes in, the track around it comes out">
+<rect width="860" height="330" rx="10" fill="#f7f8fa" stroke="#d0d4db"/>
+<text x="20" y="32" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="18" font-weight="600" fill="#1f2328" text-anchor="start">Hringur fer inn, brautin í kringum hann kemur út</text>
+<rect x="20" y="52" width="330" height="200" rx="8" fill="#ffffff" stroke="#8a94a3"/>
+<path d="M60,210 C90,90 170,80 200,140 S300,220 320,90" fill="none" stroke="#d9534f" stroke-width="4" stroke-dasharray="2 9" stroke-linecap="round"/>
+<text x="185" y="280" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="600" fill="#1f2328" text-anchor="middle">lap.json: hvert þú ókst</text>
+<path d="M370,152 H480" stroke="#8a94a3" stroke-width="3" fill="none"/><path d="M480,144 L496,152 L480,160 z" fill="#8a94a3"/>
+<text x="432" y="140" font-family="Consolas,Menlo,DejaVu Sans Mono,monospace" font-size="15" font-weight="600" fill="#1f2328" text-anchor="middle">course</text>
+<rect x="510" y="52" width="330" height="200" rx="8" fill="#9bbf6a" stroke="#8a94a3"/>
+<path d="M550,210 C580,90 660,80 690,140 S790,220 810,90" fill="none" stroke="#c8b48a" stroke-width="40" stroke-linecap="round"/>
+<path d="M550,210 C580,90 660,80 690,140 S790,220 810,90" fill="none" stroke="#55595f" stroke-width="28" stroke-linecap="round"/>
+<path d="M550,210 C580,90 660,80 690,140 S790,220 810,90" fill="none" stroke="#f1f1f1" stroke-width="1.5" stroke-dasharray="10 10"/>
+<path d="M548,110 C560,80 590,64 620,66" fill="none" stroke="#d9534f" stroke-width="5" stroke-dasharray="6 6"/>
+<path d="M700,215 C730,232 770,230 790,210" fill="none" stroke="#5f6670" stroke-width="5"/>
+<text x="675" y="280" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="600" fill="#1f2328" text-anchor="middle">course.glb: vegur, vegöxl, kantsteinar, varnir</text>
+<text x="20" y="312" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="start">Hringurinn segir aðeins hvar á að leita; formin koma úr eigin skrám leiksins.</text>
+</svg>

@@ -50,7 +50,7 @@ terrain decals baked into the ground and the soldiers' walkable surfaces.
    python -m heat3d_gamefiles level <level> --textures 256 --detail-budget 3000000 --ground-spacing 8
    ```
 
-5. **Open `level.glb`** in the 3DHeat viewer's Level panel ([loading a level](https://holdi601.github.io/3DHeat/levels.html)).
+5. **Open `level.glb`** in the 3DHeat viewer's Background / Background / level panel ([loading a level](https://holdi601.github.io/3DHeat/levels.html)).
 
 ## Options
 

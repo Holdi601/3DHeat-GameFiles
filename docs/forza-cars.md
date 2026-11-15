@@ -6,7 +6,7 @@ nav_order: 6
 # Forza cars: `cars`
 
 Writes every car of an installed Forza at the game's own low detail into one
-file for the viewer's Race tab (it draws a car for each lap you drove), so each recorded car is drawn in its own shape
+file for the viewer's Race analysis tab (it draws a car for each lap you drove), so each recorded car is drawn in its own shape
 at its true size.
 
 ![cars --help](assets/img/cars-help.svg)

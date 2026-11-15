@@ -21,7 +21,7 @@ produces output that looks right and is not.
 | Unreal 5 World Partition games (map export, `ue-map`) | yes, a whole map | the landscape exact; buildings as the map's simplified HLOD meshes, not the full-detail models; water bodies; no foliage, decals or ground colour |
 | Arma Reforger (world export, `enfusion-world`) | yes, a whole world | terrain in its own colours and the sea; buildings, props and rocks as their models' boxes, not their triangles; trees on request (`--trees`), as boxes; no lakes, rivers or child entities |
 | iRacing | **no** | tracks ship in a protected format that is not a file-extraction target |
-| anything else | **no** | there is no course reader; reconstruct from gameplay with 3DHeat GameCapture, or analyse the laps in the viewer's Race tab without a course |
+| anything else | **no** | there is no course reader; reconstruct from gameplay with 3DHeat GameCapture, or analyse the laps in the viewer's Race analysis tab without a course |
 
 ## Engines and formats
 

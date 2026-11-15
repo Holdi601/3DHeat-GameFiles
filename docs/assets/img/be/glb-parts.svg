@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="392" viewBox="0 0 860 392" role="img" aria-label="Parts in the .glb: the node name says what each is">
+<rect width="860" height="392" rx="10" fill="#f7f8fa" stroke="#d0d4db"/>
+<text x="20" y="32" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="18" font-weight="600" fill="#1f2328" text-anchor="start">Часткі ў .glb: імя вузла кажа, што гэта</text>
+<rect x="20" y="50" width="22" height="22" rx="4" fill="#6f8f4e" stroke="#55606e"/>
+<text x="54" y="67" font-family="Consolas,Menlo,DejaVu Sans Mono,monospace" font-size="15" fill="#1f2328">ground:terrain</text>
+<text x="330" y="67" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="400" fill="#3d4450" text-anchor="start">зямля; па пліце або квадрату 512 м</text>
+<rect x="20" y="84" width="22" height="22" rx="4" fill="#55595f" stroke="#55606e"/>
+<text x="54" y="101" font-family="Consolas,Menlo,DejaVu Sans Mono,monospace" font-size="15" fill="#1f2328">ground:road</text>
+<text x="330" y="101" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="400" fill="#3d4450" text-anchor="start">паверхня праезду</text>
+<rect x="20" y="118" width="22" height="22" rx="4" fill="#c8b48a" stroke="#55606e"/>
+<text x="54" y="135" font-family="Consolas,Menlo,DejaVu Sans Mono,monospace" font-size="15" fill="#1f2328">ground:verge</text>
+<text x="330" y="135" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="400" fill="#3d4450" text-anchor="start">край дарогі</text>
+<rect x="20" y="152" width="22" height="22" rx="4" fill="#d9534f" stroke="#55606e"/>
+<text x="54" y="169" font-family="Consolas,Menlo,DejaVu Sans Mono,monospace" font-size="15" fill="#1f2328">ground:kerbs</text>
+<text x="330" y="169" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="400" fill="#3d4450" text-anchor="start">бардзюры, заўсёды з поўнай дэталізацыяй</text>
+<rect x="20" y="186" width="22" height="22" rx="4" fill="#f1f1f1" stroke="#55606e"/>
+<text x="54" y="203" font-family="Consolas,Menlo,DejaVu Sans Mono,monospace" font-size="15" fill="#1f2328">ground:markings</text>
+<text x="330" y="203" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="400" fill="#3d4450" text-anchor="start">намаляваныя лініі</text>
+<rect x="20" y="220" width="22" height="22" rx="4" fill="#8a8f99" stroke="#55606e"/>
+<text x="54" y="237" font-family="Consolas,Menlo,DejaVu Sans Mono,monospace" font-size="15" fill="#1f2328">structure:barriers</text>
+<text x="330" y="237" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="400" fill="#3d4450" text-anchor="start">бар'еры, сцены з шын</text>
+<rect x="20" y="254" width="22" height="22" rx="4" fill="#b07a4f" stroke="#55606e"/>
+<text x="54" y="271" font-family="Consolas,Menlo,DejaVu Sans Mono,monospace" font-size="15" fill="#1f2328">structure:buildings</text>
+<text x="330" y="271" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="400" fill="#3d4450" text-anchor="start">будынкі і тое, што стаіць на зямлі</text>
+<rect x="20" y="288" width="22" height="22" rx="4" fill="#4a90d9" stroke="#55606e"/>
+<text x="54" y="305" font-family="Consolas,Menlo,DejaVu Sans Mono,monospace" font-size="15" fill="#1f2328">water:&lt;name&gt;</text>
+<text x="330" y="305" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="400" fill="#3d4450" text-anchor="start">вада</text>
+<rect x="20" y="322" width="22" height="22" rx="4" fill="#5cb85c" stroke="#55606e"/>
+<text x="54" y="339" font-family="Consolas,Menlo,DejaVu Sans Mono,monospace" font-size="15" fill="#1f2328">nav:walkable</text>
+<text x="330" y="339" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="400" fill="#3d4450" text-anchor="start">Battlefield 6 --navmesh: дзе можа стаяць салдат</text>
+<text x="20" y="376" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="start">Колеры ўзораў ілюстрацыйныя; праглядальнік сам выбірае, як маляваць кожны від.</text>
+</svg>

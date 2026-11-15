@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="392" viewBox="0 0 860 392" role="img" aria-label="Parts in the .glb: the node name says what each is">
+<rect width="860" height="392" rx="10" fill="#f7f8fa" stroke="#d0d4db"/>
+<text x="20" y="32" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="18" font-weight="600" fill="#1f2328" text-anchor="start">.glb 안의 부분: 노드 이름이 각각의 정체를 알려 줌</text>
+<rect x="20" y="50" width="22" height="22" rx="4" fill="#6f8f4e" stroke="#55606e"/>
+<text x="54" y="67" font-family="Consolas,Menlo,DejaVu Sans Mono,monospace" font-size="15" fill="#1f2328">ground:terrain</text>
+<text x="330" y="67" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="400" fill="#3d4450" text-anchor="start">땅; 타일별 또는 512 m 정사각형</text>
+<rect x="20" y="84" width="22" height="22" rx="4" fill="#55595f" stroke="#55606e"/>
+<text x="54" y="101" font-family="Consolas,Menlo,DejaVu Sans Mono,monospace" font-size="15" fill="#1f2328">ground:road</text>
+<text x="330" y="101" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="400" fill="#3d4450" text-anchor="start">주행 노면</text>
+<rect x="20" y="118" width="22" height="22" rx="4" fill="#c8b48a" stroke="#55606e"/>
+<text x="54" y="135" font-family="Consolas,Menlo,DejaVu Sans Mono,monospace" font-size="15" fill="#1f2328">ground:verge</text>
+<text x="330" y="135" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="400" fill="#3d4450" text-anchor="start">도로 가장자리</text>
+<rect x="20" y="152" width="22" height="22" rx="4" fill="#d9534f" stroke="#55606e"/>
+<text x="54" y="169" font-family="Consolas,Menlo,DejaVu Sans Mono,monospace" font-size="15" fill="#1f2328">ground:kerbs</text>
+<text x="330" y="169" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="400" fill="#3d4450" text-anchor="start">연석, 항상 최고 디테일</text>
+<rect x="20" y="186" width="22" height="22" rx="4" fill="#f1f1f1" stroke="#55606e"/>
+<text x="54" y="203" font-family="Consolas,Menlo,DejaVu Sans Mono,monospace" font-size="15" fill="#1f2328">ground:markings</text>
+<text x="330" y="203" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="400" fill="#3d4450" text-anchor="start">도색된 선</text>
+<rect x="20" y="220" width="22" height="22" rx="4" fill="#8a8f99" stroke="#55606e"/>
+<text x="54" y="237" font-family="Consolas,Menlo,DejaVu Sans Mono,monospace" font-size="15" fill="#1f2328">structure:barriers</text>
+<text x="330" y="237" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="400" fill="#3d4450" text-anchor="start">방벽, 타이어 벽</text>
+<rect x="20" y="254" width="22" height="22" rx="4" fill="#b07a4f" stroke="#55606e"/>
+<text x="54" y="271" font-family="Consolas,Menlo,DejaVu Sans Mono,monospace" font-size="15" fill="#1f2328">structure:buildings</text>
+<text x="330" y="271" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="400" fill="#3d4450" text-anchor="start">건물과 지면 위의 것들</text>
+<rect x="20" y="288" width="22" height="22" rx="4" fill="#4a90d9" stroke="#55606e"/>
+<text x="54" y="305" font-family="Consolas,Menlo,DejaVu Sans Mono,monospace" font-size="15" fill="#1f2328">water:&lt;name&gt;</text>
+<text x="330" y="305" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="400" fill="#3d4450" text-anchor="start">물</text>
+<rect x="20" y="322" width="22" height="22" rx="4" fill="#5cb85c" stroke="#55606e"/>
+<text x="54" y="339" font-family="Consolas,Menlo,DejaVu Sans Mono,monospace" font-size="15" fill="#1f2328">nav:walkable</text>
+<text x="330" y="339" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="400" fill="#3d4450" text-anchor="start">Battlefield 6 --navmesh: 병사가 설 수 있는 곳</text>
+<text x="20" y="376" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="start">견본 색은 예시이며, 각 종류를 어떻게 그릴지는 뷰어가 정함.</text>
+</svg>
