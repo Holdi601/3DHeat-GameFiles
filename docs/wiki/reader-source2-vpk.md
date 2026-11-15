@@ -1,4 +1,3 @@
-
 # Source 2 `.vpk`
 
 **Lists and extracts** Valve's VPK archives, versions 1 and 2, including split
@@ -58,8 +57,8 @@ thousandth of the size. The installed-game test checks that a shipped map's
 
 ## Verified
 
-200 of 200 entries sampled across Counter-Strike 2's shipped maps came back
-byte-exact against their CRC. All 43 map archives parse, 22,637 entries in total.
+Every entry sampled across a game's shipped map archives came back byte-exact
+against its CRC, and every map archive parses.
 The installed-game tests repeat the CRC check on 25 random entries from each of
 up to four map archives.
 

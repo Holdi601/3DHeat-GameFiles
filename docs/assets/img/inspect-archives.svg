@@ -1,13 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="843" height="284" viewBox="0 0 843 284" role="img" aria-label="identify, list and extract on a zip">
-<rect width="843" height="284" rx="8" fill="#1e1f24"/>
-<rect width="843" height="26" rx="8" fill="#2c2e35"/><rect y="18" width="843" height="8" fill="#2c2e35"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="812" height="284" viewBox="0 0 812 284" role="img" aria-label="identify, list and extract on a zip">
+<rect width="812" height="284" rx="8" fill="#1e1f24"/>
+<rect width="812" height="26" rx="8" fill="#2c2e35"/><rect y="18" width="812" height="8" fill="#2c2e35"/>
 <circle cx="16" cy="13" r="5" fill="#ff5f57"/><circle cx="32" cy="13" r="5" fill="#febc2e"/><circle cx="48" cy="13" r="5" fill="#28c840"/>
-<text x="421.5" y="17" fill="#9aa0aa" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="12" text-anchor="middle">identify, list and extract on a zip</text>
+<text x="406.0" y="17" fill="#9aa0aa" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="12" text-anchor="middle">identify, list and extract on a zip</text>
 <g font-family="Consolas,Menlo,DejaVu Sans Mono,monospace" font-size="13" xml:space="preserve" style="white-space:pre">
 <text x="16" y="46" fill="#7ee787" xml:space="preserve" style="white-space:pre">$&#160;python&#160;-m&#160;heat3d_gamefiles&#160;identify&#160;example_level.zip</text>
 <text x="16" y="64" fill="#d6d9df" xml:space="preserve" style="white-space:pre">example_level.zip&#160;&#160;(771&#160;bytes)</text>
 <text x="16" y="82" fill="#d6d9df" xml:space="preserve" style="white-space:pre">&#160;&#160;zip&#160;archive,&#160;4&#160;entries</text>
-<text x="16" y="100" fill="#d6d9df" xml:space="preserve" style="white-space:pre">&#160;&#160;&#160;&#160;holds&#160;&#160;&#160;&#160;&#160;&#160;2x.json,&#160;1x.ter,&#160;1x.cdae</text>
+<text x="16" y="100" fill="#d6d9df" xml:space="preserve" style="white-space:pre">&#160;&#160;&#160;&#160;holds&#160;&#160;&#160;&#160;&#160;&#160;2&#160;x&#160;.json,&#160;1&#160;x&#160;.ter,&#160;1&#160;x&#160;.cdae</text>
 <text x="16" y="118" fill="#d6d9df" xml:space="preserve" style="white-space:pre">&#160;&#160;&#160;&#160;levels&#160;&#160;&#160;&#160;&#160;example_level&#160;(laid&#160;out&#160;as&#160;a&#160;BeamNG.drive&#160;level)</text>
 <text x="16" y="136" fill="#7ee787" xml:space="preserve" style="white-space:pre">$&#160;python&#160;-m&#160;heat3d_gamefiles&#160;list&#160;example_level.zip</text>
 <text x="16" y="154" fill="#d6d9df" xml:space="preserve" style="white-space:pre">4&#160;entries</text>
@@ -15,6 +15,6 @@
 <text x="16" y="190" fill="#d6d9df" xml:space="preserve" style="white-space:pre">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;20,000&#160;&#160;deflate&#160;levels/example_level/art/terrain/example_level.ter</text>
 <text x="16" y="208" fill="#d6d9df" xml:space="preserve" style="white-space:pre">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;44&#160;&#160;deflate&#160;levels/example_level/info.json</text>
 <text x="16" y="226" fill="#d6d9df" xml:space="preserve" style="white-space:pre">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;600&#160;&#160;deflate&#160;levels/example_level/main.level.json</text>
-<text x="16" y="244" fill="#7ee787" xml:space="preserve" style="white-space:pre">$&#160;python&#160;-m&#160;heat3d_gamefiles&#160;extract&#160;example_level.zip&#160;levels/example_level/info.json&#160;--out&#160;outinfo.json</text>
+<text x="16" y="244" fill="#7ee787" xml:space="preserve" style="white-space:pre">$&#160;python&#160;-m&#160;heat3d_gamefiles&#160;extract&#160;example_level.zip&#160;levels/example_level/info.json&#160;--out&#160;out\inf…</text>
 <text x="16" y="262" fill="#d6d9df" xml:space="preserve" style="white-space:pre">44&#160;bytes&#160;-&gt;&#160;out\info.json</text>
 </g></svg>

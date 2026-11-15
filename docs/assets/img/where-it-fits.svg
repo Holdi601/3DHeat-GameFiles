@@ -1,23 +1,24 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="862" height="148" viewBox="0 0 862 148" role="img" aria-label="Where GameFiles fits">
-<rect width="862" height="148" rx="10" fill="#f7f8fa" stroke="#d0d4db"/>
-<text x="20" y="30" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#1f2328">Where GameFiles fits</text>
-<rect x="20" y="46" width="180" height="78" rx="8" fill="#e8f0fe" stroke="#7a8aa6"/>
-<text x="110.0" y="68" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="13.5" font-weight="600" fill="#1f2328" text-anchor="middle">Installed game</text>
-<text x="110.0" y="86" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">the archives it ships</text>
-<text x="110.0" y="103" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">(.pak, .utoc, .toc, zip ...)</text>
-<path d="M204 85.0 H228" stroke="#4a5568" stroke-width="2"/><path d="M228 80.0 L235 85.0 L228 90.0Z" fill="#4a5568"/>
-<rect x="234" y="46" width="180" height="78" rx="8" fill="#fff1d6" stroke="#7a8aa6"/>
-<text x="324.0" y="68" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="13.5" font-weight="600" fill="#1f2328" text-anchor="middle">3DHeat GameFiles</text>
-<text x="324.0" y="86" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">course / level / ue-map</text>
-<text x="324.0" y="103" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">enfusion-world / cars</text>
-<path d="M418 85.0 H442" stroke="#4a5568" stroke-width="2"/><path d="M442 80.0 L449 85.0 L442 90.0Z" fill="#4a5568"/>
-<rect x="448" y="46" width="180" height="78" rx="8" fill="#e8f0fe" stroke="#7a8aa6"/>
-<text x="538.0" y="68" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="13.5" font-weight="600" fill="#1f2328" text-anchor="middle">One .glb</text>
-<text x="538.0" y="86" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">world space, metres</text>
-<text x="538.0" y="103" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">ground: structure: water:</text>
-<path d="M632 85.0 H656" stroke="#4a5568" stroke-width="2"/><path d="M656 80.0 L663 85.0 L656 90.0Z" fill="#4a5568"/>
-<rect x="662" y="46" width="180" height="78" rx="8" fill="#e8f0fe" stroke="#7a8aa6"/>
-<text x="752.0" y="68" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="13.5" font-weight="600" fill="#1f2328" text-anchor="middle">3DHeat viewer</text>
-<text x="752.0" y="86" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">Level panel</text>
-<text x="752.0" y="103" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">telemetry lies on it</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="320" viewBox="0 0 860 320" role="img" aria-label="Where GameFiles fits">
+<rect width="860" height="320" rx="10" fill="#f7f8fa" stroke="#d0d4db"/>
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8a94a3"/></marker></defs>
+<text x="20" y="32" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="18" font-weight="600" fill="#1f2328" text-anchor="start">Where GameFiles fits</text>
+<rect x="20" y="52" width="390" height="104" rx="8" fill="#ffffff" stroke="#8a94a3"/>
+<text x="215" y="80" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#1f2328" text-anchor="middle">Installed game</text>
+<text x="215" y="106" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">the files it ships</text>
+<text x="215" y="127" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">(.pak, .utoc, .toc, zip ...)</text>
+<rect x="450" y="52" width="390" height="104" rx="8" fill="#ffffff" stroke="#8a94a3"/>
+<text x="645" y="80" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#1f2328" text-anchor="middle">3DHeat GameFiles</text>
+<text x="645" y="106" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">course, level, ue-map,</text>
+<text x="645" y="127" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">enfusion-world, cars</text>
+<rect x="20" y="192" width="390" height="104" rx="8" fill="#ffffff" stroke="#8a94a3"/>
+<text x="215" y="220" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#1f2328" text-anchor="middle">One .glb</text>
+<text x="215" y="246" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">the game&#x27;s own</text>
+<text x="215" y="267" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">coordinates</text>
+<rect x="450" y="192" width="390" height="104" rx="8" fill="#ffffff" stroke="#8a94a3"/>
+<text x="645" y="220" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#1f2328" text-anchor="middle">3DHeat viewer</text>
+<text x="645" y="246" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">Level panel: your heat</text>
+<text x="645" y="267" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">lies on the level</text>
+<line x1="414" y1="104.0" x2="446" y2="104.0" stroke="#8a94a3" stroke-width="2" marker-end="url(#a)"/>
+<path d="M645,158 V174 H215 V188" fill="none" stroke="#8a94a3" stroke-width="2" marker-end="url(#a)"/>
+<line x1="414" y1="244.0" x2="446" y2="244.0" stroke="#8a94a3" stroke-width="2" marker-end="url(#a)"/>
 </svg>

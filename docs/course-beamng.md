@@ -79,8 +79,7 @@ Without `--level`, every level is scored on how much of the lap lies on it:
   sample counts as **on** the terrain when it is between 1 m below and 3 m above
   it (`ON_GROUND`), because a car's reference point is its body, not its tyres.
 - If no level scores 50% or more, levels are also scored on their **roads**. Some
-  levels run on past their heightmap (one shipped desert continues as rock
-  sheets). A sample is on a road when it lies within the road's half-width plus
+  levels run on past their heightmap (their edges continue as rock sheets). A sample is on a road when it lies within the road's half-width plus
   4 m (at least 6 m) of a `DecalRoad` segment, and between 2 m below and 4 m above
   it.
 - The best level wins if it scores at least 30%. Otherwise the export stops and
@@ -270,7 +269,7 @@ All water is one flat part, `water:water`.
 
 As stated in the source, measured on the shipped levels:
 
-- Road nodes lie on the terrain to 1-2 cm (median) on three levels with `h * maxHeight / 65535` and rows along +y. `h / 32` or the other axis order miss by tens to hundreds of metres.
-- Rail sections chained along a road run along `rotationMatrix` row 0 (92%).
+- Road nodes lie on the terrain to 1-2 cm (median) on the levels checked, with `h * maxHeight / 65535` and rows along +y. `h / 32` or the other axis order miss by tens to hundreds of metres.
+- Rail sections chained along a road run along `rotationMatrix` row 0 (the large majority).
 - The `.cdae` node rotation has to be transposed. With that, world bounds match the source `.dae` to the millimetre. The textbook way they are 38 cm out (median).
-- Exported on six shipped levels of every kind, 20 seconds to 2 minutes each.
+- Exported on several shipped levels of every kind, in seconds to minutes each.

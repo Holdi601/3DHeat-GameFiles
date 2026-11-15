@@ -12,11 +12,11 @@ How the tiles are found
 The archive has no names inside it, but the manifest beside it does, and the
 terrain's are a spatial index in disguise::
 
-    scene\\tbheightfield\\autoterrain_x-8184_z13299_cluster012.i.modelbin
+    scene\\tbheightfield\\autoterrain_x1023_z-2046_cluster012.i.modelbin
 
 The two numbers are a grid coordinate, stepping by 1023. The world is not in
 those units, though - the tile they name spans 512 metres, which is the trap in
-this file. `-8184 / 1023` is tile -8, and tile -8 begins at -4096 metres. Take
+this file. `-2046 / 1023` is tile -2, and tile -2 begins at -1024 metres. Take
 the name as metres and every lookup misses by a factor of two, which is the kind
 of wrong that still returns terrain: plenty of it, from the wrong side of the
 map.

@@ -6,6 +6,9 @@ has_children: true
 
 # Whole levels
 
+**In plain words:** for shooters and other games without laps, the tool saves
+the whole map as one 3D file, so the viewer can draw where players went on it.
+
 `course` cuts the ground around a lap. For games without laps the tool exports
 a whole level, map or world at once:
 

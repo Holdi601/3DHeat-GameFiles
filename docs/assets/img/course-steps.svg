@@ -1,38 +1,39 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1294" height="148" viewBox="0 0 1294 148" role="img" aria-label="course: from a lap to a course">
-<rect width="1294" height="148" rx="10" fill="#f7f8fa" stroke="#d0d4db"/>
-<text x="20" y="30" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#1f2328">course: from a lap to a course</text>
-<rect x="20" y="46" width="150" height="78" rx="8" fill="#e8f0fe" stroke="#7a8aa6"/>
-<text x="95.0" y="68" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="13.5" font-weight="600" fill="#1f2328" text-anchor="middle">Read the lap</text>
-<text x="95.0" y="86" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">positions only</text>
-<text x="95.0" y="103" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">any lap shape</text>
-<path d="M174 85.0 H198" stroke="#4a5568" stroke-width="2"/><path d="M198 80.0 L205 85.0 L198 90.0Z" fill="#4a5568"/>
-<rect x="204" y="46" width="150" height="78" rx="8" fill="#e8f0fe" stroke="#7a8aa6"/>
-<text x="279.0" y="68" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="13.5" font-weight="600" fill="#1f2328" text-anchor="middle">Which game</text>
-<text x="279.0" y="86" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">--game, the file,</text>
-<text x="279.0" y="103" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">else Forza</text>
-<path d="M358 85.0 H382" stroke="#4a5568" stroke-width="2"/><path d="M382 80.0 L389 85.0 L382 90.0Z" fill="#4a5568"/>
-<rect x="388" y="46" width="150" height="78" rx="8" fill="#e8f0fe" stroke="#7a8aa6"/>
-<text x="463.0" y="68" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="13.5" font-weight="600" fill="#1f2328" text-anchor="middle">Find install</text>
-<text x="463.0" y="86" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">Steam libraries</text>
-<text x="463.0" y="103" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">or --track/--install</text>
-<path d="M542 85.0 H566" stroke="#4a5568" stroke-width="2"/><path d="M566 80.0 L573 85.0 L566 90.0Z" fill="#4a5568"/>
-<rect x="572" y="46" width="150" height="78" rx="8" fill="#e8f0fe" stroke="#7a8aa6"/>
-<text x="647.0" y="68" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="13.5" font-weight="600" fill="#1f2328" text-anchor="middle">Where driven</text>
-<text x="647.0" y="86" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">tiles / terrain</text>
-<text x="647.0" y="103" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">the lap lies on</text>
-<path d="M726 85.0 H750" stroke="#4a5568" stroke-width="2"/><path d="M750 80.0 L757 85.0 L750 90.0Z" fill="#4a5568"/>
-<rect x="756" y="46" width="150" height="78" rx="8" fill="#e8f0fe" stroke="#7a8aa6"/>
-<text x="831.0" y="68" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="13.5" font-weight="600" fill="#1f2328" text-anchor="middle">Corridor</text>
-<text x="831.0" y="86" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">--margin m</text>
-<text x="831.0" y="103" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">either side</text>
-<path d="M910 85.0 H934" stroke="#4a5568" stroke-width="2"/><path d="M934 80.0 L941 85.0 L934 90.0Z" fill="#4a5568"/>
-<rect x="940" y="46" width="150" height="78" rx="8" fill="#e8f0fe" stroke="#7a8aa6"/>
-<text x="1015.0" y="68" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="13.5" font-weight="600" fill="#1f2328" text-anchor="middle">Ground + models</text>
-<text x="1015.0" y="86" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">classed parts,</text>
-<text x="1015.0" y="103" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">--detail-budget</text>
-<path d="M1094 85.0 H1118" stroke="#4a5568" stroke-width="2"/><path d="M1118 80.0 L1125 85.0 L1118 90.0Z" fill="#4a5568"/>
-<rect x="1124" y="46" width="150" height="78" rx="8" fill="#e8f0fe" stroke="#7a8aa6"/>
-<text x="1199.0" y="68" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="13.5" font-weight="600" fill="#1f2328" text-anchor="middle">Write .glb</text>
-<text x="1199.0" y="86" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">one node</text>
-<text x="1199.0" y="103" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">per part</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="460" viewBox="0 0 860 460" role="img" aria-label="course: from a lap to a course">
+<rect width="860" height="460" rx="10" fill="#f7f8fa" stroke="#d0d4db"/>
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8a94a3"/></marker></defs>
+<text x="20" y="32" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="18" font-weight="600" fill="#1f2328" text-anchor="start">course: from a lap to a course</text>
+<rect x="20" y="52" width="247" height="104" rx="8" fill="#ffffff" stroke="#8a94a3"/>
+<text x="143" y="80" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#1f2328" text-anchor="middle">Read the lap</text>
+<text x="143" y="106" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">positions only,</text>
+<text x="143" y="127" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">any lap shape</text>
+<rect x="307" y="52" width="247" height="104" rx="8" fill="#ffffff" stroke="#8a94a3"/>
+<text x="430" y="80" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#1f2328" text-anchor="middle">Which game</text>
+<text x="430" y="106" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">--game, or the file says;</text>
+<text x="430" y="127" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">otherwise Forza</text>
+<rect x="593" y="52" width="247" height="104" rx="8" fill="#ffffff" stroke="#8a94a3"/>
+<text x="717" y="80" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#1f2328" text-anchor="middle">Find the game</text>
+<text x="717" y="106" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">Steam libraries, or</text>
+<text x="717" y="127" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">--track / --install</text>
+<rect x="20" y="192" width="247" height="104" rx="8" fill="#ffffff" stroke="#8a94a3"/>
+<text x="143" y="220" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#1f2328" text-anchor="middle">Where you drove</text>
+<text x="143" y="246" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">tiles or terrain under the lap</text>
+<text x="143" y="267" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">(AC Rally: + axis fit)</text>
+<rect x="307" y="192" width="247" height="104" rx="8" fill="#ffffff" stroke="#8a94a3"/>
+<text x="430" y="220" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#1f2328" text-anchor="middle">Corridor</text>
+<text x="430" y="246" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">--margin metres</text>
+<text x="430" y="267" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">either side of the lap</text>
+<rect x="593" y="192" width="247" height="104" rx="8" fill="#ffffff" stroke="#8a94a3"/>
+<text x="717" y="220" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#1f2328" text-anchor="middle">Ground + models</text>
+<text x="717" y="246" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">parts by kind,</text>
+<text x="717" y="267" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">within --detail-budget</text>
+<rect x="20" y="332" width="247" height="104" rx="8" fill="#ffffff" stroke="#8a94a3"/>
+<text x="143" y="360" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#1f2328" text-anchor="middle">Write .glb</text>
+<text x="143" y="386" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">one node</text>
+<text x="143" y="407" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">per part</text>
+<line x1="271" y1="104.0" x2="303" y2="104.0" stroke="#8a94a3" stroke-width="2" marker-end="url(#a)"/>
+<line x1="557" y1="104.0" x2="589" y2="104.0" stroke="#8a94a3" stroke-width="2" marker-end="url(#a)"/>
+<path d="M717,158 V174 H143 V188" fill="none" stroke="#8a94a3" stroke-width="2" marker-end="url(#a)"/>
+<line x1="271" y1="244.0" x2="303" y2="244.0" stroke="#8a94a3" stroke-width="2" marker-end="url(#a)"/>
+<line x1="557" y1="244.0" x2="589" y2="244.0" stroke="#8a94a3" stroke-width="2" marker-end="url(#a)"/>
+<path d="M717,298 V314 H143 V328" fill="none" stroke="#8a94a3" stroke-width="2" marker-end="url(#a)"/>
 </svg>

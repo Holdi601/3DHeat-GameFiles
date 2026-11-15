@@ -1,37 +1,23 @@
 # 3DHeat GameFiles
 
-Reads level data out of the archives a game already ships, for the
-[3DHeat](https://github.com/Holdi601/3DHeat) viewer
-([viewer documentation](https://holdi601.github.io/3DHeat/)).
+**What is it?** A tool that builds a 3D model of a race track or a game level
+from the files of a game you already have installed.
 
-**Documentation:** [holdi601.github.io/3DHeat-GameFiles](https://holdi601.github.io/3DHeat-GameFiles/)
-- one page per command, step by step, with examples.
+**Why would I use it?** The [3DHeat](https://github.com/Holdi601/3DHeat) viewer
+paints where you drove or played as heat. With this tool it paints it on the real
+track or level, not on empty space.
+
+**Example:** give it a lap you drove, and it writes the track around that lap -
+ground, road, kerbs, barriers - as one 3D file, `course.glb`:
+
+![A lap goes in, the track around it comes out](docs/assets/img/lap-to-course.svg)
+
+**Documentation:** [holdi601.github.io/3DHeat-GameFiles](https://holdi601.github.io/3DHeat-GameFiles/) - one page per
+command, step by step, with examples. Documentation in your language: open the
+site and pick a language at the top. The viewer is documented at
+[holdi601.github.io/3DHeat](https://holdi601.github.io/3DHeat/).
 
 ![Where GameFiles fits between the game and the viewer](docs/assets/img/where-it-fits.svg)
-
-This is the third route to a level's geometry, and it exists because the other
-two leave a gap:
-
-| Route | Needs | Gives |
-|---|---|---|
-| `unreal/` | the project open in the editor | exact geometry |
-| `gamecapture/` | a screen and a capture | an estimate |
-| **this** | **the shipped build** | **exact geometry, no project** |
-
-Engines read so far: **Unreal** (`.pak`; Unreal 5 IoStore `.utoc` + `.ucas`
-with its packages, static meshes and textures), **Unity** (`SerializedFile`,
-bundles, meshes), **Frostbite** (`.toc` + `.cas`, bundles, meshes, level placement), **Source 2**
-(`.vpk`), **ForzaTech** (`.minizip`, `.modelbin`, terrain), **BeamNG** (level
-archives, `.cdae` shapes, `.ter` terrain) and **Enfusion** (`.pak`, `.edds`,
-terrain tiles, binary world files). Courses export from Forza, BeamNG.drive
-and Assetto Corsa Rally laps; whole levels, textured, from Battlefield 6; whole
-maps from Unreal 5 World Partition games (landscape, HLOD buildings, water -
-built on Hell Let Loose: Vietnam) and whole worlds from Arma Reforger (terrain in
-its own colours, the sea, buildings as boxes).
-
-The case it answers is a developer who has the build but not the project — a
-different studio's title, an old branch, a build from a partner. An engine export
-is better whenever it is available.
 
 ## What it is useful for
 
@@ -42,30 +28,39 @@ is better whenever it is available.
 - **Whole multiplayer levels.** Battlefield 6 levels, Unreal 5 World Partition
   maps and Arma Reforger worlds as one `.glb`, so position data from those
   games has its ground and buildings under it.
-- **Cars in their own shape.** `cars` gives the viewer's race tab every Forza
+- **Cars in their own shape.** `cars` gives the viewer's Race tab every Forza
   car at the game's own low detail and true size.
 - **Looking inside a game's archives.** `identify`, `list` and `extract` say
-  what a file is and take one entry out, for any of the formats below.
+  what a file is and take one entry out.
 
-## What it does
+It is one of three ways to get a level into 3DHeat:
 
-**It reads containers.** Parsing an archive format is ordinary file handling, and
-it is what FModel, UModel and AssetRipper have done in the open for years.
+| Route | Needs | Gives |
+|---|---|---|
+| [3DHeat Unreal Exporter](https://github.com/Holdi601/3DHeat-UnrealExporter) | the Unreal project open in the editor | exact geometry |
+| [3DHeat GameCapture](https://github.com/Holdi601/3DHeat-GameCapture) | a screen and a recording | an estimate |
+| **3DHeat GameFiles** | **the installed game** | **exact geometry, no project** |
 
-**It ships no keys and recovers none.** An encrypted archive opens only if you
-pass a key you already hold. There is no bundled key, nothing that searches an
-executable for one, and nothing that reads another process's memory. Reading a
-file and defeating an access control are different acts, and the second reaches
-the tool itself rather than only what someone does with it — so the line is drawn
-inside the tool, which is also how the established extractors are built.
+Engines it reads: **Unreal** (`.pak`, Unreal 5 IoStore `.utoc` + `.ucas`),
+**Unity** (`SerializedFile`, bundles), **Frostbite** (`.toc` + `.cas`),
+**Source 2** (`.vpk`), **ForzaTech** (`.minizip`, `.modelbin`, terrain),
+**BeamNG** (level archives, `.cdae`, `.ter`) and **Enfusion** (`.pak`, terrain,
+world files).
 
-**What you point it at is your responsibility.** Games carry their own licence
-terms; no design choice here discharges them.
+## The rules it keeps
+
+- **It reads files; it breaks no locks.** It ships no keys and recovers none.
+  An encrypted archive opens only with a key you already hold. Nothing searches
+  a program for keys or reads another program's memory.
+- **What you point it at is your responsibility.** Games carry their own licence
+  terms; see [Rules and licences](https://holdi601.github.io/3DHeat-GameFiles/rules-and-licences.html).
 
 ## Install
 
-Python 3.13 (older versions are not checked), Windows (games are found through
-Steam's library list and `%LOCALAPPDATA%`):
+New to the command line? Read [Before you start](https://holdi601.github.io/3DHeat-GameFiles/before-you-start.html) first.
+
+You need **Python 3.10 or later** (developed on 3.13) on Windows: games are found
+through Steam's library list and `%LOCALAPPDATA%`.
 
 ```
 git clone https://github.com/Holdi601/3DHeat-GameFiles.git
@@ -74,8 +69,13 @@ pip install -r requirements.txt
 python -m heat3d_gamefiles --help
 ```
 
-Unreal content compressed with Oodle needs an Oodle library already on the
-machine (below). Nothing else is downloaded.
+No git? Download the ZIP from the green **Code** button on GitHub, unpack it,
+and open a terminal in the unpacked folder instead of the first two lines.
+
+You should see: `usage: heat3d_gamefiles [-h]` and a list of verbs
+(`identify`, `list`, `extract`, ... `cars`). Unreal content compressed with
+Oodle needs an Oodle library already on the machine ([Oodle](https://holdi601.github.io/3DHeat-GameFiles/reader-oodle.html)).
+Nothing else is downloaded.
 
 ## Using it
 
@@ -97,8 +97,8 @@ python -m heat3d_gamefiles level    <level> [-o level.glb] [--textures] [--navme
 python -m heat3d_gamefiles cars     [-o forza.h3dcars] [--game folder] # every Forza car
 ```
 
-Run from this folder with the packages in `requirements.txt` installed
-(`pip install -r requirements.txt`).
+Run every command in this folder (the one with `README.md` in it). `<...>` is a
+placeholder: type your own value, without the angle brackets.
 
 ### Every option
 
@@ -123,6 +123,10 @@ Each verb is explained step by step, with its output, in the
 [documentation](https://holdi601.github.io/3DHeat-GameFiles/commands.html).
 Exit codes: 0 done, 1 the work failed, 2 a usage error.
 
+
+The full `--help` of every verb is on the generated
+[Command reference](https://holdi601.github.io/3DHeat-GameFiles/cli-reference.html).
+
 ### Output
 
 Every export is one binary glTF (`.glb`): one node per part, in world space,
@@ -145,9 +149,9 @@ around it - ground, road, kerbs, barriers, tyre walls, signs - as one textured
 `.glb` for the viewer, with nothing else to supply. It reads which game the lap
 is from out of the file (`heat3d-lap` files say; anything else is Forza's), finds
 the installed game, the level or stage, and - for Assetto Corsa Rally - which
-way round its axes are. See [ForzaTech](#forzatech--minizip-and-modelbin),
-[BeamNG](#beamngdrive--level-archives-cdae-ter) and
-[Assetto Corsa Rally](#assetto-corsa-rally--unreal-5-iostore) below.
+way round its axes are. See [ForzaTech](https://holdi601.github.io/3DHeat-GameFiles/course-forza-horizon.html),
+[BeamNG](https://holdi601.github.io/3DHeat-GameFiles/course-beamng.html) and
+[Assetto Corsa Rally](https://holdi601.github.io/3DHeat-GameFiles/course-assetto-corsa-rally.html).
 
 ```
 python -m heat3d_gamefiles course <beamng or ac rally lap .json>   # all it needs
@@ -180,493 +184,22 @@ installed game or engine that ships `oo2core_*.dll` has one, and
 
 ## How far each engine goes
 
-Formats are undocumented, so "supported" has to mean *verified against real
-files*, not *did not crash*. Each reader below is checked against something the
-format itself guarantees.
+Formats are undocumented, so "supported" means *checked against something the
+format itself guarantees* (a checksum, a bounding box, a count), not *did not
+crash*. One page per format:
 
-### Unreal — `.pak`
-
-**Complete: lists and extracts.** Versions 8–12, Zlib and Oodle, encrypted
-archives with a supplied key.
-
-Verified against three shipped archives across two games — 178,809 entries
-including one of 27 GB with 167,412 of them — by the SHA-1 Unreal writes ahead of
-every payload. That hash covers the bytes as stored, so matching it means the
-index decode, the payload offset and every compressed block boundary were right.
-
-IoStore (`.utoc`/`.ucas`), what Unreal 5 ships, is read too - `list` and
-`extract` take a container whose directory names its files, and the course export
-reads its packages, cooked static meshes, textures and virtual textures, as far
-as a course needs them. See [Assetto Corsa Rally](#assetto-corsa-rally--unreal-5-iostore), the
-game it was built and checked on.
-
-### Unity — `SerializedFile`, bundles, meshes
-
-**Complete: lists objects and decodes meshes.** Format 22 and later, which is
-Unity 2020 through 6000.
-
-Verified across 12 installed games and 12 million objects. The object table has
-to tile the data section exactly — no overlaps, nothing but alignment padding
-between, the last object ending on the final byte of the file — which a header
-misread cannot produce.
-
-Meshes decode to positions, normals, UVs and triangles, including vertices held
-externally in `.resS`. Each decoded mesh is checked against the bounding box
-Unity stored for it: a field read in the wrong order yields plausible floats, and
-that box is what tells the two apart. 820 meshes across four games decode with
-their bounds agreeing.
-
-Not implemented: compressed meshes, which are a different encoding and are
-refused with a message rather than guessed at; and pre-2020 formats, which moved
-several header fields.
-
-### Source 2 — `.vpk`
-
-**Complete: lists and extracts, CRC-checked.** Versions 1 and 2, split archives
-and directory-inline entries.
-
-The kindest of these formats, and the only one its vendor documents. Every entry
-carries a CRC of its own bytes, so extraction is checkable against the archive's
-own claim rather than against a fixture: 200 of 200 entries sampled across
-Counter-Strike 2's shipped maps come back byte-exact. All 43 map archives parse,
-22,637 entries in total.
-
-One detail is worth knowing: a map ships its **navigation mesh** alongside the
-compiled geometry — `maps/de_dust2.nav` and so on. For a heatmap of player
-positions that is the more useful of the two by a wide margin, because the nav
-mesh *is* the walkable floor, already computed and a thousandth of the size.
-
-Not implemented: decoding Source 2's compiled assets (`.vmdl_c`, `.vtex_c`), and
-the nav mesh itself. The CS2 nav format is version 36 and differs from the
-Source 1 one that is widely documented — its bytes are structured rather than
-compressed (entropy 6.2, 31% zeroes) but only 3% of its words read as
-coordinates, so the layout is not the obvious one and is not yet worked out.
-
-### ForzaTech — `.minizip` and `.modelbin`
-
-**Complete for a course: a lap in, the track around it out** - terrain with the
-road, verge and grass told apart, the ground painted from the track's own surface
-maps (where asphalt, grass and woodland are, in fixed colours: the terrain
-shader's own materials are not decoded), and everything placed on it (kerbs,
-guardrails, tyre walls, signs, buildings) in its own textures. Everything else
-lists and extracts (`list` and `extract` on a `.minizip`).
-
-```
-python -m heat3d_gamefiles course "Mapletree Test Loop"           # from the lap library
-python -m heat3d_gamefiles course path/to/lap.json -o course.glb  # or one lap file
-python -m heat3d_gamefiles courses -o courses                     # the whole library
-```
-
-The lap can be a file written by `heat3d_capture`, a lap or course folder from
-FH Companion's library (`%LOCALAPPDATA%/FHCompanion/laps`), or just a course's
-name. The installed game and the track the lap belongs to are found on their own
-(Steam libraries are searched; `--track` points at a track folder directly).
-Options, none of them needed:
-
-| Option | Default | What for |
+| Engine | Reads | Page |
 |---|---|---|
-| `--margin` | 80 m | ground kept either side of the driving |
-| `--texture-size` | 2048 | ground texture per 512 m tile (25 cm a pixel) |
-| `--season` | summer | which season's ground maps and model textures |
-| `--detail-budget` | automatic | a ceiling on triangles for everything placed; see below |
-| `--trees` | off | also place trees and bushes |
-| `--no-placed` | | terrain only |
-| `--no-textures` | | flat colours, a far smaller file |
-
-What one circuit's export holds, from its 46 recorded laps: 225,000 terrain
-triangles across two tiles (road 25%, verge 34%, grass 27%, markings 14%), two
-2048-pixel ground textures, and 1.5 million triangles of 5,900 placed copies of
-107 models in 91 textures - 102 kerbs, 2,278 guardrail and barrier pieces, 3,363
-props, 129 signs, 11 buildings. About ten seconds, 79 MB.
-
-**The cut is a corridor, not a box.** Everything within `--margin` of the
-driven line is kept - terrain, textures, placed models - and nothing else: a
-terrain tile the corridor does not touch is not even read. For a circuit that
-is nearly the lap's bounding box; for a point-to-point race it is a tenth of
-it. A 14.7 km sprint crosses a 6 by 3.6 km box, 22 square
-kilometres and some twenty-five million terrain triangles; its corridor is
-1.53 km2, 1.3 million triangles, 160 MB and a minute. Consecutive samples less
-than 50 m apart are joined, so the band has no gaps; further apart they are
-the seam between two lap files - one sprint's finish and the next one's start -
-and are not.
-
-`courses` runs `course` over every course folder in the library, one
-`<name>.glb` each. A course already exported is skipped (`--force` redoes it),
-a course that fails does not stop the rest, and the end of the run lists what
-was written.
-
-A Forza track is four `.minizip` archives — tens of gigabytes each for an
-open-world map — holding hundreds of thousands of entries between them. The archives carry **no names at
-all**: no name table, no per-entry header, nothing but an ordinal. The names are
-in the `ChunkContentsMiniZip*.txt` beside them, one line per entry in entry
-order, and that pairing is the only way to ask for a file.
-
-Three things in the index are wrong in ways that still produce output:
-
-| Detail | What a careless reader does | What it looks like |
-|---|---|---|
-| segment base is 64-bit | reads it as u32 plus padding | correct for the first 4 GB, then noise of the right length |
-| base is 8-byte aligned | ignores the padding word | two of the four archives claim codecs that do not exist |
-| entry length is the gap to the next, minus its padding | uses the gap | LZ4 refuses the block outright |
-
-Verified by reading 14,541 entries sampled across all four archives: every one
-unpacks to exactly the length its record declares, under all three codecs (LZ4,
-raw deflate, stored).
-
-Terrain is where this pays off. The manifest names it as a spatial index —
-`autoterrain_x-8184_z13299_cluster012.i.modelbin` — and each mesh carries its own
-world-space scale and bias, so a tile lands where the game puts it with no
-instance transform at all. That means **a lap of telemetry is enough to ask for
-a piece of map**, because the telemetry is in the same coordinates:
-
-```
-python -m heat3d_capture route -o lap            # drive; Ctrl+C
-python -m heat3d_gamefiles terrain <track> --route lap.json -o map.glb
-```
-
-or, for a course somebody has already driven a few dozen times:
-
-```
-python -m heat3d_capture laps "Mapletree Test Loop" -o races/mapletree
-python -m heat3d_gamefiles terrain <track> --route races/mapletree.json -o races/mapletree.glb
-```
-
-The proof that the two halves meet is the driving itself: across that course's 46
-recorded laps the car sits a median of 0.19 m above the extracted ground, sd
-0.14 m, worst point 0.58 m. That is the car's ride height. An error of even a
-couple of metres — let alone the tile-sized ones this format makes easy — would
-not fit in it, and no amount of looking at the mesh would have shown it.
-
-The check on the decode is the tiles' own placement: a tile has to land inside
-the 512-metre square its name predicts. 600 of 600 sampled do. (The names step
-by 1023 while the tile is 512 metres — take the name as metres and every lookup
-returns perfectly good terrain from the wrong half of the map.)
-
-A square kilometre of open-world map comes out as 1.16 million triangles in five seconds.
-
-#### Road, verge and grass
-
-Not from material names: around a circuit 94% of the ground carries a
-road-shader material, because the terrain near a road is drawn with it and
-asphalt or grass is decided per pixel. Road comes from the vertex layout - road
-strips carry three UV sets and nothing else does - and within a strip, asphalt
-and verge are split by the tile's own asphalt mask. Against the 46 laps, 99.2%
-of the samples fall on road-strip triangles, and 94.3% on the asphalt part once
-the mask has split the verge off.
-
-#### Textures
-
-A swatch (`.pb`) is the same chunk container as a model: a 96-byte header, then
-block-compressed pixels. The format is the u32 at byte 72 - 9 is BC7, 0 is BC1,
-13 is RGBA - and was identified by decoding real files every way the payload's
-size allows (byte 47, which looked like the format, is 4 in all 3,000 sampled).
-Each terrain tile ships maps that say where asphalt, grass and woodland are at 25
-cm a pixel; those are baked into one colour image per tile - fixed colours for
-each kind of ground, shaded by the maps' detail normals, since the terrain
-shader's material layers are not decoded - oriented north-up by laying the
-recorded laps over it.
-
-#### Everything placed
-
-Terrain carries its own world position; nothing else does. Where each copy of a
-model stands is in `.pgeo` placement files, one per category per cell, 80 bytes
-a copy:
-
-| Bytes | Field | How it was decided |
-|---|---|---|
-| 0-11 | position, **sign-magnitude** 16.16 fixed | consecutive guardrails exactly 4.000 m apart; two's complement puts negatives 32 km away |
-| 12-23 | the model's x axis in the world | the end of each guardrail lands on the start of the next: 93.5% within 5 cm |
-| 24-35 | its y axis; z is x cross y | as above |
-| 36-47 | scale | |
-| 60-63 | material variant | billboards 0, 2, 2, 3, 4; every guardrail 0 |
-
-Only `_3D` names are records; the table before them lists variants by bare name,
-which read as records land at infinity. Every `_3D` record of every category
-sampled lands inside its own file's box. Around Mapletree, kerbs sit 3 cm (median)
-above the extracted ground with their faces up, within 5 m of where the cars
-drove; guardrails are never on the line.
-
-A model's triangles each carry a level-of-detail mask. The finest level is what
-is marked for it; triangles marked for every level are breakable pieces (a
-guardrail's posts, a stack's single tyres) that overlap the whole model and are
-used only by models with no marked level.
-
-**Nothing in the corridor is left out by default.** Copies within 25 m of the
-driving start at their finest level, those out to 60 m one coarser, the rest at
-their coarsest; then the costliest models - copies times triangles - step down
-a level at a time until the budget fits. The budget sizes itself: every copy at
-its coarsest, plus a quarter for detail, and never under 1.5 million. On a
-circuit that is the 1.5 million; on a city course, where the corridor holds
-120,000 copies - air conditioners, bicycles, laundry, the walls along the
-expressway - it is 15 million, and the file is about 660 MB. The viewer loads
-that on both backends.
-
-The files are written compact: normals as bytes (`KHR_mesh_quantization`), UVs
-and colours as normalised integers, indices as shorts where a part is small
-enough. A vertex is 20 bytes instead of 32 - a third off every file, and the
-difference between a city course loading and not - for under half a degree of
-normal and a fifteenth of a texel. `write_glb(..., quantize=False)` writes the
-full-precision form.
-
-Given a number, `--detail-budget` is a ceiling instead, for a smaller file:
-where even the coarsest levels do not fit it, copies are left out - first
-everything more than 25 m from the driving, and within that, what looks
-smallest from the road (distance over size) first. Kerbs are never left out or
-simplified. The summary says how many went.
-
-**Painted layers are lifted.** Lane markings and tyre marks ship as their own
-triangles lying exactly in the road, which the game draws with a depth bias.
-Drawn as they are, road and paint fight over every pixel; the export gives them
-vertices of their own, 5 cm above the surface.
-
-**Buildings are drawn whole.** A city builds its buildings out of modular
-pieces - around one city street circuit, 383,000 of them, forty million triangles
-even at their coarsest - so leaving pieces out one at a time left lone wall
-slabs standing. The game ships its own whole-building stand-ins
-(`scene\hlod_tier_1\`, one mesh per building, in world coordinates like the
-terrain), and wherever one covers a building it is used instead of the pieces
-and kept or left out as a unit. Their shared facade atlas reserves a solid
-(255, 64, 0) block for surfaces the building shader tints from other textures;
-that block is painted in the atlas's own average colour, or the city comes out
-orange.
-
-Around a country circuit nothing is left out: 1.5 million triangles. A single
-lap of the city street circuit - 1.3 by 1.5 km of streets - keeps the 3,400 barriers, 1,500
-props and 700 signs along the street and 174 whole buildings, leaves out
-120,000 more distant copies, and is 193 MB.
-
-**Which texture** comes from the model's material, not its name. A material
-lists its textures as hashes; `AssetManifest.xml` beside the archives maps each
-hash to a swatch. Base colour is slot `0x88B483AA` in the standard shader (1,054
-of 1,054 materials sampled); other shaders are read by the texture's own kind
-(`_bclr_`, `_diff_`). `bar_rur_armco_crct_02_c` has no texture of its own name -
-its material binds `02_a`'s.
-
-**Variants.** Every submesh record opens with a table of `(summer, winter)`
-materials, one per look a copy can wear: five prints for a billboard, six paint
-colours for a tyre stack. A standard record holds one entry and no count; a
-longer one is a count and that many entries, 238 + 8 * count - 4 bytes, which
-is why every field after it moves back by exactly that much. The copy's variant
-(bytes 60-63 above) picks the entry.
-
-**See-through surfaces** - chain-link fences, nets - are alpha-tested quads. A
-surface whose texture averages under half opaque is left out whole; drawn
-solid, a fence is a wall across the view of the track. (Judged a triangle at a
-time instead, half of every quad survived and fences came out as rows of teeth.)
-
-Left out by default: trees and bushes (`--trees` adds them), grass and crowd
-templates, festival sites that change with progression, and projected decals.
-Not decoded: signage prints that are blended over their board through alpha,
-which come out opaque.
-
-### Frostbite — `.toc` and `.cas` (Battlefield 6 levels)
-
-**`level` exports a Battlefield 6 level: its terrain heightfield, every mesh its
-static model groups place, and with `--textures` their colour maps.** `levels`
-lists the levels; `identify` reads any `.toc`.
-
-```
-python -m heat3d_gamefiles levels
-python -m heat3d_gamefiles level <level> -o level.glb [--textures [PIXELS]] [--ground-spacing M]
-                                    [--detail-budget N] [--skip TEXT]
-```
-
-Nothing about the format is documented, so every step was checked against the
-files:
-
-| Step | Check | Result |
-|---|---|---|
-| section chain | each section starts where the last ends | closes on every table |
-| installation packages | each location's package resolves through `layout.toc` and its blob holds the record | 3,328,654 of 3,328,654 locations |
-| chunks | the identifier table and the location table pair through an index word, not file order | a permutation in every level |
-| payloads | block chain consumes the payload exactly | every payload sampled, read from the right package |
-| bundle manifests | counts match the bundle's entries, strings start where records end | every bundle of a level |
-| meshes | vertices inside the mesh's declared box | 4,027 of 4,080 to 99%, the rest by half-float rounding |
-| placement | every group member imports a mesh; transforms are rotations, scaled | 41,277 copies of 1,753 meshes in one level |
-| terrain | neighbouring height pages share 9 samples exactly; a child equals its parent at every other sample with a border of 4 | trees and bushes stand a median 0.30 m from the decoded surface (lowest point), 0.07 m (origin) |
-| materials | the section's key finds its shader block, which names its textures | 2,214 of 2,375 drawn sections get a colour map |
-| terrain decals | 926 batch records whose vertex ranges cover the vertex block exactly | runways, aprons, roads and markings baked at 0.5 m a pixel |
-
-An earlier version read the first `cas_NN.cas` with the right number, and a
-third of the payloads looked encrypted. They were the right offsets in another
-package's blob. Nothing found is encrypted. The game's type library is: it sits
-in the encrypted initial file system, which this tool does not touch, so the
-two types placement needs were laid out from the data and are pinned by their
-GUID and signature.
-
-The coordinates are the game's own: metres, Y up. A whole level with textures
-is 13.5 million triangles and 530 MB; `--detail-budget`, `--ground-spacing` and
-a smaller `--textures` make it smaller.
-
-`--ground-texture` bakes the terrain decals — roads, aprons, markings — into the
-ground's colour, over its surface layers laid by their masks and the
-heightfield's slope (a rule of the exporter's own; the game's layer graph is
-not read). Not implemented: terrain holes, objects placed one by one rather
-than grouped, normal maps and alpha. The colour map of a surface is chosen by name
-from the textures its shader names. XOR-obfuscated tables are detected and
-declined. See [Frostbite](docs/reader-frostbite.md).
-
-### BeamNG.drive — level archives, `.cdae`, `.ter`
-
-**Complete for courses: `course` exports a lap's level.**
-
-BeamNG ships plain zip archives - the engine's own art, the shared assets,
-one per level - and mounts them, with the user's mods on top, into one file
-system that levels refer into. The reader builds the same file system and
-reads a level the way the game does. Nothing about the formats was assumed;
-each was checked on the shipped levels:
-
-| Part | Read from | Checked against |
-|---|---|---|
-| terrain | `.ter`: heights, layer map, layer names | height is `position.z + h * maxHeight / 65535`, rows along +y: road nodes lie on it to 1-2 cm in the median on three levels; `h / 32` or the other axis order miss by tens to hundreds of metres |
-| placement | scene files (one JSON object a line), TorqueScript and JSON prefabs, forest instances | the rows of `rotationMatrix` are an object's own axes: rail sections chained along a road run along row 0 (92%); `rotation = "x y z degrees"` turns right-handed (92% of chains, 19% the other way) |
-| shapes | `.cdae`, the game's documented MessagePack cache of every Collada file | 6,000 of the 6,002 shipped shapes read (two are an older version); node quaternions are Torque's, transposed: the full models' world bounds match the source `.dae` to the millimetre, 38 cm out the textbook way |
-| shapes without a cache | Collada `.dae`, as mods ship them | against the game's `.cdae` of the same files: 594 of 600 bounds within 1 cm, 583 the same triangle count, 94% of materials' UVs identical |
-| ground texture | each terrain layer's base map with its detail and macro overlays; road decals in the game's order; modelled road surfaces seen from above | the base map's row 0 is north (its green follows the grass layers, correlation 0.72 and 0.71); decals draw by descending `renderPriority` (asphalt 12-16, markings 10, rubber 4 across the shipped levels) |
-
-What a course is made of: the terrain in a band either side of the driving,
-classed by its layers' ground models and by the road decals over it (`ASPHALT`
-is road; dirt, gravel, sand, mud are gravel and dirt); circuits modelled as
-meshes, whose up-facing triangles of a road material become ground baked into
-the same tiles; placed models by category from the level's own annotations and
-their names, with Forza's levels of detail by distance and budget; water. The
-level is found from the lap - the share of its samples lying on a level's
-terrain, or on its roads where a level runs on past its heightmap. Exported on
-six shipped levels of every kind, 20 seconds to 2 minutes each.
-
-Not drawn: ground cover (procedural grass) and scenery placed round the edge of
-the world. A model whose texture repeats is drawn in that texture's average
-colour, since the viewer packs textures into an atlas.
-
-### Assetto Corsa Rally — Unreal 5 IoStore
-
-**Complete for courses: `course` exports a lap's stage.**
-
-Unreal Engine 5.6.1, a modified build, shipping IoStore containers, none of
-them encrypted; Oodle decompression comes from a library already on the
-machine (every Steam library is searched). A stage is a World Partition map
-with no landscape: its ground is static meshes, the stage cut into tiles split
-into road and terrain, and far tiles beyond. Every layer was checked on the
-installed game:
-
-| Layer | Checked against |
-|---|---|
-| IoStore tables of contents (version 8): chunks, compression blocks, directory | 54 containers, 47,246 package paths |
-| packages: summary (5.3-5.6 layouts), names, imports, exports, dependency tables | every cell of every stage opens; an imported package's name carries a number (`_Terrain` numbered 1 is the file `_Terrain_0`) |
-| unversioned properties, read with a schema of names and types derived from the Unreal Engine 5.6.1 headers | 32,310 static-mesh and 10,906 scene components across 16 levels decode, each ending at its class's fixed native tail; this build has two more slots in `UPrimitiveComponent` and one more in the virtual texture volume, found from the data, and a value in either is an error, not a guess |
-| cooked static meshes (not Nanite) | 296 of 300 random meshes (the four others are skeletal); a road tile's decoded extent matches the bounds it stores |
-| textures: cooked platform data, the package's bulk data map, BC1-BC7 | a 4096-pixel DXT5 satellite image whose thirteen levels are exactly the bulk entries' sizes |
-| virtual textures: Morton-addressed tiles in chunks | the first chunk is 4 + 4,096 x 34,848 bytes, its tiles to the byte; the road tiles land on the road it shows |
-
-Which way round the world is, the telemetry does not document, and it is not
-assumed: of the eight ways Unreal's two horizontal axes can map onto the lap's,
-the one that puts the most of the lap on the stage's road tiles is used, on the
-stage where it scores best (or the one the lap names, checked first). Tested
-with laps built in a random frame on every stage: the right stage and the right
-frame every time. No lap recorded in the game has been through it yet.
-
-The ground is textured from the stage's baked ground colour - the streaming
-virtual texture its runtime virtual texture volume covers, 13 to 59 cm a pixel
-- and the stage's satellite image around it, placed by fitting the far
-terrain's UVs (linear to a few thousandths); one stage without either is drawn
-in flat colours. Placed models come in flat colours by category, with Forza's
-levels of detail and budget: where even the coarsest levels do not fit a
-`--detail-budget`, the furthest copies are left out. Kerbs are ground
-(`ground:kerbs`), as in the other two games, and are never simplified or left
-out.
-
-Known gaps: instanced components' own properties are laid out differently from
-the engine's headers and are not read; their mesh comes from the dependency table
-(each names exactly one) and their instances from the native block after the
-properties, and they are taken to sit at their actor's root, which is how the
-foliage actors place them. Forests generated by PCG at run time are not stored
-and cannot be exported. Spline meshes (invisible respawn walls), decal
-components and placed models' own textures are not drawn.
-
-### Unreal 5 World Partition maps — `ue-map`
-
-**A whole map: the landscape, the map's merged HLOD buildings, its water.**
-Built and checked on Hell Let Loose: Vietnam (IoStore, not encrypted; a 5.3 to
-5.5 package layout). Nothing in it is specific to that game; another game's
-build may lay its classes out differently, and the checks below are what would
-say so.
-
-```
-python -m heat3d_gamefiles ue-maps "Hell Let Loose - Vietnam"
-python -m heat3d_gamefiles ue-map  "Hell Let Loose - Vietnam" <map> -o map.glb [--ground-spacing 2]
-```
-
-The game is found by its Steam folder name, or given as a folder. Every part
-comes from the map's persistent package; the cooked cells are not read.
-
-| Part | Read from | Checked against |
-|---|---|---|
-| ground | each landscape component's heightmap texture (16-bit, red high byte, green low), placed by its section base on the landscape actor's transform | every vertex stored twice - on a subsection seam or a component edge - is compared: on one map of the test game all 213,407 agree, on another 483 disagree, all on nine component edges (seams in the shipped data, reported, not smoothed) |
-| structure | the map's merged HLOD meshes, which the engine builds in world space | each mesh is kept only if the bounds its component caches describe the mesh's own vertices: 46 of 46 on the test level |
-| water | each water body's water-info mesh, laid on the ground grid and kept where the water stands above the ground | the water surfaces sit a median of 1 to 9 m above the ground under them, as a river over its bed does; drawn as stored, one lake body ran kilometres past the map under the hills |
-
-The landscape's properties are found by shape rather than by slot number,
-which moves between engine versions: the five integers that open every
-component (section base, sizes), the one reference to a `Heightmap...`
-texture, and the scale and bias whose offsets fall on whole texels (the
-weightmap's sit half a texel off). Static meshes read in both the 5.6 layout
-and the older one without per-level bounds.
-
-Coordinates are Unreal centimetres with Y and Z swapped, as the editor
-exporter writes them. The structures are simplified stand-ins (what the game
-draws for a district at a distance), not the full-detail models: those sit in
-the cooked cells, whose component properties this build lays out differently
-from the schema in `unversioned.py`. Foliage, decals and landscape materials
-are not exported; the ground is untextured and shaded by the viewer.
-
-Terms: the game's EULA (Team17) grants a licence for personal, non-commercial
-use and forbids reverse engineering and derivative works "to the extent that
-such actions cannot be prohibited by law". Reading your own install is your
-decision under it; the output is for your own use and is not to be shared.
-
-### Arma Reforger — Enfusion `.pak`, terrain and world files
-
-**`enfusion-world` exports a world: its terrain in its own colours, the sea,
-and every placed building, prop and rock as its model's box.**
-
-```
-python -m heat3d_gamefiles enfusion-worlds
-python -m heat3d_gamefiles enfusion-world <world> -o world.glb [--ground-spacing 2] [--texture-size 4096] [--trees]
-```
-
-No Workbench needed and nothing is encrypted: the game's archives, textures,
-terrain and binary world files are read directly.
-
-| Format | What it is | Checked against |
-|---|---|---|
-| `.pak` | `FORM`/`PAC1`: a data chunk and a directory tree, entries stored or zlib | the tree consumes its chunk exactly in all 19 shipped archives (251,228 files); 3,000 zlib entries sampled inflate to exactly their stated size |
-| `.edds` | a DDS header, then per mip level `COPY` or `LZ4 ` and a size, smallest first | chunked LZ4 levels decode to exactly their size using exactly their bytes (319 of 319 sampled, 82 of them several chunks chained through a dictionary) |
-| `.terr` / `.ttile` | a header (vertices, tile and block sizes, spacing, height scale and offset) and tiles of 16-bit heights, row by row | every shared tile edge agrees exactly, on all three shipped terrains |
-| supertexture | each tile's ground colour, about a metre a pixel | laid out like the tiles it matches the sea in the heights (correlation 0.72; no flip or transpose above 0.59) |
-| `.ent` (`EBIN`) | names, resource GUIDs, then entities as typed values in length-counted blocks | the smaller world's file parses to its last byte: 173,225 entities, 12 values of a nested-object type not read |
-| `resourceDatabase.rdb` | GUID to path | 1,083 of the world's 1,142 GUIDs name files that exist |
-
-Where things stand is checked against the ground: objects whose flags mark an
-absolute height (bit 51) stand a median of 1 cm from the decoded terrain; with
-the grid transposed they are 22 m off. Without that flag a height is above the
-ground under it. The model's box comes from its `.xob` header and is turned by
-the entity's angles; from above, the boxes of an airfield's hangars and fences
-line up with the runway and taxiways in the ground colour.
-
-Coordinates are the game's own: x east, y up, z north, metres - what an
-in-game recording reports - so a heat map lies on the world with the viewer's
-default mapping. The game's frame is left-handed; *invert world axis* in the
-viewer shows it unmirrored. Not drawn: the models' own triangles (compressed
-in a layout not read here), trees by default (`--trees` adds them as boxes),
-child entities, lakes and rivers, textures with pre-DX10 headers.
-
-Terms: the game's EULA (Bohemia Interactive) allows play and use "for
-non-commercial purposes only" and says "You are not allowed to hack, modify or
-reverse engineer the game or any game files, its data or network services."
-Reading your own install is your decision under it; the output is for your own
-use and is not to be shared. The free Arma Reforger Tools (Workbench) export a
-terrain's height map officially; this route needs neither them nor their
-licence.
+| Unreal | `.pak` lists and extracts (versions 8-12, Zlib and Oodle, encrypted with your key) | [Unreal .pak](https://holdi601.github.io/3DHeat-GameFiles/reader-unreal-pak.html) |
+| Unreal 5 | IoStore containers, packages, static meshes, textures | [Unreal 5 IoStore](https://holdi601.github.io/3DHeat-GameFiles/reader-unreal-iostore.html) |
+| Unity | objects and meshes, Unity 2020 to 6000 | [Unity](https://holdi601.github.io/3DHeat-GameFiles/reader-unity.html) |
+| Source 2 | `.vpk` lists and extracts, checksum-checked | [Source 2 VPK](https://holdi601.github.io/3DHeat-GameFiles/reader-source2-vpk.html) |
+| ForzaTech | a lap in, the course around it out | [Forza Horizon courses](https://holdi601.github.io/3DHeat-GameFiles/course-forza-horizon.html), [ForzaTech](https://holdi601.github.io/3DHeat-GameFiles/reader-forzatech.html) |
+| Frostbite | a Battlefield 6 level: terrain, every placed mesh, textures | [Battlefield 6 levels](https://holdi601.github.io/3DHeat-GameFiles/level-battlefield.html), [Frostbite](https://holdi601.github.io/3DHeat-GameFiles/reader-frostbite.html) |
+| BeamNG | a lap in, the level around it out | [BeamNG.drive courses](https://holdi601.github.io/3DHeat-GameFiles/course-beamng.html), [BeamNG](https://holdi601.github.io/3DHeat-GameFiles/reader-beamng.html) |
+| Assetto Corsa Rally | a lap in, the stage around it out | [Assetto Corsa Rally courses](https://holdi601.github.io/3DHeat-GameFiles/course-assetto-corsa-rally.html) |
+| Unreal 5 World Partition | a whole map: landscape, merged buildings, water | [Unreal 5 maps](https://holdi601.github.io/3DHeat-GameFiles/level-unreal-world-partition.html) |
+| Enfusion | an Arma Reforger world: terrain, sea, buildings as boxes | [Arma Reforger worlds](https://holdi601.github.io/3DHeat-GameFiles/level-arma-reforger.html) |
 
 ## Tests
 
@@ -675,43 +208,42 @@ python -m pytest
 ```
 
 Synthetic tests build an archive byte by byte and run anywhere. Tests against
-installed games skip when the game is absent rather than failing. Both matter:
-the synthetic ones pin the field layouts that were in fact wrong at some point,
-and the real ones are the only thing that catches a layout that is right for a
-small file and wrong for a large one.
+installed games skip when the game is absent.
 
 ---
 
 ## Part of 3DHeat
 
-3DHeat GameFiles is one of the free tools around the 3DHeat telemetry viewer. Each is its
+3DHeat GameFiles is one of the free tools around the 3DHeat viewer. Each is its
 own project, with its own releases and licence:
 
-| Tool | What it does |
-|---|---|
-| [3DHeat GameFiles](https://github.com/Holdi601/3DHeat-GameFiles) | courses and levels out of the archives games ship, as glTF |
-| [3DHeat GameCapture](https://github.com/Holdi601/3DHeat-GameCapture) | lap telemetry from racing games' published interfaces; levels reconstructed from gameplay video |
-| [3DHeat Unreal Exporter](https://github.com/Holdi601/3DHeat-UnrealExporter) | an Unreal Editor plugin that exports a level as glTF |
-| [3DHeat CS2](https://github.com/Holdi601/3DHeat-CS2) | Counter-Strike 2 demos into heatmap tables and match summaries; maps into geometry |
-| [3DHeat Watcher](https://github.com/Holdi601/3DHeat-Watcher) | records your play in the background from what games publish, for your own statistics |
+| Tool | What it does | Docs |
+|---|---|---|
+| [3DHeat](https://github.com/Holdi601/3DHeat) | the viewer: 3D heatmaps, race analysis and match review in the browser | [site](https://holdi601.github.io/3DHeat/) |
+| [GameFiles](https://github.com/Holdi601/3DHeat-GameFiles) | courses and levels out of the files a game ships, as `.glb` | [site](https://holdi601.github.io/3DHeat-GameFiles/) |
+| [GameCapture](https://github.com/Holdi601/3DHeat-GameCapture) | lap telemetry from racing games; levels rebuilt from gameplay video | [site](https://holdi601.github.io/3DHeat-GameCapture/) |
+| [Unreal Exporter](https://github.com/Holdi601/3DHeat-UnrealExporter) | an Unreal Editor plugin that saves a level as `.glb` | [site](https://holdi601.github.io/3DHeat-UnrealExporter/) |
+| [CS2](https://github.com/Holdi601/3DHeat-CS2) | Counter-Strike 2 demos into match files; maps into `.glb` | [site](https://holdi601.github.io/3DHeat-CS2/) |
+| [Watcher](https://github.com/Holdi601/3DHeat-Watcher) | records your play in the background from what games publish | [site](https://holdi601.github.io/3DHeat-Watcher/) |
+| [Ext-WarThunder](https://github.com/Holdi601/3DHeat-Ext-WarThunder) | War Thunder replays into match files | [site](https://holdi601.github.io/3DHeat-Ext-WarThunder/) |
+| [Ext-WoT](https://github.com/Holdi601/3DHeat-Ext-WoT) | World of Tanks replays into match files | [site](https://holdi601.github.io/3DHeat-Ext-WoT/) |
+| [Ext-WoWs](https://github.com/Holdi601/3DHeat-Ext-WoWs) | World of Warships replays into match files | [site](https://holdi601.github.io/3DHeat-Ext-WoWs/) |
+| [Ext-Squad](https://github.com/Holdi601/3DHeat-Ext-Squad) | Squad server demos into match files | [site](https://holdi601.github.io/3DHeat-Ext-Squad/) |
+| [Ext-DCS](https://github.com/Holdi601/3DHeat-Ext-DCS) | DCS World maps into `.glb` levels | [site](https://holdi601.github.io/3DHeat-Ext-DCS/) |
+| [Ext-IL2](https://github.com/Holdi601/3DHeat-Ext-IL2) | IL-2 Sturmovik maps into `.glb` levels | [site](https://holdi601.github.io/3DHeat-Ext-IL2/) |
 
 ## Updates
 
-3DHeat GameFiles checks this repository's releases when it starts (at most every few
-hours, never holding it up for more than a few seconds), says when a newer
+3DHeat GameFiles checks this repository's releases when it starts (at most every
+few hours, never holding it up for more than a few seconds), says when a newer
 version is out, and offers to update: a clone with `git pull` when it has no
 local changes, a downloaded copy by replacing its files from the release archive,
-after checking the archive is the version it claims. Your own files - recordings,
-settings, exports - are never touched. To update on request: `python -m heat3d_update`.
-`HEAT3D_NO_UPDATE=1` switches the check off.
+after checking the archive is the version it claims. Your own files - laps,
+exports - are never touched. To update on request: `python -m heat3d_update`.
+`HEAT3D_NO_UPDATE=1` switches the check off. Releases are tagged with the number
+in [`VERSION`](VERSION); what changed is in [`CHANGELOG.md`](CHANGELOG.md).
 
 ## Licence
 
 MIT - see [`LICENSE`](LICENSE), and [`LICENSES.md`](LICENSES.md) for the
 third-party packages it uses and what the games it reads oblige.
-
-Documentation: [holdi601.github.io/3DHeat-GameFiles](https://holdi601.github.io/3DHeat-GameFiles/)
-(the same pages are in [`docs/`](docs/)), and the
-[wiki](https://github.com/Holdi601/3DHeat-GameFiles/wiki). The viewer:
-[Holdi601/3DHeat](https://github.com/Holdi601/3DHeat), documented at
-[holdi601.github.io/3DHeat](https://holdi601.github.io/3DHeat/).

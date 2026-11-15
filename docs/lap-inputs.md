@@ -5,6 +5,9 @@ nav_order: 7
 
 # Lap inputs
 
+A **lap file** is a list of x, y, z points: where your car went. The quickest
+hand-made one is the CSV under [5. A `.csv` table](#5-a-csv-table) below.
+
 A lap tells the course export **where the car went**. Nothing else in it is used:
 speed, inputs and g-forces belong to the telemetry side of 3DHeat. The tool reads
 positions in the game's own world metres, plus, where the file says so, the game
@@ -19,7 +22,7 @@ The format is recognised by looking at the file, not its name, except that
 
 ### 1. A `heat3d-lap` document (any game)
 
-Written by the 3DHeat telemetry recorders (`heat3d_capture telemetry`):
+Written by the 3DHeat telemetry recorders (`heat3d_capture telemetry` ([3DHeat GameCapture](https://github.com/Holdi601/3DHeat-GameCapture))):
 
 ```json
 {
@@ -49,8 +52,8 @@ Written by `heat3d_capture route` and `heat3d_capture laps`:
 
 ```json
 {
-  "bounds": {"min": [-4100.0, 80.0, 6600.0], "max": [-3000.0, 140.0, 7400.0]},
-  "positions": [[-4096.0, 101.2, 6610.5], [-4095.1, 101.2, 6612.0]]
+  "bounds": {"min": [0.0, 80.0, 0.0], "max": [500.0, 140.0, 500.0]},
+  "positions": [[12.0, 101.2, 40.5], [12.9, 101.2, 42.0]]
 }
 ```
 
@@ -62,7 +65,7 @@ positions still works: its two corners are a degenerate line but a usable box.
 The per-lap files of FH Companion's recorded library:
 
 ```json
-{"Lap": {"samples": [{"X": -4096.0, "Y": 101.2, "Z": 6610.5}, {"X": -4095.1, "Y": 101.2, "Z": 6612.0}]}}
+{"Lap": {"samples": [{"X": 12.0, "Y": 101.2, "Z": 40.5}, {"X": 12.9, "Y": 101.2, "Z": 42.0}]}}
 ```
 
 A missing `X`, `Y` or `Z` reads as 0. The files are written with a byte-order

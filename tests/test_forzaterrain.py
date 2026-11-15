@@ -72,7 +72,7 @@ class TestTheGrid:
         from the wrong half of the map.
         """
         assert Tile(x=0, z=0, variant="").origin == (0.0, 0.0)
-        assert Tile(x=-8184, z=13299, variant="").origin == (-4096.0, 6656.0)
+        assert Tile(x=1023, z=-2046, variant="").origin == (512.0, -1024.0)
         assert Tile(x=NAME_STEP, z=NAME_STEP, variant="").origin == (512.0, 512.0)
 
     def test_a_tile_covers_the_square_after_its_origin(self):

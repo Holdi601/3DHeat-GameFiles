@@ -3,7 +3,7 @@ Reading Source 2 `.vpk` archives — Counter-Strike 2, Dota, Half-Life: Alyx.
 
 The friendliest of the four container formats here, and the only one Valve
 documents. A map is one self-contained `.vpk`, which is convenient: pointing this
-at `maps/de_dust2.vpk` gets that map and nothing else.
+at `maps/example_map.vpk` gets that map and nothing else.
 
 The directory
 -------------
@@ -11,7 +11,7 @@ Three nested loops, each ending on an empty string, which is why a reader that
 expects a count finds none::
 
     extension            "vmdl_c", then "vtex_c", then ""
-      path               "maps/de_dust2", then ""
+      path               "maps/example_map", then ""
         file name        "world_layer0", then ""
           crc, preload size, archive index, offset, length, 0xffff
           [preload bytes]

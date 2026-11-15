@@ -347,7 +347,7 @@ def _merge(meshes) -> tuple[np.ndarray, np.ndarray]:
 
 
 def add_verbs(sub) -> None:
-    where = "the game's folder, its Content/Paks, or a Steam game folder name (e.g. \"Hell Let Loose - Vietnam\")"
+    where = "the game's folder, its Content/Paks, or a Steam game folder name (e.g. \"My Game\")"
     p = sub.add_parser("ue-maps", help="list the World Partition maps of an Unreal 5 game")
     p.add_argument("game", help=where)
     p = sub.add_parser("ue-map", help="export an Unreal 5 World Partition map: landscape, HLOD structures, water")

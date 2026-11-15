@@ -1,28 +1,29 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1026" height="148" viewBox="0 0 1026 148" role="img" aria-label="level: a Frostbite level into one .glb">
-<rect width="1026" height="148" rx="10" fill="#f7f8fa" stroke="#d0d4db"/>
-<text x="20" y="30" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#1f2328">level: a Frostbite level into one .glb</text>
-<rect x="20" y="46" width="170" height="78" rx="8" fill="#e8f0fe" stroke="#7a8aa6"/>
-<text x="105.0" y="68" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="13.5" font-weight="600" fill="#1f2328" text-anchor="middle">levels</text>
-<text x="105.0" y="86" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">lists every level table</text>
-<text x="105.0" y="103" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">(base game and updates)</text>
-<path d="M194 85.0 H218" stroke="#4a5568" stroke-width="2"/><path d="M218 80.0 L225 85.0 L218 90.0Z" fill="#4a5568"/>
-<rect x="224" y="46" width="170" height="78" rx="8" fill="#e8f0fe" stroke="#7a8aa6"/>
-<text x="309.0" y="68" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="13.5" font-weight="600" fill="#1f2328" text-anchor="middle">Level table</text>
-<text x="309.0" y="86" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">bundles, meshes,</text>
-<text x="309.0" y="103" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">terrain, placement</text>
-<path d="M398 85.0 H422" stroke="#4a5568" stroke-width="2"/><path d="M422 80.0 L429 85.0 L422 90.0Z" fill="#4a5568"/>
-<rect x="428" y="46" width="170" height="78" rx="8" fill="#e8f0fe" stroke="#7a8aa6"/>
-<text x="513.0" y="68" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="13.5" font-weight="600" fill="#1f2328" text-anchor="middle">Budget</text>
-<text x="513.0" y="86" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">coarser LODs until</text>
-<text x="513.0" y="103" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">--detail-budget fits</text>
-<path d="M602 85.0 H626" stroke="#4a5568" stroke-width="2"/><path d="M626 80.0 L633 85.0 L626 90.0Z" fill="#4a5568"/>
-<rect x="632" y="46" width="170" height="78" rx="8" fill="#e8f0fe" stroke="#7a8aa6"/>
-<text x="717.0" y="68" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="13.5" font-weight="600" fill="#1f2328" text-anchor="middle">Options</text>
-<text x="717.0" y="86" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">--textures, --ground-texture</text>
-<text x="717.0" y="103" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">--navmesh, --skip</text>
-<path d="M806 85.0 H830" stroke="#4a5568" stroke-width="2"/><path d="M830 80.0 L837 85.0 L830 90.0Z" fill="#4a5568"/>
-<rect x="836" y="46" width="170" height="78" rx="8" fill="#e8f0fe" stroke="#7a8aa6"/>
-<text x="921.0" y="68" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="13.5" font-weight="600" fill="#1f2328" text-anchor="middle">&lt;level&gt;.glb</text>
-<text x="921.0" y="86" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">ground:terrain ...</text>
-<text x="921.0" y="103" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">structure:... nav:walkable</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="320" viewBox="0 0 860 320" role="img" aria-label="level: a Battlefield 6 level into one .glb">
+<rect width="860" height="320" rx="10" fill="#f7f8fa" stroke="#d0d4db"/>
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8a94a3"/></marker></defs>
+<text x="20" y="32" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="18" font-weight="600" fill="#1f2328" text-anchor="start">level: a Battlefield 6 level into one .glb</text>
+<rect x="20" y="52" width="247" height="104" rx="8" fill="#ffffff" stroke="#8a94a3"/>
+<text x="143" y="80" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#1f2328" text-anchor="middle">levels</text>
+<text x="143" y="106" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">lists every level</text>
+<text x="143" y="127" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">(base game and updates)</text>
+<rect x="307" y="52" width="247" height="104" rx="8" fill="#ffffff" stroke="#8a94a3"/>
+<text x="430" y="80" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#1f2328" text-anchor="middle">Level table</text>
+<text x="430" y="106" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">bundles, meshes,</text>
+<text x="430" y="127" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">terrain, placement</text>
+<rect x="593" y="52" width="247" height="104" rx="8" fill="#ffffff" stroke="#8a94a3"/>
+<text x="717" y="80" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#1f2328" text-anchor="middle">Budget</text>
+<text x="717" y="106" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">coarser levels of detail</text>
+<text x="717" y="127" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">until --detail-budget fits</text>
+<rect x="20" y="192" width="247" height="104" rx="8" fill="#ffffff" stroke="#8a94a3"/>
+<text x="143" y="220" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#1f2328" text-anchor="middle">Options</text>
+<text x="143" y="246" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">--textures, --ground-texture,</text>
+<text x="143" y="267" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">--navmesh, --skip</text>
+<rect x="307" y="192" width="247" height="104" rx="8" fill="#ffffff" stroke="#8a94a3"/>
+<text x="430" y="220" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#1f2328" text-anchor="middle">&lt;level&gt;.glb</text>
+<text x="430" y="246" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">ground:terrain ...</text>
+<text x="430" y="267" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">structure:... nav:walkable</text>
+<line x1="271" y1="104.0" x2="303" y2="104.0" stroke="#8a94a3" stroke-width="2" marker-end="url(#a)"/>
+<line x1="557" y1="104.0" x2="589" y2="104.0" stroke="#8a94a3" stroke-width="2" marker-end="url(#a)"/>
+<path d="M717,158 V174 H143 V188" fill="none" stroke="#8a94a3" stroke-width="2" marker-end="url(#a)"/>
+<line x1="271" y1="244.0" x2="303" y2="244.0" stroke="#8a94a3" stroke-width="2" marker-end="url(#a)"/>
 </svg>

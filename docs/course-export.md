@@ -6,6 +6,12 @@ has_children: true
 
 # Course export
 
+**In plain words:** you drove a lap; this builds the track you drove on, as a
+3D file. The lap is only a line of points; the road, grass and kerbs come from
+the game's own files.
+
+![A lap goes in, the track around it comes out](assets/img/lap-to-course.svg)
+
 `course` turns a lap into a course: the ground in a band either side of where the
 car went, and what stands on that ground, as one `.glb` for the viewer. This page
 covers what all three supported games share. The pages under it cover what
@@ -19,6 +25,10 @@ differs:
 ![The steps of a course export](assets/img/course-steps.svg)
 
 ## The steps
+
+Words used below: a **frame** is which way the axes point; the **corridor** is
+the band of ground either side of the lap; a **tile** is one square piece of a
+game's terrain; an **LOD** (level of detail) is one of a model's simpler copies.
 
 1. **Read the lap.** Positions only, from any of the shapes in
    [Lap inputs](lap-inputs.md). Speed and inputs are not used. A lap with fewer
@@ -104,7 +114,7 @@ image, so the part names carry the square:
 
 | Game | Ground part name | Square key |
 |---|---|---|
-| Forza | `ground:road x-8184 z13299` | the terrain tile's grid name (steps of 1023, see [Forza Horizon](course-forza-horizon.md)) |
+| Forza | `ground:road x-2046 z1023` | the terrain tile's grid name (steps of 1023, see [Forza Horizon](course-forza-horizon.md)) |
 | BeamNG | `ground:road 3_-2` | `floor(x / 512)`, `floor(y / 512)` in BeamNG metres |
 | AC Rally | `ground:road 1_-4` | `floor(x / 51200)`, `floor(y / 51200)` in Unreal centimetres |
 

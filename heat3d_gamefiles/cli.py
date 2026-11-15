@@ -90,7 +90,7 @@ def _identify(path: Path) -> str:
         lines.append(f"    engine     {container.unity_version}")
         lines.append(f"    objects    {len(container):,}")
         top = list(container.counts().items())[:6]
-        lines.append("    holds      " + ", ".join(f"{n}x{k}" for k, n in top))
+        lines.append("    holds      " + ", ".join(f"{n} x {k}" for k, n in top))
         return "\n".join(lines)
     except UnsupportedUnity:
         pass
@@ -244,7 +244,7 @@ def _identify_zip(path: Path) -> list[str]:
         for n in names
     )
     if kinds:
-        lines.append("    holds      " + ", ".join(f"{n}x{k}" for k, n in kinds.most_common(6)))
+        lines.append("    holds      " + ", ".join(f"{n} x {k}" for k, n in kinds.most_common(6)))
     # BeamNG ships one zip per level, everything in it under `levels/<name>/`.
     levels = sorted({n.split("/")[1] for n in names if n.lower().startswith("levels/") and n.count("/") >= 2})
     if levels:
@@ -708,7 +708,7 @@ def _no_course(game: str) -> str:
 
 
 def _slug(name: str) -> str:
-    """A course name as a file name: `Mapletree Test Loop` -> `mapletree_test_loop`."""
+    """A course name as a file name: `Example Circuit` -> `example_circuit`."""
     import re
 
     return re.sub(r"[^a-z0-9]+", "_", name.lower()).strip("_") or "course"

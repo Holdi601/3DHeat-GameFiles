@@ -1,4 +1,3 @@
-
 # Unreal `.pak`
 
 **Lists and extracts** Unreal 4.22-5.x `.pak` archives: versions 8, 9, 10, 11
@@ -30,7 +29,7 @@ and a block of **encoded entries**: a bit-packed form where a flags word says
 which numbers are 32-bit, the compression method (6 bits), whether the entry is
 encrypted, the block count (16 bits) and the block size in units of 2,048
 (6 bits). The all-ones block size is an escape: the real size follows as a u32
-**before** the offset. In a 27 GB archive, reading it after the sizes shifted 7%
+**before** the offset. In a large archive, reading it after the sizes shifted 7%
 of entries by four bytes and gave them offsets in the exabytes.
 
 Each entry's full record is repeated just before its payload, so the payload
@@ -63,8 +62,8 @@ keys, no search of executables, no memory reading. See
 
 ## Verified
 
-Against three shipped archives across two games: 178,809 entries, including one
-archive of 27 GB holding 167,412 of them, matched by the SHA-1 Unreal writes
+Against shipped archives of more than one game, every entry, including one
+very large archive, matched by the SHA-1 Unreal writes
 ahead of every payload. That hash covers the bytes as stored, so a match means
 the index decode, the payload offset and every compressed block boundary were
 right. The installed-game tests (`test_pak.py`) repeat this on up to four

@@ -1,7 +1,9 @@
-
 # Output format
 
-Every export (`course`, `courses`, `terrain`, `level`) writes one **binary glTF 2.0**
+A `.glb` is one 3D file: the ground, the buildings and the water of a track or
+level, which you open in the 3DHeat viewer's Level panel.
+
+Every export (`course`, `courses`, `terrain`, `level`, `ue-map`, `enfusion-world`) writes one **binary glTF 2.0**
 file (`.glb`). It is deliberately small and flat, and laid out the way the 3DHeat
 viewer reads a level. Source:
 [`glb.py`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/heat3d_gamefiles/glb.py).
@@ -10,8 +12,8 @@ viewer reads a level. Source:
 
 ```
 scene 0
- ├─ node "ground:terrain x-8184 z13299"  -> mesh 0 -> 1 primitive, material 0
- ├─ node "ground:road x-8184 z13299"     -> mesh 1 -> 1 primitive, material 1
+ ├─ node "ground:terrain x-2046 z1023"  -> mesh 0 -> 1 primitive, material 0
+ ├─ node "ground:road x-2046 z1023"     -> mesh 1 -> 1 primitive, material 1
  ├─ node "ground:markings"               -> mesh 2 -> ...
  ├─ node "ground:kerbs road_gen_rum_..." -> ...
  ├─ node "structure:barriers bar_armco_bclr"
@@ -33,6 +35,8 @@ scene 0
 
 ## Node names: the classification
 
+![The part prefixes and what they mean](https://raw.githubusercontent.com/Holdi601/3DHeat-GameFiles/main/docs/assets/img/glb-parts.svg)
+
 The viewer takes a part's class from the **node** name (falling back to the mesh
 name), and only when it matches
 
@@ -41,19 +45,26 @@ name), and only when it matches
 ```
 
 Anything else is classified by a heuristic written for Unreal landscapes. So
-every part the exporter writes starts with one of these prefixes:
+every part the exporter writes starts with one of these prefixes, or with
+`nav:` (below):
 
 | Prefix | Meaning | Parts written |
 |---|---|---|
 | `ground:` | the driving surface and the land | `ground:road`, `ground:verge`, `ground:terrain`, `ground:gravel and dirt`, `ground:kerbs`, `ground:markings`, `ground:tyre marks` |
 | `structure:` | what stands on it | `structure:barriers`, `structure:props`, `structure:signs`, `structure:buildings`, `structure:infrastructure`, `structure:bridges`, `structure:rocks`, `structure:smashables`, `structure:trees` |
-| `water:` | water | `water:water` |
+| `water:` | water | `water:water`; `water:<map>` (`ue-map`), `water:<world>` (`enfusion-world`) |
+| `nav:` | where a soldier can walk (Battlefield 6, `--navmesh` only) | `nav:walkable` |
+
+`nav:` does not match the viewer's pattern above, so the viewer sorts it by its
+heuristic; it is a separate part so you can show or hide it on its own.
+`ue-map` writes `ground:<map>`, `structure:<map>` and `water:<map>`;
+`enfusion-world` writes `ground:<world>`, `structure:<world>` and `water:<world>`.
 
 After the kind comes, depending on the game:
 
 | Example | Meaning |
 |---|---|
-| `ground:road x-8184 z13299` | Forza ground in the terrain tile named `x-8184 z13299` (grid units, 1023 per 512 m) |
+| `ground:road x-2046 z1023` | Forza ground in the terrain tile named `x-2046 z1023` (grid units, 1023 per 512 m) |
 | `ground:road 3_-2` | BeamNG ground in 512 m square (3, -2) |
 | `ground:road 3_-2 asphalt_light` | BeamNG modelled driving surface of material `asphalt_light` in that square |
 | `ground:road 1_-4` | AC Rally ground in 512 m square (1, -4) of Unreal space |
@@ -63,7 +74,7 @@ After the kind comes, depending on the game:
 | `ground:markings`, `water:water` | flat parts, one for the whole file |
 | `ground:terrain` (Battlefield 6) | the heightfield; `ground:terrain backdrop` the distant terrain meshes, `ground:terrain blend` meshes that blend into the terrain |
 | `nav:walkable` (Battlefield 6, `--navmesh`) | the level's navigation mesh for a soldier: where one can stand, flat green |
-| `ground:terrain x-634 z-552` (Battlefield 6, `--ground-texture`) | the heightfield under one baked decal tile, named by the tile's low corner in metres |
+| `ground:terrain x-512 z-512` (Battlefield 6, `--ground-texture`) | the heightfield under one baked decal tile, named by the tile's low corner in metres |
 | `structure:buildings t_concreteclean_01_cs` (Battlefield 6, `--textures`) | every surface of that kind showing that colour map; without `--textures`, one part per kind, no suffix |
 | `structure:buildings t_concreteclean_01_cs (destructible)` (Battlefield 6) | the same, for meshes a match can destroy: those with a destruction asset of their own name (walls, houses, props). The node also carries the glTF extras `{"destructible": true}`. Their destroyed states are not exported |
 
@@ -74,9 +85,15 @@ what stands on it.
 
 ## Units, axes and frame
 
-- **Metres, Y up**, glTF's convention. Nothing is rescaled or recentred: the
-  numbers are the game's world coordinates, which is the point of reading the
-  archive instead of reconstructing.
+- **Metres, Y up**, glTF's convention, for every export but `ue-map`. Nothing
+  is rescaled or recentred: the numbers are the game's world coordinates, which
+  is the point of reading the archive instead of reconstructing.
+- **Unreal 5 maps (`ue-map`): centimetres**, Unreal's own unit, with Y and Z
+  swapped so Y is up - the frame the 3DHeat Unreal Exporter writes and the
+  game's telemetry uses. The one export not in metres.
+- **Arma Reforger (`enfusion-world`):** the game's own metres, x east, y up,
+  z north. The game's frame is left-handed; the viewer's *invert world axis*
+  shows it unmirrored.
 - **Forza:** the game's own world coordinates (x, y up, z), unchanged. The same as
   its telemetry, so a recorded lap lies on the course.
 - **BeamNG.drive:** `(x, z, -y)` of BeamNG's Z-up world, which is the rotation the
@@ -90,8 +107,8 @@ what stands on it.
   [Assetto Corsa Rally](course-assetto-corsa-rally#which-stage-and-which-way-round)).
   Triangles are re-wound where that mapping mirrors.
 
-Each export keeps the axes its telemetry uses, so in all three games the lap and
-the course share a frame. Whether that frame is left- or right-handed in each game
+Each export keeps the axes its telemetry uses, so the recording and the level
+share a frame. Whether that frame is left- or right-handed in each game
 has not been checked.
 
 ## Vertex data
@@ -184,3 +201,16 @@ files. Only the 3DHeat viewer has been checked; other viewers are unverified. A
 reader without the extension refuses the file, because it is marked required. The files can be large: about 80 MB for a
 country circuit, up to several hundred MB for a city course with the automatic
 budget.
+
+## In 3DHeat
+
+Load the `.glb` in the [3DHeat](https://github.com/Holdi601/3DHeat) viewer's
+Level panel; the telemetry you record in the same game lies on it, because both
+keep the game's coordinates. The viewer's own documentation
+([holdi601.github.io/3DHeat](https://holdi601.github.io/3DHeat/)) covers the
+Level panel and the match files the other tools write
+([One file a match: `.3dheat`](https://holdi601.github.io/3DHeat/container.html)).
+A level is not stored in each `.3dheat` file: a match names it in its
+`references` (`kind: "level"`, name and sha256) and the `.glb` stays beside
+the matches.
+

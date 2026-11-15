@@ -118,7 +118,7 @@ are never drawn. Only standard and sorted meshes are drawn. Skinned meshes
 unrolled, and faces are re-wound to agree with the stored normals, which Torque's
 own winding does not promise.
 
-Checked: 6,000 of the 6,002 shipped shapes read. The two others are an older
+Checked: nearly every shipped shape reads. The two others are an older
 version.
 
 ## Collada fallback: `.dae`
@@ -133,7 +133,7 @@ Collada file is read the way Torque's importer reads it, into the same structure
 - Units from `<unit meter>`, and Y-up turned to Z-up.
 - UVs flipped to the cache's convention (v runs down the image).
 
-Checked against the game's own `.cdae` of the same files: 594 of 600 bounds within
+Checked against the game's own `.cdae` of the same files: nearly all sampled bounds within
 1 cm, 583 with the same triangle count, 94% of materials' UVs identical. The
 installed-game test requires 90% of up to 60 shape pairs from the shared art
 archive to agree within 1 cm.

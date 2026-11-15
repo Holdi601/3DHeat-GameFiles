@@ -5,6 +5,9 @@ nav_order: 3
 
 # Inspecting archives: `identify`, `list`, `extract`, `meshes`
 
+A game packs its files into big boxes called **archives**. These commands look
+at the label of a box, list what is in it, and take one thing out.
+
 Before exporting anything from an unfamiliar game, look at what it ships.
 These four verbs read a file and tell you what it is and what it holds; they
 write nothing except the one entry you ask `extract` for.
@@ -33,7 +36,8 @@ write nothing except the one entry you ask `extract` for.
    python -m heat3d_gamefiles list <archive> --filter Maps/ --limit 50
    ```
 
-3. **Take one entry out.** `extract` writes one entry, by the path `list`
+3. **Take one entry out.** `extract` writes one entry (into the folder you are
+   in, unless `--out` says where), by the path `list`
    printed (or `#12`, by number, in a `.minizip` without names):
 
    ```

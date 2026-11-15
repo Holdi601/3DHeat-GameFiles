@@ -1,9 +1,12 @@
-
 # Levels of detail and the budget
 
+A **triangle** is a tiny flat piece of a 3D model. More triangles means a
+bigger, slower file. The **budget** is a limit on how many. A **level of
+detail** is a simpler copy of a model, used when it is far away.
+
 The finest level of everything placed around a circuit is several million
-triangles. For example, 950 guardrail segments at 960 triangles each and 820 tyre
-stacks at 1,400. A city corridor holds over a hundred thousand copies. So every
+triangles. For example, hundreds of guardrail segments and tyre stacks at about a
+thousand triangles each. A city corridor holds over a hundred thousand copies. So every
 course export gives the placed models a **triangle budget** and decides, per
 model, which level of detail it is drawn at, and, if needed, which copies to leave
 out.
@@ -31,6 +34,8 @@ box.
 
 ## Stepping down to fit
 
+![How placed models step down to fit the budget](https://raw.githubusercontent.com/Holdi601/3DHeat-GameFiles/main/docs/assets/img/detail-budget.svg)
+
 The cost of a (model, band) entry is copies x triangles at its current level.
 While the total is over the budget, the entry costing most steps down one level,
 and that repeats until the total fits or nothing can step further. Pinned entries
@@ -56,9 +61,9 @@ budget = max(1,500,000, 1.25 x sum(copies x coarsest level))
 
 Pinned entries count at their finest level. The 25% (`HEADROOM`) lets things
 beside the road keep some detail. On a country circuit this is the 1.5 million
-floor (`DEFAULT_BUDGET`). On a city course, where the corridor holds about 120,000
-copies (air conditioners, bicycles, laundry, walls along an expressway), it grows
-to about 15 million, and the file to about 660 MB. The viewer loads that.
+floor (`DEFAULT_BUDGET`). On a city course, where the corridor holds over a hundred thousand
+copies, it grows
+to over ten million, and the file to several hundred MB. The viewer loads that.
 
 ## A budget you give
 

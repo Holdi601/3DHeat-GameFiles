@@ -1,4 +1,3 @@
-
 # Development
 
 ## Layout
@@ -54,6 +53,11 @@ requirements.txt      numpy, cryptography, lz4, Pillow, msgpack, zstandard, pyte
 | `frostbitenav.py` | Frostbite navigation mesh tiles: the soldiers' walkable surfaces |
 | `frostbitelevel.py` | Frostbite static model groups, placement, the `level` export |
 | `vpk.py` | Source 2 VPK |
+| `unreallandscape.py` | Unreal 5 landscape components: heightmaps into the ground mesh (`ue-map`) |
+| `unreallevel.py` | Unreal 5 World Partition maps: listing, HLOD structures, water, the `ue-map` export |
+| `enfusion.py` | Enfusion `.pak`, `.edds`, terrain tiles, `resourceDatabase.rdb` |
+| `enfusionworld.py` | Arma Reforger worlds: `.ent` files, boxes, the `enfusion-world` export |
+| `forzacars.py` | every Forza car at low detail into `.h3dcars` (`cars`) |
 
 All modules are on GitHub under
 [`heat3d_gamefiles/`](https://github.com/Holdi601/3DHeat-GameFiles/tree/main/heat3d_gamefiles).
@@ -83,6 +87,7 @@ different reasons:
 | `tests/forza_fixtures.py` | `.minizip` archives (with the 64-bit base, padding, mixed codecs), manifests, `.modelbin` models and terrain, `.pb` swatches |
 | `tests/beamng_fixtures.py` | a small BeamNG install: `gameengine.zip`, `content`, one level zip with a 64 m terrain, an asphalt strip, a road decal, a rail, a prefab, a forest item, the sea, materials, and `.cdae` shapes in the documented layout |
 | `tests/unreal_fixtures.py` | an IoStore container with a directory, a zen package, an unversioned property block |
+| `tests/frostbite_fixtures.py` | Frostbite tables, bundles, EBX partitions, meshes and terrain pages, byte by byte |
 
 ### Test files
 
@@ -110,6 +115,9 @@ different reasons:
 | `test_frostbite.py` | signed vs obfuscated headers, refusals, installation packages (two packages with the same blob number); installed: every table, superbundles, section chains, distinct ids, sampled payloads from the right package |
 | `test_frostbitelevel.py` | chunk ids paired with their own locations, inline bundles, manifests, a MeshSet with a shadow section and UVs, a group member, the transform convention, a two-level terrain, colour-map choice, a texture chunk missing its largest mips, the repeating sampler, decal records, a decal composited by its alpha, a decal sheet losing to a surface's own map, the level's table chosen across the base game and its updates, navigation tiles (surfaces kept, links left out, refusals, detail meshes), repeating textures written with their own coordinates, triangles cut where their texture repeats for clamped output, the ground's colour from its surface materials, mask pages (BC4 and uncompressed) placed on their quadrants and refused when their borders disagree, colormap pages placed on their quadrants and found after the mask pages the mask tree counts, distance fields, palettes and channel masks never taken as colour, a block's tint and a grey map painted with it, a palette vertex at its swatch's centre, the slope grid spread back bilinearly, an object's overlay drawn through its unwrap, a variation's block keyed by its hash and reached through a twin block, a letter sheet laid on by its fourth texture coordinates over the surface it is painted on, a decal's paint read from its material and runway lines and tyre tracks drawn, single-channel maps decoded, destructible meshes tagged in their parts and extras, blockout, cinematic and lighting meshes left out and a colormap layout that is not read, cut-out maps and their masked, two-sided PNG materials, backdrop tiles named by their mesh; installed: the level's terrain decals, the largest level's catalogue, meshes inside their bounds, group members, vegetation standing on the decoded terrain |
 | `test_vpk.py` | the directory, refusals, split archives; installed: maps open, CRCs match, the nav mesh |
+| `test_enfusion.py` | Enfusion `.pak`, `.edds`, terrain tiles and world files; the `enfusion-world` export |
+| `test_forzacars.py` | the `.h3dcars` file the `cars` verb writes |
+| `test_unreallevel.py` | Unreal 5 landscapes, HLOD structures, water; the `ue-map` export |
 
 ## Installed-game tests
 

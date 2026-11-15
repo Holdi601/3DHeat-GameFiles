@@ -245,9 +245,9 @@ def read(target: str | Path) -> Driven:
     """
     A driven line from a file, a folder, or a course name.
 
-    A bare name is looked up in the recorded-lap library, so `"Mapletree Test Loop"`
+    A bare name is looked up in the recorded-lap library, so `"Example Circuit"`
     works without anyone knowing that it lives in a folder called
-    `Mapletree Test Loop (course_1200_3400_to_1175_3400)`.
+    `Example Circuit (course_1200_3400_to_1175_3400)`.
     """
     path = Path(target)
     if path.is_dir():

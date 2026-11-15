@@ -61,7 +61,7 @@ payloads are read by seeking.
 The header is checked: magic, a 32-byte header, and a segment count that matches
 `ceil(entries / per segment)`.
 
-**Verified:** 14,541 entries sampled across all four archives of a map, each
+**Verified:** entries sampled across every archive of a map, each
 unpacking to exactly its declared length under all three codecs.
 
 ## `.modelbin`: the chunk container
@@ -117,7 +117,7 @@ model).
 | R16_UINT | 57 | indices |
 
 **The normal is split.** `NORMAL` holds y and z. The x is the position's fourth
-short, which looked like padding. Over 690,000 terrain vertices it correlates
+short, which looked like padding. Over hundreds of thousands of terrain vertices it correlates
 +0.92 with the x of the triangle normal and with nothing else. With it, 96% of
 sloped-ground vertices are within 18° of the computed normal. Every two-component
 encoding tried without it (octahedral in all 48 arrangements among them) got y
@@ -138,7 +138,7 @@ level-of-detail mask is a u16, one bit per level from bit 1.
 Nothing is trusted alone. The index ranges must tile the index buffer exactly,
 each `index count` must equal 3 x `triangles`, and the stride a submesh names
 must be its buffer's. A table that fails is refused whole, because labelling
-triangles from misread fields is worse than not labelling them. Across 5,350
+triangles from misread fields is worse than not labelling them. Across thousands of
 sampled submeshes, every one whose buffer index is in range passes.
 
 ### Materials and texture hashes
@@ -167,7 +167,7 @@ file name), width and height, the mip count, and the **format code at byte 72**
 | other | refused | "texture format N has not been identified; refusing to guess" |
 
 Formats were identified by decoding real files every way the payload size
-allows. Byte 47, which an earlier version took for the format, is 4 in all 3,000
+allows. Byte 47, which an earlier version took for the format, is 4 in every one of the sampled
 textures sampled. Only the top mip of a file is decoded. Each resolution is its
 own entry, `<name>_<guid>_quality<n>.pb`, quality 1 smallest to 5 largest. For
 terrain maps the two largest are in a different archive from the rest. Decoding

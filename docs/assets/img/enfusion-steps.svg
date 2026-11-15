@@ -1,28 +1,29 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1051" height="148" viewBox="0 0 1051 148" role="img" aria-label="enfusion-world: an Arma Reforger world">
-<rect width="1051" height="148" rx="10" fill="#f7f8fa" stroke="#d0d4db"/>
-<text x="20" y="30" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#1f2328">enfusion-world: an Arma Reforger world</text>
-<rect x="20" y="46" width="175" height="78" rx="8" fill="#e8f0fe" stroke="#7a8aa6"/>
-<text x="107.5" y="68" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="13.5" font-weight="600" fill="#1f2328" text-anchor="middle">enfusion-worlds</text>
-<text x="107.5" y="86" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">worlds with a terrain</text>
-<text x="107.5" y="103" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">under worlds/</text>
-<path d="M199 85.0 H223" stroke="#4a5568" stroke-width="2"/><path d="M223 80.0 L230 85.0 L223 90.0Z" fill="#4a5568"/>
-<rect x="229" y="46" width="175" height="78" rx="8" fill="#e8f0fe" stroke="#7a8aa6"/>
-<text x="316.5" y="68" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="13.5" font-weight="600" fill="#1f2328" text-anchor="middle">Terrain</text>
-<text x="316.5" y="86" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">tiles, own colours</text>
-<text x="316.5" y="103" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">--texture-size</text>
-<path d="M408 85.0 H432" stroke="#4a5568" stroke-width="2"/><path d="M432 80.0 L439 85.0 L432 90.0Z" fill="#4a5568"/>
-<rect x="438" y="46" width="175" height="78" rx="8" fill="#e8f0fe" stroke="#7a8aa6"/>
-<text x="525.5" y="68" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="13.5" font-weight="600" fill="#1f2328" text-anchor="middle">Sea</text>
-<text x="525.5" y="86" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">at height zero</text>
-<text x="525.5" y="103" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">water:&lt;world&gt;</text>
-<path d="M617 85.0 H641" stroke="#4a5568" stroke-width="2"/><path d="M641 80.0 L648 85.0 L641 90.0Z" fill="#4a5568"/>
-<rect x="647" y="46" width="175" height="78" rx="8" fill="#e8f0fe" stroke="#7a8aa6"/>
-<text x="734.5" y="68" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="13.5" font-weight="600" fill="#1f2328" text-anchor="middle">Placed models</text>
-<text x="734.5" y="86" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">a box each</text>
-<text x="734.5" y="103" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">--trees adds vegetation</text>
-<path d="M826 85.0 H850" stroke="#4a5568" stroke-width="2"/><path d="M850 80.0 L857 85.0 L850 90.0Z" fill="#4a5568"/>
-<rect x="856" y="46" width="175" height="78" rx="8" fill="#e8f0fe" stroke="#7a8aa6"/>
-<text x="943.5" y="68" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="13.5" font-weight="600" fill="#1f2328" text-anchor="middle">&lt;world&gt;.glb</text>
-<text x="943.5" y="86" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">metres, x east,</text>
-<text x="943.5" y="103" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">y up, z north</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="320" viewBox="0 0 860 320" role="img" aria-label="enfusion-world: an Arma Reforger world">
+<rect width="860" height="320" rx="10" fill="#f7f8fa" stroke="#d0d4db"/>
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8a94a3"/></marker></defs>
+<text x="20" y="32" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="18" font-weight="600" fill="#1f2328" text-anchor="start">enfusion-world: an Arma Reforger world</text>
+<rect x="20" y="52" width="247" height="104" rx="8" fill="#ffffff" stroke="#8a94a3"/>
+<text x="143" y="80" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#1f2328" text-anchor="middle">enfusion-worlds</text>
+<text x="143" y="106" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">worlds with a terrain</text>
+<text x="143" y="127" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">under worlds/</text>
+<rect x="307" y="52" width="247" height="104" rx="8" fill="#ffffff" stroke="#8a94a3"/>
+<text x="430" y="80" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#1f2328" text-anchor="middle">Terrain</text>
+<text x="430" y="106" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">tiles in their own colours,</text>
+<text x="430" y="127" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">--texture-size</text>
+<rect x="593" y="52" width="247" height="104" rx="8" fill="#ffffff" stroke="#8a94a3"/>
+<text x="717" y="80" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#1f2328" text-anchor="middle">Sea</text>
+<text x="717" y="106" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">at height zero</text>
+<text x="717" y="127" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">water:&lt;world&gt;</text>
+<rect x="20" y="192" width="247" height="104" rx="8" fill="#ffffff" stroke="#8a94a3"/>
+<text x="143" y="220" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#1f2328" text-anchor="middle">Placed models</text>
+<text x="143" y="246" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">a box each;</text>
+<text x="143" y="267" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">--trees adds trees</text>
+<rect x="307" y="192" width="247" height="104" rx="8" fill="#ffffff" stroke="#8a94a3"/>
+<text x="430" y="220" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#1f2328" text-anchor="middle">&lt;world&gt;.glb</text>
+<text x="430" y="246" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">metres: x east,</text>
+<text x="430" y="267" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">y up, z north</text>
+<line x1="271" y1="104.0" x2="303" y2="104.0" stroke="#8a94a3" stroke-width="2" marker-end="url(#a)"/>
+<line x1="557" y1="104.0" x2="589" y2="104.0" stroke="#8a94a3" stroke-width="2" marker-end="url(#a)"/>
+<path d="M717,158 V174 H143 V188" fill="none" stroke="#8a94a3" stroke-width="2" marker-end="url(#a)"/>
+<line x1="271" y1="244.0" x2="303" y2="244.0" stroke="#8a94a3" stroke-width="2" marker-end="url(#a)"/>
 </svg>

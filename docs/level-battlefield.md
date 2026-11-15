@@ -6,6 +6,11 @@ nav_order: 1
 
 # Battlefield 6 levels: `levels` and `level`
 
+**What is it?** A whole Battlefield 6 level as one 3D file. **Why?** So heat
+from your matches has the ground and buildings under it. (*Frostbite* is the
+engine Battlefield is made with; a *heightfield* is the ground stored as a grid
+of heights.)
+
 Exports a whole Frostbite level of the installed game: the terrain heightfield,
 every mesh its static model groups place, the objects placed one by one, the
 terrain backdrop around the map, and on request the surfaces' colour maps, the
@@ -45,7 +50,7 @@ terrain decals baked into the ground and the soldiers' walkable surfaces.
    python -m heat3d_gamefiles level <level> --textures 256 --detail-budget 3000000 --ground-spacing 8
    ```
 
-5. **Open `level.glb`** in the 3DHeat viewer's Level panel.
+5. **Open `level.glb`** in the 3DHeat viewer's Level panel ([loading a level](https://holdi601.github.io/3DHeat/levels.html)).
 
 ## Options
 

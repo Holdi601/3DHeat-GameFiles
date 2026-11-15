@@ -55,7 +55,7 @@ by name and count (`GameObject`, `Transform`, `MeshRenderer`, `MeshFilter`,
 `Mesh`, `BoxCollider`, `MeshCollider`, `MonoBehaviour`, `MonoScript`,
 `AssetBundle`, `RectTransform`, `PrefabInstance`; others as `class<id>`).
 
-**Verified** across 12 installed games and 12 million objects: the object table
+**Verified** across many installed games and millions of objects: the object table
 has to tile the data section exactly, with no overlaps, nothing but alignment
 padding between objects, and the last object ending on the final byte of the
 file. A header misread cannot produce that. The installed-game test repeats it on
@@ -101,7 +101,7 @@ computed by the editor from the real vertices. `aabb_matches()` passes when the
 decoded box's corners are within 2% of the stored box's size. `meshes` prints `ok`
 or `BOUNDS DISAGREE` on every line.
 
-**Verified:** 820 meshes across four games decode with their bounds agreeing. The
+**Verified:** meshes sampled across several games decode with their bounds agreeing. The
 installed-game test repeats the check on the installed containers.
 
 ## Not implemented

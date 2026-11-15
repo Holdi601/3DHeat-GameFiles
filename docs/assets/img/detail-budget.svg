@@ -1,28 +1,28 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1101" height="148" viewBox="0 0 1101 148" role="img" aria-label="--detail-budget: how placed models fit a triangle ceiling">
-<rect width="1101" height="148" rx="10" fill="#f7f8fa" stroke="#d0d4db"/>
-<text x="20" y="30" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#1f2328">--detail-budget: how placed models fit a triangle ceiling</text>
-<rect x="20" y="46" width="185" height="78" rx="8" fill="#e8f0fe" stroke="#7a8aa6"/>
-<text x="112.5" y="68" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="13.5" font-weight="600" fill="#1f2328" text-anchor="middle">Every copy</text>
-<text x="112.5" y="86" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">at the level of detail</text>
-<text x="112.5" y="103" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">its distance asks for</text>
-<path d="M209 85.0 H233" stroke="#4a5568" stroke-width="2"/><path d="M233 80.0 L240 85.0 L233 90.0Z" fill="#4a5568"/>
-<rect x="239" y="46" width="185" height="78" rx="8" fill="#e8f0fe" stroke="#7a8aa6"/>
-<text x="331.5" y="68" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="13.5" font-weight="600" fill="#1f2328" text-anchor="middle">Over budget?</text>
-<text x="331.5" y="86" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">the costliest models</text>
-<text x="331.5" y="103" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">drop one level</text>
-<path d="M428 85.0 H452" stroke="#4a5568" stroke-width="2"/><path d="M452 80.0 L459 85.0 L452 90.0Z" fill="#4a5568"/>
-<rect x="458" y="46" width="185" height="78" rx="8" fill="#e8f0fe" stroke="#7a8aa6"/>
-<text x="550.5" y="68" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="13.5" font-weight="600" fill="#1f2328" text-anchor="middle">Still over?</text>
-<text x="550.5" y="86" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">repeat down to</text>
-<text x="550.5" y="103" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">the coarsest level</text>
-<path d="M647 85.0 H671" stroke="#4a5568" stroke-width="2"/><path d="M671 80.0 L678 85.0 L671 90.0Z" fill="#4a5568"/>
-<rect x="677" y="46" width="185" height="78" rx="8" fill="#e8f0fe" stroke="#7a8aa6"/>
-<text x="769.5" y="68" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="13.5" font-weight="600" fill="#1f2328" text-anchor="middle">Still over?</text>
-<text x="769.5" y="86" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">the furthest copies</text>
-<text x="769.5" y="103" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">are left out</text>
-<path d="M866 85.0 H890" stroke="#4a5568" stroke-width="2"/><path d="M890 80.0 L897 85.0 L890 90.0Z" fill="#4a5568"/>
-<rect x="896" y="46" width="185" height="78" rx="8" fill="#e8f0fe" stroke="#7a8aa6"/>
-<text x="988.5" y="68" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="13.5" font-weight="600" fill="#1f2328" text-anchor="middle">Kerbs</text>
-<text x="988.5" y="86" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">always stay</text>
-<text x="988.5" y="103" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="11.5" fill="#3d4450" text-anchor="middle">at full detail</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="454" viewBox="0 0 860 454" role="img" aria-label="--detail-budget: fitting placed models under a triangle ceiling">
+<rect width="860" height="454" rx="10" fill="#f7f8fa" stroke="#d0d4db"/>
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8a94a3"/></marker></defs>
+<text x="20" y="32" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="18" font-weight="600" fill="#1f2328" text-anchor="start">--detail-budget: fitting placed models under a triangle ceiling</text>
+<rect x="20" y="52" width="390" height="104" rx="8" fill="#ffffff" stroke="#8a94a3"/>
+<text x="215" y="80" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#1f2328" text-anchor="middle">Every copy</text>
+<text x="215" y="106" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">at the detail its distance asks:</text>
+<text x="215" y="127" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">&lt;25 m / 25-60 m / &gt;60 m</text>
+<rect x="450" y="52" width="390" height="104" rx="8" fill="#ffffff" stroke="#8a94a3"/>
+<text x="645" y="80" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#1f2328" text-anchor="middle">Over budget?</text>
+<text x="645" y="106" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">the costliest models</text>
+<text x="645" y="127" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">drop one level</text>
+<rect x="20" y="192" width="390" height="104" rx="8" fill="#ffffff" stroke="#8a94a3"/>
+<text x="215" y="220" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#1f2328" text-anchor="middle">Still over?</text>
+<text x="215" y="246" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">repeat down to</text>
+<text x="215" y="267" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">the coarsest level</text>
+<rect x="450" y="192" width="390" height="104" rx="8" fill="#ffffff" stroke="#8a94a3"/>
+<text x="645" y="220" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#1f2328" text-anchor="middle">Still over?</text>
+<text x="645" y="246" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">the furthest copies</text>
+<text x="645" y="267" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">are left out</text>
+<line x1="414" y1="104.0" x2="446" y2="104.0" stroke="#8a94a3" stroke-width="2" marker-end="url(#a)"/>
+<path d="M645,158 V174 H215 V188" fill="none" stroke="#8a94a3" stroke-width="2" marker-end="url(#a)"/>
+<line x1="414" y1="244.0" x2="446" y2="244.0" stroke="#8a94a3" stroke-width="2" marker-end="url(#a)"/>
+<rect x="20" y="326" width="820" height="104" rx="8" fill="#e8f0fe" stroke="#8a94a3" stroke-dasharray="6 4"/>
+<text x="430" y="354" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#1f2328" text-anchor="middle">Kerbs</text>
+<text x="430" y="380" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">always stay at full detail</text>
+<text x="430" y="401" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">(not part of the budget)</text>
 </svg>

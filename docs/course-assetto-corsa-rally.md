@@ -15,6 +15,7 @@ ground colour, and places the other models in flat colours by category.
 ```
 python -m heat3d_gamefiles course rally_lap.json
 python -m heat3d_gamefiles course rally_lap.json --level <stage map name>
+python -m heat3d_gamefiles course rally_lap.json --level x      # a wrong name lists the stages
 python -m heat3d_gamefiles course rally_lap.csv --game acrally --install "D:\Games\Assetto Corsa Rally"
 ```
 
@@ -52,7 +53,7 @@ A stage is a **World Partition** map:
 
 A level counts as a stage if its environment folder,
 `Content\Environments\<Stage>\`, has a `MeshesTrack` folder. The tool does not go
-by the tiles' names, because one stage names them after its town rather than its
+by the tiles' names, because a stage may name them after a town rather than its
 map. `--level` is matched case-insensitively against these map names. A wrong
 name lists the stages there are.
 
@@ -159,7 +160,7 @@ Unless `--no-textures`, each square is painted from two sources, at
 
 The console says which it used, for example
 `ground textured from the stage's baked ground colour (20 cm a pixel) and its satellite image (1.5 m a pixel)`.
-One stage has neither and is drawn in flat colours.
+A stage with neither is drawn in flat colours.
 
 ## Placed models
 
@@ -207,11 +208,11 @@ not stored inline) are counted: `N meshes could not be read`.
 
 As stated in the source, on the installed game:
 
-- 54 containers, 47,246 package paths in the tables of contents (version 8).
-- Every cell of every stage opens. 32,310 static-mesh and 10,906 scene components across 16 levels decode, each ending exactly at its class's native tail.
-- 296 of 300 random static meshes decode (the other four are skeletal). A road tile's decoded extent matches its stored bounds.
-- A 4096 px DXT5 satellite image's 13 mip levels are exactly the sizes of their bulk entries.
-- The first virtual texture chunk is 4 + 4,096 x 34,848 bytes, its tiles accounted for to the byte, and the road tiles land on the road it shows.
+- Every table of contents reads (version 8).
+- Every cell of every stage opens, and every static-mesh and scene component decodes ending exactly at its class's native tail.
+- Nearly every sampled static mesh decodes (the rest are skeletal). A road tile's decoded extent matches its stored bounds.
+- A satellite image's mip levels are exactly the sizes of their bulk entries.
+- A virtual texture chunk's tiles are accounted for to the byte, and the road tiles land on the road it shows.
 
 ## Known gaps
 

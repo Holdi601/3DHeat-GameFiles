@@ -1,4 +1,3 @@
-
 # Limits and known gaps
 
 What the tool does not do, what it does only partly, and where its behaviour is
@@ -14,6 +13,8 @@ produces output that looks right and is not.
 | Assetto Corsa Rally | yes | models flat-coloured; not yet run on a lap recorded in the game |
 | Assetto Corsa EVO | **no** | all content is in one package obfuscated with a key, and this tool recovers no keys |
 | Battlefield 6 (level export, `level`) | yes, a whole level | terrain, grouped and individually placed meshes and their colour maps, the soldiers' navigation mesh, cut-out foliage; the play area's ground colour is coarse (32 m a pixel, or one average colour); no translucency or normal maps; destructible meshes tagged, their destroyed states not exported |
+| Unreal 5 World Partition games (map export, `ue-map`) | yes, a whole map | the landscape exact; buildings as the map's simplified HLOD meshes, not the full-detail models; water bodies; no foliage, decals or ground colour |
+| Arma Reforger (world export, `enfusion-world`) | yes, a whole world | terrain in its own colours and the sea; buildings, props and rocks as their models' boxes, not their triangles; trees on request (`--trees`), as boxes; no lakes, rivers or child entities |
 | iRacing | **no** | tracks ship in a protected format that is not a file-extraction target |
 | anything else | **no** | there is no course reader; reconstruct from gameplay with 3DHeat GameCapture, or analyse the laps in the viewer's Race tab without a course |
 
@@ -24,10 +25,12 @@ produces output that looks right and is not.
 | Unreal `.pak` | versions before 8; path-hash-only indexes (names cannot be recovered); entries in the index's overflow list (skipped); decoding `.uasset`/`.umap` contents from a pak |
 | Unreal IoStore | encrypted containers (refused, no key option); listing a container without a directory index (it names no files); versioned packages; Nanite-only and non-inline meshes; skeletal meshes; properties of classes without a schema; instanced components' properties (layout changed in the game's build); spline meshes and decal components |
 | Unity | formats before 22 (Unity 2019 and older); files with embedded type trees; compressed meshes; every class except `Mesh`, so no transforms, materials or scenes; `meshes` on a bundle; `list`/`extract` (use `meshes`) |
-| Frostbite | XOR-obfuscated tables; the terrain's layer graph (masks read in 13 of 33 levels); object blueprints other than meshes (gameplay logic, effects, sounds); mesh levels stored inline; normal and other maps, alpha other than cut-outs; terrain holes; the type library (encrypted in the initial file system, not touched); a command to list or extract single assets |
+| Frostbite | XOR-obfuscated tables; the terrain's layer graph (masks read in about a third of the levels checked); object blueprints other than meshes (gameplay logic, effects, sounds); mesh levels stored inline; normal and other maps, alpha other than cut-outs; terrain holes; the type library (encrypted in the initial file system, not touched); a command to list or extract single assets |
 | Source 2 | compiled assets (`.vmdl_c`, `.vtex_c`); the CS2 nav mesh (version 36) |
 | ForzaTech | position formats other than four scaled shorts; index formats other than u16; texture codes other than 0, 9, 13; the terrain shader's material layers; tangents |
 | BeamNG | skinned and decal meshes; animation; procedural ground cover; scenery round the edge of the world |
+| Unreal landscapes and World Partition maps | landscapes whose heightmaps live in the cooked cells; edit layers and holes; Nanite landscape meshes; full-detail models placed in the cells; foliage; landscape materials |
+| Enfusion | model triangles (`.xob` geometry is compressed in a layout not read); `.edds` with pre-DX10 headers; nested-object values in world files (skipped, counted); child entities; generated lakes and rivers; `list`/`extract` on a `.pak` |
 
 ## Behaviour worth knowing
 
@@ -54,7 +57,7 @@ produces output that looks right and is not.
   neutral one where not; road variation masks are left out. The game mixes its surface layers in a
   shader graph that is not read; the export lays the layers' colours by their
   masks and the heightfield's slope, by a rule of its own, and a level whose
-  mask pages do not fit together (18 of 33) gets one colour. Each layer is
+  mask pages do not fit together gets one colour. Each layer is
   its colour map's mean, not its texture. See
   [Frostbite](reader-frostbite#terrain-layers). Pieces of the
   heightfield at different resolutions meet with small steps.
@@ -69,8 +72,7 @@ produces output that looks right and is not.
   parameters' names are hashed, and a material that paints a grey map
   through a mask with several tints gets one of them.
 - **Battlefield 6 terrain holes are not cut.** Where a level's walkable ground
-  runs under the heightfield (in one level 12,120 navigation triangles more
-  than 5 m below it), the game must have cut the terrain, and the export does
+  runs under the heightfield, the game must have cut the terrain, and the export does
   not. Ruled out as where the holes are: the terrain's layer masks (none is
   concentrated there), its 67 x 67 node raster, a reserved height value (no
   height page holds 0 or 65,535), the nodes' flags (all the same), and meshes
@@ -83,15 +85,14 @@ produces output that looks right and is not.
   mesh has no block for a variation, the variant of another mesh's section
   with an identical default block is taken (see
   [Frostbite](reader-frostbite#textures-and-materials)). That is the
-  exporter's rule, found on a warehouse wall whose third length kept its red
-  stripe; a section with no twin that varies keeps its default look.
+  exporter's rule; a section with no twin that varies keeps its default look.
 - **Battlefield 6 layered materials are drawn as their base and one sheet.**
-  A lettered wall panel is drawn as its plaster with the letter sheet over
+  A wall panel with lettering is drawn as its plaster with the letter sheet over
   it; the material's other layers (overlay grime through its mask, detail
   and moss maps) are not blended in.
 - **The navigation mesh is the AI's, not the players'.** It covers what a
-  soldier can walk to: in the level checked the ground, floors and stairs, and
-  some roofs, but not the tops of freight containers. The links between surfaces (jumps, ladders, vaults) are left out.
+  soldier can walk to: the ground, floors and stairs, and
+  some roofs, but not every high spot. The links between surfaces (jumps, ladders, vaults) are left out.
 - **A Battlefield 6 level includes every game mode's layer.** Objects that only
   one mode places can overlap another's. `--skip` leaves layers out by name.
 - **`courses` is Forza only**, and only picks up library folders named

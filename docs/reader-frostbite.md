@@ -69,8 +69,8 @@ soon as more than one package is installed, which is always.
   its first word holds the high half, the high half of its second word the low
   half; the low half of the second word is the blob number.
 
-Check: all 3,328,654 locations in the 144 binary tables of an installation
-resolve to a declared package and land inside the blob they name. An earlier
+Check: every location in every binary table of an installation
+resolves to a declared package and land inside the blob they name. An earlier
 version took the first `cas_NN.cas` of the right number. A third of the
 payloads it read then looked high-entropy and were taken for encryption. They
 were the right offsets in the wrong file. Nothing found is encrypted.
@@ -91,8 +91,8 @@ stated and derivable from two counts.
 The chunk ids and the locations are **in different orders**. Reading them in
 file order pairs each chunk with another chunk's bytes, which decode perfectly
 well (mostly as sound) and so do not look wrong until a mesh comes out as noise.
-Check: in a level of 73,875 chunks, the index words are a permutation of 0 to
-73,874.
+Check: in a level, the index words are a permutation of 0 to the chunk count
+minus one.
 
 The bundles are stored inline after the section table. Each is nine big-endian
 header words, then its entries: eight bytes of offset and size, preceded by
@@ -106,8 +106,8 @@ A level can have several tables of the same name: one in the base game's
 `Data`, one in each update (`Update/<pack>/Data`) that ships or changes it, and
 one in each high-resolution pack
 (`Update/<pack>/Data/Win32/installation/detail/<package>/...`). Only some hold
-bundles. For a level an update ships, the table in the base game is 64 KB of
-chunks and no bundles, and the 4.4 MB one in the update is the level; taking the
+bundles. For a level an update ships, the table in the base game holds only
+chunks and no bundles, and the one in the update is the level; taking the
 first table found exported nothing of it.
 
 So the level is the table with the most bundles, a later layer winning a tie
@@ -129,8 +129,8 @@ bundle, and the strings start where the records end.
 Resource types are hashes. `0x49B156D4` is MeshSet (every res of that type is
 named `..._mesh`), `0x6BDE20BA` Texture, `0x22FE8AC8` TerrainStreamingTree.
 
-`LevelCatalogue` reads all of this for one level, in about two seconds: one
-level has 43 bundles, 123,752 ebx, 40,179 res and 79,789 chunks.
+`LevelCatalogue` reads all of this for one level, in a few seconds: a level
+has tens of bundles and tens of thousands of ebx, res and chunks.
 
 ## Payload blocks
 
@@ -183,11 +183,9 @@ Positions are usage 1, stream 0, offset 0, as four halves or three floats.
 Only the opaque and transparent sections are drawn. Every section named
 `..._shadow` is in the shadow list and only there, so the lists decide.
 
-Check: of a level's 4,090 meshes, all 4,080 whose levels are stored in chunks
-decode, 14,043 levels and 43,130 sections. 4,027 of them have 99% or more of
-their vertices inside their declared box; the rest miss it by half-float
-rounding. The first mesh decoded,
-a crate, measures 1.08 by 0.75 by 0.87 metres, Y up, with its normals pointing
+Check: every mesh of a level whose levels are stored in chunks decodes, and
+nearly all have 99% or more of their vertices inside their declared box; the
+rest miss it by half-float rounding. A decoded crate measures about a metre, Y up, with its normals pointing
 outwards.
 
 ## Placement
@@ -204,12 +202,11 @@ instance transforms.
 The mesh asset's partition is named like its MeshSet res, so the import's
 partition GUID gives the mesh. A point lands at
 `x·right + y·up + z·forward + translation`. The group's own transform was the
-identity in all 41 groups of the two levels checked, and is not applied.
+identity in every group of the levels checked, and is not applied.
 
-Check: in one level, 41,277 copies of 1,753 meshes in 19 groups, every member
-resolving to a mesh; two copies in three have a rotation of determinant 1 to a
+Check: in a level, every member of every group resolves to a mesh; most copies have a rotation of determinant 1 to a
 thousandth, the rest are scaled or mirrored. The type GUIDs and signatures are
-the same in a second level. A game update that changes the layout changes the
+the same in other levels. A game update that changes the layout changes the
 signature, and the reader then finds nothing rather than misreading.
 
 ### Objects placed one by one
@@ -233,26 +230,24 @@ The walk starts only from the level's worlds and layers. A partition whose
 first instance is a prefab blueprint (`134919fc…`, `0x0247807D`) is a prefab's
 definition, and a level keeps many under its own folder, placed by its worlds
 in ways other than these references; walked from as if it were a world, a
-prefab puts its contents at its local coordinates. In one level that piled
-1,742 copies of barriers, sandbags and chairs round the world's origin, 120 m
-under the ground. Worlds and layers have `a10ebe0f…`, `0xD3D16C3C` first.
+prefab puts its contents at its local coordinates. That piles
+hundreds of copies round the world's origin, far under the ground. Worlds and layers have `a10ebe0f…`, `0xD3D16C3C` first.
 
 Blueprints staged out of play are not followed: development and test assets
-(`game/dev/`, `test/`), the round-end cinematic's set (`..._gameend_...`: a
-helicopter and light blockers 47 m under the ground, in each of three levels)
+(`game/dev/`, `test/`), the round-end cinematic's set (`..._gameend_...`: staged
+under the ground)
 and the death camera's controller (`.../deathflow/...`, whose gadgets stand at
 the world's origin). They are recognised by their asset path, not their layer:
-the same lighting layer that holds the cinematic set places a level's real
-warehouse walls and roofs. After both rules no copy in three levels lies more
-than 10 m under the terrain, where 1,759 did. Check: in one level,
-1,574 copies, each standing on the terrain where the game shows it.
+the same layer that holds the cinematic set can place a level's real
+walls and roofs. After both rules no copy in the levels checked lies more
+than 10 m under the terrain, and copies stand on the terrain where the game
+shows them.
 
 **Levels of detail that stand in.** A mesh's last level of detail may switch
 to a distant-view stand-in with a material of its own: `M_LastLod`,
-`M_Billboard`, `M_Vista`, `M_ProjectionLod` (215 meshes in one level). A
-power pylon's lattice of 32,080 triangles ends in a 164-triangle `M_Vista`
-silhouette, which the budget chose and which up close is a solid spike 64 m
-tall. A level of detail that brings in such a material, one its finest level
+`M_Billboard`, `M_Vista`, `M_ProjectionLod`. A lattice tower of tens of
+thousands of triangles can end in a silhouette of a few hundred, which the
+budget would choose and which up close is a solid spike. A level of detail that brings in such a material, one its finest level
 does not have, is never chosen; the mesh's coarsest is the last real one.
 
 ## Terrain
@@ -277,21 +272,20 @@ Each step was checked on its own:
 - A child's samples at every other position equal its parent's exactly with a
   border of 4, and are 90 to 700 units off with any other border.
 - The lowest word in the level decodes to the bounding box's lowest height to
-  the centimetre (41.95 m).
+  the centimetre.
 - Of the eight ways the square could lie on the world, only x along x and z
-  along z puts the placed objects on it: half of 3,000 copies within 2.2 m,
-  against 11 m and more for every other way.
+  along z puts the placed objects on it: half of the sampled copies within
+  about 2 m, against several times that for every other way.
 
 The placed objects then measure the result. The lowest point of each copy,
 against the terrain under it (bilinear, from the finest node):
 
-| Placed | Copies | Median distance | 90% within | Signed median |
-|---|---|---|---|---|
-| trees and bushes | 2,319 | 0.30 m | 0.81 m | -0.27 m |
-| props | 20,227 | 1.54 m | 21 m | 0.00 m |
-| rocks | 3,725 | 1.24 m | 17 m | -1.19 m |
-| buildings | 9,198 | 6.72 m | 21 m | -0.74 m |
-| all | 39,214 | 2.11 m | 19 m | -0.09 m |
+| Placed | Median distance | Signed median |
+|---|---|---|
+| trees and bushes | well under a metre | just below the surface |
+| props | a metre or two | on the surface |
+| rocks | about a metre | sunk in by about a metre |
+| buildings | several metres (they stand on foundations) | slightly sunk in |
 
 Vegetation is placed on the ground and nowhere else, which makes it the
 sharpest check: its origins sit a median 0.07 m from the surface. Buildings
@@ -363,18 +357,15 @@ texels on a BC4 page, 1 on an uncompressed one.
 
 The borders prove the placing without judgement: two pages of one layer side by
 side must carry each other's edge texels. `read_masks` checks that for every
-pair it places and refuses a level where fewer than 99% agree. Of 33 levels,
-13 are read, with all but one of 192,808 borders agreeing (every one in 12 of
-them); 2 have no painted masks; 18 are refused, 17 by the check (0% to 94% of
-their borders agree: their nodes' chunks hold more than this layout knows) and
-one because two of its groups describe the same node. A refused level's ground
+pair it places and refuses a level where fewer than 99% agree. About a
+third of the levels checked are read, with their borders agreeing; a few have
+no painted masks; the rest are refused, nearly all by the check (their nodes'
+chunks hold more than this layout knows). A refused level's ground
 takes the middle colour of its surface materials, and the export says why.
-In one level the borders facing a full quadrant are exactly 255 and those
-facing an empty one exactly 0 (2,042 of 2,050).
+The borders facing a full quadrant are 255 and those facing an empty one 0.
 
 The 4,358-byte section and the 67 x 67 raster before the pages are not read:
-the section's 2,179 values run from 27,042 to 30,929, with no small values and
-no sentinel.
+its values sit in a narrow high band, with no small values and no sentinel.
 
 **The ground's colour.** The layer graph mixes the layers in a compiled shader
 graph of masks, slope, height and noise, which is not read. `--ground-texture`
@@ -433,18 +424,15 @@ located.
 **Holes.** A level's terrain asset (res type `0x1CA38E06`) names three shaders:
 a default surface shader, a holes surface shader and a default source shader.
 Which layer the holes shader reads is not found, so the heightfield is not cut.
-In one level the navigation mesh runs on rock meshes 20 to 50 m under the
-heightfield, where the game must have cut it away (12,120 of its triangles
-more than 5 m under it). Looked for and not found there: a layer's mask (the
-closest averages 0.69 over those triangles against 0.51 elsewhere), the
+In a level the navigation mesh can run on rock meshes tens of metres under
+the heightfield, where the game must have cut it away. Looked for and not found there: a layer's mask, the
 67 x 67 raster, a reserved height (no height page of the level holds 0 or
 65,535) and a node flag (every node below the root has flags 1). Raster trees
 7 and 8 are what is left. Both are run-length coded: a byte equal to the one
 before it is followed by a count of further copies (`ff ff 84` is 134 bytes
-of 255). Tree 7 (tile 256, 341 nodes: a full quadtree of five levels, four
-bits a sample) decodes to 9.8 MB of byte pairs of values 0 to 3; tree 8 (tile
-265) to 2.95 MB, nine in ten bytes 255, with its other values in runs that
-start every 36,170 bytes. Neither's tiles are placed yet, so neither is
+of 255). Tree 7 (tile 256, a full quadtree of five levels, four bits a sample)
+decodes to byte pairs of values 0 to 3; tree 8 (tile 265) to bytes mostly 255,
+with its other values in regular runs. Neither's tiles are placed yet, so neither is
 known to hold the holes.
 
 **Decals** are read and baked; see [Terrain decals](#terrain-decals).
@@ -454,7 +442,7 @@ known to hold the holes.
 Source: [`frostbitedecals.py`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/heat3d_gamefiles/frostbitedecals.py).
 
 Roads, runways, concrete aprons, painted lines and letters, tyre marks: the
-`TerrainDecals` res (type `0x15E1F32E`, 10 MB in the level checked) holds them
+`TerrainDecals` res (type `0x15E1F32E`) holds them
 as flat geometry the game drapes over the terrain.
 
 | Part | Layout |
@@ -466,11 +454,11 @@ as flat geometry the game drapes over the terrain.
 
 Checks:
 
-- the 926 records' vertex ranges follow each other without gap and cover the
-  265,794 vertices exactly, and each record's first vertex × 32 is its offset;
+- the records' vertex ranges follow each other without gap and cover all the
+  vertices exactly, and each record's first vertex × 32 is its offset;
 - read so, the triangles are compact decals (letters, strips of line, patches);
   read one vertex off, they are slivers across the map;
-- 912 of 926 batches name textures in their tail: a colour map (`_cv`) with an
+- nearly all batches name textures in their tail: a colour map (`_cv`) with an
   opacity map (`_op`, red channel), or for markings a channel mask (`_rgb`).
 
 After the texture GUIDs the tail carries the batch's material parameters,
@@ -503,8 +491,8 @@ two pale rectangles 150 to 250 m long on a level's slopes. The `_mult` map is
 taken as the paint's own wear, not as a darkening of the ground under it:
 it is near white, and the line's shape is in the opacity map.
 
-In the level checked, 909 of 926 batches draw, into four tiles at 0.5 m a
-pixel; the export grows by 3 MB and takes a few seconds more. Seen from above,
+Nearly every batch draws, into a few tiles at 0.5 m a pixel; the export
+grows by a few MB and takes a few seconds more. Seen from above,
 the aprons, taxiways and road network lie under the compounds' fences and
 buildings and lead into their gates.
 
@@ -616,18 +604,15 @@ the rule was found from the keys themselves and holds for every section with
 variants checked (the four variations of one wall, three of its sections each).
 A variation's block brings its own textures as well as its tints: the
 painted number on the wall is a letter sheet the variation's block names.
-In one level 11,211 of 27,501 grouped copies are placed in a variation.
+A large share of grouped copies are placed in a variation.
 
 A block is baked once for each set of contents, and the depot's entry for a
 key carries a hash of them (the second u64 of the entry). Where a section has
 no block under its variation's key, the variation still reaches it through a
 *twin*: another section whose default block has the same contents and does
-have one. One wall of a warehouse - three lengths whose stripe sections share
-one red default block - has a blue variant for two of the lengths and none
-for the third, which came out red in a blue building. A section without its
-own variant takes the variant most of its twins have; in that level 11,154
-section copies draw with a variation's block, 6,557 of them through their
-own key.
+have one. Without twins, a wall whose lengths share one default block can come out in
+two colours. A section without its own variant takes the variant most of its
+twins have.
 
 **Destructible meshes.** A mesh a match can knock down has a destruction
 asset of its own name beside it (`.../br_x.destruction` for
@@ -644,8 +629,8 @@ stood out of a level as white fins), meshes made for cinematics (a helicopter
 placed where its scene starts) and lighting helpers (planes that block light,
 never drawn). A level's generated backdrop buildings
 (`..._generated_blueprints_..._mesh`) are drawn, but their walls' material
-names only noise maps and its vertices carry no colour, so they stay plain. In the level
-checked, 2,214 of 2,375 drawn sections get a colour map.
+names only noise maps and its vertices carry no colour, so they stay plain. Nearly every
+drawn section gets a colour map.
 
 **Letter sheets.** A wall's painted number or a crane's billboard print is a
 section of its own whose colour map is a sheet (`_ca`): a letter's alpha over
@@ -759,16 +744,15 @@ laid out as Detour's (Recast Navigation) behind a longer header:
 | next 8-byte boundary | polygons, 32 bytes: u32, six u16 vertex indices, six u16 neighbours, u16 flags, the vertex count at +30, at +31 the area (low six bits) and kind (top two) |
 | then, packed | links (16 bytes), detail meshes (12: first detail vertex u32, first detail triangle u32, vertex and triangle count u8), detail vertices (three floats), detail triangles (three indices and flags), bounding-volume nodes (16), off-mesh links (80) |
 
-In every tile of three levels (17,702) these add up to the tile's size to the
+In every tile of the levels checked these add up to the tile's size to the
 byte, and the detail meshes number the polygons before the first off-mesh one.
 
 A polygon is flat between its corners; its **detail mesh** holds the
 surface's real height over bumps, rocks and steps, and is what is drawn. A
 detail triangle's index below the polygon's corner count is that corner,
 otherwise detail vertex `first + index - corners`. Fanning the polygons
-instead put 9.3% of one level's triangles more than half a metre under the
-terrain and 5.6% with the detail meshes, and 15,544 triangles had an edge over
-20 m against 8,915; none is longer than a 16 m tile's diagonal plus the step
+instead puts many more triangles under the terrain and makes long slivers;
+with the detail meshes none is longer than a 16 m tile's diagonal plus the step
 up a slope.
 
 Kind 0 is ground, kind 2 small steep patches (about 45 degrees, a square metre
@@ -776,9 +760,9 @@ each), kind 1 a link between surfaces: its corners span 125 m of height or more
 and lie outside the tile, some at the origin. Links are left out; the rest are
 drawn by their detail meshes, or fanned in a tile without any.
 
-Checks: the chunks' sizes add up to the tiles' exactly (20,677,772 bytes in 305
-chunks for 9,744 tiles of 16 m); every surface vertex lies within its tile's box
-give or take 1.2 m; 99.87% of the triangles face up. A tile that fails is
+Checks: the chunks' sizes add up to the tiles' exactly; every surface vertex
+lies within its tile's box give or take about a metre; nearly all triangles
+face up. A tile that fails is
 refused and counted, and in that level none is.
 
 What the soldier's mesh covers, seen from above in the test level: the ground,

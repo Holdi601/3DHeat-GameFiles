@@ -18,13 +18,18 @@ is inside it, give me that, and turn a lap into a course.
 | [`course`](#course) | a lap | exports the course around it (Forza, BeamNG.drive, Assetto Corsa Rally) |
 | [`courses`](#courses) | a recorded lap library | runs `course` on every course in it (Forza) |
 | [`terrain`](#terrain) | a Forza track folder | cuts a region by world coordinates |
-| [`levels`](#levels-and-level-frostbite) | an installed Frostbite game | lists its levels |
+| [`levels`](#levels-and-level-frostbite) | an installed Frostbite game (Battlefield 6) | lists its levels |
 | [`level`](#levels-and-level-frostbite) | a level's name | exports the level: terrain, placed meshes, optionally their colour maps (Battlefield 6) |
 | [`cars`](#cars) | an installed Forza | every car at low detail, in one file for the viewer's race tab |
 | [`ue-maps`](#ue-maps-and-ue-map-unreal-5-world-partition) | an Unreal 5 game | lists its World Partition maps |
 | [`ue-map`](#ue-maps-and-ue-map-unreal-5-world-partition) | a map's name | exports the map: landscape, HLOD structures, water |
 | [`enfusion-worlds`](#enfusion-worlds-and-enfusion-world-arma-reforger) | an installed Arma Reforger | lists its worlds |
 | [`enfusion-world`](#enfusion-worlds-and-enfusion-world-arma-reforger) | a world's name | exports the world: terrain in its colours, the sea, buildings as boxes |
+
+**Reading the examples:** `<x>` means replace it with your own value, without the
+angle brackets; `[...]` is optional; wrap a path with spaces in "double quotes",
+for example `"C:\Games\My Game"`. New to this? See [Before you start](before-you-start.md).
+The full `--help` of every verb is on the [Command reference](cli-reference.md).
 
 Each time the program starts, it may check for a newer release first. See
 [Updates](updates.md). `HEAT3D_NO_UPDATE=1` turns that check off.
@@ -298,9 +303,9 @@ Example Circuit: 12 laps, 18,400 samples, 41,200 m driven
   on <map>, in <game folder>
   cutting 80 m either side of the driving: 1.10 km2 of a 1,350 by 1,020 m box
 262,144 vertices, 225,000 triangles from 410 meshes across 2 tiles
-  x   -4096.0 ..   -2950.0
+  x       0.0 ..    1150.0
   y      88.4 ..     131.9
-  z    6600.0 ..    7420.0
+  z       0.0 ..     820.0
 
   baked 2 ground textures at 2048 px (25 cm a pixel)
 
@@ -401,7 +406,7 @@ Height is never part of the cut. A box outside the map, or in the sea, gives
 "no terrain there" (exit code 1), not an error about coordinates.
 
 ```
-python -m heat3d_gamefiles terrain "<game>\media\Tracks\<map>" --box -4096 6600 -3584 7100 -o piece.glb
+python -m heat3d_gamefiles terrain "<game>\media\Tracks\<map>" --box 0 0 512 512 -o piece.glb
 python -m heat3d_gamefiles terrain "<game>\media\Tracks\<map>" --route route.json -o map.glb
 ```
 
@@ -433,7 +438,7 @@ is read is in [Frostbite](reader-frostbite.md).
 | `-o`, `--out FILE` | `<level>.glb` | the `.glb` to write |
 | `--install FOLDER` | the first Steam game whose `Data` holds a `layout.toc` | the game's folder |
 | `--textures [PIXELS]` | off; 512 when given without a size | write each surface's colour map, the largest mip no bigger than PIXELS a side, and its texture coordinates as the game has them, with a repeating sampler (see [Output format](output-format.md)). The heightfield gets the terrain backdrop's colour map where that map covers it, else the middle colour of the terrain's surface materials, else the backdrop's average colour round it. Off, every part is a flat colour |
-| `--ground-texture [METRES]` | off; 0.5 when given without a size | bake the terrain decals — roads, runways, aprons, painted markings — over the ground colour, multiplied by the terrain's colormap where the level has one, into the heightfield's colour, METRES a pixel, in tiles of at most 4,096 pixels (`ground:terrain x<x> z<z>`). Works with or without `--textures` |
+| `--ground-texture [METRES]` | off; 0.5 when given without a size | bake the terrain decals — roads, runways, aprons, painted markings — over the ground colour, multiplied by the terrain's colour map where the level has one, into the heightfield's colour, METRES a pixel, in tiles of at most 4,096 pixels (`ground:terrain x<x> z<z>`). Works with or without `--textures` |
 | `--navmesh` | off | add the level's navigation mesh for its smallest agent, the soldier (1.8 m tall, 0.4 m wide), as the part `nav:walkable`: the ground, floors, stairs and the roofs a soldier can reach, without the links (jumps, ladders, vaults) between them |
 | `--ground-spacing METRES` | 4 | the heightfield's finest spacing; nodes finer than this are sampled down. 0 leaves the heightfield out |
 | `--detail-budget N` | every copy at its coarsest level, plus a quarter, at least 1,500,000 | a ceiling on triangles. The meshes costing most drop a level of detail at a time until it fits; if even the coarsest levels do not, the smallest copies are left out first. The terrain backdrop is never coarsened or left out |
@@ -450,19 +455,10 @@ geometry: no names, no metadata (see [Output format](output-format.md)).
 The terrain budget is separate: the heightfield and the backdrop are never
 coarsened by `--detail-budget`; `--ground-spacing` sizes the heightfield.
 
-A whole level is large. For the level checked:
-
-| Options | Triangles | File |
-|---|---|---|
-| none | 13.5 million | 450 MB |
-| `--textures 512` | 13.5 million | 530 MB |
-| `--textures 512 --ground-texture 0.5` | 13.5 million | 533 MB |
-| `--textures 256 --detail-budget 3000000 --ground-spacing 8` | 5.1 million | 175 MB |
-
-A second level, shipped by an update, with `--textures 512 --ground-texture 0.5
---navmesh`: 12.4 million triangles, 235,000 of them walkable, 460 MB. A level
-thick with trees comes to 24 million and about 1 GB; `--detail-budget` brings
-it down.
+A whole level is large: typically over ten million triangles and several
+hundred MB. `--textures` adds a little to the file; a level thick with trees
+can reach about 1 GB. `--textures 256 --detail-budget 3000000 --ground-spacing 8`
+brings a level to roughly a third of that.
 
 ```
 python -m heat3d_gamefiles levels
@@ -479,12 +475,12 @@ python -m heat3d_gamefiles ue-map  <game> <map> [-o FILE] [--ground-spacing METR
 ```
 
 `<game>` is the game's folder, its `Content/Paks`, or the name of its folder
-in a Steam library (`"Hell Let Loose - Vietnam"`). `ue-maps` lists every map
+in a Steam library (`"<Steam game folder name>"`). `ue-maps` lists every map
 that has cooked World Partition cells beside it. `ue-map` exports one as
 `ground:<map>` (the landscape), `structure:<map>` (the map's merged HLOD
 meshes) and `water:<map>` (its water bodies where they stand above the
-ground), in Unreal centimetres with Y and Z swapped. How each is read and
-checked is in the [README](https://github.com/Holdi601/3DHeat-GameFiles#unreal-5-world-partition-maps--ue-map).
+ground), in Unreal **centimetres** with Y and Z swapped - the one export not
+in metres. How each is read and checked: [Unreal 5 maps](level-unreal-world-partition.md).
 
 | Option | Default | Meaning |
 |---|---|---|
@@ -509,8 +505,8 @@ python -m heat3d_gamefiles enfusion-world <world> [-o FILE] [--install FOLDER] [
 `worlds/`. `enfusion-world` exports one: `ground:<world>` (the terrain, in the
 colours of its supertexture tiles), `water:<world>` (the sea, at height zero)
 and `structure:<world>` (every placed model's box), in the game's own metres -
-x east, y up, z north. How each is read and checked is in the
-[README](https://github.com/Holdi601/3DHeat-GameFiles#arma-reforger--enfusion-pak-terrain-and-world-files).
+x east, y up, z north. How each is read and checked:
+[Arma Reforger worlds](level-arma-reforger.md).
 
 | Option | Default | Meaning |
 |---|---|---|

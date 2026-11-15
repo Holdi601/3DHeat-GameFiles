@@ -1,8 +1,16 @@
-
 # Troubleshooting
 
 The messages the tool prints when something stops it, what each means, and what
 to do. Messages are quoted from the code, with placeholders in angle brackets.
+
+## Before the tool even starts
+
+| You see | Do |
+|---|---|
+| `'python' is not recognized` | install Python 3.10 or later and tick "Add python.exe to PATH"; open a new terminal ([Before you start](before-you-start)) |
+| `No module named heat3d_gamefiles` | the terminal is in the wrong folder: `cd` to the folder with `README.md` |
+| `No module named numpy` (or another package) | run `pip install -r requirements.txt` |
+| a path with spaces is cut off, or `unrecognized arguments` | put the path in double quotes: `"C:\My Games\lap.json"` |
 
 ## Finding the game
 

@@ -6,8 +6,8 @@ nav_order: 13
 # Updates
 
 3DHeat GameFiles checks this repository's GitHub releases when it starts, says
-when a newer version is out, and offers to update. Your own files (recordings,
-settings, exports) are never touched.
+when a newer version is out, and offers to update. Your own files (laps,
+exports) are never touched.
 
 Source: [`heat3d_update/__init__.py`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/heat3d_update/__init__.py),
 [`heat3d_update/__main__.py`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/heat3d_update/__main__.py).
@@ -58,13 +58,12 @@ not be applied.
 | a **git clone** (a `.git` folder and `git` on the PATH) | `git pull --ff-only`. **Refused** while tracked files have local changes: "this checkout has local changes; commit or stash them, then run `git pull`". Untracked files do not block it |
 | a **downloaded copy** | the release's source archive (`zipball_url`) is downloaded and unpacked to a temporary folder, ignoring any path that would escape it; its `VERSION` must equal the release's version, or nothing is copied; then its files are copied over this folder |
 
-When copying from an archive, files that are not part of the release (recordings,
-virtual environments, settings, anything you made) are left alone. The updater
+When copying from an archive, files that are not part of the release (laps, exports,
+virtual environments, anything you made) are left alone. The updater
 also tries to delete `.py` modules that a release removed from its packages, so a
-stale module cannot shadow its replacement. As written, that step looks for
-packages one folder below the archive root (`*/heat3d_*`). This repository's
-packages sit at the root, so whether stale modules are actually removed here is
-unverified.
+stale module cannot shadow its replacement. It looks for `heat3d_*` packages at
+the archive root and one folder below, and removes `.py` files the release no
+longer has.
 
 ## Switching it off
 

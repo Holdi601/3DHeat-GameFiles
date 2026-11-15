@@ -5,12 +5,23 @@ nav_order: 1
 
 # 3DHeat GameFiles
 
-3DHeat GameFiles reads level data out of the archives a game already ships and
-writes it as a binary glTF (`.glb`) file for the 3DHeat telemetry viewer. Its
-main job is the **course export**: you give it a lap you drove, and it writes the
-track around that lap. That means the ground, the road told apart from verge and
-grass, and kerbs, barriers, tyre walls, signs and buildings. It needs nothing
-else from you.
+**What is it?** A tool that builds a 3D model of a race track or a game level
+from the files of a game you already have installed.
+
+**Why would I use it?** The 3DHeat viewer paints where you drove or played as
+heat. With this tool it paints it on the real track or level, not on empty space.
+
+**Example:** take a lap you drove. The tool builds the road and land around it
+as one 3D file, so the viewer can paint your speed or crashes on the real track:
+
+![A lap goes in, the track around it comes out](assets/img/lap-to-course.svg)
+
+New to the command line? Start with [Before you start](before-you-start.md).
+
+In more detail: it reads level data out of the archives a game ships and writes
+it as a binary glTF (`.glb`) file. Its main job is the **course export**: you
+give it a lap, and it writes the ground, the road told apart from verge and
+grass, and the kerbs, barriers, tyre walls, signs and buildings around it.
 
 It is part of [3DHeat](https://github.com/Holdi601/3DHeat), a viewer for
 realtime 3D telemetry heatmaps, race analysis and match review
@@ -41,18 +52,19 @@ Python package: `heat3d_gamefiles`. Repository:
 | Unity (format 22 and later) | no | `identify`, `meshes` |
 | Battlefield 6 (Frostbite `.toc`/`.cas`) | no lap; a whole level with `level`: terrain, placed meshes, their colour maps with `--textures` | `identify`, `levels`; bundles, meshes, terrain, textures and placement through `level` |
 | Source 2 `.vpk` | no | `identify`, `list`, `extract` |
-| Unreal 5 World Partition games | no lap; a whole map with `ue-map`: landscape, HLOD buildings and props, water | `ue-maps` |
-| Arma Reforger (Enfusion) | no lap; a whole world with `enfusion-world`: terrain in its colours, the sea, buildings as boxes | `enfusion-worlds` |
-| Forza (cars) | `cars`: every car at low detail, for the viewer's race tab | |
+| Unreal 5 World Partition games | no lap; a whole map with `ue-map` (listed by `ue-maps`): landscape, HLOD buildings and props, water | - |
+| Arma Reforger (Enfusion) | no lap; a whole world with `enfusion-world` (listed by `enfusion-worlds`): terrain in its colours, the sea, buildings as boxes | - |
+| Forza (cars) | `cars`: every car at low detail, for the viewer's Race tab | - |
 
 Laps from Assetto Corsa EVO and iRacing are refused with a reason. See
 [Limits and known gaps](limits-and-known-gaps.md).
 
 ## Install
 
-You need Python and the packages in
+New to the command line? Read [Before you start](before-you-start.md) first.
+
+You need **Python 3.10 or later** (developed on 3.13) and the packages in
 [`requirements.txt`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/requirements.txt).
-The tool has been run with Python 3.13. Older versions have not been checked.
 
 ```
 git clone https://github.com/Holdi601/3DHeat-GameFiles.git
@@ -60,7 +72,9 @@ cd 3DHeat-GameFiles
 pip install -r requirements.txt
 ```
 
-Run every command from the repository folder, as `python -m heat3d_gamefiles <verb>`.
+Then check it: `python -m heat3d_gamefiles --help`. You should see
+`usage: heat3d_gamefiles [-h]` and the list of verbs. Run every command from the
+repository folder, as `python -m heat3d_gamefiles <verb>`.
 
 | Package | Used for |
 |---|---|
@@ -79,6 +93,11 @@ The tool is written for Windows. It finds games through Steam's library list and
 tested.
 
 ## Quick start
+
+A **lap file** is a recording of where your car went: a list of x, y, z points.
+It comes from [3DHeat GameCapture](https://github.com/Holdi601/3DHeat-GameCapture)
+or the FH Companion app's lap library; a hand-typed CSV works too
+([Lap inputs](lap-inputs.md)).
 
 ```
 # Forza: a lap file, a lap folder, or a course name from the FH Companion library
@@ -113,7 +132,9 @@ Open the `.glb` in the 3DHeat viewer. The game's own world coordinates are kept
 
 ## Map of this documentation
 
+- [Before you start](before-you-start.md): Python, a terminal, the first command.
 - [Commands](commands.md): every verb and option, with examples.
+- [Command reference](cli-reference.md): every verb's `--help`, generated from the code.
 - [Inspecting archives](inspecting-archives.md): `identify`, `list`, `extract`, `meshes`, step by step.
 - [Course export](course-export.md): how a lap becomes a course, for all games.
   - [Forza Horizon](course-forza-horizon.md)
@@ -134,18 +155,27 @@ Open the `.glb` in the 3DHeat viewer. The game's own world coordinates are kept
 - [Rules and licences](rules-and-licences.md): no keys, your own files, no redistribution.
 - [Updates](updates.md): the update check and `heat3d_update`.
 - [Development](development.md): module map and tests, including the tests that run against installed games.
+- [Maintaining](maintaining.md): the release checklist for these pages.
 
 ## Part of 3DHeat
 
-| Tool | What it does |
-|---|---|
-| [3DHeat GameFiles](https://github.com/Holdi601/3DHeat-GameFiles) | courses and levels out of the archives games ship, as glTF |
-| [3DHeat GameCapture](https://github.com/Holdi601/3DHeat-GameCapture) | lap telemetry from racing games' published interfaces; levels reconstructed from gameplay video |
-| [3DHeat Unreal Exporter](https://github.com/Holdi601/3DHeat-UnrealExporter) | an Unreal Editor plugin that exports a level as glTF |
-| [3DHeat CS2](https://github.com/Holdi601/3DHeat-CS2) | Counter-Strike 2 demos into heatmap tables and match summaries |
-| [3DHeat Watcher](https://github.com/Holdi601/3DHeat-Watcher) | records your play in the background from what games publish |
+3DHeat GameFiles is one of the free tools around the 3DHeat viewer:
 
-The viewer itself: [Holdi601/3DHeat](https://github.com/Holdi601/3DHeat), documented
-at [holdi601.github.io/3DHeat](https://holdi601.github.io/3DHeat/); its match files
-are described in [One file a match: `.3dheat`](https://holdi601.github.io/3DHeat/container.html).
+| Tool | What it does | Docs |
+|---|---|---|
+| [3DHeat](https://github.com/Holdi601/3DHeat) | the viewer: 3D heatmaps, race analysis and match review in the browser | [site](https://holdi601.github.io/3DHeat/) |
+| [GameFiles](https://github.com/Holdi601/3DHeat-GameFiles) | courses and levels out of the files a game ships, as `.glb` | [site](https://holdi601.github.io/3DHeat-GameFiles/) |
+| [GameCapture](https://github.com/Holdi601/3DHeat-GameCapture) | lap telemetry from racing games; levels rebuilt from gameplay video | [site](https://holdi601.github.io/3DHeat-GameCapture/) |
+| [Unreal Exporter](https://github.com/Holdi601/3DHeat-UnrealExporter) | an Unreal Editor plugin that saves a level as `.glb` | [site](https://holdi601.github.io/3DHeat-UnrealExporter/) |
+| [CS2](https://github.com/Holdi601/3DHeat-CS2) | Counter-Strike 2 demos into match files; maps into `.glb` | [site](https://holdi601.github.io/3DHeat-CS2/) |
+| [Watcher](https://github.com/Holdi601/3DHeat-Watcher) | records your play in the background from what games publish | [site](https://holdi601.github.io/3DHeat-Watcher/) |
+| [Ext-WarThunder](https://github.com/Holdi601/3DHeat-Ext-WarThunder) | War Thunder replays into match files | [site](https://holdi601.github.io/3DHeat-Ext-WarThunder/) |
+| [Ext-WoT](https://github.com/Holdi601/3DHeat-Ext-WoT) | World of Tanks replays into match files | [site](https://holdi601.github.io/3DHeat-Ext-WoT/) |
+| [Ext-WoWs](https://github.com/Holdi601/3DHeat-Ext-WoWs) | World of Warships replays into match files | [site](https://holdi601.github.io/3DHeat-Ext-WoWs/) |
+| [Ext-Squad](https://github.com/Holdi601/3DHeat-Ext-Squad) | Squad server demos into match files | [site](https://holdi601.github.io/3DHeat-Ext-Squad/) |
+| [Ext-DCS](https://github.com/Holdi601/3DHeat-Ext-DCS) | DCS World maps into `.glb` levels | [site](https://holdi601.github.io/3DHeat-Ext-DCS/) |
+| [Ext-IL2](https://github.com/Holdi601/3DHeat-Ext-IL2) | IL-2 Sturmovik maps into `.glb` levels | [site](https://holdi601.github.io/3DHeat-Ext-IL2/) |
 
+The viewer's match files are described in
+[One file a match: `.3dheat`](https://holdi601.github.io/3DHeat/container.html);
+a level made here is loaded beside them in the viewer's Level panel.

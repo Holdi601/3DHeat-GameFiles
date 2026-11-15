@@ -6,6 +6,11 @@ nav_order: 2
 
 # Unreal 5 World Partition maps: `ue-maps` and `ue-map`
 
+**What is it?** A whole map of an Unreal 5 game as one 3D file: the ground, the
+buildings and the water. **Why?** So heat from that game has the map under it.
+(*World Partition* is how Unreal 5 splits a big map into pieces; *HLOD* is a
+simplified stand-in for a group of buildings, the one the game draws far away.)
+
 Exports a whole map of an Unreal 5 game whose maps are cooked as World
 Partition cells: the landscape, the map's merged HLOD meshes (its buildings
 and props as the game draws them at a distance) and its water bodies. No
@@ -38,7 +43,8 @@ editor and no project are needed, only the installed game.
    python -m heat3d_gamefiles ue-map "<game>" <map> --ground-spacing 4
    ```
 
-4. **Open `map.glb`** in the 3DHeat viewer's Level panel.
+4. **Open `map.glb`** in the 3DHeat viewer's Level panel
+   ([loading a level](https://holdi601.github.io/3DHeat/levels.html)).
 
 ## Options
 
@@ -70,7 +76,27 @@ about 4.6 million ground triangles.
 ## The parts
 
 `ground:<map>` (the landscape), `structure:<map>` (the HLOD meshes) and
-`water:<map>` (water standing above the ground), in Unreal centimetres with Y
-and Z swapped. How each is read and checked is in the
-[README](https://github.com/Holdi601/3DHeat-GameFiles#unreal-5-world-partition-maps--ue-map)
-and on [Unreal 5 IoStore](reader-unreal-iostore.md).
+`water:<map>` (water standing above the ground).
+
+**Units:** this is the one export **not in metres**: Unreal centimetres, with Y
+and Z swapped (Y up), the frame the 3DHeat Unreal Exporter writes. Telemetry
+from the same game uses the same frame, so it lies on the map.
+
+## How it is read and checked
+
+| Part | Read from | Checked against |
+|---|---|---|
+| ground | each landscape component's 16-bit heightmap, placed by its section base on the landscape's transform | every vertex stored twice (on a seam or a component edge) must agree; disagreements are counted and printed, not smoothed |
+| structure | the map's merged HLOD meshes, built by the engine in world space | a mesh is kept only if the bounds its component caches describe its own vertices |
+| water | each water body's mesh, laid on the ground grid, kept where it stands above the ground | water sits a few metres above the ground under it, as a river over its bed does |
+
+The landscape's properties are found by shape, not by slot number (slots move
+between engine versions). The structures are the simplified stand-ins, not the
+full-detail models. Foliage, decals and landscape materials are not exported;
+the ground is untextured and shaded by the viewer. Archive details:
+[Unreal 5 IoStore](reader-unreal-iostore.md).
+
+**Terms:** games' licences usually allow personal, non-commercial use and forbid
+reverse engineering "to the extent that such actions cannot be prohibited by
+law". Reading your own install is your decision under them; the output is for
+your own use and is not to be shared.

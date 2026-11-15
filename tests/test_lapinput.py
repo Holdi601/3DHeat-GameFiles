@@ -96,7 +96,7 @@ class TestEveryShapeOfLap:
         """The CSV the viewer eats, so a course exported for analysis can be
         handed straight back to ask for the ground under it."""
         path = tmp_path / "samples.csv"
-        rows = "\n".join(f"Mapletree,{x},{y},{z},220" for x, y, z in POINTS)
+        rows = "\n".join(f"Example,{x},{y},{z},220" for x, y, z in POINTS)
         path.write_text(f"course,x,y,z,speed_kmh\n{rows}\n", encoding="utf-8")
 
         assert np.allclose(read_file(path), POINTS)
@@ -132,7 +132,7 @@ class TestEveryShapeOfLap:
     def test_the_metadata_beside_the_laps_is_not_one(self, tmp_path):
         library_lap(tmp_path / "A" / "car1" / "t" / "untagged" / "a.json")
         (tmp_path / "course.json").write_text(
-            json.dumps({"Name": "Mapletree Test Loop", "StartX": 1188.0}), encoding="utf-8"
+            json.dumps({"Name": "Example Circuit", "StartX": 1188.0}), encoding="utf-8"
         )
 
         _points, laps = read_folder(tmp_path)
@@ -250,7 +250,7 @@ class TestLookingACourseUpByName:
     def shelf(self, tmp_path):
         root = tmp_path / "laps"
         for name in (
-            "Mapletree Test Loop (course_1200_3400_to_1175_3400)",
+            "Example Circuit (course_1200_3400_to_1175_3400)",
             "Harbour Chase (course_-300_-2200_to_-200_-1200)",
             "Harbour Circuit (course_-150_-2100_to_-150_-2100)",
         ):
@@ -258,12 +258,12 @@ class TestLookingACourseUpByName:
         return root
 
     def test_the_coordinates_in_the_folder_name_can_be_ignored(self, shelf):
-        found = find_recorded_course("Mapletree Test Loop", shelf)
+        found = find_recorded_course("Example Circuit", shelf)
 
-        assert found.name.startswith("Mapletree Test Loop")
+        assert found.name.startswith("Example Circuit")
 
     def test_a_partial_name_works_when_it_is_unambiguous(self, shelf):
-        assert find_recorded_course("mapletree", shelf).name.startswith("Mapletree")
+        assert find_recorded_course("example", shelf).name.startswith("Example")
 
     def test_an_ambiguous_name_lists_what_it_matched(self, shelf):
         with pytest.raises(UnreadableLap, match="Harbour Chase, Harbour Circuit"):
@@ -284,7 +284,7 @@ class TestLookingACourseUpByName:
         assert np.allclose(driven.positions, POINTS)
 
     def test_the_name_loses_the_coordinates_glued_to_it(self, tmp_path):
-        folder = tmp_path / "Mapletree Test Loop (course_1200_3400_to_1175_3400)"
+        folder = tmp_path / "Example Circuit (course_1200_3400_to_1175_3400)"
         library_lap(folder / "A" / "car1" / "t" / "untagged" / "a.json")
 
-        assert read(folder).name == "Mapletree Test Loop"
+        assert read(folder).name == "Example Circuit"

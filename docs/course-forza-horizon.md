@@ -43,6 +43,9 @@ Nobody should have to type a path like
    `GeoChunk0.minizip`. It counts by its contents, not its name, so a track under a
    name nobody has seen is still found.
 
+If the game is somewhere else, pass the track folder with `--track`; see
+[Troubleshooting](troubleshooting.md#finding-the-game) ("no installed Forza track found").
+
 `--track <folder>` skips all of this.
 
 A track folder holds what the export reads:
@@ -77,10 +80,10 @@ The console says `on <track>, in <game folder>`.
 How terrain is found (in `forzaterrain.py`):
 
 - The manifests name terrain as a spatial index:
-  `scene\tbheightfield\autoterrain_x-8184_z13299_cluster012.i.modelbin`.
+  `scene\tbheightfield\autoterrain_x-2046_z1023_cluster012.i.modelbin`.
 - The two numbers are grid coordinates that **step by 1023**, and each grid step
-  is a **512 m** tile. Tile `x-8184` is `-8184 / 1023 = -8`, which begins at
-  `-8 * 512 = -4096` m. If you read the names as metres, every lookup misses by a
+  is a **512 m** tile. Tile `x-2046` is `-2046 / 1023 = -2`, which begins at
+  `-2 * 512 = -1024` m. If you read the names as metres, every lookup misses by a
   factor of two and still returns terrain, from the wrong part of the map.
 - A tile may appear three times: plain, `_cb` and `_ul`. All three cover the same
   ground. One is taken per tile, in that order of preference, because merging
@@ -114,9 +117,9 @@ shader decides asphalt or grass per pixel. So:
 | water | material name matching `water`, `lake`, `river`, `paddy`, `ocean` or `sea` |
 | terrain | everything else |
 
-Measured on a test circuit's recorded laps, 99.2% of the samples land on
-road-strip triangles, and 94.3% on the asphalt part once the mask has split off
-the verge.
+Measured on the test circuit's recorded laps, nearly all samples land on
+road-strip triangles, and the large majority on the asphalt part once the mask
+has split off the verge.
 
 The asphalt mask only exists when ground textures are baked. With
 `--no-textures`, or for a tile whose maps are missing, road strips stay whole as
@@ -239,8 +242,8 @@ A material does not name its textures. It lists them as hashes, and the track's
 `<Textures>` section is read, which stops reading at `</Textures>` in a file that
 can be tens of megabytes. Then:
 
-1. Slot `0x88B483AA` is the base colour in the standard environment shader (1,054
-   of 1,054 sampled materials). If the material binds a texture there, that one is
+1. Slot `0x88B483AA` is the base colour in the standard environment shader (every
+   sampled material). If the material binds a texture there, that one is
    used.
 2. Otherwise the texture's own kind decides, which is the word before its GUID:
    `_bclr_`, then `_diff_`, then `_colour_`.
@@ -334,25 +337,25 @@ lifted), then every placed part sorted by name. Coordinates are the game's own
 
 ## What it costs
 
-Approximate figures from the author's own runs:
+Rough orders of magnitude:
 
 | Course | Result |
 |---|---|
-| a country circuit (46 recorded laps) | about 225,000 terrain triangles on two tiles, 1.5 million placed triangles, about 10 s and 79 MB |
-| a 14.7 km point-to-point sprint | a 1.53 km² corridor instead of a 22 km² box; 1.3 million terrain triangles, about a minute, 160 MB |
-| a city street circuit, one lap | 3,400 barriers, 1,500 props, 700 signs, 174 whole buildings, 193 MB with a given budget; with the automatic budget a city corridor can reach 15 million placed triangles and about 660 MB |
+| a short country circuit | a few hundred thousand terrain triangles, over a million placed ones; seconds, under 100 MB |
+| a long point-to-point sprint | the corridor is a small fraction of the box around it; about a minute, a few hundred MB |
+| a city street circuit | thousands of barriers, props and signs and whole buildings; with the automatic budget up to several hundred MB |
 
-A square kilometre of open-world terrain is about 1.16 million triangles.
+A square kilometre of open-world terrain is about a million triangles.
 
 ## Checks behind it
 
 These are measurements made while the reader was written, as stated in the
 source. They are not re-run by the tests unless the game is installed.
 
-- Across the recorded laps of a test circuit, the car sits a median 0.19 m above the extracted ground (sd 0.14 m, worst 0.58 m), which is the car's ride height.
-- 600 of 600 sampled tiles land inside the 512 m square their name predicts.
-- Consecutive guardrail placements are exactly 4.000 m apart, and 93.5% of guardrail ends land within 5 cm of the next one's start.
-- Kerbs sit a median 3 cm above the extracted ground, faces up, within 5 m of the driving (also an installed-game test, see [Development](development.md)).
+- On the test circuit, the car sits about its ride height above the extracted ground (median under 0.2 m).
+- Every sampled tile lands inside the 512 m square its name predicts.
+- Consecutive guardrail placements are exactly 4 m apart, and most guardrail ends land within 5 cm of the next one's start.
+- Kerbs sit a few centimetres above the extracted ground, faces up, within 5 m of the driving (also an installed-game test, see [Development](development.md)).
 
 ## Not drawn
 

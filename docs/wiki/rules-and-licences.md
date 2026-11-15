@@ -1,4 +1,3 @@
-
 # Rules and licences
 
 Three rules shape the whole tool. They are design decisions, not just

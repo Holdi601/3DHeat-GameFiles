@@ -1,4 +1,3 @@
-
 # Unreal 5 IoStore
 
 Unreal 5 ships most content in **IoStore** containers: a `.utoc` table of
@@ -52,7 +51,7 @@ package path, case-insensitively. Containers that fail to open are skipped.
 (`.ubulk`) is found as the chunk with the same id and type `BULK_DATA`, in
 whichever container holds it.
 
-Checked: 54 containers, 47,246 package paths.
+Checked: every container of the installed game and every package path in it.
 
 ## Zen packages
 
@@ -105,7 +104,7 @@ volume**, found from the data and marked `(unknown)`. A value present in one of
 those slots is an error, not a guess. A slot past the end of a schema, or an
 unknown type, raises `PropertyError`.
 
-Checked: 32,310 static-mesh and 10,906 scene components across 16 levels decode,
+Checked: every static-mesh and scene component of every stage decodes,
 each ending exactly at its class's fixed native tail. A game patch can move slots.
 The reader then raises, and the course reports how many components failed.
 
@@ -128,7 +127,7 @@ index of the mesh's own `BodySetup` export. It is then read in the order
 A level that is not stored inline ends the list. A mesh with none is refused.
 Positions are Unreal's: centimetres, X forward, Y right, Z up.
 
-Checked: 296 of 300 random meshes decode (the other four are skeletal), and a road
+Checked: nearly every sampled mesh decodes (the rest are skeletal), and a road
 tile's decoded extent matches the bounds it stores.
 
 ## Textures
@@ -161,5 +160,4 @@ assembled tile by tile, borders removed, from the level whose resolution is
 nearest the wanted size. Only the first layer is read, and only in the formats
 above.
 
-Checked: the first chunk of a stage's 16,384 px base colour is
-4 + 4,096 x 34,848 bytes, its 64 x 64 tiles of 256 px accounted for to the byte.
+Checked: a virtual texture chunk's tiles are accounted for to the byte.
