@@ -12,6 +12,7 @@ is inside it, give me that, and turn a lap into a course.
 | [`meshes`](#meshes) | a Unity `SerializedFile` | lists and checks its meshes |
 | [`course`](#course) | a lap | exports the course around it (Forza, BeamNG.drive, Assetto Corsa Rally) |
 | [`courses`](#courses) | a recorded lap library | runs `course` on every course in it (Forza) |
+| [`races`](#races) | an installed Forza | lists every race the game defines: what it adds, what it hides, venues, the state of its export |
 | [`terrain`](#terrain) | a Forza track folder | cuts a region by world coordinates |
 | [`levels`](#levels-and-level-frostbite) | an installed Frostbite game (Battlefield 6) | lists its levels |
 | [`level`](#levels-and-level-frostbite) | a level's name | exports the level: terrain, placed meshes, optionally their colour maps (Battlefield 6) |
@@ -363,12 +364,53 @@ dropped from the name.
 How a run behaves:
 
 - A course whose `.glb` already exists is skipped (`kept`) unless `--force` is given, so an interrupted run carries on where it stopped.
+- A `.glb` written by an older version, without the race's own layer and venues (its `asset.extras.course_format` is missing or lower than the current one), is exported again, as if `--force` were given for it alone.
+- Two course folders with the same name before ` (course_` (a recorder that named a new course after an old one) do not overwrite each other: the folder created first keeps `<name>.glb`, the other is written as `<name>_<start>.glb`, `<start>` being where it starts, minus signs as `m` (for example `example_circuit_m120_m340.glb`).
 - A course that fails (unreadable laps, out of memory, no terrain...) is reported as `FAILED`, and the run continues.
 - At the end it prints a table of status, size in MB, seconds taken and name, then `<n> of <total> courses in <folder>`.
 - The exit code is 1 if any course failed.
 
 ```
 python -m heat3d_gamefiles courses -o courses --only circuit sprint --texture-size 1024
+```
+
+## races
+
+```
+python -m heat3d_gamefiles races [-o FOLDER] [--markdown FILE] [options]
+```
+
+Lists every race an installed Forza defines, from its route definitions (see
+[Forza Horizon courses](course-forza-horizon#which-race)), and checks the
+exports in a `courses` folder against them. It reads the game and the lap library;
+it writes nothing but the optional table.
+
+| Option | Default | Meaning |
+|---|---|---|
+| `-o`, `--out FOLDER` | `courses` | the folder `courses` writes to, whose files are checked |
+| `--library DIR` | `%LOCALAPPDATA%\FHCompanion\laps` | the lap library |
+| `--track DIR` | searched | the track folder, if not the installed game's |
+| `--markdown FILE` | none | also write the table there, as Markdown |
+
+One row per race, and one per recorded course driven on it:
+
+| Column | Meaning |
+|---|---|
+| route | the route id |
+| course | the recorded course matched to it, if any |
+| own assets | copies the race adds to the free-roam world |
+| drawn | of those, copies whose model the track ships |
+| kinds | the added copies by kind (barriers, props, decals, infrastructure, ...) |
+| not geometry | spectator markers and collision splines, counted |
+| hidden | free-roam objects the race removes |
+| venue | the venue ground models the race's AI line passes within 10 m of |
+| export | `current`, `older format` (exported again by `courses`), `not exported`, or empty for a race with no recorded course |
+
+It ends with a count: `<n> races: <a> with assets of their own, <v> through a
+venue, <d> driven in the lap library, <s> recorded courses to export again`.
+
+```
+python -m heat3d_gamefiles races -o courses --markdown races.md
 ```
 
 ## terrain

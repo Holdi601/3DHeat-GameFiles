@@ -59,10 +59,10 @@ Python balíček: `heat3d_gamefiles`. Repozitář:
 | Source 2 `.vpk` | ne | `identify`, `list`, `extract` |
 | Hry Unreal 5 s World Partition | bez tratě; celou mapu přes `ue-map` (vypisuje ji `ue-maps`): krajina, budovy HLOD a rekvizity, voda | - |
 | Arma Reforger (Enfusion) | bez tratě; celý svět přes `enfusion-world` (vypisuje ho `enfusion-worlds`): terén v jeho barvách, moře, budovy jako krabice | - |
-| Forza (auta) | `cars`: každé auto v nízkém detailu pro záložku Analýza závodu prohlížeče | - |
+| Forza (auta) | `cars`: každé auto v nízkém detailu pro kartu Analýza závodu prohlížeče | - |
 
 Kola z Assetto Corsa EVO a iRacing se odmítnou s uvedením důvodu. Viz
-[Omezení a známé mezery](../limits-and-known-gaps.md).
+[Omezení a známé mezery](limits-and-known-gaps.md).
 
 ## Instalace {#install}
 
@@ -91,7 +91,7 @@ repozitáře jako `python -m heat3d_gamefiles <příkaz>`.
 | pytest | testy |
 
 Obsah Unreal komprimovaný pomocí **Oodle** potřebuje knihovnu Oodle, která je už na vašem
-počítači. Tento nástroj ji nikdy neobsahuje. Viz [Oodle](../reader-oodle.md).
+počítači. Tento nástroj ji nikdy neobsahuje. Viz [Oodle](reader-oodle.md).
 
 Nástroj je psaný pro Windows. Hry hledá v seznamu knihoven Steamu a v `%LOCALAPPDATA%`
 a Oodle načítá jako DLL pro Windows. Jiné platformy nebyly testovány.
@@ -101,7 +101,7 @@ a Oodle načítá jako DLL pro Windows. Jiné platformy nebyly testovány.
 **Soubor kola** je záznam toho, kam jel váš vůz: seznam bodů x, y, z.
 Pochází z [3DHeat GameCapture](https://github.com/Holdi601/3DHeat-GameCapture)
 nebo z knihovny kol aplikace FH Companion; funguje i CSV psané ručně
-([Vstupy kol](../lap-inputs.md)).
+([Vstupy kol](lap-inputs.md)).
 
 ```
 # Forza: soubor kola, složka kol, nebo název trati z knihovny FH Companion
@@ -124,7 +124,7 @@ python -m heat3d_gamefiles ue-map "<game>" <map> -o map.glb
 python -m heat3d_gamefiles enfusion-worlds
 python -m heat3d_gamefiles enfusion-world <world> -o world.glb
 
-# Každé auto Forza, pro záložku Analýza závodu prohlížeče
+# Každé auto Forza, pro kartu Analýza závodu prohlížeče
 python -m heat3d_gamefiles cars -o forza.h3dcars
 
 # Co je tento soubor?
@@ -132,34 +132,34 @@ python -m heat3d_gamefiles identify some_archive.pak
 ```
 
 Otevřete `.glb` v prohlížeči 3DHeat. Souřadnice světa hry se zachovávají
-(viz [Formát výstupu](../output-format.md)), takže zaznamenané kolo sedí na trati.
+(viz [Formát výstupu](output-format.md)), takže zaznamenané kolo sedí na trati.
 
 ## Přehled dokumentace {#map-of-this-documentation}
 
 - [Než začnete](before-you-start.md): Python, terminál, první příkaz.
-- [Příkazy](../commands.md): každý příkaz a možnost, s příklady.
+- [Příkazy](commands.md): každý příkaz a možnost, s příklady.
 - [Přehled příkazů](../cli-reference.md): `--help` každého příkazu, vygenerováno z kódu.
-- [Prohlížení archivů](../inspecting-archives.md): `identify`, `list`, `extract`, `meshes`, krok za krokem.
-- [Export trati](../course-export.md): jak se kolo změní na trať, pro všechny hry.
-  - [Forza Horizon](../course-forza-horizon.md)
-  - [BeamNG.drive](../course-beamng.md)
-  - [Assetto Corsa Rally](../course-assetto-corsa-rally.md)
-  - [Úrovně detailu a rozpočet](../detail-budget.md)
-- [Celé úrovně](../whole-levels.md): úroveň, mapa nebo svět bez kola.
-  - [Úrovně Battlefield 6](../level-battlefield.md): `levels`, `level`
-  - [Mapy Unreal 5](../level-unreal-world-partition.md): `ue-maps`, `ue-map`
-  - [Světy Arma Reforger](../level-arma-reforger.md): `enfusion-worlds`, `enfusion-world`
-- [Auta Forza](../forza-cars.md): `cars`, soubor aut pro záložku Analýza závodu prohlížeče.
-- [Vstupy kol](../lap-inputs.md): každý tvar souboru kola, který nástroj přijímá.
-- [Formát výstupu](../output-format.md): co je uvnitř `.glb`.
-- [Čtečky archivů](../archive-readers.md): jedna stránka na každý kontejnerový formát, co čte,
+- [Prohlížení archivů](inspecting-archives.md): `identify`, `list`, `extract`, `meshes`, krok za krokem.
+- [Export trati](course-export.md): jak se kolo změní na trať, pro všechny hry.
+  - [Forza Horizon](course-forza-horizon.md)
+  - [BeamNG.drive](course-beamng.md)
+  - [Assetto Corsa Rally](course-assetto-corsa-rally.md)
+  - [Úrovně detailu a rozpočet](detail-budget.md)
+- [Celé úrovně](whole-levels.md): úroveň, mapa nebo svět bez kola.
+  - [Úrovně Battlefield 6](level-battlefield.md): `levels`, `level`
+  - [Mapy Unreal 5](level-unreal-world-partition.md): `ue-maps`, `ue-map`
+  - [Světy Arma Reforger](level-arma-reforger.md): `enfusion-worlds`, `enfusion-world`
+- [Auta Forza](forza-cars.md): `cars`, soubor aut pro kartu Analýza závodu prohlížeče.
+- [Vstupy kol](lap-inputs.md): každý tvar souboru kola, který nástroj přijímá.
+- [Formát výstupu](output-format.md): co je uvnitř `.glb`.
+- [Čtečky archivů](archive-readers.md): jedna stránka na každý kontejnerový formát, co čte,
   co nečte a proč.
-- [Omezení a známé mezery](../limits-and-known-gaps.md)
-- [Řešení potíží](../troubleshooting.md): chybová hlášení a co s nimi dělat.
-- [Pravidla a licence](../rules-and-licences.md): žádné klíče, vaše vlastní soubory, žádné šíření.
-- [Aktualizace](../updates.md): kontrola aktualizací a `heat3d_update`.
-- [Vývoj](../development.md): přehled modulů a testy, včetně testů, které běží na nainstalovaných hrách.
-- [Údržba](../maintaining.md): kontrolní seznam vydání těchto stránek.
+- [Omezení a známé mezery](limits-and-known-gaps.md)
+- [Řešení potíží](troubleshooting.md): chybová hlášení a co s nimi dělat.
+- [Pravidla a licence](rules-and-licences.md): žádné klíče, vaše vlastní soubory, žádné šíření.
+- [Aktualizace](updates.md): kontrola aktualizací a `heat3d_update`.
+- [Vývoj](development.md): přehled modulů a testy, včetně testů, které běží na nainstalovaných hrách.
+- [Údržba](maintaining.md): kontrolní seznam vydání těchto stránek.
 
 ## Součást 3DHeat {#part-of-3dheat}
 

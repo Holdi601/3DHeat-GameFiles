@@ -61,7 +61,7 @@ Pakiet Python: `heat3d_gamefiles`. Repozytorium:
 | Forza (samochody) | `cars`: każdy samochód w niskim detalu, dla zakładki Analiza wyścigowa przeglądarki | - |
 
 Okrążenia z Assetto Corsa EVO i iRacing są odrzucane z podaniem powodu. Zobacz
-[Ograniczenia i znane luki](../limits-and-known-gaps.md).
+[Ograniczenia i znane luki](limits-and-known-gaps.md).
 
 ## Instalacja {#install}
 
@@ -90,7 +90,7 @@ repozytorium, jako `python -m heat3d_gamefiles <czasownik>`.
 | pytest | testy |
 
 Zawartość Unreal skompresowana przez **Oodle** wymaga biblioteki Oodle, która już jest na twoim komputerze.
-Żadnej nie dołączamy do tego narzędzia. Zobacz [Oodle](../reader-oodle.md).
+Żadnej nie dołączamy do tego narzędzia. Zobacz [Oodle](reader-oodle.md).
 
 Narzędzie jest pisane dla Windows. Znajduje gry przez listę bibliotek Steam i `%LOCALAPPDATA%`,
 a Oodle ładuje jako bibliotekę DLL Windows. Inne platformy nie były testowane.
@@ -100,7 +100,7 @@ a Oodle ładuje jako bibliotekę DLL Windows. Inne platformy nie były testowane
 **Plik okrążenia** to zapis tego, dokąd pojechał twój samochód: lista punktów x, y, z.
 Pochodzi z [3DHeat GameCapture](https://github.com/Holdi601/3DHeat-GameCapture)
 albo z biblioteki okrążeń aplikacji FH Companion; ręcznie wpisany CSV też działa
-([Dane wejściowe okrążeń](../lap-inputs.md)).
+([Dane wejściowe okrążeń](lap-inputs.md)).
 
 ```
 # Forza: plik okrążenia, folder okrążeń albo nazwa toru z biblioteki FH Companion
@@ -131,33 +131,33 @@ python -m heat3d_gamefiles identify some_archive.pak
 ```
 
 Otwórz `.glb` w przeglądarce 3DHeat. Oryginalne współrzędne świata gry są zachowane
-(zob. [Format wyjściowy](../output-format.md)), więc nagrane okrążenie pasuje do toru.
+(zob. [Format wyjściowy](output-format.md)), więc nagrane okrążenie pasuje do toru.
 
 ## Mapa dokumentacji {#map-of-this-documentation}
 
 - [Zanim zaczniesz](before-you-start.md): Python, terminal, pierwsze polecenie.
-- [Polecenia](../commands.md): każdy czasownik i opcja, z przykładami.
+- [Polecenia](commands.md): każdy czasownik i opcja, z przykładami.
 - [Opis poleceń](../cli-reference.md): `--help` każdego czasownika, generowane z kodu.
-- [Przeglądanie archiwów](../inspecting-archives.md): `identify`, `list`, `extract`, `meshes`, krok po kroku.
-- [Eksport toru](../course-export.md): jak okrążenie staje się torem, dla wszystkich gier.
-  - [Forza Horizon](../course-forza-horizon.md)
-  - [BeamNG.drive](../course-beamng.md)
-  - [Assetto Corsa Rally](../course-assetto-corsa-rally.md)
-  - [Poziomy szczegółowości i budżet](../detail-budget.md)
-- [Całe poziomy](../whole-levels.md): poziom, mapa albo świat bez okrążenia.
-  - [Poziomy Battlefield 6](../level-battlefield.md): `levels`, `level`
-  - [Mapy Unreal 5](../level-unreal-world-partition.md): `ue-maps`, `ue-map`
-  - [Światy Arma Reforger](../level-arma-reforger.md): `enfusion-worlds`, `enfusion-world`
-- [Samochody Forzy](../forza-cars.md): `cars`, plik samochodów dla zakładki Analiza wyścigowa przeglądarki.
-- [Dane wejściowe okrążeń](../lap-inputs.md): każdy kształt pliku okrążenia, jaki przyjmuje narzędzie.
-- [Format wyjściowy](../output-format.md): co jest w `.glb`.
-- [Czytniki archiwów](../archive-readers.md): jedna strona na format kontenera, z opisem tego, co czyta, czego nie czyta i dlaczego.
-- [Ograniczenia i znane luki](../limits-and-known-gaps.md)
-- [Rozwiązywanie problemów](../troubleshooting.md): komunikaty o błędach i co z nimi zrobić.
-- [Zasady i licencje](../rules-and-licences.md): bez kluczy, twoje własne pliki, bez redystrybucji.
-- [Aktualizacje](../updates.md): sprawdzanie aktualizacji i `heat3d_update`.
-- [Rozwój](../development.md): mapa modułów i testy, w tym testy uruchamiane na zainstalowanych grach.
-- [Utrzymanie](../maintaining.md): lista kontrolna wydania dla tych stron.
+- [Przeglądanie archiwów](inspecting-archives.md): `identify`, `list`, `extract`, `meshes`, krok po kroku.
+- [Eksport toru](course-export.md): jak okrążenie staje się torem, dla wszystkich gier.
+  - [Forza Horizon](course-forza-horizon.md)
+  - [BeamNG.drive](course-beamng.md)
+  - [Assetto Corsa Rally](course-assetto-corsa-rally.md)
+  - [Poziomy szczegółowości i budżet](detail-budget.md)
+- [Całe poziomy](whole-levels.md): poziom, mapa albo świat bez okrążenia.
+  - [Poziomy Battlefield 6](level-battlefield.md): `levels`, `level`
+  - [Mapy Unreal 5](level-unreal-world-partition.md): `ue-maps`, `ue-map`
+  - [Światy Arma Reforger](level-arma-reforger.md): `enfusion-worlds`, `enfusion-world`
+- [Samochody Forzy](forza-cars.md): `cars`, plik samochodów dla zakładki Analiza wyścigowa przeglądarki.
+- [Dane wejściowe okrążeń](lap-inputs.md): każdy kształt pliku okrążenia, jaki przyjmuje narzędzie.
+- [Format wyjściowy](output-format.md): co jest w `.glb`.
+- [Czytniki archiwów](archive-readers.md): jedna strona na format kontenera, z opisem tego, co czyta, czego nie czyta i dlaczego.
+- [Ograniczenia i znane luki](limits-and-known-gaps.md)
+- [Rozwiązywanie problemów](troubleshooting.md): komunikaty o błędach i co z nimi zrobić.
+- [Zasady i licencje](rules-and-licences.md): bez kluczy, twoje własne pliki, bez redystrybucji.
+- [Aktualizacje](updates.md): sprawdzanie aktualizacji i `heat3d_update`.
+- [Rozwój](development.md): mapa modułów i testy, w tym testy uruchamiane na zainstalowanych grach.
+- [Utrzymanie](maintaining.md): lista kontrolna wydania dla tych stron.
 
 ## Część 3DHeat {#part-of-3dheat}
 

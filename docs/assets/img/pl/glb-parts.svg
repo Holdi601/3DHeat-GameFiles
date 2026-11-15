@@ -3,7 +3,7 @@
 <text x="20" y="32" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="18" font-weight="600" fill="#1f2328" text-anchor="start">Części w .glb: nazwa węzła mówi, czym każda jest</text>
 <rect x="20" y="50" width="22" height="22" rx="4" fill="#6f8f4e" stroke="#55606e"/>
 <text x="54" y="67" font-family="Consolas,Menlo,DejaVu Sans Mono,monospace" font-size="15" fill="#1f2328">ground:terrain</text>
-<text x="330" y="67" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="400" fill="#3d4450" text-anchor="start">ląd; na kafel lub kwadrat 512 m</text>
+<text x="330" y="67" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="400" fill="#3d4450" text-anchor="start">grunt; na kafel lub kwadrat 512 m</text>
 <rect x="20" y="84" width="22" height="22" rx="4" fill="#55595f" stroke="#55606e"/>
 <text x="54" y="101" font-family="Consolas,Menlo,DejaVu Sans Mono,monospace" font-size="15" fill="#1f2328">ground:road</text>
 <text x="330" y="101" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="400" fill="#3d4450" text-anchor="start">nawierzchnia jazdy</text>

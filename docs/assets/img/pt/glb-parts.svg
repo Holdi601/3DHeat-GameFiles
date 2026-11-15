@@ -11,8 +11,8 @@
 <text x="54" y="135" font-family="Consolas,Menlo,DejaVu Sans Mono,monospace" font-size="15" fill="#1f2328">ground:verge</text>
 <text x="330" y="135" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="400" fill="#3d4450" text-anchor="start">a borda da pista</text>
 <rect x="20" y="152" width="22" height="22" rx="4" fill="#d9534f" stroke="#55606e"/>
-<text x="54" y="169" font-family="Consolas,Menlo,DejaVu Sans Mono,monospace" font-size="15" fill="#1f2328">ground:kerbs</text>
-<text x="330" y="169" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="400" fill="#3d4450" text-anchor="start">zebras, sempre em detalhe total</text>
+<text x="54" y="169" font-family="Consolas,Menlo,DejaVu Sans Mono,monospace" font-size="15" fill="#1f2328">ground:lancis</text>
+<text x="330" y="169" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="400" fill="#3d4450" text-anchor="start">lancis, sempre em detalhe total</text>
 <rect x="20" y="186" width="22" height="22" rx="4" fill="#f1f1f1" stroke="#55606e"/>
 <text x="54" y="203" font-family="Consolas,Menlo,DejaVu Sans Mono,monospace" font-size="15" fill="#1f2328">ground:markings</text>
 <text x="330" y="203" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="400" fill="#3d4450" text-anchor="start">linhas pintadas</text>

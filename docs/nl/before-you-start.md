@@ -70,4 +70,4 @@ Je ziet `usage: heat3d_gamefiles [-h]` en een lijst met werkwoorden (`identify`,
 | `No module named numpy` (of een andere naam) | Stap 4 is overgeslagen. Voer `pip install -r requirements.txt` uit. |
 | `can't open file` / `not found` met een pad | Het pad heeft spaties zonder aanhalingstekens, of er zit een typefout in. Zet het tussen dubbele aanhalingstekens. |
 
-Meer meldingen en hun oplossingen: [Problemen oplossen](../troubleshooting.md).
+Meer meldingen en hun oplossingen: [Problemen oplossen](troubleshooting.md).

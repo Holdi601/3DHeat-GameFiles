@@ -21,7 +21,7 @@
  "<map>.glb": "<map>.glb",
  "<world>.glb": "<world>.glb",
  "A lap goes in, the track around it comes out": "Kolo vstoupí, kolem něj vyjde trať",
- "Background / level: your heat": "Pozadí/úroveň: vaše teplota",
+ "Background / level: your heat": "Pozadí/úroveň: vaše teplo",
  "Battlefield 6 --navmesh: where a soldier can stand": "Battlefield 6 --navmesh: kde může voják stát",
  "Budget": "Rozpočet",
  "Corridor": "Koridor",
@@ -30,7 +30,7 @@
  "Ground + models": "Země + modely",
  "HLOD meshes": "sítě HLOD",
  "Installed game": "Nainstalovaná hra",
- "Kerbs": "Obrubníky",
+ "Kerbs": "Obruby",
  "Landscape": "Krajina",
  "Level table": "Tabulka úrovně",
  "One .glb": "Jeden .glb",
@@ -121,5 +121,5 @@
  "water:<world>": "water:<world>",
  "within --detail-budget": "v rámci --detail-budget",
  "worlds with a terrain": "světy s terénem",
- "y up, z north": "y nahoru, z na sever"
+ "y up, z north": "y nahoru, z sever"
 }

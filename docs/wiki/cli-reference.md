@@ -7,18 +7,20 @@ do not edit it by hand. The other pages explain each command step by step.
 
 ```text
 usage: heat3d_gamefiles [-h]
-                        {identify,list,extract,meshes,course,courses,cars,terrain,levels,level,ue-maps,ue-map,enfusion-worlds,enfusion-world} ...
+                        {identify,list,extract,meshes,course,courses,races,cars,terrain,levels,level,ue-maps,ue-map,enfusion-worlds,enfusion-world} ...
 
 Read level data out of shipped game archives.
 
 positional arguments:
-  {identify,list,extract,meshes,course,courses,cars,terrain,levels,level,ue-maps,ue-map,enfusion-worlds,enfusion-world}
+  {identify,list,extract,meshes,course,courses,races,cars,terrain,levels,level,ue-maps,ue-map,enfusion-worlds,enfusion-world}
     identify            say what a file is
     list                list what is inside an archive
     extract             write one entry to disk
     meshes              list the meshes in a Unity container
     course              export the ground around a lap, working out the rest
     courses             export every course in a recorded lap library, one file each
+    races               every race an installed Forza defines: its own assets, venues,
+                        and the exports of it
     cars                every car of an installed Forza at low detail, in one file for
                         the viewer
     terrain             cut a piece of Forza terrain out, by world coordinates
@@ -180,6 +182,20 @@ options:
   --force               export again what is already there
   --track TRACK         the track folder, if not the installed game's
   --margin MARGIN       metres either side of the driving (default 80)
+```
+
+## `races`
+
+```text
+usage: heat3d_gamefiles races [-h] [-o OUT] [--library LIBRARY] [--track TRACK]
+                              [--markdown MARKDOWN]
+
+options:
+  -h, --help           show this help message and exit
+  -o, --out OUT        the folder `courses` writes to (default ./courses)
+  --library LIBRARY    the lap library (default: FH Companion's)
+  --track TRACK        the track folder, if not the installed game's
+  --markdown MARKDOWN  also write the table here
 ```
 
 ## `cars`
