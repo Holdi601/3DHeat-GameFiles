@@ -130,9 +130,9 @@ def surface_keys(geometry: Geometry) -> np.ndarray:
     surface is built as strips with three UV sets, running across and along the
     carriageway, and nothing else has them.
 
-    Checked against 46 recorded laps of one circuit: 99.2% of 16,920 samples
-    land on triangles this calls road, 0.7% on markings that lie on the road, and
-    0.1% on terrain - a car running wide.
+    Checked against the recorded laps of the test circuit: nearly all samples
+    land on triangles this calls road, a few on markings that lie on the road, and
+    a handful on terrain - a car running wide.
 
     Markings and water still come from the material, because for those the
     material is specific: a decal submesh is nothing but the decal.

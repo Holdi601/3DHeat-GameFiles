@@ -2,8 +2,8 @@
 The ground a course runs through: a band either side of the driven line.
 
 A lap's bounding box is the right cut for a circuit and the wrong one for a
-point-to-point race. A 14.7 km sprint runs corner to corner of a 6 by
-3.6 km box, and the box is 22 square kilometres - twenty-five million
+point-to-point race. A long sprint runs corner to corner of a box of
+twenty square kilometres and more - tens of millions of
 terrain triangles, nearly all of them hillside nobody drives past. The corridor
 is the band that matters, and for a sprint it is a tenth of the box.
 

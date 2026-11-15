@@ -18,8 +18,8 @@ by its type GUID and signature, which are in every partition that uses it::
                              each padded to sixteen bytes
 
 The evidence for the reading: in the member arrays of a level, the field at +160
-imports a partition named like a MeshSet in every member, and every one of the
-41,277 copies of a level resolved to one; the array at +88 is always of the
+imports a partition named like a MeshSet in every member, and every copy of a
+level resolved to one; the array at +88 is always of the
 64-byte type; its first three rows are a rotation, scaled — two in three copies
 have a determinant of 1 to a thousandth, the rest are scaled or mirrored props —
 and the translations draw the level's buildings where its sub-world names say
@@ -373,8 +373,8 @@ def find_objects(
     reference names. A level keeps many of its prefabs under its own folder,
     placed by its worlds in ways other than these references, and a prefab
     walked from as if it were the world puts its contents at its local
-    coordinates: in the test level 1,742 copies of barriers, sandbags and
-    chairs piled round the world's origin, 120 m under the ground.
+    coordinates: in the test level hundreds of copies piled round the
+    world's origin, far under the ground.
     """
     meshes = {e.name for e in level.res.values() if e.res_type == MESHSET}
     found = Placements()
