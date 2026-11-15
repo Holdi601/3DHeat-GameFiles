@@ -12,7 +12,7 @@ search_exclude: true
 `.glb` је једна 3D датотека: тло, зграде и вода стазе или нивоа, коју отварате у панелу
 Позадина / ниво у 3DHeat приказивачу.
 
-Сваки извоз (`course`, `courses`, `terrain`, `level`, `ue-map`, `enfusion-world`) пише једну **binary glTF 2.0**
+Сваки извоз (`course`, `courses`, `terrain`, `level`, `ue-map`, `enfusion-world`) пише једну **бинарну glTF 2.0**
 датотеку (`.glb`). Намерно је мала и равна, и уређена онако како 3DHeat приказивач чита ниво.
 Извор:
 [`glb.py`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/heat3d_gamefiles/glb.py).
@@ -38,7 +38,7 @@ scene 0
   тада држао свако теме једном по делу.
 - `asset.generator` је `heat3d_gamefiles`.
 - **Мало `extras`**, и без имена игре, стазе или нивоа:
-  - Battlefield 6 део разбивљиве мреже носи `{"destructible": true}` на свом чвору;
+  - Battlefield 6 део разбијиве мреже носи `{"destructible": true}` на свом чвору;
   - Forza стаза каже шта садржи у `asset.extras` (верзија формата, подударена
     идентификатор руте, колико копија слоја трке, места; видите
     [Forza Horizon стазе](course-forza-horizon.md#writing-the-file)), а њени укључени делови носе свој
@@ -154,7 +154,7 @@ scene 0
 - **Слике** се уграђују у бинарни део као **JPEG**, квалитет 90, без поткодирања боје, само RGB (алфа
   се одбацује) - осим Battlefield 6 мапе изрезака (листови, ограде), која је **PNG** са својом алфом, на
   материјалу са `alphaMode` MASK, `alphaCutoff` 0,5 и `doubleSided` (видите
-  [Frostbite](reader-frostbite.md#textures-and-materials)). 3DHeat приказивач одбацује текеле испод
+  [Frostbite](reader-frostbite.md#textures-and-materials)). 3DHeat приказивач одбацује текселе испод
   граничне вредности. Тло од 2.048 px са травом и крошњама дрвећа је шум за кодер без губитака: више
   мегабајта по плочици као PNG, испод једног као JPEG. Слика коју дели више делова се чува једном.
 - Један узорковач за све текстуре: линеарно увећање, linear-mipmap-linear умањење, **clamp to edge** на

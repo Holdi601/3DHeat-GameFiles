@@ -69,4 +69,4 @@ A `usage: heat3d_gamefiles [-h]` sort és az igék listáját kell látnod (`ide
 | `No module named numpy` (vagy más név) | A 4. lépést kihagytad. Futtasd a `pip install -r requirements.txt` parancsot. |
 | `can't open file` / `not found` egy útvonallal | Az útvonalban szóköz van idézőjel nélkül, vagy elgépelés történt. Tedd dupla idézőjelbe. |
 
-További üzenetek és megoldásaik: [Hibaelhárítás](../troubleshooting.md).
+További üzenetek és megoldásaik: [Hibaelhárítás](troubleshooting.md).

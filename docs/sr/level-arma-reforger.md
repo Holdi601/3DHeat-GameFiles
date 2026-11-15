@@ -24,7 +24,7 @@ search_exclude: true
    python -m heat3d_gamefiles enfusion-worlds --install "D:\Games\Arma Reforger"
    ```
 
-2. **Извези један**, по његовом називу фасцикле у `worlds/` како је исписан:
+2. **Извезите један**, по његовом називу фасцикле у `worlds/` како је исписан:
 
    ```
    python -m heat3d_gamefiles enfusion-world <world> -o world.glb
@@ -49,8 +49,8 @@ search_exclude: true
 | `--install FOLDER` | Steam библиотека која садржи игру | фасцикла игре |
 | `--ground-spacing METRES` | 2 (властито терена) | размак темена терена у датотеци |
 | `--texture-size PIXELS` | 4096 | већа страна слике боје тла; 0 за равну боју |
-| `--no-structures` | | изостави постављене моделе |
-| `--trees` | искључено | постави и дрвеће и осталу вегетацију, као кутије |
+| `--no-structures` | | изоставља постављене моделе |
+| `--trees` | искључено | поставља и дрвеће и осталу вегетацију, као кутије |
 
 ## Пример излаза {#example-output}
 

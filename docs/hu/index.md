@@ -61,7 +61,7 @@ Python-csomag: `heat3d_gamefiles`. Tároló:
 | Forza (autók) | `cars`: minden autó alacsony részletességgel, a megjelenítő Versenyelemzés fülének | - |
 
 A kört Assetto Corsa EVO-ból és iRacingből indokkal visszautasítja. Lásd:
-[Korlátok és ismert hiányosságok](../limits-and-known-gaps.md).
+[Korlátok és ismert hiányosságok](limits-and-known-gaps.md).
 
 ## Telepítés {#install}
 
@@ -91,7 +91,7 @@ Ezután ellenőrizd: `python -m heat3d_gamefiles --help`. A következőt kell l�
 | pytest | a tesztek |
 
 Az **Oodle**-lel tömörített Unreal-tartalomhoz olyan Oodle-könyvtár kell, amely már a gépén van. Ezt az
-eszközzel soha nem szállítjuk. Lásd: [Oodle](../reader-oodle.md).
+eszközzel soha nem szállítjuk. Lásd: [Oodle](reader-oodle.md).
 
 Az eszköz Windowsra készült. A játékokat a Steam könyvtárlistájából és a `%LOCALAPPDATA%` mappából
 keresi, és az Oodle-t Windows DLL-ként tölti be. Más platformokat nem teszteltek.
@@ -100,7 +100,7 @@ keresi, és az Oodle-t Windows DLL-ként tölti be. Más platformokat nem teszte
 
 Egy **körfájl** a felvétele arról, hová ment az autója: x, y, z pontok listája.
 Származhat a [3DHeat GameCapture](https://github.com/Holdi601/3DHeat-GameCapture) eszközből vagy az
-FH Companion alkalmazás körkönyvtárából; kézzel írt CSV is megteszi ([Körbemenetek bemenete](../lap-inputs.md)).
+FH Companion alkalmazás körkönyvtárából; kézzel írt CSV is megteszi ([Körbemenetek bemenete](lap-inputs.md)).
 
 ```
 # Forza: egy körfájl, egy mappa, vagy egy pályanév az FH Companion könyvtárából
@@ -131,33 +131,33 @@ python -m heat3d_gamefiles identify some_archive.pak
 ```
 
 Nyisd meg a `.glb` fájlt a 3DHeat megjelenítőben. A játék saját világkoordinátái megmaradnak
-(lásd: [Kimeneti formátum](../output-format.md)), így a rögzített kör egy vonalba áll a pályával.
+(lásd: [Kimeneti formátum](output-format.md)), így a rögzített kör egy vonalba áll a pályával.
 
 ## A dokumentáció térképe {#map-of-this-documentation}
 
 - [Mielőtt elkezded](before-you-start.md): Python, egy terminál, az első parancs.
-- [Parancsok](../commands.md): minden ige és kapcsoló, példákkal.
+- [Parancsok](commands.md): minden ige és kapcsoló, példákkal.
 - [Parancsleírás](../cli-reference.md): minden ige `--help` kimenete, a kódból generálva.
-- [Archívumok vizsgálata](../inspecting-archives.md): `identify`, `list`, `extract`, `meshes`, lépésről lépésre.
-- [Pályaexport](../course-export.md): hogyan lesz egy körből pálya, minden játékra.
-  - [Forza Horizon](../course-forza-horizon.md)
-  - [BeamNG.drive](../course-beamng.md)
-  - [Assetto Corsa Rally](../course-assetto-corsa-rally.md)
-  - [Részletességi szintek és a költségkeret](../detail-budget.md)
-- [Egész pályák](../whole-levels.md): pálya, térkép vagy világ körük nélkül.
-  - [Battlefield 6 pályák](../level-battlefield.md): `levels`, `level`
-  - [Unreal 5 térképek](../level-unreal-world-partition.md): `ue-maps`, `ue-map`
-  - [Arma Reforger világok](../level-arma-reforger.md): `enfusion-worlds`, `enfusion-world`
-- [Forza autók](../forza-cars.md): `cars`, az autófájl a megjelenítő Versenyelemzés füléhez.
-- [Körbemenetek bemenete](../lap-inputs.md): minden elfogadott körfájl-forma.
-- [Kimeneti formátum](../output-format.md): mi van a `.glb`-ben.
-- [Archívumolvasók](../archive-readers.md): egy oldal konténerformátumonként, azzal, mit olvas, mit nem, és miért.
-- [Korlátok és ismert hiányosságok](../limits-and-known-gaps.md)
-- [Hibaelhárítás](../troubleshooting.md): a hibaüzenetek és mit kell tenni.
-- [Szabályok és licencek](../rules-and-licences.md): nincsenek kulcsok, saját fájlok, nincs újraterjesztés.
-- [Frissítések](../updates.md): a frissítés-ellenőrzés és a `heat3d_update`.
-- [Fejlesztés](../development.md): modultérkép és tesztek, beleértve a telepített játékokon futó teszteket.
-- [Karbantartás](../maintaining.md): a kiadási ellenőrzőlista ezekhez az oldalakhoz.
+- [Archívumok vizsgálata](inspecting-archives.md): `identify`, `list`, `extract`, `meshes`, lépésről lépésre.
+- [Pályaexport](course-export.md): hogyan lesz egy körből pálya, minden játékra.
+  - [Forza Horizon](course-forza-horizon.md)
+  - [BeamNG.drive](course-beamng.md)
+  - [Assetto Corsa Rally](course-assetto-corsa-rally.md)
+  - [Részletességi szintek és a költségkeret](detail-budget.md)
+- [Egész pályák](whole-levels.md): pálya, térkép vagy világ körük nélkül.
+  - [Battlefield 6 pályák](level-battlefield.md): `levels`, `level`
+  - [Unreal 5 térképek](level-unreal-world-partition.md): `ue-maps`, `ue-map`
+  - [Arma Reforger világok](level-arma-reforger.md): `enfusion-worlds`, `enfusion-world`
+- [Forza autók](forza-cars.md): `cars`, az autófájl a megjelenítő Versenyelemzés füléhez.
+- [Körbemenetek bemenete](lap-inputs.md): minden elfogadott körfájl-forma.
+- [Kimeneti formátum](output-format.md): mi van a `.glb`-ben.
+- [Archívumolvasók](archive-readers.md): egy oldal konténerformátumonként, azzal, mit olvas, mit nem, és miért.
+- [Korlátok és ismert hiányosságok](limits-and-known-gaps.md)
+- [Hibaelhárítás](troubleshooting.md): a hibaüzenetek és mit kell tenni.
+- [Szabályok és licencek](rules-and-licences.md): nincsenek kulcsok, saját fájlok, nincs újraterjesztés.
+- [Frissítések](updates.md): a frissítés-ellenőrzés és a `heat3d_update`.
+- [Fejlesztés](development.md): modultérkép és tesztek, beleértve a telepített játékokon futó teszteket.
+- [Karbantartás](maintaining.md): a kiadási ellenőrzőlista ezekhez az oldalakhoz.
 
 ## A 3DHeat része {#part-of-3dheat}
 

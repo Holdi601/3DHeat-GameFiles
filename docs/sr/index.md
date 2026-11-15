@@ -61,7 +61,7 @@ Python пакет: `heat3d_gamefiles`. Репозиторијум:
 | Arma Reforger (Enfusion) | нема круга; цео свет са `enfusion-world` (набраја га `enfusion-worlds`): терен у својим бојама, море, зграде као кутије | - |
 | Forza (аутомобили) | `cars`: сваки аутомобил у ниском детаљу, за картицу Анализа трке приказивача | - |
 
-Кругови из Assetto Corsa EVO и iRacing се одбијају, с разлогом. Види
+Кругови из Assetto Corsa EVO и iRacing се одбијају, с разлогом. Видите
 [Ограничења и познате празнине](limits-and-known-gaps.md).
 
 ## Инсталација {#install}

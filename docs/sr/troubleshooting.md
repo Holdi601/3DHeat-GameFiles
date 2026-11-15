@@ -63,7 +63,7 @@ search_exclude: true
 |---|---|
 | `no Oodle library found. ...` | поставите `HEAT3D_OODLE`, видите [Oodle](reader-oodle.md) |
 | `<file> has an encrypted index. Pass the AES key (--key, or aes_key= from Python) if you hold one; this tool does not recover keys.` | шифровани pak: `--key <hex>` ако имате кључ. Другог начина нема |
-| `--key is not hexadecimal: '<key>'`, `--key takes an AES-256 key, 64 hex digits; this one has <n>` | кључ је 32 бајта записана као 64 хекс цифре, `0x` опционо (излазни код 2) |
+| `--key is not hexadecimal: '<key>'`, `--key takes an AES-256 key, 64 hex digits; this one has <n>` | кључ је 32 бајта, записан као 64 хекс цифре, `0x` опционо (излазни код 2) |
 | `<file> is not an archive list and extract read (an Unreal .pak or IoStore .utoc, a Source 2 .vpk, a ForzaTech .minizip, or a zip)` | није ниједан од њих; `identify` каже шта јесте. Unity контејнер узима `meshes` |
 | `<file> is encrypted. This tool holds no keys and recovers none.` | шифрован IoStore контејнер. Не може да се прочита |
 | `pak version <n>; this reader handles 8-12` | старији или новији pak формат |

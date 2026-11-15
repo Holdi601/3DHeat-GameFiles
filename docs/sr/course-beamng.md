@@ -114,7 +114,7 @@ BeamNG испоручује обичне zip архиве и монтира их
 
 | Врста | Име материјала се поклапа (први погодак побеђује) |
 |---|---|
-| трагови guma | `rubber`, `skid`, `tire_track`, `tyre_track`, `tread_mark` |
+| трагови гума | `rubber`, `skid`, `tire_track`, `tyre_track`, `tread_mark` |
 | преклоп (козметички) | `crack`, `patch`, `repair`, `damage`, `variation`, `edge`, `erosion`, `leaf`, `litter`, `gutter`, `grass`, `puddle`, `stain`, `oil`, `trace`, `bank`, `flow`, `leak` |
 | ознаке | `line`, `marking`, `crossing`, `zebra`, `parking`, `arrow`, `stripe`, `checker`, `chevron` |
 | растресено | `dirt`, `gravel`, `mud`, `sand`, `snow`, `loose`, `dust`, `soil`, `clay`, `rally` |
@@ -148,7 +148,7 @@ BeamNG стазе су једнако често модели колико и т
 
 | Површина | Одлучује (први погодак) |
 |---|---|
-| трагови guma | `skid`, `rubber`, `tire_mark`, `tyre_mark`, `tread` у имену, врсти тла или напомени |
+| трагови гума | `skid`, `rubber`, `tire_mark`, `tyre_mark`, `tread` у имену, врсти тла или напомени |
 | ознаке | `line`, `marking`, `zebra`, `arrow`, `stripe`, `crossing` у имену материјала |
 | ивичњаци | `rumble`, `kerb`, `curb` |
 | пут | врста тла `asphalt*`, `concrete*`, `cobblestone`, `tarmac`, `street`, `paved*`, `brick*`, или име садржи `asphalt`, `tarmac`, `track_edge`, `road_surface` |
@@ -158,7 +158,7 @@ BeamNG стазе су једнако често модели колико и т
 
 Од тих материјала, троуглови **окренути нагоре** (нормала z изнад 0,5) унутар коридора се вади из
 модела и постају тло. Они се утискују у печену текстуру плочице и пишу као делови, као
-`ground:road 3_-2 asphalt_light`. Ознаке и трагови guma се само утискују. Остатак троуглова модела
+`ground:road 3_-2 asphalt_light`. Ознаке и трагови гума се само утискују. Остатак троуглова модела
 остаје уз модел. Ови модели се никад не поједностављују нити изостављају буџетом, јер је груба
 стаза погрешна стаза.
 
@@ -181,7 +181,7 @@ BeamNG стазе су једнако често модели колико и т
 4. **Декали који се пројектују и преко предмета** (`overObjects`), на крају.
 
 Са `--no-textures` ништа се не пече: делови тла добијају равне боје, а моделоване ознаке и трагови
-guma постају посебни делови, подигнути за **3 cm**.
+гума постају посебни делови, подигнути за **3 cm**.
 
 ## Постављени модели {#placed-models}
 
@@ -196,7 +196,7 @@ guma постају посебни делови, подигнути за **3 cm*
 | ивичњаци | | `kerb`, `curb`, `rumble` |
 | пут | `ASPHALT`, `STREET`, `SPEED_BUMP` | |
 | банкина | `SIDEWALK`, `COBBLESTONE` | |
-| дрвеће (само са `--trees`) | `NATURE` | tree, foliage, bush, grass, plant и слične речи |
+| дрвеће (само са `--trees`) | `NATURE` | tree, foliage, bush, grass, plant и сличне речи |
 | стене | `ROCK` | `rock`, `cliff`, `boulder`, `quarry` |
 | баријере | `GUARD_RAIL`, `ROADBLOCK` | `guard_rail`, `barrier`, `armco`, `fence`, `wall`, `tire_stack`, `tyre`, `cone`, `bollard`, `jersey`, `railing`, `catch`, `blocker` |
 | знакови | `TRAFFIC_SIGNS` | `sign`, `billboard`, `banner`, `flag`, `arrow`, `marker` |

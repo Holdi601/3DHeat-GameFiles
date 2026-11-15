@@ -38,11 +38,11 @@ permalink: /el/
 
 Είναι ένας από τους τρεις τρόπους να πάρετε τη γεωμετρία ενός επιπέδου μέσα στο 3DHeat:
 
-| Δρόμος | Χρειάζεται | Δίνει |
+| Τρόπος | Χρειάζεται | Δίνει |
 |---|---|---|
 | 3DHeat Unreal Exporter | το Unreal project ανοιχτό στον επεξεργαστή | ακριβή γεωμετρία |
 | 3DHeat GameCapture | οθόνη και καταγραφή | εκτίμηση |
-| **3DHeat GameFiles** | **το εγκατεστημένο, κυκλοφορημένο παιχνίδι** | **ακριβή γεωμετρία, χωρίς project** |
+| **3DHeat GameFiles** | **το εγκατεστημένο παιχνίδι, όπως κυκλοφόρησε** | **ακριβή γεωμετρία, χωρίς project** |
 
 Πακέτο Python: `heat3d_gamefiles`. Αποθετήριο:
 [Holdi601/3DHeat-GameFiles](https://github.com/Holdi601/3DHeat-GameFiles). Άδεια: MIT.
@@ -63,7 +63,7 @@ permalink: /el/
 | Forza (αυτοκίνητα) | `cars`: κάθε αυτοκίνητο σε χαμηλή λεπτομέρεια, για την καρτέλα Ανάλυση αγώνα του προβολέα | - |
 
 Οι γύροι από το Assetto Corsa EVO και το iRacing απορρίπτονται με αιτιολογία. Δείτε
-[Όρια και γνωστά κενά](../limits-and-known-gaps.md).
+[Όρια και γνωστά κενά](limits-and-known-gaps.md).
 
 ## Εγκατάσταση {#install}
 
@@ -92,7 +92,7 @@ pip install -r requirements.txt
 | pytest | τα τεστ |
 
 Το περιεχόμενο Unreal που είναι συμπιεσμένο με **Oodle** χρειάζεται μια βιβλιοθήκη Oodle που υπάρχει ήδη στον
-υπολογιστή σας. Ποτέ δεν συνοδεύει αυτό το εργαλείο. Δείτε [Oodle](../reader-oodle.md).
+υπολογιστή σας. Ποτέ δεν συνοδεύει αυτό το εργαλείο. Δείτε [Oodle](reader-oodle.md).
 
 Το εργαλείο είναι γραμμένο για Windows. Βρίσκει τα παιχνίδια μέσα από τη λίστα βιβλιοθηκών του Steam και το
 `%LOCALAPPDATA%`, και φορτώνει το Oodle ως DLL των Windows. Άλλες πλατφόρμες δεν έχουν δοκιμαστεί.
@@ -102,7 +102,7 @@ pip install -r requirements.txt
 Ένα **αρχείο γύρου** είναι μια καταγραφή του πού πήγε το αυτοκίνητό σας: μια λίστα σημείων x, y, z.
 Προέρχεται από το [3DHeat GameCapture](https://github.com/Holdi601/3DHeat-GameCapture) ή από τη βιβλιοθήκη γύρων
 της εφαρμογής FH Companion· ένα CSV που γράφετε με το χέρι επίσης δουλεύει
-([Είσοδοι γύρων](../lap-inputs.md)).
+([Είσοδοι γύρων](lap-inputs.md)).
 
 ```
 # Forza: ένα αρχείο γύρου, ένας φάκελος γύρων, ή το όνομα μιας πίστας από τη βιβλιοθήκη του FH Companion
@@ -115,17 +115,17 @@ python -m heat3d_gamefiles course my_lap.json
 # Κάθε πίστα της βιβλιοθήκης του FH Companion, ένα .glb για καθεμία
 python -m heat3d_gamefiles courses -o courses
 
-# Battlefield 6: καταγράψτε τα επίπεδα, και μετά εξαγάγετε ένα (μεγάλο αρχείο· δείτε Commands)
+# Battlefield 6: δείτε τα επίπεδα, και μετά εξαγάγετε ένα (μεγάλο αρχείο· δείτε Εντολές)
 python -m heat3d_gamefiles levels
 python -m heat3d_gamefiles level <level> -o level.glb --textures
 
-# Unreal 5 World Partition και Arma Reforger: καταγραφή, και μετά εξαγωγή
+# Unreal 5 World Partition και Arma Reforger: λίστα, και μετά εξαγωγή
 python -m heat3d_gamefiles ue-maps "<game>"
 python -m heat3d_gamefiles ue-map "<game>" <map> -o map.glb
 python -m heat3d_gamefiles enfusion-worlds
 python -m heat3d_gamefiles enfusion-world <world> -o world.glb
 
-# Κάθε αυτοκίνητο του Forza, για την καρτέλα αγώνα του προβολέα
+# Κάθε αυτοκίνητο του Forza, για την καρτέλα Ανάλυση αγώνα του προβολέα
 python -m heat3d_gamefiles cars -o forza.h3dcars
 
 # Τι είναι αυτό το αρχείο;
@@ -133,33 +133,33 @@ python -m heat3d_gamefiles identify some_archive.pak
 ```
 
 Ανοίξτε το `.glb` στον προβολέα 3DHeat. Οι δικές του συντεταγμένες κόσμου του παιχνιδιού διατηρούνται
-(δείτε [Μορφή εξόδου](../output-format.md)), άρα ένας καταγεγραμμένος γύρος ευθυγραμμίζεται με την πίστα.
+(δείτε [Μορφή εξόδου](output-format.md)), άρα ένας καταγεγραμμένος γύρος ευθυγραμμίζεται με την πίστα.
 
 ## Χάρτης της τεκμηρίωσης {#map-of-this-documentation}
 
 - [Πριν ξεκινήσετε](before-you-start.md): Python, τερματικό, η πρώτη εντολή.
-- [Εντολές](../commands.md): κάθε εντολή και επιλογή, με παραδείγματα.
+- [Εντολές](commands.md): κάθε εντολή και επιλογή, με παραδείγματα.
 - [Αναφορά εντολών](../cli-reference.md): το `--help` κάθε εντολής, παραγόμενο από τον κώδικα.
-- [Εξέταση αρχείων](../inspecting-archives.md): `identify`, `list`, `extract`, `meshes`, βήμα προς βήμα.
-- [Εξαγωγή πίστας](../course-export.md): πώς γίνεται πίστα ένας γύρος, για όλα τα παιχνίδια.
-  - [Forza Horizon](../course-forza-horizon.md)
-  - [BeamNG.drive](../course-beamng.md)
-  - [Assetto Corsa Rally](../course-assetto-corsa-rally.md)
-  - [Επίπεδα λεπτομέρειας και προϋπολογισμός](../detail-budget.md)
-- [Ολόκληρα επίπεδα](../whole-levels.md): ένα επίπεδο, χάρτης ή κόσμος χωρίς γύρο.
-  - [Επίπεδα του Battlefield 6](../level-battlefield.md): `levels`, `level`
-  - [Χάρτες του Unreal 5](../level-unreal-world-partition.md): `ue-maps`, `ue-map`
-  - [Κόσμοι του Arma Reforger](../level-arma-reforger.md): `enfusion-worlds`, `enfusion-world`
-- [Αυτοκίνητα Forza](../forza-cars.md): `cars`, το αρχείο αυτοκινήτων για την καρτέλα αγώνα του προβολέα.
-- [Είσοδοι γύρων](../lap-inputs.md): κάθε μορφή αρχείου γύρου που δέχεται το εργαλείο.
-- [Μορφή εξόδου](../output-format.md): τι υπάρχει μέσα στο `.glb`.
-- [Αναγνώστες αρχείων](../archive-readers.md): μία σελίδα ανά μορφή κοντέινερ, με το τι διαβάζει η κάθε μία, τι δεν διαβάζει, και γιατί.
-- [Όρια και γνωστά κενά](../limits-and-known-gaps.md)
-- [Αντιμετώπιση προβλημάτων](../troubleshooting.md): τα μηνύματα σφάλματος και τι να κάνετε.
-- [Κανόνες και άδειες](../rules-and-licences.md): χωρίς κλειδιά, τα δικά σας αρχεία, χωρίς αναδιανομή.
-- [Ενημερώσεις](../updates.md): ο έλεγχος ενημέρωσης και το `heat3d_update`.
-- [Ανάπτυξη](../development.md): χάρτης μονάδων και τεστ, συμπεριλαμβανομένων των τεστ που τρέχουν σε εγκατεστημένα παιχνίδια.
-- [Συντήρηση](../maintaining.md): η λίστα ελέγχου κυκλοφορίας για αυτές τις σελίδες.
+- [Επιθεώρηση αρχείων](inspecting-archives.md): `identify`, `list`, `extract`, `meshes`, βήμα προς βήμα.
+- [Εξαγωγή πίστας](course-export.md): πώς γίνεται πίστα ένας γύρος, για όλα τα παιχνίδια.
+  - [Forza Horizon](course-forza-horizon.md)
+  - [BeamNG.drive](course-beamng.md)
+  - [Assetto Corsa Rally](course-assetto-corsa-rally.md)
+  - [Επίπεδα λεπτομέρειας και προϋπολογισμός](detail-budget.md)
+- [Ολόκληρα επίπεδα](whole-levels.md): ένα επίπεδο, χάρτης ή κόσμος χωρίς γύρο.
+  - [Επίπεδα του Battlefield 6](level-battlefield.md): `levels`, `level`
+  - [Χάρτες του Unreal 5](level-unreal-world-partition.md): `ue-maps`, `ue-map`
+  - [Κόσμοι του Arma Reforger](level-arma-reforger.md): `enfusion-worlds`, `enfusion-world`
+- [Αυτοκίνητα Forza](forza-cars.md): `cars`, το αρχείο αυτοκινήτων για την καρτέλα Ανάλυση αγώνα του προβολέα.
+- [Είσοδοι γύρων](lap-inputs.md): κάθε μορφή αρχείου γύρου που δέχεται το εργαλείο.
+- [Μορφή εξόδου](output-format.md): τι υπάρχει μέσα στο `.glb`.
+- [Αναγνώστες αρχείων](archive-readers.md): μία σελίδα ανά μορφή κοντέινερ, με το τι διαβάζει η κάθε μία, τι δεν διαβάζει, και γιατί.
+- [Όρια και γνωστά κενά](limits-and-known-gaps.md)
+- [Αντιμετώπιση προβλημάτων](troubleshooting.md): τα μηνύματα σφάλματος και τι να κάνετε.
+- [Κανόνες και άδειες](rules-and-licences.md): χωρίς κλειδιά, τα δικά σας αρχεία, χωρίς αναδιανομή.
+- [Ενημερώσεις](updates.md): ο έλεγχος ενημέρωσης και το `heat3d_update`.
+- [Ανάπτυξη](development.md): χάρτης μονάδων και τεστ, συμπεριλαμβανομένων των τεστ που τρέχουν σε εγκατεστημένα παιχνίδια.
+- [Συντήρηση](maintaining.md): η λίστα ελέγχου κυκλοφορίας για αυτές τις σελίδες.
 
 ## Μέρος του 3DHeat {#part-of-3dheat}
 
