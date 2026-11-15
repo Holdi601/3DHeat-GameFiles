@@ -1,7 +1,7 @@
 ---
 title: Assetto Corsa Rally
 nav_order: 3
-lang: es
+lang: "es"
 source: course-assetto-corsa-rally.md
 source_hash: "2e2369b24de9"
 nav_exclude: true

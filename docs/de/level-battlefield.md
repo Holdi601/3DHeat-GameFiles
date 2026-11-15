@@ -1,7 +1,7 @@
 ---
 title: Battlefield-6-Level
 nav_order: 1
-lang: de
+lang: "de"
 source: level-battlefield.md
 source_hash: "3927f45541dc"
 nav_exclude: true
@@ -10,7 +10,7 @@ search_exclude: true
 # Battlefield-6-Level: `levels` und `level` {#battlefield-6-levels-levels-and-level}
 
 **Was ist das?** Ein ganzes Battlefield-6-Level als eine 3D-Datei. **Warum?** Damit
-die Hitze aus Ihren Partien das Gelände und die Gebäude darunter hat. (*Frostbite* ist
+die Hitze aus deinen Partien das Gelände und die Gebäude darunter hat. (*Frostbite* ist
 die Engine, mit der Battlefield gemacht ist; ein *Höhenfeld* ist das Gelände als
 Raster aus Höhen gespeichert.)
 
@@ -35,7 +35,7 @@ begehbaren Flächen der Soldaten.
    und ihrer Herkunft: `Data` für das Grundspiel, `Update/<pack>` für ein Update.
 
 2. **Eines exportieren**, unter seinem Namen, einem eindeutigen Teil davon oder seinem
-   `.toc`-Pfad. Beginnen Sie ohne Farbe, um Form und Größe zu sehen:
+   `.toc`-Pfad. Beginne ohne Farbe, um Form und Größe zu sehen:
 
    ```
    python -m heat3d_gamefiles level <level> -o level.glb

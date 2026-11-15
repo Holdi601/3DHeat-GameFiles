@@ -1,7 +1,7 @@
 ---
 title: "Comandos"
 nav_order: 2
-lang: es
+lang: "es"
 source: commands.md
 source_hash: "6c8d37db40e5"
 nav_exclude: true

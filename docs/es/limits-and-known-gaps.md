@@ -1,7 +1,7 @@
 ---
 title: Límites y carencias conocidas
 nav_order: 10
-lang: es
+lang: "es"
 source: limits-and-known-gaps.md
 source_hash: "d4e0f1a4714e"
 nav_exclude: true

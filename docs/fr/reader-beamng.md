@@ -1,7 +1,7 @@
 ---
 title: "Fichiers BeamNG"
 nav_order: 8
-lang: fr
+lang: "fr"
 source: reader-beamng.md
 source_hash: "6f7a0239e385"
 nav_exclude: true

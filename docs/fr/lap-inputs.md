@@ -1,7 +1,7 @@
 ---
 title: "Entrées de tour"
 nav_order: 7
-lang: fr
+lang: "fr"
 source: lap-inputs.md
 source_hash: "76716785ff83"
 nav_exclude: true

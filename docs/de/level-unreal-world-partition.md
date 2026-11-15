@@ -1,7 +1,7 @@
 ---
 title: Unreal-5-Karten
 nav_order: 2
-lang: de
+lang: "de"
 source: level-unreal-world-partition.md
 source_hash: "eca14618a673"
 nav_exclude: true
@@ -104,6 +104,6 @@ Boden ist ohne Textur und wird vom Viewer schattiert. Archivdetails:
 
 **Begriffe:** Die Lizenzen der Spiele erlauben meist persönliche, nichtkommerzielle
 Nutzung und verbieten das Reverse Engineering „soweit solche Handlungen nicht per
-Gesetz verboten werden können". Das Lesen Ihrer eigenen Installation ist Ihre
-Entscheidung unter diesen Lizenzen; die Ausgabe ist für Ihren eigenen Gebrauch
+Gesetz verboten werden können". Das Lesen deiner eigenen Installation ist deine
+Entscheidung unter diesen Lizenzen; die Ausgabe ist für deinen eigenen Gebrauch
 bestimmt und wird nicht weitergegeben.

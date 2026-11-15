@@ -1,7 +1,7 @@
 ---
 title: Prima di iniziare
 nav_order: 2
-lang: it
+lang: "it"
 source: before-you-start.md
 source_hash: "e32b8f35ade9"
 nav_exclude: true
@@ -70,4 +70,4 @@ Dovresti vedere `usage: heat3d_gamefiles [-h]` e un elenco di verbi (`identify`,
 | `No module named numpy` (o un altro nome) | Il passo 4 è stato saltato. Esegui `pip install -r requirements.txt`. |
 | `can't open file` / `not found` con un percorso | Il percorso ha spazi senza virgolette, oppure c'è un errore di battitura. Mettilo tra virgolette doppie. |
 
-Altri messaggi e le loro soluzioni: [Risoluzione dei problemi](../troubleshooting.md).
+Altri messaggi e le loro soluzioni: [Risoluzione dei problemi](troubleshooting.md).

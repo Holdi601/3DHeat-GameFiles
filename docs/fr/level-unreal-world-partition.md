@@ -1,7 +1,7 @@
 ---
 title: "Cartes Unreal 5"
 nav_order: 2
-lang: fr
+lang: "fr"
 source: level-unreal-world-partition.md
 source_hash: "eca14618a673"
 nav_exclude: true

@@ -1,7 +1,7 @@
 ---
 title: Unreal .pak
 nav_order: 1
-lang: de
+lang: "de"
 source: reader-unreal-pak.md
 source_hash: "36a27e2133a0"
 nav_exclude: true
@@ -10,7 +10,7 @@ search_exclude: true
 # Unreal `.pak` {#unreal-pak}
 
 **Listet und entpackt** Unreal-4.22-5.x-`.pak`-Archive: Versionen 8, 9, 10, 11 und 12,
-Zlib-, Gzip- und Oodle-Komprimierung, und verschlüsselte Archive, wenn Sie den AES-Schlüssel
+Zlib-, Gzip- und Oodle-Komprimierung, und verschlüsselte Archive, wenn du den AES-Schlüssel
 angeben. Was entpackt wird (`.uasset`, `.umap`), wird nicht interpretiert.
 
 Quelle: [`pak.py`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/heat3d_gamefiles/pak.py).
@@ -61,7 +61,7 @@ komprimierten Einträgen. Verschlüsselte Blöcke werden auf 16 Byte aufgefüllt
 
 ## Schlüssel {#keys}
 
-`--key` bei `list` und `extract` nimmt einen AES-256-Schlüssel, den Sie schon besitzen, als
+`--key` bei `list` und `extract` nimmt einen AES-256-Schlüssel, den du schon besitzt, als
 64 Hexadezimalziffern, mit oder ohne `0x`. Alles andere wird abgelehnt, bevor das Archiv
 geöffnet wird, mit Exit-Code 2. Entschlüsselt wird mit AES-256-ECB über das Paket
 `cryptography`. Es gibt keinen Codepfad, der einen Schlüssel beschafft: keine mitgelieferten

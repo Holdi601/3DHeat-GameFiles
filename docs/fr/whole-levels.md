@@ -1,7 +1,7 @@
 ---
 title: "Niveaux entiers"
 nav_order: 5
-lang: fr
+lang: "fr"
 source: whole-levels.md
 source_hash: "1b82d34dfb69"
 nav_exclude: true

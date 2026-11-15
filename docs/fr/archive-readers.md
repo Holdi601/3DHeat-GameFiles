@@ -1,7 +1,7 @@
 ---
 title: "Lecteurs d'archives"
 nav_order: 9
-lang: fr
+lang: "fr"
 source: archive-readers.md
 source_hash: "14a63a51eff5"
 nav_exclude: true

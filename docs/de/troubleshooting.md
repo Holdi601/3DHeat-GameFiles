@@ -1,7 +1,7 @@
 ---
 title: Fehlerbehebung
 nav_order: 11
-lang: de
+lang: "de"
 source: troubleshooting.md
 source_hash: "3d2cd69d42e4"
 nav_exclude: true
@@ -14,9 +14,9 @@ ist. Meldungen sind aus dem Code zitiert, Platzhalter stehen in spitzen Klammern
 
 ## Bevor das Tool überhaupt startet {#before-the-tool-even-starts}
 
-| Sie sehen | Tun Sie |
+| Du siehst | Tu |
 |---|---|
-| `'python' is not recognized` | Python 3.10 oder neuer installieren und „Add python.exe to PATH" ankreuzen; ein neues Terminal öffnen ([Bevor Sie anfangen](before-you-start.md)) |
+| `'python' is not recognized` | Python 3.10 oder neuer installieren und „Add python.exe to PATH" ankreuzen; ein neues Terminal öffnen ([Bevor du anfängst](before-you-start.md)) |
 | `No module named heat3d_gamefiles` | das Terminal steht im falschen Ordner: `cd` in den Ordner mit `README.md` |
 | `No module named numpy` (oder ein anderes Paket) | `pip install -r requirements.txt` ausführen |
 | ein Pfad mit Leerzeichen wird abgeschnitten, oder `unrecognized arguments` | den Pfad in doppelte Anführungszeichen setzen: `"C:\My Games\lap.json"` |
@@ -63,7 +63,7 @@ ist. Meldungen sind aus dem Code zitiert, Platzhalter stehen in spitzen Klammern
 | Meldung | Bedeutung |
 |---|---|
 | `no Oodle library found. ...` | `HEAT3D_OODLE` setzen, siehe [Oodle](reader-oodle.md) |
-| `<file> has an encrypted index. Pass the AES key (--key, or aes_key= from Python) if you hold one; this tool does not recover keys.` | ein verschlüsseltes Pak: `--key <hex>`, wenn Sie den Schlüssel besitzen. Einen anderen Weg gibt es nicht |
+| `<file> has an encrypted index. Pass the AES key (--key, or aes_key= from Python) if you hold one; this tool does not recover keys.` | ein verschlüsseltes Pak: `--key <hex>`, wenn du den Schlüssel besitzt. Einen anderen Weg gibt es nicht |
 | `--key is not hexadecimal: '<key>'`, `--key takes an AES-256 key, 64 hex digits; this one has <n>` | der Schlüssel sind 32 Byte, als 64 Hexadezimalziffern geschrieben, `0x` optional (Exit-Code 2) |
 | `<file> is not an archive list and extract read (an Unreal .pak or IoStore .utoc, a Source 2 .vpk, a ForzaTech .minizip, or a zip)` | es ist keines davon; `identify` sagt, was es ist. Ein Unity-Container nimmt `meshes` |
 | `<file> is encrypted. This tool holds no keys and recovers none.` | ein verschlüsselter IoStore-Container. Er kann nicht gelesen werden |
@@ -87,8 +87,8 @@ ist. Meldungen sind aus dem Code zitiert, Platzhalter stehen in spitzen Klammern
 
 | Symptom | Wahrscheinliche Ursache |
 |---|---|
-| der Kurs ist im Viewer gegenüber der Runde verschoben | Runde und Export nutzen verschiedene Bezugssysteme: `--game` prüfen (zum Beispiel eine BeamNG-Runde, als Forza gelesen) |
-| kein Seitenstreifen bei einem Forza-Kurs | `--no-textures`, oder die Kachel hatte für diese `--season` keine Karten (die Konsole sagt `N without maps`) |
+| die Strecke ist im Viewer gegenüber der Runde verschoben | Runde und Export nutzen verschiedene Bezugssysteme: `--game` prüfen (zum Beispiel eine BeamNG-Runde, als Forza gelesen) |
+| kein Seitenstreifen bei einer Forza-Strecke | `--no-textures`, oder die Kachel hatte für diese `--season` keine Karten (die Konsole sagt `N without maps`) |
 | eine Forza-Kachel in einfarbigen Flächen | ihre Bodenkarten fehlen für die Jahreszeit |
 | weit weniger platzierte Objekte als erwartet | ein ausdrücklich angegebenes `--detail-budget` ist zu klein; die Zusammenfassung sagt, wie viele Kopien fehlen |
 | die Datei ist sehr groß (hunderte MB) | ein Stadtkorridor unter dem automatischen Budget; `--detail-budget`, `--texture-size 1024` oder `--margin 40` verwenden |

@@ -1,7 +1,7 @@
 ---
 title: Før du går i gang
 nav_order: 2
-lang: da
+lang: "da"
 source: before-you-start.md
 source_hash: "e32b8f35ade9"
 nav_exclude: true

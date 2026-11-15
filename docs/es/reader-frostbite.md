@@ -1,7 +1,7 @@
 ---
 title: "Frostbite"
 nav_order: 5
-lang: es
+lang: "es"
 source: reader-frostbite.md
 source_hash: "5aa518f14f3a"
 nav_exclude: true

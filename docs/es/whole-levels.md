@@ -1,7 +1,7 @@
 ---
 title: Niveles completos
 nav_order: 5
-lang: es
+lang: "es"
 source: whole-levels.md
 source_hash: "1b82d34dfb69"
 nav_exclude: true

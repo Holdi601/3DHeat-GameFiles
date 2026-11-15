@@ -1,7 +1,7 @@
 ---
 title: "Forza Horizon"
 nav_order: 1
-lang: de
+lang: "de"
 source: course-forza-horizon.md
 source_hash: "7b7eaaf2d8b9"
 nav_exclude: true

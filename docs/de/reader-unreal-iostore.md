@@ -1,7 +1,7 @@
 ---
 title: Unreal 5 IoStore
 nav_order: 2
-lang: de
+lang: "de"
 source: reader-unreal-iostore.md
 source_hash: "a09552249e75"
 nav_exclude: true
@@ -14,7 +14,7 @@ Unreal 5 liefert den größten Teil seiner Inhalte in **IoStore**-Containern aus
 weiterhin, aber sie enthält kaum mehr als einen Footer. Die Leser hier gehen vom Container
 bis hinunter zu Geometrie und Pixeln, soweit eine Strecke es braucht. Sie wurden an
 Assetto Corsa Rally (Unreal 5.6.1, verändert) gebaut und geprüft und werden über den
-Kursexport von [Assetto Corsa Rally](course-assetto-corsa-rally.md) aufgerufen. `identify`,
+Streckenexport von [Assetto Corsa Rally](course-assetto-corsa-rally.md) aufgerufen. `identify`,
 `list` und `extract` nehmen eine `.utoc` (oder die `.ucas` daneben): die Dateien, die ihr
 Verzeichnis nennt, unter ihrem Pfad unterhalb des Einhängepunkts. Ein Container ohne
 Verzeichnisindex nennt keine Dateien und wird nicht aufgelistet.
@@ -98,7 +98,7 @@ Schemata sind für die Klassen eingebettet, die eine Strecke braucht:
 |---|---|
 | `/Script/Engine.SceneComponent` | `USceneComponent`, `UActorComponent` |
 | `/Script/Engine.StaticMeshComponent` | `UStaticMeshComponent`, `UMeshComponent`, `UPrimitiveComponent`, `USceneComponent`, `UActorComponent` |
-| `/Script/Engine.InstancedStaticMeshComponent`, `HierarchicalInstancedStaticMeshComponent`, `/Script/Foliage.FoliageInstancedStaticMeshComponent` | die ISM-Ketten (vorhanden, aber vom Kursexport nicht verwendet, weil dieser Build sie umgebaut hat) |
+| `/Script/Engine.InstancedStaticMeshComponent`, `HierarchicalInstancedStaticMeshComponent`, `/Script/Foliage.FoliageInstancedStaticMeshComponent` | die ISM-Ketten (vorhanden, aber vom Streckenexport nicht verwendet, weil dieser Build sie umgebaut hat) |
 | `/Script/Engine.RuntimeVirtualTextureComponent` | `URuntimeVirtualTextureComponent`, `USceneComponent`, `UActorComponent` |
 
 Sie decken auch die Strukturen ab, die diese halten (`FBodyInstance`, Kollisionsantworten
@@ -117,7 +117,7 @@ Vermutung. Ein Platz hinter dem Ende eines Schemas oder ein unbekannter Typ lös
 
 **Geprüft:** jede statische Mesh- und Szenenkomponente jeder Etappe wird dekodiert, und jede
 endet genau am festen nativen Ende ihrer Klasse. Ein Patch des Spiels kann Plätze
-verschieben. Der Leser bricht dann ab, und der Kurs meldet, wie viele Komponenten
+verschieben. Der Leser bricht dann ab, und die Strecke meldet, wie viele Komponenten
 fehlschlugen.
 
 ## Statische Meshes {#static-meshes}

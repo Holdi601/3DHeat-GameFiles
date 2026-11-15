@@ -1,7 +1,7 @@
 ---
 title: "Règles et licences"
 nav_order: 12
-lang: fr
+lang: "fr"
 source: rules-and-licences.md
 source_hash: "b68f4b6e3fe0"
 nav_exclude: true

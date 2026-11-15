@@ -1,7 +1,7 @@
 ---
 title: "Frostbite: `.toc`, `.cas`, Bundles, Meshes und Level"
 nav_order: 5
-lang: de
+lang: "de"
 source: reader-frostbite.md
 source_hash: "5aa518f14f3a"
 nav_exclude: true

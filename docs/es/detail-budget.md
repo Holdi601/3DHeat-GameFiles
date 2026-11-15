@@ -1,7 +1,7 @@
 ---
 title: Niveles de detalle y presupuesto
 nav_order: 4
-lang: es
+lang: "es"
 source: detail-budget.md
 source_hash: "4ff76afee3ab"
 nav_exclude: true

@@ -1,7 +1,7 @@
 ---
 title: Befehle
 nav_order: 2
-lang: de
+lang: "de"
 source: commands.md
 source_hash: "6c8d37db40e5"
 nav_exclude: true

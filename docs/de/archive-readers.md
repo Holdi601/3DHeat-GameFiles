@@ -1,7 +1,7 @@
 ---
 title: Archivleser
 nav_order: 9
-lang: de
+lang: "de"
 source: archive-readers.md
 source_hash: "14a63a51eff5"
 nav_exclude: true
@@ -25,7 +25,7 @@ richtiges, bis man es neben die Strecke stellt.
 
 | Leser | Modul | Liest | Liest nicht | Wird aufgerufen von |
 |---|---|---|---|---|
-| [Unreal .pak](reader-unreal-pak.md) | `pak.py` | Versionen 8-12: Index, Einträge, Zlib-, Gzip- und Oodle-Blöcke, AES mit einem Schlüssel, den Sie angeben | Versionen vor 8, reine Pfad-Hash-Indizes, Einträge in der Überlaufliste des Indexes, Inhalte der Assets | `identify`, `list`, `extract` |
+| [Unreal .pak](reader-unreal-pak.md) | `pak.py` | Versionen 8-12: Index, Einträge, Zlib-, Gzip- und Oodle-Blöcke, AES mit einem Schlüssel, den du angibst | Versionen vor 8, reine Pfad-Hash-Indizes, Einträge in der Überlaufliste des Indexes, Inhalte der Assets | `identify`, `list`, `extract` |
 | [Unreal 5 IoStore](reader-unreal-iostore.md) | `iostore.py`, `zen.py`, `unversioned.py`, `unrealmesh.py`, `unrealtexture.py` | `.utoc`/`.ucas` (ab v5, an v8 geprüft), Zen-Pakete, Eigenschaften ohne Versionsangabe für einige Komponentenklassen, fertig aufbereitete statische Meshes, Texturen, Streaming-Virtual-Textures | verschlüsselte Container, versionierte Pakete, Meshes nur mit Nanite, Eigenschaften anderer Klassen | `identify`, `list`, `extract`, `course` (AC Rally) |
 | [Oodle](reader-oodle.md) | `oodle.py` | Oodle-Blöcke über eine Bibliothek, die schon auf dem Rechner liegt | alles ohne eine solche Bibliothek; sie wird nie mitgeliefert | pak, IoStore, Frostbite |
 | [Unity](reader-unity.md) | `unity.py`, `unity_mesh.py` | `SerializedFile` ab Format 22 (Unity 2020 bis 6000), `UnityFS`-Bundles, unkomprimierte Meshes einschließlich `.resS` | Formate vor 2020, eingebettete Typbäume, komprimierte Meshes, jede Klasse außer `Mesh` | `identify`, `meshes` |
@@ -37,7 +37,7 @@ richtiges, bis man es neben die Strecke stellt.
 ## Regeln, an die sich jeder Leser hält {#rules-every-reader-follows}
 
 - **Keine Schlüssel mitgeliefert, keine ermittelt.** Ein verschlüsseltes Archiv
-  öffnet sich nur mit einem Schlüssel, den Sie übergeben (Unreal `.pak`, `--key`).
+  öffnet sich nur mit einem Schlüssel, den du übergibst (Unreal `.pak`, `--key`).
   Ein verschlüsselter IoStore-Container wird abgelehnt. Nichts durchsucht eine
   ausführbare Datei nach einem Schlüssel, und nichts liest den Speicher eines
   anderen Prozesses. Siehe [Regeln und Lizenzen](rules-and-licences.md).
@@ -47,7 +47,7 @@ richtiges, bis man es neben die Strecke stellt.
   unbekanntes Vertex- oder Texturformat löst einen bestimmten Fehler aus, zum
   Beispiel `texture format 42 has not been identified; refusing to guess`.
 - **Nur lesend.** Kein Leser schreibt in einen Spielordner. Exporte landen dort,
-  wo Sie es angeben.
+  wo du es angibst.
 
 ## Was „geprüft" bedeutet {#what-verified-meant}
 

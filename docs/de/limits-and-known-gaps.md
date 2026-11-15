@@ -1,7 +1,7 @@
 ---
 title: Grenzen und bekannte Lücken
 nav_order: 10
-lang: de
+lang: "de"
 source: limits-and-known-gaps.md
 source_hash: "d4e0f1a4714e"
 nav_exclude: true
@@ -15,7 +15,7 @@ Prüfen erzeugt Ausgaben, die richtig aussehen und es nicht sind.
 
 ## Spiele {#games}
 
-| Spiel | Kursexport | Warum nicht, oder wie weit |
+| Spiel | Streckenexport | Warum nicht, oder wie weit |
 |---|---|---|
 | Forza Horizon | ja | die Bodenfarbe ist eine Deutung (siehe unten) |
 | BeamNG.drive | ja | keine Bodenbedeckung, wiederholende Modelltexturen werden geglättet |
@@ -134,7 +134,7 @@ Prüfen erzeugt Ausgaben, die richtig aussehen und es nicht sind.
   synthetischen Runden in zufälligen Frames getestet.
 - glTF-Viewer außer dem 3DHeat-Viewer.
 - Ob das Bezugssystem jedes Spiels links- oder rechtshändig ist. Der Export behält das
-  Telemetrie-Bezugssystem jedes Spiels bei, deshalb liegen Runden und Kurse in jedem
+  Telemetrie-Bezugssystem jedes Spiels bei, deshalb liegen Runden und Strecken in jedem
   Fall passend.
 - Die Bedeutung von `WaterBlock`s lokalem z = 0 als seine Oberfläche (BeamNG).
 - Frostbite-Platzierung in anderen Spielen als Battlefield 6, und in Battlefield 6 nach

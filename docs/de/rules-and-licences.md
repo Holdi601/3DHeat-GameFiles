@@ -1,7 +1,7 @@
 ---
 title: Regeln und Lizenzen
 nav_order: 12
-lang: de
+lang: "de"
 source: rules-and-licences.md
 source_hash: "b68f4b6e3fe0"
 nav_exclude: true
@@ -27,7 +27,7 @@ niemand auch nur eine extrahierte Datei verbreitet. Deshalb gilt:
 - **Keine mitgelieferten Schlüssel.** Im Code und in den Daten steht kein Schlüssel.
 - **Keine Schlüsselermittlung.** Nichts durchsucht eine ausführbare Datei nach einem
   Schlüssel, und nichts liest den Speicher eines anderen Prozesses.
-- **Ein Schlüssel, den Sie besitzen, oder keiner.** Ein verschlüsseltes Unreal-`.pak` öffnet
+- **Ein Schlüssel, den du besitzt, oder keiner.** Ein verschlüsseltes Unreal-`.pak` öffnet
   sich nur mit `--key <hex>` (in Python `PakArchive(path, aes_key=...)`). `pak.py` hat keinen
   Codepfad, der einen Schlüssel beschafft. Ein verschlüsselter IoStore-Container wird
   kategorisch abgelehnt.
@@ -48,12 +48,12 @@ niemand auch nur eine extrahierte Datei verbreitet. Deshalb gilt:
 
 Jedes bisher getestete Archiv war unverschlüsselt.
 
-## 2. Ihre eigenen Dateien, Ihre Verantwortung {#your-own-files-your-responsibility}
+## 2. Ihre eigenen Dateien, deine Verantwortung {#your-own-files-your-responsibility}
 
-Das Tool liest die Spieldateien, die **auf Ihrem Rechner installiert** sind. Es lädt nie
+Das Tool liest die Spieldateien, die **auf deinem Rechner installiert** sind. Es lädt nie
 Spielinhalte herunter.
 
-Was Sie darauf richten, bleibt Ihre Verantwortung. Spiele haben eigene Lizenzbedingungen, und
+Was du darauf richtest, bleibt deine Verantwortung. Spiele haben eigene Lizenzbedingungen, und
 EULAs verbieten häufig das Reverse Engineering. Das sind durchsetzbare Verträge, und die
 Pflicht liegt bei dem, der das Tool ausführt, bei jedem Spiel. Keine Gestaltungsentscheidung
 hier nimmt sie ihm ab. Der klarste legitime Fall ist eine Entwicklerin, die den Build des
@@ -67,8 +67,8 @@ daneben steht, auf ein Budget reduziert, damit Runden an Ort und Stelle analysie
 können. Es ist das Geringste, was ein Archiv enthält, und es ist trotzdem der Inhalt des
 Spielherausgebers.
 
-- Behalten Sie exportierte `.glb`-Dateien und die Texturen darin für Ihre eigene Analyse.
-- Veröffentlichen, teilen oder verkaufen Sie exportierte Kurse, Level, Modelle oder Texturen
+- Behalte exportierte `.glb`-Dateien und die Texturen darin für deine eigene Analyse.
+- Veröffentlichen, teilen oder verkaufe exportierte Strecken, Level, Modelle oder Texturen
   nicht.
 - Die `.gitignore` des Repositorys hält Spieldateien, Exporte, Runden und Aufnahmen nach Ordner
   und Dateityp aus der Versionskontrolle heraus (`*.glb`, `*.pak`, `*.minizip`, `*.utoc`,
@@ -91,8 +91,8 @@ Anordnung, die die Lizenz vorsieht, dieselbe, die FModel und UModel verwenden. S
   Formatnotiz zu Need for Speed Heat, ein GDC-Vortrag) Feldnamen und eine Liste dessen, wonach
   zu suchen ist. Kein Code wurde übernommen; jeder Offset wurde an den Dateien gemessen (siehe
   [`LICENSES.md`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/LICENSES.md)).
-- Extrahierte Level sind für Ihren eigenen Gebrauch bestimmt. Das Tool schreibt sie auf Ihre
-  Festplatte und sonst nirgendwohin; veröffentlichen Sie sie nicht.
+- Extrahierte Level sind für deinen eigenen Gebrauch bestimmt. Das Tool schreibt sie auf deine
+  Festplatte und sonst nirgendwohin; veröffentliche sie nicht.
 - BeamNG veröffentlicht sein `.cdae`-Layout, und der Leser folgt ihm.
 - Valve dokumentiert VPK.
 - Die aufbereiteten Eigenschaftsdaten von Unreal 5 brauchen die Eigenschaftsliste jeder Klasse.
@@ -112,7 +112,7 @@ Fremdpakete, alle freizügig, sodass der Exporter selbst keine eigene Einschrän
 | Paket | Lizenz | Verwendet für |
 |---|---|---|
 | numpy | BSD-3-Clause | Dekodierung von Meshes |
-| cryptography | Apache-2.0 / BSD-3-Clause | nur Archive, für die Sie einen Schlüssel besitzen |
+| cryptography | Apache-2.0 / BSD-3-Clause | nur Archive, für die du einen Schlüssel besitzt |
 | lz4 | BSD-3-Clause | Forza-Archive, einige Unity-Bundles, IoStore-LZ4-Blöcke |
 | Pillow | MIT-CMU (HPND) | blockkomprimierte Texturen, JPEG-Ausgabe |
 | msgpack | Apache-2.0 | BeamNG-`.cdae` |

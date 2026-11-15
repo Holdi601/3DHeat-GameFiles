@@ -1,7 +1,7 @@
 ---
 title: Coches de Forza
 nav_order: 6
-lang: es
+lang: "es"
 source: forza-cars.md
 source_hash: "30d017479887"
 nav_exclude: true

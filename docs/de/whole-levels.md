@@ -1,7 +1,7 @@
 ---
 title: Ganze Level
 nav_order: 5
-lang: de
+lang: "de"
 source: whole-levels.md
 source_hash: "1b82d34dfb69"
 nav_exclude: true

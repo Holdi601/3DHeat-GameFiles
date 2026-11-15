@@ -1,7 +1,7 @@
 ---
 title: Arma-Reforger-Welten
 nav_order: 3
-lang: de
+lang: "de"
 source: level-arma-reforger.md
 source_hash: "83746901e212"
 nav_exclude: true
@@ -96,6 +96,6 @@ Meter daneben). Nicht gezeichnet: die eigenen Dreiecke der Modelle, Bäume stand
 Texturen mit Kopfzeilen vor DX10.
 
 **Begriffe:** Die Lizenz des Spiels erlaubt nichtkommerzielle Nutzung und verbietet
-das Reverse Engineering der Spieldateien. Das Lesen Ihrer eigenen Installation ist
-Ihre Entscheidung unter dieser Lizenz; die Ausgabe ist für Ihren eigenen Gebrauch
+das Reverse Engineering der Spieldateien. Das Lesen deiner eigenen Installation ist
+Deine Entscheidung unter dieser Lizenz; die Ausgabe ist für deinen eigenen Gebrauch
 bestimmt und wird nicht weitergegeben.

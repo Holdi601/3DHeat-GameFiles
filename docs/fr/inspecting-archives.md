@@ -1,7 +1,7 @@
 ---
 title: "Inspecter les archives"
 nav_order: 3
-lang: fr
+lang: "fr"
 source: inspecting-archives.md
 source_hash: "a47b1685d2d0"
 nav_exclude: true

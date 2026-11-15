@@ -1,7 +1,7 @@
 ---
 title: "Niveaux de détail et budget"
 nav_order: 4
-lang: fr
+lang: "fr"
 source: detail-budget.md
 source_hash: "4ff76afee3ab"
 nav_exclude: true

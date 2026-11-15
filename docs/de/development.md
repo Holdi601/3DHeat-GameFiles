@@ -1,7 +1,7 @@
 ---
 title: Entwicklung
 nav_order: 14
-lang: de
+lang: "de"
 source: development.md
 source_hash: "7ac0e851b837"
 nav_exclude: true
@@ -25,7 +25,7 @@ requirements.txt      numpy, cryptography, lz4, Pillow, msgpack, zstandard, pyte
 | Modul | Was es tut |
 |---|---|
 | `__main__.py` | führt die Update-Prüfung aus, dann `cli.main()` |
-| `cli.py` | die Befehle, `identify`, die Weiterleitung nach Archiv, der Forza-Kursschreiber |
+| `cli.py` | die Befehle, `identify`, die Weiterleitung nach Archiv, der Forza-Streckenschreiber |
 | `lapinput.py` | jede Form einer Runde in Positionen; Suche in der FH-Companion-Bibliothek |
 | `corridor.py` | das Band links und rechts der Fahrt, als 4-m-Raster |
 | `surfaces.py` | die Bodenarten, ihre Teilnamen und Farben |
@@ -116,10 +116,10 @@ aus verschiedenen Gründen:
 | `test_course_cli.py` | die ganzen Befehle `course` und `courses` auf einer synthetischen Strecke; `terrain --route` mit Byte-Order-Mark und ohne `bounds` |
 | `test_archive_cli.py` | `identify`, `list` und `extract` auf jedem Archiv mit Leser (`.pak`, IoStore, `.vpk`, `.minizip` mit und ohne Namen, Zip, `.cdae`, `.ter`); Fehler als eine Zeile und ein Exit-Code: ein verschlüsseltes Pak, ein verschlüsselter Container, eine Datei, die kein Archiv ist, ein falscher `--key` |
 | `test_corridor.py` | das Band, Schneiden von Gelände mit dem Band |
-| `test_lapinput.py` | jede Form einer Runde, die Box, Fehler, die Suche nach dem Kursnamen, welches Spiel ein Ordner ist |
+| `test_lapinput.py` | jede Form einer Runde, die Box, Fehler, die Suche nach dem Streckennamen, welches Spiel ein Ordner ist |
 | `test_surfaces.py` | welche Namen über die Oberfläche entscheiden und welche nicht, Teilnamen |
 | `test_glb.py` | die Datei ist gültig, Knoten tragen die Klasse, Ablehnungen, Quantisierung |
-| `test_beamng.py` | Formen, die Ebene, Kategorien, das Finden der Ebene aus einer Runde, der Kurs, der Collada-Ersatz; installiert: `.cdae` gegen `.dae`, jede Ebene öffnet sich |
+| `test_beamng.py` | Formen, die Ebene, Kategorien, das Finden der Ebene aus einer Runde, die Strecke, der Collada-Ersatz; installiert: `.cdae` gegen `.dae`, jede Ebene öffnet sich |
 | `test_acrally.py` | Container, Pakete, Eigenschaften, Transformationen, die Anpassung der Ausrichtung, Teile platzierter Modelle und das Budget, Virtual Textures; installiert: Etappen und die eingebackene Bodenfarbe |
 | `test_pak.py` | Footer, Einträge, der Block-Größen-Escape, Ablehnungen; installiert: Offsets und SHA-1 |
 | `test_unity.py` | Ablehnungen; installiert: die Objekttabelle füllt die Datei, Versionszeichenketten, Mesh-Grenzen |
@@ -151,7 +151,7 @@ braucht:
 | `test_beamng.py` | `find_install()` | "BeamNG.drive is not installed" |
 | `test_acrally.py` | `find_paks()` | "Assetto Corsa Rally is not installed" |
 
-Nur die Tests eines Spiels ausführen, oder den Forza-Randstein-Test auf einen Kurs richten:
+Nur die Tests eines Spiels ausführen, oder den Forza-Randstein-Test auf eine Strecke richten:
 
 ```
 python -m pytest tests/test_vpk.py

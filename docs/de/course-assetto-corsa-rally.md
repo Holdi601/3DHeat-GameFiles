@@ -1,7 +1,7 @@
 ---
 title: Assetto Corsa Rally
 nav_order: 3
-lang: de
+lang: "de"
 source: course-assetto-corsa-rally.md
 source_hash: "2e2369b24de9"
 nav_exclude: true
@@ -48,7 +48,7 @@ Die meisten Blöcke sind mit Oodle komprimiert, und eine Bibliothek dafür wird 
 dem Rechner gesucht (jede Steam-Bibliothek wird durchsucht). Siehe [Oodle](reader-oodle.md).
 
 Das Spiel gilt als AC Rally, wenn die Rundendatei `"game": "assetto-corsa-rally"`
-(oder `acrally`) angibt oder wenn Sie `--game acrally` übergeben.
+(oder `acrally`) angibt oder wenn du `--game acrally` übergibst.
 
 ## Was eine Etappe ist {#what-a-stage-is}
 
@@ -246,4 +246,4 @@ Laut Quelltext, am installierten Spiel:
   Texturen platzierter Modelle werden nicht gezeichnet. Die Modelle sind einfarbig.
 - `--season` hat keine Wirkung.
 - Ein Patch des Spiels kann Eigenschaftsplätze verschieben. Der Leser bricht dann
-  ab, statt falsch zu lesen, und der Kurs meldet, wie viele Komponenten fehlschlugen.
+  ab, statt falsch zu lesen, und die Strecke meldet, wie viele Komponenten fehlschlugen.

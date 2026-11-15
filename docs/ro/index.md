@@ -1,7 +1,7 @@
 ---
 title: "Acasă"
 nav_order: 1
-lang: ro
+lang: "ro"
 source: index.md
 source_hash: "6400905cf31a"
 nav_exclude: true

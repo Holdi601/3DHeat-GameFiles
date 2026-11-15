@@ -1,7 +1,7 @@
 ---
 title: Početna
 nav_order: 1
-lang: hr
+lang: "hr"
 source: index.md
 source_hash: "6400905cf31a"
 nav_exclude: true

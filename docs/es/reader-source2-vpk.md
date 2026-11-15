@@ -1,7 +1,7 @@
 ---
 title: VPK de Source 2
 nav_order: 6
-lang: es
+lang: "es"
 source: reader-source2-vpk.md
 source_hash: "7c2e83952ba6"
 nav_exclude: true

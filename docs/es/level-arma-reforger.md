@@ -1,7 +1,7 @@
 ---
 title: Mundos de Arma Reforger
 nav_order: 3
-lang: es
+lang: "es"
 source: level-arma-reforger.md
 source_hash: "83746901e212"
 nav_exclude: true

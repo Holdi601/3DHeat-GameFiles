@@ -1,7 +1,7 @@
 ---
 title: Entradas de vuelta
 nav_order: 7
-lang: es
+lang: "es"
 source: lap-inputs.md
 source_hash: "76716785ff83"
 nav_exclude: true

@@ -1,7 +1,7 @@
 ---
 title: Rundeneingaben
 nav_order: 7
-lang: de
+lang: "de"
 source: lap-inputs.md
 source_hash: "76716785ff83"
 nav_exclude: true
@@ -116,9 +116,9 @@ und Schlagwort an.
   wird als Forza exportiert, sofern `--game` nichts anderes sagt.
 - Wird nichts gelesen: "no readable laps under <folder>".
 
-### 7. Ein Kursname {#a-course-name}
+### 7. Ein Streckenname {#a-course-name}
 
-Ist das Argument weder eine vorhandene Datei noch ein Ordner, wird es als Kursname in
+Ist das Argument weder eine vorhandene Datei noch ein Ordner, wird es als Streckenname in
 der FH-Companion-Bibliothek gesucht, `%LOCALAPPDATA%\FHCompanion\laps`:
 
 1. ein Ordner, dessen Name, ohne den Zusatz ` (course_...)`, dem Namen entspricht
@@ -127,8 +127,8 @@ der FH-Companion-Bibliothek gesucht, `%LOCALAPPDATA%\FHCompanion\laps`:
 
 So findet `"Example Circuit"` den Ordner
 `Example Circuit (course_1200_3400_to_1175_3400)`, ohne dass jemand die Koordinaten
-kennt. Mehrere Treffer sind ein Fehler, der sie auflistet. Ein über den Namen
-gefundener Kurs trägt kein Spiel, deshalb wird er als Forza exportiert, sofern
+kennt. Mehrere Treffer sind ein Fehler, der sie auflistet. Eine über den Namen
+gefundene Strecke trägt kein Spiel, deshalb wird sie als Forza exportiert, sofern
 `--game` nichts anderes sagt.
 
 ## Was `terrain --route` annimmt {#what-terrain---route-accepts}

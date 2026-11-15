@@ -1,7 +1,7 @@
 ---
 title: Oodle
 nav_order: 3
-lang: es
+lang: "es"
 source: reader-oodle.md
 source_hash: "ee6d42fcfdc5"
 nav_exclude: true

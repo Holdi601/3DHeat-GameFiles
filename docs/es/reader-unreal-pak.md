@@ -1,7 +1,7 @@
 ---
 title: Unreal .pak
 nav_order: 1
-lang: es
+lang: "es"
 source: reader-unreal-pak.md
 source_hash: "36a27e2133a0"
 nav_exclude: true

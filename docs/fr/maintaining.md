@@ -1,7 +1,7 @@
 ---
 title: "Maintenance"
 nav_order: 99
-lang: fr
+lang: "fr"
 source: maintaining.md
 source_hash: "0ee713010eb1"
 nav_exclude: true

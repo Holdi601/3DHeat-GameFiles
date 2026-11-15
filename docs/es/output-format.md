@@ -1,7 +1,7 @@
 ---
 title: "Formato de salida"
 nav_order: 8
-lang: es
+lang: "es"
 source: output-format.md
 source_hash: "064faedd6147"
 nav_exclude: true

@@ -1,7 +1,7 @@
 ---
 title: Streckenexport
 nav_order: 4
-lang: de
+lang: "de"
 source: course-export.md
 source_hash: "e0b063fee9ac"
 nav_exclude: true
@@ -25,7 +25,7 @@ haben. Die Seiten darunter behandeln, was sich unterscheidet:
 - [Assetto Corsa Rally](course-assetto-corsa-rally.md): Unreal 5 IoStore, eine World-Partition-Etappe
 - [Detailstufen und Budget](detail-budget.md): wie viele Dreiecke die platzierten Modelle bekommen und welche Kopien bleiben
 
-![Die Schritte eines Kursexports](../assets/img/de/course-steps.svg)
+![Die Schritte eines Streckenexports](../assets/img/de/course-steps.svg)
 
 ## Die Schritte {#the-steps}
 
@@ -61,7 +61,7 @@ eine vereinfachte Kopie eines Modells.
 Was ein Lauf ausgibt, hier an einem synthetischen BeamNG.drive-Install, den die
 Tests bauen, einer 50-m-Runde auf einem Straßenstreifen:
 
-![Ein Kurslauf auf einer synthetischen BeamNG.drive-Ebene](../assets/img/course-run.svg)
+![Ein Streckenlauf auf einer synthetischen BeamNG.drive-Ebene](../assets/img/course-run.svg)
 
 ## Der Korridor {#the-corridor}
 

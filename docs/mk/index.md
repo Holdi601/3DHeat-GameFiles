@@ -1,7 +1,7 @@
 ---
 title: Почетна
 nav_order: 1
-lang: mk
+lang: "mk"
 source: index.md
 source_hash: "6400905cf31a"
 nav_exclude: true

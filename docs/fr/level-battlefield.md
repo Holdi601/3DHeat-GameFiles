@@ -1,7 +1,7 @@
 ---
 title: "Niveaux Battlefield 6"
 nav_order: 1
-lang: fr
+lang: "fr"
 source: level-battlefield.md
 source_hash: "3927f45541dc"
 nav_exclude: true

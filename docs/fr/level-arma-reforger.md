@@ -1,7 +1,7 @@
 ---
 title: "Mondes Arma Reforger"
 nav_order: 3
-lang: fr
+lang: "fr"
 source: level-arma-reforger.md
 source_hash: "83746901e212"
 nav_exclude: true

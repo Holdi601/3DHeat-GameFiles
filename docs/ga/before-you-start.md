@@ -1,7 +1,7 @@
 ---
 title: Sula dtosaíonn tú
 nav_order: 2
-lang: ga
+lang: "ga"
 source: before-you-start.md
 source_hash: "e32b8f35ade9"
 nav_exclude: true

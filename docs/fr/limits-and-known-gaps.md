@@ -1,7 +1,7 @@
 ---
 title: "Limites et lacunes connues"
 nav_order: 10
-lang: fr
+lang: "fr"
 source: limits-and-known-gaps.md
 source_hash: "d4e0f1a4714e"
 nav_exclude: true

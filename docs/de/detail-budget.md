@@ -1,7 +1,7 @@
 ---
 title: Detailstufen und Budget
 nav_order: 4
-lang: de
+lang: "de"
 source: detail-budget.md
 source_hash: "4ff76afee3ab"
 nav_exclude: true
@@ -17,7 +17,7 @@ Modells, die verwendet wird, wenn es weit weg ist.
 Die feinste Stufe von allem, was um eine Rundstrecke herum platziert ist, sind
 mehrere Millionen Dreiecke. Zum Beispiel: Hunderte Leitplankensegmente und
 Reifenstapel mit je etwa tausend Dreiecken. Ein Stadtkorridor enthält über
-hunderttausend Kopien. Deshalb gibt jeder Kursexport den platzierten Modellen ein
+hunderttausend Kopien. Deshalb gibt jeder Streckenexport den platzierten Modellen ein
 **Dreiecksbudget** und entscheidet für jedes Modell, in welcher Detailstufe es
 gezeichnet wird und, falls nötig, welche Kopien weggelassen werden.
 
@@ -124,7 +124,7 @@ Die `level` von Battlefield 6 hat keine Fahrt, deshalb gibt es keine Entfernungs
 Jedes Mesh ist ein Eintrag, und jede Kopie steht auf derselben Stufe. Das automatische
 Budget ist die Formel oben, mit festgesetztem Geländehintergrund. Das Höhenfeld steht
 außerhalb des Budgets und richtet sich nach `--ground-spacing`. Unter einem Budget,
-das Sie vorgeben, werden, sobald jedes Mesh auf seiner gröbsten Stufe steht, Kopien
+das du vorgibst, werden, sobald jedes Mesh auf seiner gröbsten Stufe steht, Kopien
 kleinste zuerst weggelassen. Die Größe ist die Diagonale der Bounding Box des Meshes
 mal Skalierung der Kopie, weil es keine Fahrt gibt, von der aus man die Entfernung
 messen könnte. Der Geländehintergrund wird nie weggelassen. Eine Ebene kommt

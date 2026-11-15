@@ -1,7 +1,7 @@
 ---
 title: Головна
 nav_order: 1
-lang: uk
+lang: "uk"
 source: index.md
 source_hash: "6400905cf31a"
 nav_exclude: true

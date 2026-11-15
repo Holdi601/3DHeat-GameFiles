@@ -1,7 +1,7 @@
 ---
 title: "Frostbite : `.toc`, `.cas`, bundles, maillages et niveaux"
 nav_order: 5
-lang: fr
+lang: "fr"
 source: reader-frostbite.md
 source_hash: "5aa518f14f3a"
 nav_exclude: true

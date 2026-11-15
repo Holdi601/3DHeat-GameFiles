@@ -1,7 +1,7 @@
 ---
 title: Exportación de circuito
 nav_order: 4
-lang: es
+lang: "es"
 source: course-export.md
 source_hash: "e0b063fee9ac"
 nav_exclude: true

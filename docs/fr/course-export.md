@@ -1,7 +1,7 @@
 ---
 title: "Export de parcours"
 nav_order: 4
-lang: fr
+lang: "fr"
 source: course-export.md
 source_hash: "e0b063fee9ac"
 nav_exclude: true

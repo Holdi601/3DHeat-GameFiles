@@ -1,7 +1,7 @@
 ---
 title: BeamNG-Dateien
 nav_order: 8
-lang: de
+lang: "de"
 source: reader-beamng.md
 source_hash: "6f7a0239e385"
 nav_exclude: true
@@ -13,7 +13,7 @@ BeamNG.drive liefert einfache Zip-Archive aus, also gibt es keinen Container, de
 zurückentwickeln müsste. Die Arbeit liegt darin, ein Level **so zu lesen, wie das
 Spiel es tut**: die Archive in ein Dateisystem einhängen, den Szenendateien folgen und
 das Gelände und die kompilierten Formen dekodieren. Diese Leser werden über den
-[BeamNG.drive](course-beamng.md)-Kursexport aufgerufen. `identify` erkennt außerdem
+[BeamNG.drive](course-beamng.md)-Streckenexport aufgerufen. `identify` erkennt außerdem
 ein Level-Zip, eine `.cdae` und eine `.ter`, und `list` und `extract` nehmen jedes der Zips.
 
 Quellen: [`beamng.py`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/heat3d_gamefiles/beamng.py),

@@ -1,7 +1,7 @@
 ---
 title: "Oodle : trouvé, non fourni"
 nav_order: 3
-lang: fr
+lang: "fr"
 source: reader-oodle.md
 source_hash: "ee6d42fcfdc5"
 nav_exclude: true

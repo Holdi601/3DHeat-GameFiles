@@ -1,7 +1,7 @@
 ---
 title: Главная
 nav_order: 1
-lang: ru
+lang: "ru"
 source: index.md
 source_hash: "6400905cf31a"
 nav_exclude: true

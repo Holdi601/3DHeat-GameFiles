@@ -1,7 +1,7 @@
 ---
 title: ForzaTech
 nav_order: 7
-lang: de
+lang: "de"
 source: reader-forzatech.md
 source_hash: "5b298baf30a0"
 nav_exclude: true

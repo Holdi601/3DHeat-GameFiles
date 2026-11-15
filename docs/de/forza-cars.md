@@ -1,7 +1,7 @@
 ---
 title: Forza-Autos
 nav_order: 6
-lang: de
+lang: "de"
 source: forza-cars.md
 source_hash: "30d017479887"
 nav_exclude: true

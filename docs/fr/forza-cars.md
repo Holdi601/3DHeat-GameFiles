@@ -1,7 +1,7 @@
 ---
 title: "Voitures Forza"
 nav_order: 6
-lang: fr
+lang: "fr"
 source: forza-cars.md
 source_hash: "30d017479887"
 nav_exclude: true

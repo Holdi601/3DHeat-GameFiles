@@ -1,7 +1,7 @@
 ---
 title: Lectores de archivos
 nav_order: 9
-lang: es
+lang: "es"
 source: archive-readers.md
 source_hash: "14a63a51eff5"
 nav_exclude: true

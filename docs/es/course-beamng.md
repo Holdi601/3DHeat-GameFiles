@@ -1,7 +1,7 @@
 ---
 title: "BeamNG.drive"
 nav_order: 2
-lang: es
+lang: "es"
 source: course-beamng.md
 source_hash: "20b6c04360dc"
 nav_exclude: true

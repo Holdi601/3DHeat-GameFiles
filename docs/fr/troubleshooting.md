@@ -1,7 +1,7 @@
 ---
 title: "Dépannage"
 nav_order: 11
-lang: fr
+lang: "fr"
 source: troubleshooting.md
 source_hash: "3d2cd69d42e4"
 nav_exclude: true

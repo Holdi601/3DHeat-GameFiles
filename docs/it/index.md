@@ -1,7 +1,7 @@
 ---
 title: Home
 nav_order: 1
-lang: it
+lang: "it"
 source: index.md
 source_hash: "6400905cf31a"
 nav_exclude: true
@@ -63,7 +63,7 @@ Pacchetto Python: `heat3d_gamefiles`. Repository:
 | Forza (auto) | `cars`: ogni auto a basso dettaglio, per la scheda Analisi di gara del visualizzatore | - |
 
 I giri di Assetto Corsa EVO e di iRacing vengono rifiutati, con il motivo. Vedi
-[Limiti e lacune note](../limits-and-known-gaps.md).
+[Limiti e lacune note](limits-and-known-gaps.md).
 
 ## Installazione {#install}
 
@@ -92,7 +92,7 @@ repository, come `python -m heat3d_gamefiles <verbo>`.
 | pytest | i test |
 
 Il contenuto Unreal compresso con **Oodle** richiede una libreria Oodle già presente sul tuo computer.
-Questo strumento non ne distribuisce mai una. Vedi [Oodle](../reader-oodle.md).
+Questo strumento non ne distribuisce mai una. Vedi [Oodle](reader-oodle.md).
 
 Lo strumento è scritto per Windows. Trova i giochi tramite l'elenco delle librerie di Steam e
 `%LOCALAPPDATA%`, e carica Oodle come DLL di Windows. Altre piattaforme non sono state provate.
@@ -101,7 +101,7 @@ Lo strumento è scritto per Windows. Trova i giochi tramite l'elenco delle libre
 
 Un **file di giro** è una registrazione di dove è andata la tua auto: un elenco di punti x, y, z.
 Viene da [3DHeat GameCapture](https://github.com/Holdi601/3DHeat-GameCapture) o dalla libreria di giri
-dell'app FH Companion; va bene anche un CSV scritto a mano ([Input dei giri](../lap-inputs.md)).
+dell'app FH Companion; va bene anche un CSV scritto a mano ([Input dei giri](lap-inputs.md)).
 
 ```
 # Forza: un file di giro, una cartella di giri, oppure il nome di un percorso dalla libreria di FH Companion
@@ -132,34 +132,34 @@ python -m heat3d_gamefiles identify some_archive.pak
 ```
 
 Apri il `.glb` nel visualizzatore 3DHeat. Le coordinate del mondo del gioco vengono conservate (vedi
-[Formato di output](../output-format.md)), quindi un giro registrato si allinea al percorso.
+[Formato di output](output-format.md)), quindi un giro registrato si allinea al percorso.
 
 ## Mappa di questa documentazione {#map-of-this-documentation}
 
 - [Prima di iniziare](before-you-start.md): Python, un terminale, il primo comando.
-- [Comandi](../commands.md): ogni verbo e ogni opzione, con esempi.
+- [Comandi](commands.md): ogni verbo e ogni opzione, con esempi.
 - [Riferimento dei comandi](../cli-reference.md): il `--help` di ogni verbo, generato dal codice.
-- [Ispezionare gli archivi](../inspecting-archives.md): `identify`, `list`, `extract`, `meshes`, passo per passo.
-- [Esportazione del percorso](../course-export.md): come un giro diventa un percorso, per tutti i giochi.
-  - [Forza Horizon](../course-forza-horizon.md)
-  - [BeamNG.drive](../course-beamng.md)
-  - [Assetto Corsa Rally](../course-assetto-corsa-rally.md)
-  - [Livelli di dettaglio e budget](../detail-budget.md)
-- [Livelli interi](../whole-levels.md): un livello, una mappa o un mondo senza giro.
-  - [Livelli di Battlefield 6](../level-battlefield.md): `levels`, `level`
-  - [Mappe Unreal 5](../level-unreal-world-partition.md): `ue-maps`, `ue-map`
-  - [Mondi di Arma Reforger](../level-arma-reforger.md): `enfusion-worlds`, `enfusion-world`
-- [Auto di Forza](../forza-cars.md): `cars`, il file auto per la scheda Analisi di gara del visualizzatore.
-- [Input dei giri](../lap-inputs.md): ogni forma di file di giro accettata dallo strumento.
-- [Formato di output](../output-format.md): cosa c'è dentro il `.glb`.
-- [Lettori degli archivi](../archive-readers.md): una pagina per ogni formato di contenitore, con cosa legge,
+- [Ispezionare gli archivi](inspecting-archives.md): `identify`, `list`, `extract`, `meshes`, passo per passo.
+- [Esportazione del percorso](course-export.md): come un giro diventa un percorso, per tutti i giochi.
+  - [Forza Horizon](course-forza-horizon.md)
+  - [BeamNG.drive](course-beamng.md)
+  - [Assetto Corsa Rally](course-assetto-corsa-rally.md)
+  - [Livelli di dettaglio e budget](detail-budget.md)
+- [Livelli interi](whole-levels.md): un livello, una mappa o un mondo senza giro.
+  - [Livelli di Battlefield 6](level-battlefield.md): `levels`, `level`
+  - [Mappe Unreal 5](level-unreal-world-partition.md): `ue-maps`, `ue-map`
+  - [Mondi di Arma Reforger](level-arma-reforger.md): `enfusion-worlds`, `enfusion-world`
+- [Auto di Forza](forza-cars.md): `cars`, il file auto per la scheda Analisi di gara del visualizzatore.
+- [Input dei giri](lap-inputs.md): ogni forma di file di giro accettata dallo strumento.
+- [Formato di output](output-format.md): cosa c'è dentro il `.glb`.
+- [Lettori degli archivi](archive-readers.md): una pagina per ogni formato di contenitore, con cosa legge,
   cosa non legge e perché.
-- [Limiti e lacune note](../limits-and-known-gaps.md)
-- [Risoluzione dei problemi](../troubleshooting.md): i messaggi di errore e cosa fare.
-- [Regole e licenze](../rules-and-licences.md): nessuna chiave, solo i tuoi file, nessuna ridistribuzione.
-- [Aggiornamenti](../updates.md): il controllo degli aggiornamenti e `heat3d_update`.
-- [Sviluppo](../development.md): mappa dei moduli e test, compresi i test che girano sui giochi installati.
-- [Manutenzione](../maintaining.md): la lista di controllo per il rilascio di queste pagine.
+- [Limiti e lacune note](limits-and-known-gaps.md)
+- [Risoluzione dei problemi](troubleshooting.md): i messaggi di errore e cosa fare.
+- [Regole e licenze](rules-and-licences.md): nessuna chiave, solo i tuoi file, nessuna ridistribuzione.
+- [Aggiornamenti](updates.md): il controllo degli aggiornamenti e `heat3d_update`.
+- [Sviluppo](development.md): mappa dei moduli e test, compresi i test che girano sui giochi installati.
+- [Manutenzione](maintaining.md): la lista di controllo per il rilascio di queste pagine.
 
 ## Parte di 3DHeat {#part-of-3dheat}
 
