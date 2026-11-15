@@ -3,7 +3,7 @@ title: Hjem
 nav_order: 1
 lang: no
 source: index.md
-source_hash: "bf76c2a9fafa"
+source_hash: "6400905cf31a"
 nav_exclude: true
 search_exclude: true
 permalink: /no/
@@ -21,7 +21,7 @@ som én 3D-fil, slik at visningsprogrammet kan male farten eller krasjene dine p
 
 ![En runde går inn, løypa rundt den kommer ut](../assets/img/no/lap-to-course.svg)
 
-Ny til kommandolinjen? Start med [Før du begynner](before-you-start.md).
+Ny til kommandolinjen? Start med [Før du starter](before-you-start.md).
 
 Mer i detalj: det leser nivådata ut av arkivene et spill leverer, og skriver det som en
 binær glTF-fil (`.glb`). Hovedjobben er **løypeeksporten**: du gir den en runde, og den skriver
@@ -50,7 +50,7 @@ Python-pakke: `heat3d_gamefiles`. Repositorium:
 | Spill eller motor | Løypeeksport (`course`) | Arkivlesing |
 |---|---|---|
 | Forza Horizon (ForzaTech) | ja: terreng, vei og kant, bakketeksturer, plasserte modeller i egne teksturer | `identify`, `list`, `extract` på en `.minizip`; `identify` på en `.modelbin`; modeller, terreng og teksturer gjennom `course` og `terrain` |
-| BeamNG.drive | ja: terreng, veidekaler, modellerte baner, plasserte modeller, vann | `identify`, `list`, `extract` på nivå-zip-filer; `identify` på `.ter`, `.cdae`; `.dae` gjennom `course` |
+| BeamNG.drive | ja: terreng, veidekaler, modellerte nivåer, plasserte modeller, vann | `identify`, `list`, `extract` på nivå-zip-filer; `identify` på `.ter`, `.cdae`; `.dae` gjennom `course` |
 | Assetto Corsa Rally (Unreal 5.6) | ja: etappens bakkeruter, innbakt bakkefarge, plasserte modeller i flate farger | `identify`, `list`, `extract` på IoStore `.utoc`/`.ucas`; zen-pakker, statiske modeller, teksturer gjennom `course` |
 | Unreal `.pak` (versjon 8-12) | nei | `identify`, `list`, `extract` |
 | Unity (format 22 og nyere) | nei | `identify`, `meshes` |
@@ -65,7 +65,7 @@ Runder fra Assetto Corsa EVO og iRacing avvises med en grunn. Se
 
 ## Installasjon {#install}
 
-Ny til kommandolinjen? Les [Før du begynner](before-you-start.md) først.
+Ny til kommandolinjen? Les [Før du starter](before-you-start.md) først.
 
 Du trenger **Python 3.10 eller nyere** (utviklet på 3.13) og pakkene i
 [`requirements.txt`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/requirements.txt).
@@ -103,30 +103,30 @@ eller FH Companion-appens rundebibliotek; en CSV du skriver for hånd fungerer o
 ([Rundeinndata](../lap-inputs.md)).
 
 ```
-# Forza: a lap file, a lap folder, or a course name from the FH Companion library
+# Forza: en rundefil, en rundemappe, eller et løypenavn fra FH Companion-biblioteket
 python -m heat3d_gamefiles course "Example Circuit"
 python -m heat3d_gamefiles course path\to\lap.json -o course.glb
 
-# BeamNG.drive or Assetto Corsa Rally: a heat3d-lap file says which game it is from
+# BeamNG.drive eller Assetto Corsa Rally: en heat3d-lap-fil sier hvilket spill den er fra
 python -m heat3d_gamefiles course my_lap.json
 
-# Every course in the FH Companion library, one .glb each
+# Hver løype i FH Companion-biblioteket, én .glb hver
 python -m heat3d_gamefiles courses -o courses
 
-# Battlefield 6: list the levels, then export one (a large file; see Commands)
+# Battlefield 6: list nivåene, og eksporter deretter ett (en stor fil; se Kommandoer)
 python -m heat3d_gamefiles levels
 python -m heat3d_gamefiles level <level> -o level.glb --textures
 
-# Unreal 5 World Partition and Arma Reforger: list, then export
+# Unreal 5 World Partition og Arma Reforger: list, og eksporter deretter
 python -m heat3d_gamefiles ue-maps "<game>"
 python -m heat3d_gamefiles ue-map "<game>" <map> -o map.glb
 python -m heat3d_gamefiles enfusion-worlds
 python -m heat3d_gamefiles enfusion-world <world> -o world.glb
 
-# Every Forza car, for the viewer's race tab
+# Hver Forza-bil, for visningsprogrammets Løp-fane
 python -m heat3d_gamefiles cars -o forza.h3dcars
 
-# What is this file?
+# Hva er denne filen?
 python -m heat3d_gamefiles identify some_archive.pak
 ```
 
@@ -135,7 +135,7 @@ python -m heat3d_gamefiles identify some_archive.pak
 
 ## Dokumentasjonens oversikt {#map-of-this-documentation}
 
-- [Før du begynner](before-you-start.md): Python, en terminal, den første kommandoen.
+- [Før du starter](before-you-start.md): Python, en terminal, den første kommandoen.
 - [Kommandoer](../commands.md): hvert verb og alternativ, med eksempler.
 - [Kommandoreferanse](../cli-reference.md): hvert verbs `--help`, generert fra koden.
 - [Inspisere arkiver](../inspecting-archives.md): `identify`, `list`, `extract`, `meshes`, steg for steg.
@@ -177,8 +177,8 @@ python -m heat3d_gamefiles identify some_archive.pak
 | [Ext-WoWs](https://github.com/Holdi601/3DHeat-Ext-WoWs) | World of Warships-replayer til kampfiler | [nettsted](https://holdi601.github.io/3DHeat-Ext-WoWs/) |
 | [Ext-Squad](https://github.com/Holdi601/3DHeat-Ext-Squad) | Squad-serverdemoer til kampfiler | [nettsted](https://holdi601.github.io/3DHeat-Ext-Squad/) |
 | [Ext-DCS](https://github.com/Holdi601/3DHeat-Ext-DCS) | DCS World-kart til `.glb`-nivåer | [nettsted](https://holdi601.github.io/3DHeat-Ext-DCS/) |
-| [Ext-IL2](https://github.com/Holdi601/3DHeat-Ext-IL2) | IL-2 Sturmovik-kart til `.glb`-nivåer | [nettsted](https://holdi601.github.io/3DHeat-Ext-IL2/) |
+| [Ext-IL2](https://github.com/Holdi601/3DHeat-Ext-IL2) | IL-2 Great Battles-kart til `.glb`-nivåer | [nettsted](https://holdi601.github.io/3DHeat-Ext-IL2/) |
 
 Kampfilene visningsprogrammet leser er beskrevet i
 [Én fil per kamp: `.3dheat`](https://holdi601.github.io/3DHeat/container.html);
-et nivå laget her lastes inn ved siden av dem i visningsprogrammets Bane-panel.
+et nivå laget her lastes inn ved siden av dem i visningsprogrammets Bakgrunn / nivå-panel.

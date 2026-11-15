@@ -3,7 +3,7 @@ title: Home
 nav_order: 1
 lang: it
 source: index.md
-source_hash: "bf76c2a9fafa"
+source_hash: "6400905cf31a"
 nav_exclude: true
 search_exclude: true
 permalink: /it/

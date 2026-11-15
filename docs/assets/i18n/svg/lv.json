@@ -2,7 +2,7 @@
  "(--no-structures)": "(--no-structures)",
  "(--no-water)": "(--no-water)",
  "(.pak, .utoc, .toc, zip ...)": "(.pak, .utoc, .toc, zip ...)",
- "(AC Rally: + axis fit)": "(AC Rally: + ass pieskaņojums)",
+ "(AC Rally: + axis fit)": "(AC Rally: + asu pieskaņ.)",
  "(base game and updates)": "(pamatspēle un atjauninājumi)",
  "(not part of the budget)": "(nav budžeta daļa)",
  "--detail-budget: fitting placed models under a triangle ceiling": "--detail-budget: novietotu modeļu pielāgošana zem trijstūru griestiem",
@@ -56,7 +56,7 @@
  "a box each;": "katrs kā kaste;",
  "above the ground": "virs zemes",
  "always stay at full detail": "vienmēr paliek pilnā detalizācijā",
- "any lap shape": "jebkura braucienu forma",
+ "any lap shape": "jebkura forma",
  "are left out": "netiek ņemti vērā",
  "at height zero": "nulles augstumā",
  "at the detail its distance asks:": "tādā detalizācijā, ko prasa attālums:",
@@ -81,7 +81,7 @@
  "ground:terrain": "ground:terrain",
  "ground:terrain ...": "ground:terrain ...",
  "ground:verge": "ground:verge",
- "kerbs, always full detail": "apmales, vienmēr pilnā detalizācijā",
+ "kerbs, always full detail": "apmales, vienmēr pilna",
  "lap.json: where you drove": "lap.json: kur braucāt",
  "level: a Battlefield 6 level into one .glb": "level: Battlefield 6 līmenis vienā .glb",
  "levels": "levels",
@@ -121,5 +121,5 @@
  "water:<world>": "water:<world>",
  "within --detail-budget": "--detail-budget robežās",
  "worlds with a terrain": "pasaules ar reljefu",
- "y up, z north": "y uz augšu, z ziemeļi"
+ "y up, z north": "y augšā, z ziemeļi"
 }

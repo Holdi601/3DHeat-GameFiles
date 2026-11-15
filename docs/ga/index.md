@@ -3,7 +3,7 @@ title: Baile
 nav_order: 1
 lang: ga
 source: index.md
-source_hash: "bf76c2a9fafa"
+source_hash: "6400905cf31a"
 nav_exclude: true
 search_exclude: true
 permalink: /ga/
@@ -13,11 +13,11 @@ permalink: /ga/
 **Cad é?** Uirlis a thógann samhail 3D de rian rása nó de leibhéal cluiche
 ó chomhaid cluiche atá suiteáilte agat cheana.
 
-**Cén fáth a n-úsáidfinn é?** Péinteálann lucht féachana 3DHeat an áit ar thiomáin tú nó ar sheinn tú mar
+**Cén fáth a n-úsáidfinn é?** Péinteálann an t-amharcán 3DHeat an áit ar thiomáin tú nó ar sheinn tú mar
 theas. Leis an uirlis seo péinteálann sé ar an bhfíorrian nó ar an bhfíorleibhéal é, ní ar spás folamh.
 
 **Sampla:** tóg cuairt a thiomáin tú. Tógann an uirlis an bóthar agus an talamh timpeall air
-mar chomhad 3D amháin, ionas gur féidir leis an lucht féachana do luas nó do thitimí a phéinteáil ar an bhfíorrian:
+mar chomhad 3D amháin, ionas gur féidir leis an amharcán do luas nó do thitimí a phéinteáil ar an bhfíorrian:
 
 ![Téann cuairt isteach, tagann an rian timpeall uirthi amach](../assets/img/ga/lap-to-course.svg)
 
@@ -28,12 +28,12 @@ mar chomhad glTF dénártha (`.glb`). Is í a príomhobair ná an **onnmhairiú 
 agus scríobhann sí an talamh, an bóthar scartha ón imeall agus
 ón bhféar, agus na colbha, bacainní, ballaí boinn, comharthaí agus foirgnimh timpeall air.
 
-Is cuid de [3DHeat](https://github.com/Holdi601/3DHeat) í, lucht féachana le haghaidh
+Is cuid de [3DHeat](https://github.com/Holdi601/3DHeat) í, amharcán le haghaidh
 léarscáileanna teasa telemetry 3D fíor-ama, anailís rása agus athbhreithniú cluiche
 ([doiciméadúchán](https://holdi601.github.io/3DHeat/)). Is iad na comhaid `.glb` a scríobhann an
-uirlis seo na leibhéil a tharraingíonn an lucht féachana an teas orthu.
+uirlis seo na leibhéil a tharraingíonn an t-amharcán an teas orthu.
 
-![An áit a luíonn GameFiles idir an cluiche agus an lucht féachana](../assets/img/ga/where-it-fits.svg)
+![An áit a luíonn GameFiles idir an cluiche agus an t-amharcán](../assets/img/ga/where-it-fits.svg)
 
 Tá sí ar cheann de thrí bhealach chun geoiméadracht leibhéil a fháil isteach in 3DHeat:
 
@@ -59,7 +59,7 @@ Pacáiste Python: `heat3d_gamefiles`. Stór:
 | Source 2 `.vpk` | níl | `identify`, `list`, `extract` |
 | Cluichí Unreal 5 World Partition | gan cuairt; léarscáil iomlán le `ue-map` (liostaithe ag `ue-maps`): tírdhreach, foirgnimh HLOD agus maisiúcháin, uisce | - |
 | Arma Reforger (Enfusion) | gan cuairt; domhan iomlán le `enfusion-world` (liostaithe ag `enfusion-worlds`): tír-raon ina dhathanna, an fharraige, foirgnimh mar bhoscaí | - |
-| Forza (carranna) | `cars`: gach carr ar mhionsonraí íseal, do chluaisín Anailís rása an lucht féachana | - |
+| Forza (carranna) | `cars`: gach carr ar mhionsonraí íseal, do chluaisín Anailís rása an amharcáin | - |
 
 Diúltaítear do chuairteanna ó Assetto Corsa EVO agus iRacing le cúis. Féach
 [Teorainneacha agus bearnaí aitheanta](../limits-and-known-gaps.md).
@@ -131,7 +131,7 @@ python -m heat3d_gamefiles cars -o forza.h3dcars
 python -m heat3d_gamefiles identify some_archive.pak
 ```
 
-Oscail an `.glb` i lucht féachana 3DHeat. Coinnítear comhordanáidí domhain an chluiche féin
+Oscail an `.glb` in amharcán 3DHeat. Coinnítear comhordanáidí domhain an chluiche féin
 (féach [Formáid an aschuir](../output-format.md)), mar sin ailíníonn cuairt thaifeadta leis an gcúrsa.
 
 ## Léarscáil na ndoiciméad seo {#map-of-this-documentation}
@@ -149,7 +149,7 @@ Oscail an `.glb` i lucht féachana 3DHeat. Coinnítear comhordanáidí domhain a
   - [Leibhéil Battlefield 6](../level-battlefield.md): `levels`, `level`
   - [Léarscáileanna Unreal 5](../level-unreal-world-partition.md): `ue-maps`, `ue-map`
   - [Domhain Arma Reforger](../level-arma-reforger.md): `enfusion-worlds`, `enfusion-world`
-- [Carranna Forza](../forza-cars.md): `cars`, comhad na gcarranna do chluaisín Anailís rása an lucht féachana.
+- [Carranna Forza](../forza-cars.md): `cars`, comhad na gcarranna do chluaisín Anailís rása an amharcáin.
 - [Ionchuir chuarta](../lap-inputs.md): gach cruth comhaid cuarta a ghlacann an uirlis.
 - [Formáid an aschuir](../output-format.md): cad atá taobh istigh den `.glb`.
 - [Léitheoirí cartlainne](../archive-readers.md): leathanach amháin in aghaidh gach formáide coimeádáin, a chlúdaíonn
@@ -163,11 +163,11 @@ Oscail an `.glb` i lucht féachana 3DHeat. Coinnítear comhordanáidí domhain a
 
 ## Cuid de 3DHeat {#part-of-3dheat}
 
-Tá 3DHeat GameFiles ar cheann de na huirlisí saora timpeall ar lucht féachana 3DHeat:
+Tá 3DHeat GameFiles ar cheann de na huirlisí saora timpeall ar amharcán 3DHeat:
 
 | Uirlis | Cad a dhéanann sí | Doiciméid |
 |---|---|---|
-| [3DHeat](https://github.com/Holdi601/3DHeat) | an lucht féachana: léarscáileanna teasa 3D, anailís rása agus athbhreithniú cluiche sa bhrabhsálaí | [suíomh](https://holdi601.github.io/3DHeat/) |
+| [3DHeat](https://github.com/Holdi601/3DHeat) | an t-amharcán: léarscáileanna teasa 3D, anailís rása agus athbhreithniú cluiche sa bhrabhsálaí | [suíomh](https://holdi601.github.io/3DHeat/) |
 | [GameFiles](https://github.com/Holdi601/3DHeat-GameFiles) | cúrsaí agus leibhéil as na comhaid a sheolann cluiche, mar `.glb` | [suíomh](https://holdi601.github.io/3DHeat-GameFiles/) |
 | [GameCapture](https://github.com/Holdi601/3DHeat-GameCapture) | telemetry cuarta ó chluichí rásaíochta; leibhéil atógtha ó fhíseán cluiche | [suíomh](https://holdi601.github.io/3DHeat-GameCapture/) |
 | [Unreal Exporter](https://github.com/Holdi601/3DHeat-UnrealExporter) | breiseán d'Unreal Editor a shábhálann leibhéal mar `.glb` | [suíomh](https://holdi601.github.io/3DHeat-UnrealExporter/) |
@@ -180,6 +180,6 @@ Tá 3DHeat GameFiles ar cheann de na huirlisí saora timpeall ar lucht féachana
 | [Ext-DCS](https://github.com/Holdi601/3DHeat-Ext-DCS) | léarscáileanna DCS World ina leibhéil `.glb` | [suíomh](https://holdi601.github.io/3DHeat-Ext-DCS/) |
 | [Ext-IL2](https://github.com/Holdi601/3DHeat-Ext-IL2) | léarscáileanna IL-2 Sturmovik ina leibhéil `.glb` | [suíomh](https://holdi601.github.io/3DHeat-Ext-IL2/) |
 
-Tá comhaid chluiche an lucht féachana curtha síos in
+Tá comhaid chluiche an amharcáin curtha síos in
 [Comhad amháin in aghaidh an chluiche: `.3dheat`](https://holdi601.github.io/3DHeat/container.html);
-lódáiltear leibhéal a dhéantar anseo lena n-aice i bpainéal Cúlra / leibhéal an lucht féachana.
+lódáiltear leibhéal a dhéantar anseo lena n-aice i bpainéal Cúlra / leibhéal an amharcáin.

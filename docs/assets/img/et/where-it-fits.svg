@@ -4,7 +4,7 @@
 <text x="20" y="32" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="18" font-weight="600" fill="#1f2328" text-anchor="start">Kus GameFiles asub</text>
 <rect x="20" y="52" width="390" height="104" rx="8" fill="#ffffff" stroke="#8a94a3"/>
 <text x="215" y="80" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#1f2328" text-anchor="middle">Paigaldatud mäng</text>
-<text x="215" y="106" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">mängu kaasas olevad failid</text>
+<text x="215" y="106" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">mängu failid</text>
 <text x="215" y="127" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">(.pak, .utoc, .toc, zip ...)</text>
 <rect x="450" y="52" width="390" height="104" rx="8" fill="#ffffff" stroke="#8a94a3"/>
 <text x="645" y="80" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#1f2328" text-anchor="middle">3DHeat GameFiles</text>

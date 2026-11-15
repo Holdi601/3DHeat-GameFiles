@@ -9,9 +9,9 @@ search_exclude: true
 ---
 # Áður en þú byrjar {#before-you-start}
 
-Ertu ný/r í skipanalínunni? Þessi síða kemur þér frá engu að virku tóli á
+Hefurðu aldrei notað skipanalínu? Þessi síða kemur þér frá engu að virku verkfæri á
 um tíu mínútum. Þú skrifar skipanir í glugga sem kallast **skipanalína** (terminal), og
-tólið svarar með texta.
+verkfærið svarar með texta.
 
 ## 1. Settu upp Python {#install-python}
 
@@ -20,13 +20,13 @@ tólið svarar með texta.
 2. Keyrðu uppsetningarforritið. Á fyrsta skjánum skaltu haka við **"Add python.exe to PATH"**
    og smella síðan á **Install Now**.
 
-## 2. Náðu í tólið {#get-the-tool}
+## 2. Náðu í verkfærið {#get-the-tool}
 
 - **Með git:** `git clone https://github.com/Holdi601/3DHeat-GameFiles.git`
 - **Án git:** á [GitHub-síðunni](https://github.com/Holdi601/3DHeat-GameFiles)
   smelltu á græna hnappinn **Code**, síðan **Download ZIP**, og pakkaðu skránni upp.
 
-## 3. Opnaðu skipanalínu í möppu tólsins {#open-a-terminal-in-the-tools-folder}
+## 3. Opnaðu skipanalínu í möppu verkfærisins {#open-a-terminal-in-the-tools-folder}
 
 - Í File Explorer, opnaðu möppuna sem geymir `README.md`. Smelltu í vistfangastikuna,
   skrifaðu `cmd` og ýttu á Enter. Svartur gluggi opnast, þegar í þeirri möppu.
@@ -36,7 +36,7 @@ tólið svarar með texta.
   cd "C:\Users\you\Downloads\3DHeat-GameFiles"
   ```
 
-## 4. Settu upp það sem tólið þarf {#install-what-the-tool-needs}
+## 4. Settu upp það sem verkfærið þarf {#install-what-the-tool-needs}
 
 ```
 pip install -r requirements.txt
@@ -51,7 +51,7 @@ python -m heat3d_gamefiles --help
 ```
 
 Þú ættir að sjá `usage: heat3d_gamefiles [-h]` og lista yfir skipanir (`identify`,
-`list`, `extract`, `course`, ...). Það er árangur: tólið er tilbúið.
+`list`, `extract`, `course`, ...). Það er árangur: verkfærið er tilbúið.
 
 ## Að lesa dæmin {#reading-the-examples}
 
@@ -59,7 +59,7 @@ python -m heat3d_gamefiles --help
   oddklofanna. `<lap file>` verður til dæmis `laps\my_lap.json`.
 - `[--option]` í hornklofum er **valkvætt**: slepptu því ef þú þarft það ekki.
 - Slóð með bilum þarf **tvöfaldar gæsalappir**: `"C:\My Games\lap.json"`.
-- Keyrðu hverja skipun í möppu tólsins (skref 3).
+- Keyrðu hverja skipun í möppu verkfærisins (skref 3).
 
 ## Þegar eitthvað fer úrskeiðis {#when-something-goes-wrong}
 

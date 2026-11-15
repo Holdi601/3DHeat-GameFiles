@@ -3,7 +3,7 @@ title: Головна
 nav_order: 1
 lang: uk
 source: index.md
-source_hash: "bf76c2a9fafa"
+source_hash: "6400905cf31a"
 nav_exclude: true
 search_exclude: true
 permalink: /uk/
@@ -25,14 +25,14 @@ permalink: /uk/
 Ви лише починаєте працювати з командним рядком? Почніть із [Перш ніж почати](before-you-start.md).
 
 Докладніше: інструмент читає дані рівня з архівів, які постачає гра, і записує їх
-як двійковий glTF (файл `.glb`). Його головне завдання - **експорт траси**: ви даєте
+як двійковий glTF (файл `.glb`). Його головне завдання — **експорт траси**: ви даєте
 йому коло, і він записує землю, дорогу (відокремлену від узбіччя і трави), а також
 бордюри, огородження, шини-відбійники, знаки і будівлі навколо неї.
 
 Він є частиною [3DHeat](https://github.com/Holdi601/3DHeat), переглядача телеметрії
 реального часу у 3D, аналізу заїздів і огляду матчів
 ([документація](https://holdi601.github.io/3DHeat/)). Файли `.glb`, які записує цей
-інструмент, - це рівні, на яких переглядач малює теплову карту.
+інструмент, — це рівні, на яких переглядач малює теплову карту.
 
 ![Де GameFiles стоїть між грою і переглядачем](../assets/img/uk/where-it-fits.svg)
 
@@ -60,7 +60,7 @@ permalink: /uk/
 | Source 2 `.vpk` | ні | `identify`, `list`, `extract` |
 | Ігри Unreal 5 з World Partition | немає кола; вся карта через `ue-map` (перелічені через `ue-maps`): ландшафт, будівлі й реквізит HLOD, вода | - |
 | Arma Reforger (Enfusion) | немає кола; увесь світ через `enfusion-world` (перелічений через `enfusion-worlds`): рельєф у його кольорах, море, будівлі коробками | - |
-| Forza (автомобілі) | `cars`: кожен автомобіль у низькій деталізації для вкладки Race переглядача | - |
+| Forza (автомобілі) | `cars`: кожен автомобіль у низькій деталізації для вкладки «Аналіз заїздів» переглядача | - |
 
 Кола з Assetto Corsa EVO та iRacing відхиляються з поясненням причини. Див.
 [Обмеження і відомі прогалини](../limits-and-known-gaps.md).
@@ -99,7 +99,7 @@ pip install -r requirements.txt
 
 ## Швидкий старт {#quick-start}
 
-**Файл кола** - це запис того, куди поїхала ваша машина: список точок x, y, z.
+**Файл кола** — це запис того, куди поїхала ваша машина: список точок x, y, z.
 Він походить із [3DHeat GameCapture](https://github.com/Holdi601/3DHeat-GameCapture)
 або з бібліотеки кіл застосунку FH Companion; CSV, введений вручну, теж підходить
 ([Вхідні дані кола](../lap-inputs.md)).
@@ -115,7 +115,7 @@ python -m heat3d_gamefiles course my_lap.json
 # Кожна траса з бібліотеки FH Companion, по одному .glb на кожну
 python -m heat3d_gamefiles courses -o courses
 
-# Battlefield 6: спершу перелічіть рівні, потім експортуйте один (великий файл; див. Commands)
+# Battlefield 6: спершу перелічіть рівні, потім експортуйте один (великий файл; див. Команди)
 python -m heat3d_gamefiles levels
 python -m heat3d_gamefiles level <level> -o level.glb --textures
 
@@ -125,7 +125,7 @@ python -m heat3d_gamefiles ue-map "<game>" <map> -o map.glb
 python -m heat3d_gamefiles enfusion-worlds
 python -m heat3d_gamefiles enfusion-world <world> -o world.glb
 
-# Кожен автомобіль Forza для вкладки гонок переглядача
+# Кожен автомобіль Forza для вкладки «Аналіз заїздів» переглядача
 python -m heat3d_gamefiles cars -o forza.h3dcars
 
 # Що це за файл?
@@ -150,7 +150,7 @@ python -m heat3d_gamefiles identify some_archive.pak
   - [Рівні Battlefield 6](../level-battlefield.md): `levels`, `level`
   - [Карти Unreal 5](../level-unreal-world-partition.md): `ue-maps`, `ue-map`
   - [Світи Arma Reforger](../level-arma-reforger.md): `enfusion-worlds`, `enfusion-world`
-- [Автомобілі Forza](../forza-cars.md): `cars`, файл автомобілів для вкладки гонок переглядача.
+- [Автомобілі Forza](../forza-cars.md): `cars`, файл автомобілів для вкладки «Аналіз заїздів» переглядача.
 - [Вхідні дані кола](../lap-inputs.md): кожна форма файлу кола, яку приймає інструмент.
 - [Формат виводу](../output-format.md): що всередині `.glb`.
 - [Читачі архівів](../archive-readers.md): по одній сторінці на кожен формат контейнера,
@@ -164,7 +164,7 @@ python -m heat3d_gamefiles identify some_archive.pak
 
 ## Частина 3DHeat {#part-of-3dheat}
 
-3DHeat GameFiles - один з безкоштовних інструментів навколо переглядача 3DHeat:
+3DHeat GameFiles — один з безкоштовних інструментів навколо переглядача 3DHeat:
 
 | Інструмент | Що робить | Документація |
 |---|---|---|
@@ -183,4 +183,4 @@ python -m heat3d_gamefiles identify some_archive.pak
 
 Файли матчів переглядача описано в
 [Один файл на матч: `.3dheat`](https://holdi601.github.io/3DHeat/container.html);
-рівень, зроблений тут, завантажується поруч із ними в панелі Level переглядача.
+рівень, зроблений тут, завантажується поруч із ними в панелі «Тло / рівень» переглядача.

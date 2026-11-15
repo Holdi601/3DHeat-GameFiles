@@ -3,7 +3,7 @@ title: "Startsäit"
 nav_order: 1
 lang: lb
 source: index.md
-source_hash: "bf76c2a9fafa"
+source_hash: "6400905cf31a"
 nav_exclude: true
 search_exclude: true
 permalink: /lb/
@@ -17,7 +17,7 @@ aus de Dateie vun engem Spill baut, dat Dir schonn installéiert hutt.
 Hëtzt. Mat dësem Tool molt hien et op déi richteg Streck oder dat richtegt Level, net an eidele Raum.
 
 **Beispill:** Hollt eng Ronn, déi Dir gefuer sidd. D'Tool baut d'Strooss an d'Land drëm
-als eng 3D-Datei, sou datt de Viewer Är Vitesse oder Crashen op der richteger Streck molen kann:
+als eng 3D-Datei, sou datt de Viewer Är Geschwindegkeet oder Crashen op der richteger Streck molen kann:
 
 ![Eng Ronn geet eran, d'Streck drëm erauskënnt](../assets/img/lb/lap-to-course.svg)
 
@@ -26,7 +26,7 @@ Nei op der Kommandozeil? Fänkt mat [Ier Dir ufänkt](before-you-start.md) un.
 Méi genau: et liest Leveldaten aus den Archiver, déi e Spill mat liwwert, a schreift se
 als binär glTF-Datei (`.glb`). Seng Haaptaarbecht ass den **Course-Export**: Dir gitt
 him eng Ronn, an hie schreift de Buedem, d'Strooss ënnerscheet vu Rand a
-Gras, an d'Bordsteng, Leitplanken, Reifemaueren, Schëlder a Gebaier drëm.
+Gras, an d'Bordsteng, Leitplanken, Pneumaueren, Schëlder a Gebaier drëm.
 
 Et ass en Deel vun [3DHeat](https://github.com/Holdi601/3DHeat), engem Viewer fir
 3D-Echtzäit-Telemetrie-Heatmaps, Course-Analys a Match-Iwwerpréiwung
@@ -79,7 +79,7 @@ pip install -r requirements.txt
 
 Dann préift et: `python -m heat3d_gamefiles --help`. Dir sollt
 `usage: heat3d_gamefiles [-h]` an d'Lëscht vun de Verben gesinn. Féiert all Kommando am
-Repository-Ordner aus, als `python -m heat3d_gamefiles <verb>`.
+Repository-Dossier aus, als `python -m heat3d_gamefiles <verb>`.
 
 | Package | Gebraucht fir |
 |---|---|
@@ -183,4 +183,4 @@ Mécht d'`.glb` am 3DHeat-Viewer op. D'Weltkoordinate vum Spill selwer bleiwen e
 
 D'Match-Dateie vum Viewer si beschriwwen an
 [Eng Datei pro Match: `.3dheat`](https://holdi601.github.io/3DHeat/container.html);
-e Level, dat hei gemaach gouf, gëtt niewent hinnen am Level-Panneau vum Viewer gelueden.
+e Level, dat hei gemaach gouf, gëtt niewent hinnen am Panel „Hannergrond / Level“ vum Viewer gelueden.

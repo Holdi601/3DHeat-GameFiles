@@ -3,7 +3,7 @@ title: Start
 nav_order: 1
 lang: da
 source: index.md
-source_hash: "bf76c2a9fafa"
+source_hash: "6400905cf31a"
 nav_exclude: true
 search_exclude: true
 permalink: /da/
@@ -13,11 +13,11 @@ permalink: /da/
 **Hvad er det?** Et værktøj, der bygger en 3D-model af en løbsbane eller et spilbane
 ud fra filerne i et spil, du allerede har installeret.
 
-**Hvorfor skulle jeg bruge det?** 3DHeat-fremviseren maler, hvor du kørte eller spillede, som
-varme. Med dette værktøj maler den det på den rigtige bane eller bane, ikke på tom plads.
+**Hvorfor skulle jeg bruge det?** 3DHeat-vieweren maler, hvor du kørte eller spillede, som
+varme. Med dette værktøj maler den det på den rigtige løbsbane eller spilbane, ikke på tom plads.
 
 **Eksempel:** tag en omgang, du kørte. Værktøjet bygger vejen og terrænet omkring den
-som én 3D-fil, så fremviseren kan male din fart eller dine styrt på den rigtige bane:
+som én 3D-fil, så vieweren kan male din fart eller dine styrt på den rigtige bane:
 
 ![En omgang går ind, banen omkring den kommer ud](../assets/img/da/lap-to-course.svg)
 
@@ -28,12 +28,12 @@ dem som en binær glTF-fil (`.glb`). Dets vigtigste opgave er **banegenereringen
 giver den en omgang, og den skriver jorden, vejen adskilt fra kantbanen og græsset, og
 kanterne, rækværkerne, dækvæggene, skiltene og bygningerne omkring den.
 
-Det er en del af [3DHeat](https://github.com/Holdi601/3DHeat), en fremviser til
+Det er en del af [3DHeat](https://github.com/Holdi601/3DHeat), en viewer til
 realtids-3D-telemetriens varmekort, løbsanalyse og kampgennemgang
 ([dokumentation](https://holdi601.github.io/3DHeat/)). De `.glb`-filer, dette
-værktøj skriver, er de baner, fremviseren tegner varmen på.
+værktøj skriver, er de baner, vieweren tegner varmen på.
 
-![Hvor GameFiles passer ind mellem spillet og fremviseren](../assets/img/da/where-it-fits.svg)
+![Hvor GameFiles passer ind mellem spillet og vieweren](../assets/img/da/where-it-fits.svg)
 
 Det er en af tre måder at få en banes geometri ind i 3DHeat:
 
@@ -59,7 +59,7 @@ Python-pakke: `heat3d_gamefiles`. Repository:
 | Source 2 `.vpk` | nej | `identify`, `list`, `extract` |
 | Unreal 5 World Partition-spil | ingen omgang; et helt kort med `ue-map` (listet af `ue-maps`): landskab, HLOD-bygninger og rekvisitter, vand | - |
 | Arma Reforger (Enfusion) | ingen omgang; en hel verden med `enfusion-world` (listet af `enfusion-worlds`): terræn i dets farver, havet, bygninger som kasser | - |
-| Forza (biler) | `cars`: hver bil i lav detaljegrad, til fremviserens løbsfane | - |
+| Forza (biler) | `cars`: hver bil i lav detaljegrad, til viewerens Løbsanalyse-fanen | - |
 
 Omgange fra Assetto Corsa EVO og iRacing afvises med en grund. Se
 [Begrænsninger og kendte huller](../limits-and-known-gaps.md).
@@ -132,7 +132,7 @@ python -m heat3d_gamefiles cars -o forza.h3dcars
 python -m heat3d_gamefiles identify some_archive.pak
 ```
 
-Åbn `.glb`-filen i 3DHeat-fremviseren. Spillets egne verdenskoordinater bevares
+Åbn `.glb`-filen i 3DHeat-vieweren. Spillets egne verdenskoordinater bevares
 (se [Outputformat](../output-format.md)), så en optaget omgang flugter med banen.
 
 ## Dokumentationens kort {#map-of-this-documentation}
@@ -150,7 +150,7 @@ python -m heat3d_gamefiles identify some_archive.pak
   - [Battlefield 6-baner](../level-battlefield.md): `levels`, `level`
   - [Unreal 5-kort](../level-unreal-world-partition.md): `ue-maps`, `ue-map`
   - [Arma Reforger-verdener](../level-arma-reforger.md): `enfusion-worlds`, `enfusion-world`
-- [Forza-biler](../forza-cars.md): `cars`, bilfilen til fremviserens løbsfane.
+- [Forza-biler](../forza-cars.md): `cars`, bilfilen til viewerens Løbsanalyse-fanen.
 - [Lap-input](../lap-inputs.md): hver lap-filform, værktøjet accepterer.
 - [Outputformat](../output-format.md): hvad der er inde i `.glb`.
 - [Arkivlæsere](../archive-readers.md): én side pr. containerformat, der dækker
@@ -164,11 +164,11 @@ python -m heat3d_gamefiles identify some_archive.pak
 
 ## Del af 3DHeat {#part-of-3dheat}
 
-3DHeat GameFiles er et af de gratis værktøjer omkring 3DHeat-fremviseren:
+3DHeat GameFiles er et af de gratis værktøjer omkring 3DHeat-vieweren:
 
 | Værktøj | Hvad det gør | Dokumentation |
 |---|---|---|
-| [3DHeat](https://github.com/Holdi601/3DHeat) | fremviseren: 3D-varmekort, løbsanalyse og kampgennemgang i browseren | [site](https://holdi601.github.io/3DHeat/) |
+| [3DHeat](https://github.com/Holdi601/3DHeat) | vieweren: 3D-varmekort, løbsanalyse og kampgennemgang i browseren | [site](https://holdi601.github.io/3DHeat/) |
 | [GameFiles](https://github.com/Holdi601/3DHeat-GameFiles) | baner og kort ud af de filer, et spil leverer, som `.glb` | [site](https://holdi601.github.io/3DHeat-GameFiles/) |
 | [GameCapture](https://github.com/Holdi601/3DHeat-GameCapture) | omgangstelemetri fra løbsspil; baner genskabt ud fra spilvideo | [site](https://holdi601.github.io/3DHeat-GameCapture/) |
 | [Unreal Exporter](https://github.com/Holdi601/3DHeat-UnrealExporter) | et Unreal Editor-plugin, der gemmer en bane som `.glb` | [site](https://holdi601.github.io/3DHeat-UnrealExporter/) |
@@ -181,6 +181,6 @@ python -m heat3d_gamefiles identify some_archive.pak
 | [Ext-DCS](https://github.com/Holdi601/3DHeat-Ext-DCS) | DCS World-kort til `.glb`-baner | [site](https://holdi601.github.io/3DHeat-Ext-DCS/) |
 | [Ext-IL2](https://github.com/Holdi601/3DHeat-Ext-IL2) | IL-2 Sturmovik-kort til `.glb`-baner | [site](https://holdi601.github.io/3DHeat-Ext-IL2/) |
 
-Fremviserens kampfiler beskrives i
+Viewerens kampfiler beskrives i
 [Én fil pr. kamp: `.3dheat`](https://holdi601.github.io/3DHeat/container.html);
-en bane lavet her indlæses ved siden af dem i fremviserens Baggrund / bane-panel.
+en bane lavet her indlæses ved siden af dem i viewerens Baggrund / bane-panel.

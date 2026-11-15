@@ -8,7 +8,7 @@
 <text x="54" y="101" font-family="Consolas,Menlo,DejaVu Sans Mono,monospace" font-size="15" fill="#1f2328">ground:road</text>
 <text x="330" y="101" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="400" fill="#3d4450" text-anchor="start">a vezetőfelület</text>
 <rect x="20" y="118" width="22" height="22" rx="4" fill="#c8b48a" stroke="#55606e"/>
-<text x="54" y="135" font-family="Consolas,Menlo,DejaVu Sans Mono,monospace" font-size="15" fill="#1f2328">ground:padka</text>
+<text x="54" y="135" font-family="Consolas,Menlo,DejaVu Sans Mono,monospace" font-size="15" fill="#1f2328">ground:verge</text>
 <text x="330" y="135" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="400" fill="#3d4450" text-anchor="start">az út széle</text>
 <rect x="20" y="152" width="22" height="22" rx="4" fill="#d9534f" stroke="#55606e"/>
 <text x="54" y="169" font-family="Consolas,Menlo,DejaVu Sans Mono,monospace" font-size="15" fill="#1f2328">ground:kerbs</text>
@@ -20,7 +20,7 @@
 <text x="54" y="237" font-family="Consolas,Menlo,DejaVu Sans Mono,monospace" font-size="15" fill="#1f2328">structure:barriers</text>
 <text x="330" y="237" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="400" fill="#3d4450" text-anchor="start">korlátok, gumifalak</text>
 <rect x="20" y="254" width="22" height="22" rx="4" fill="#b07a4f" stroke="#55606e"/>
-<text x="54" y="271" font-family="Consolas,Menlo,DejaVu Sans Mono,monospace" font-size="15" fill="#1f2328">structure:épületek</text>
+<text x="54" y="271" font-family="Consolas,Menlo,DejaVu Sans Mono,monospace" font-size="15" fill="#1f2328">structure:buildings</text>
 <text x="330" y="271" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="400" fill="#3d4450" text-anchor="start">épületek és a talajon állók</text>
 <rect x="20" y="288" width="22" height="22" rx="4" fill="#4a90d9" stroke="#55606e"/>
 <text x="54" y="305" font-family="Consolas,Menlo,DejaVu Sans Mono,monospace" font-size="15" fill="#1f2328">water:&lt;name&gt;</text>

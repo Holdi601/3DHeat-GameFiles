@@ -3,7 +3,7 @@ title: Inici
 nav_order: 1
 lang: ca
 source: index.md
-source_hash: "bf76c2a9fafa"
+source_hash: "6400905cf31a"
 nav_exclude: true
 search_exclude: true
 permalink: /ca/
@@ -11,18 +11,18 @@ permalink: /ca/
 # 3DHeat GameFiles {#dheat-gamefiles}
 
 **Què és?** Una eina que construeix un model 3D d'un circuit de carreres o d'un nivell de joc
-a partir dels fitxers d'un joc que ja teniu instal·lat.
+a partir dels fitxers d'un joc que ja tens instal·lat.
 
-**Per a què la faria servir?** El visualitzador de 3DHeat pinta com a calor per on heu conduït o
+**Per a què la faria servir?** El visualitzador de 3DHeat pinta com a calor per on has conduït o
 jugat. Amb aquesta eina ho pinta sobre el circuit o el nivell real, no sobre un espai buit.
 
-**Exemple:** agafi una volta que heu conduït. L'eina construeix la carretera i el terreny del
-voltant com un únic fitxer 3D, de manera que el visualitzador pot pintar la vostra velocitat o els
-vostres accidents sobre el circuit real:
+**Exemple:** agafi una volta que has conduït. L'eina construeix la carretera i el terreny del
+voltant com un únic fitxer 3D, de manera que el visualitzador pot pintar la teva velocitat o els
+teves accidents sobre el circuit real:
 
 ![Entra una volta, i en surt el circuit que la envolta](../assets/img/ca/lap-to-course.svg)
 
-Si és nou amb la línia d'ordres, comenci per [Abans de començar](before-you-start.md).
+Si ets nou amb la línia d'ordres, comença per [Abans de començar](before-you-start.md).
 
 Amb més detall: llegeix dades de nivell dels arxius que envia un joc i les escriu com a fitxer
 glTF binari (`.glb`). La seva tasca principal és l'**exportació del circuit**: li dona una volta,
@@ -62,12 +62,12 @@ Paquet de Python: `heat3d_gamefiles`. Repositori:
 | Arma Reforger (Enfusion) | cap volta; un món sencer amb `enfusion-world` (llistat per `enfusion-worlds`): terreny en els seus colors, el mar, edificis com a caixes | - |
 | Forza (cotxes) | `cars`: cada cotxe a baix detall, per a la pestanya de Curses del visualitzador | - |
 
-Les voltes d'Assetto Corsa EVO i d'iRacing es refusen amb un motiu. Vegi
+Les voltes d'Assetto Corsa EVO i d'iRacing es refusen amb un motiu. Mira
 [Límits i buits coneguts](../limits-and-known-gaps.md).
 
 ## Instal·lació {#install}
 
-Si és nou amb la línia d'ordres, llegeixi primer [Abans de començar](before-you-start.md).
+Si ets nou amb la línia d'ordres, llegeix primer [Abans de començar](before-you-start.md).
 
 Cal **Python 3.10 o posterior** (desenvolupat amb la 3.13) i els paquets que hi ha a
 [`requirements.txt`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/requirements.txt).
@@ -78,8 +78,8 @@ cd 3DHeat-GameFiles
 pip install -r requirements.txt
 ```
 
-Després comprovi-ho: `python -m heat3d_gamefiles --help`. Hauria de veure
-`usage: heat3d_gamefiles [-h]` i la llista de verbs. Executi cada ordre des de la
+Després comprova-ho: `python -m heat3d_gamefiles --help`. Hauries de veure
+`usage: heat3d_gamefiles [-h]` i la llista de verbs. Executa cada ordre des de la
 carpeta del repositori, com `python -m heat3d_gamefiles <verb>`.
 
 | Paquet | Per a què serveix |
@@ -88,11 +88,11 @@ carpeta del repositori, com `python -m heat3d_gamefiles <verb>`.
 | lz4 | arxius de Forza (sobretot blocs LZ4), alguns paquets de Unity, blocs LZ4 de IoStore |
 | Pillow | descodificar textures BC1-BC7, escriure les textures JPEG al `.glb` |
 | msgpack, zstandard | les formes compilades de BeamNG (`.cdae`) |
-| cryptography | només per obrir un `.pak` xifrat amb una clau que ja teniu |
+| cryptography | només per obrir un `.pak` xifrat amb una clau que ja tens |
 | pytest | les proves |
 
 El contingut d'Unreal comprimit amb **Oodle** necessita una biblioteca Oodle que ja sigui
-a la vostra màquina. Mai no s'envia amb aquesta eina. Vegi [Oodle](../reader-oodle.md).
+a la teva màquina. Mai no s'envia amb aquesta eina. Mira [Oodle](../reader-oodle.md).
 
 L'eina està escrita per a Windows. Troba els jocs a través de la llista de biblioteques de Steam i
 de `%LOCALAPPDATA%`, i carrega Oodle com a DLL de Windows. Les altres plataformes no s'han
@@ -100,7 +100,7 @@ provat.
 
 ## Inici ràpid {#quick-start}
 
-Un **fitxer de volta** és un registre de on ha anat el vostre cotxe: una llista de punts x, y, z.
+Un **fitxer de volta** és un registre de on ha anat el teu cotxe: una llista de punts x, y, z.
 Ve de [3DHeat GameCapture](https://github.com/Holdi601/3DHeat-GameCapture)
 o de la biblioteca de voltes de l'aplicació FH Companion; un CSV escrit a mà també serveix
 ([Entrades de voltes](../lap-inputs.md)).
@@ -116,7 +116,7 @@ python -m heat3d_gamefiles course my_lap.json
 # Cada circuit de la biblioteca de FH Companion, un .glb per a cadascun
 python -m heat3d_gamefiles courses -o courses
 
-# Battlefield 6: llisti els nivells, i després exporti'n un (un fitxer gran; vegi Ordres)
+# Battlefield 6: llista els nivells, i després exporta'n un (un fitxer gran; mira Ordres)
 python -m heat3d_gamefiles levels
 python -m heat3d_gamefiles level <level> -o level.glb --textures
 
@@ -133,8 +133,8 @@ python -m heat3d_gamefiles cars -o forza.h3dcars
 python -m heat3d_gamefiles identify some_archive.pak
 ```
 
-Obri el `.glb` al visualitzador de 3DHeat. Les coordenades del mateix món del joc es conserven
-(vegi [Format de sortida](../output-format.md)), de manera que una volta gravada s'alinea amb el circuit.
+Obre el `.glb` al visualitzador de 3DHeat. Les coordenades del mateix món del joc es conserven
+(mira [Format de sortida](../output-format.md)), de manera que una volta gravada s'alinea amb el circuit.
 
 ## Mapa d'aquesta documentació {#map-of-this-documentation}
 
@@ -158,7 +158,7 @@ Obri el `.glb` al visualitzador de 3DHeat. Les coordenades del mateix món del j
   què llegeix cada un, què no, i per què.
 - [Límits i buits coneguts](../limits-and-known-gaps.md)
 - [Resolució de problemes](../troubleshooting.md): els missatges d'error i què fer.
-- [Regles i llicències](../rules-and-licences.md): cap clau, els vostres propis fitxers, cap redistribució.
+- [Regles i llicències](../rules-and-licences.md): cap clau, els teus propis fitxers, cap redistribució.
 - [Actualitzacions](../updates.md): la comprovació d'actualitzacions i `heat3d_update`.
 - [Desenvolupament](../development.md): mapa de mòduls i proves, incloses les proves que s'executen sobre jocs instal·lats.
 - [Manteniment](../maintaining.md): la llista de comprovació de publicació d'aquestes pàgines.
@@ -174,7 +174,7 @@ Obri el `.glb` al visualitzador de 3DHeat. Les coordenades del mateix món del j
 | [GameCapture](https://github.com/Holdi601/3DHeat-GameCapture) | telemetria de voltes de jocs de carreres; nivells reconstruïts a partir de vídeo de joc | [lloc](https://holdi601.github.io/3DHeat-GameCapture/) |
 | [Unreal Exporter](https://github.com/Holdi601/3DHeat-UnrealExporter) | un connector per a l'editor d'Unreal que desa un nivell com a `.glb` | [lloc](https://holdi601.github.io/3DHeat-UnrealExporter/) |
 | [CS2](https://github.com/Holdi601/3DHeat-CS2) | demos de Counter-Strike 2 en fitxers de partida; mapes en `.glb` | [lloc](https://holdi601.github.io/3DHeat-CS2/) |
-| [Watcher](https://github.com/Holdi601/3DHeat-Watcher) | registra la vostra partida en segon pla a partir del que publiquen els jocs | [lloc](https://holdi601.github.io/3DHeat-Watcher/) |
+| [Watcher](https://github.com/Holdi601/3DHeat-Watcher) | registra la teva partida en segon pla a partir del que publiquen els jocs | [lloc](https://holdi601.github.io/3DHeat-Watcher/) |
 | [Ext-WarThunder](https://github.com/Holdi601/3DHeat-Ext-WarThunder) | repeticions de War Thunder en fitxers de partida | [lloc](https://holdi601.github.io/3DHeat-Ext-WarThunder/) |
 | [Ext-WoT](https://github.com/Holdi601/3DHeat-Ext-WoT) | repeticions de World of Tanks en fitxers de partida | [lloc](https://holdi601.github.io/3DHeat-Ext-WoT/) |
 | [Ext-WoWs](https://github.com/Holdi601/3DHeat-Ext-WoWs) | repeticions de World of Warships en fitxers de partida | [lloc](https://holdi601.github.io/3DHeat-Ext-WoWs/) |

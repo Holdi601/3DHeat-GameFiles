@@ -3,7 +3,7 @@ title: "Pradžia"
 nav_order: 1
 lang: lt
 source: index.md
-source_hash: "bf76c2a9fafa"
+source_hash: "6400905cf31a"
 nav_exclude: true
 search_exclude: true
 permalink: /lt/
@@ -12,10 +12,10 @@ permalink: /lt/
 
 **Kas tai?** Įrankis, kuris sukuria 3D lenktynių trasos ar žaidimo lygio modelį iš failų žaidimo, kurį jau turite įdiegtą.
 
-**Kam tai naudoti?** 3DHeat žiūrintojas nudažo, kur važiavote ar žaidėte, kaip šilumą. Su šiuo įrankiu jis nudažo tai ant tikros
+**Kam tai naudoti?** 3DHeat žiūryklė nudažo, kur važiavote ar žaidėte, kaip šilumą. Su šiuo įrankiu jis nudažo tai ant tikros
 trasos ar lygio, o ne ant tuščios erdvės.
 
-**Pavyzdys:** paimkite ratą, kurį įveikėte. Įrankis sukuria aplinkui esantį kelią ir žemę kaip vieną 3D failą, kad žiūrintojas galėtų
+**Pavyzdys:** paimkite ratą, kurį įveikėte. Įrankis sukuria aplinkui esantį kelią ir žemę kaip vieną 3D failą, kad žiūryklė galėtų
 nudažyti jūsų greitį ar avarijas ant tikros trasos:
 
 ![Ratas įeina, aplink jį išeina trasa](../assets/img/lt/lap-to-course.svg)
@@ -26,11 +26,11 @@ Išsamiau: jis skaito lygių duomenis iš archyvų, kuriuos žaidimas pateikia, 
 failą. Pagrindinis jo darbas – **trasos eksportas**: duodate ratą, o jis įrašo žemę, kelią, atskirtą nuo pakraščio ir
 žolės, bei bordiūrus, barjerus, padangų sienas, ženklus ir pastatus aplink jį.
 
-Tai dalis [3DHeat](https://github.com/Holdi601/3DHeat) – žiūrintojo realaus laiko 3D telemetrijos šilumos žemėlapiams,
+Tai dalis [3DHeat](https://github.com/Holdi601/3DHeat) – žiūryklės realaus laiko 3D telemetrijos šilumos žemėlapiams,
 lenktynių analizei ir rungtynių apžvalgai ([dokumentacija](https://holdi601.github.io/3DHeat/)). `.glb` failai, kuriuos
-įrašo šis įrankis, yra lygiai, ant kurių žiūrintojas piešia šilumą.
+įrašo šis įrankis, yra lygiai, ant kurių žiūryklė piešia šilumą.
 
-![Kur GameFiles telpa tarp žaidimo ir žiūrintojo](../assets/img/lt/where-it-fits.svg)
+![Kur GameFiles telpa tarp žaidimo ir žiūryklės](../assets/img/lt/where-it-fits.svg)
 
 Yra trys būdai, kaip gauti lygio geometriją į 3DHeat:
 
@@ -56,7 +56,7 @@ Python paketas: `heat3d_gamefiles`. Saugykla:
 | Source 2 `.vpk` | ne | `identify`, `list`, `extract` |
 | Unreal 5 World Partition žaidimai | ne trasos; visas žemėlapis su `ue-map` (rodomas `ue-maps`): kraštovaizdis, HLOD pastatai ir rekvizitai, vanduo | - |
 | Arma Reforger (Enfusion) | ne trasos; visas pasaulis su `enfusion-world` (rodomas `enfusion-worlds`): reljefas jo spalvomis, jūra, pastatai kaip dėžės | - |
-| Forza (automobiliai) | `cars`: kiekvienas automobilis žemu detalumu, žiūrintojo Lenktynių analizės skirtukui | - |
+| Forza (automobiliai) | `cars`: kiekvienas automobilis žemu detalumu, žiūryklės Lenktynių analizės skirtukui | - |
 
 Ratai iš Assetto Corsa EVO ir iRacing atmetami su priežastimi. Žr. [Apribojimai ir žinomi trūkumai](../limits-and-known-gaps.md).
 
@@ -119,14 +119,14 @@ python -m heat3d_gamefiles ue-map "<game>" <map> -o map.glb
 python -m heat3d_gamefiles enfusion-worlds
 python -m heat3d_gamefiles enfusion-world <world> -o world.glb
 
-# Kiekvienas Forza automobilis, žiūrintojo lenktynių skirtukui
+# Kiekvienas Forza automobilis, žiūryklės lenktynių skirtukui
 python -m heat3d_gamefiles cars -o forza.h3dcars
 
 # Kas tai per failas?
 python -m heat3d_gamefiles identify some_archive.pak
 ```
 
-Atidarykite `.glb` 3DHeat žiūrintuve. Žaidimo pačios pasaulio koordinatės išsaugomos
+Atidarykite `.glb` 3DHeat žiūryklėje. Žaidimo pačios pasaulio koordinatės išsaugomos
 (žr. [Išvesties formatas](../output-format.md)), todėl įrašytas ratas sutampa su trasa.
 
 ## Dokumentacijos žemėlapis {#map-of-this-documentation}
@@ -144,7 +144,7 @@ Atidarykite `.glb` 3DHeat žiūrintuve. Žaidimo pačios pasaulio koordinatės i
   - [Battlefield 6 lygiai](../level-battlefield.md): `levels`, `level`
   - [Unreal 5 žemėlapiai](../level-unreal-world-partition.md): `ue-maps`, `ue-map`
   - [Arma Reforger pasauliai](../level-arma-reforger.md): `enfusion-worlds`, `enfusion-world`
-- [Forza automobiliai](../forza-cars.md): `cars`, automobilių failas žiūrintojo lenktynių skirtukui.
+- [Forza automobiliai](../forza-cars.md): `cars`, automobilių failas žiūryklės lenktynių skirtukui.
 - [Ratų įvestys](../lap-inputs.md): visi ratų failų formatai, kuriuos priima įrankis.
 - [Išvesties formatas](../output-format.md): kas yra `.glb` viduje.
 - [Archyvų skaitytuvai](../archive-readers.md): po puslapį kiekvienam konteinerio formatui: ką jis skaito, ko ne, ir kodėl.
@@ -157,11 +157,11 @@ Atidarykite `.glb` 3DHeat žiūrintuve. Žaidimo pačios pasaulio koordinatės i
 
 ## Dalis 3DHeat {#part-of-3dheat}
 
-3DHeat GameFiles yra vienas iš nemokamų įrankių aplink 3DHeat žiūrintoją:
+3DHeat GameFiles yra vienas iš nemokamų įrankių aplink 3DHeat žiūryklę:
 
 | Įrankis | Ką daro | Dokumentacija |
 |---|---|---|
-| [3DHeat](https://github.com/Holdi601/3DHeat) | žiūrintojas: 3D šilumos žemėlapiai, lenktynių analizė ir rungtynių apžvalga naršyklėje | [svetainė](https://holdi601.github.io/3DHeat/) |
+| [3DHeat](https://github.com/Holdi601/3DHeat) | žiūryklė: 3D šilumos žemėlapiai, lenktynių analizė ir rungtynių apžvalga naršyklėje | [svetainė](https://holdi601.github.io/3DHeat/) |
 | [GameFiles](https://github.com/Holdi601/3DHeat-GameFiles) | trasos ir lygiai iš žaidimų pristatomų failų, kaip `.glb` | [svetainė](https://holdi601.github.io/3DHeat-GameFiles/) |
 | [GameCapture](https://github.com/Holdi601/3DHeat-GameCapture) | ratų telemetrija iš lenktynių žaidimų; lygiai, atkurti iš žaidimo vaizdo | [svetainė](https://holdi601.github.io/3DHeat-GameCapture/) |
 | [Unreal Exporter](https://github.com/Holdi601/3DHeat-UnrealExporter) | Unreal Editor papildinys, kuris įrašo lygį kaip `.glb` | [svetainė](https://holdi601.github.io/3DHeat-UnrealExporter/) |
@@ -174,6 +174,6 @@ Atidarykite `.glb` 3DHeat žiūrintuve. Žaidimo pačios pasaulio koordinatės i
 | [Ext-DCS](https://github.com/Holdi601/3DHeat-Ext-DCS) | DCS World žemėlapiai į `.glb` lygius | [svetainė](https://holdi601.github.io/3DHeat-Ext-DCS/) |
 | [Ext-IL2](https://github.com/Holdi601/3DHeat-Ext-IL2) | IL-2 Sturmovik žemėlapiai į `.glb` lygius | [svetainė](https://holdi601.github.io/3DHeat-Ext-IL2/) |
 
-Žiūrintojo rungtynių failai aprašyti
+Žiūryklės rungtynių failai aprašyti
 [Vienas failas rungtynėms: `.3dheat`](https://holdi601.github.io/3DHeat/container.html);
-čia sukurtas lygis įkeliamas šalia jų žiūrintojo Lygio skydelyje.
+čia sukurtas lygis įkeliamas šalia jų žiūryklės Lygio skydelyje.

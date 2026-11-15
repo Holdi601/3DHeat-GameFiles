@@ -11,11 +11,11 @@
 <text x="645" y="106" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">de dyraste modellerna</text>
 <text x="645" y="127" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">ta bort en nivå</text>
 <rect x="20" y="192" width="390" height="104" rx="8" fill="#ffffff" stroke="#8a94a3"/>
-<text x="215" y="220" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#1f2328" text-anchor="middle">Fortfarande över?</text>
+<text x="215" y="220" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#1f2328" text-anchor="middle">Ännu över?</text>
 <text x="215" y="246" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">upprepas ner till</text>
 <text x="215" y="267" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">den grövsta nivån</text>
 <rect x="450" y="192" width="390" height="104" rx="8" fill="#ffffff" stroke="#8a94a3"/>
-<text x="645" y="220" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#1f2328" text-anchor="middle">Fortfarande över?</text>
+<text x="645" y="220" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#1f2328" text-anchor="middle">Ännu över?</text>
 <text x="645" y="246" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">de mest avlägsna kopiorna</text>
 <text x="645" y="267" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">utelämnas</text>
 <line x1="414" y1="104.0" x2="446" y2="104.0" stroke="#8a94a3" stroke-width="2" marker-end="url(#a)"/>

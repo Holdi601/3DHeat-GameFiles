@@ -3,7 +3,7 @@ title: 首页
 nav_order: 1
 lang: zh
 source: index.md
-source_hash: "bf76c2a9fafa"
+source_hash: "6400905cf31a"
 nav_exclude: true
 search_exclude: true
 permalink: /zh/
@@ -50,7 +50,7 @@ Python 包名为 `heat3d_gamefiles`。代码仓库：
 | Source 2 `.vpk` | 否 | `identify`、`list`、`extract` |
 | Unreal 5 World Partition 游戏 | 不支持赛道；使用 `ue-map` 导出整张地图（用 `ue-maps` 列出）：地形、HLOD 建筑和道具、水域 | - |
 | Arma Reforger（Enfusion） | 不支持赛道；使用 `enfusion-world` 导出整个世界（用 `enfusion-worlds` 列出）：以其颜色呈现的地形、海洋、以方盒表示的建筑 | - |
-| Forza（汽车） | `cars`：每辆车以低细节导出，供查看器的赛车标签页使用 | - |
+| Forza（汽车） | `cars`：每辆车以低细节导出，供查看器的赛车分析使用 | - |
 
 Assetto Corsa EVO 和 iRacing 的赛道会被拒绝，并附有原因。参见 [限制与已知缺口](../limits-and-known-gaps.md)。
 
@@ -107,7 +107,7 @@ python -m heat3d_gamefiles ue-map "<game>" <map> -o map.glb
 python -m heat3d_gamefiles enfusion-worlds
 python -m heat3d_gamefiles enfusion-world <world> -o world.glb
 
-# 每一辆 Forza 汽车，供查看器的赛车标签页使用
+# 每一辆 Forza 汽车，供查看器的赛车分析使用
 python -m heat3d_gamefiles cars -o forza.h3dcars
 
 # 这是什么文件？
@@ -131,7 +131,7 @@ python -m heat3d_gamefiles identify some_archive.pak
   - [Battlefield 6 关卡](../level-battlefield.md)：`levels`、`level`
   - [Unreal 5 地图](../level-unreal-world-partition.md)：`ue-maps`、`ue-map`
   - [Arma Reforger 世界](../level-arma-reforger.md)：`enfusion-worlds`、`enfusion-world`
-- [Forza 汽车](../forza-cars.md)：`cars`，供查看器赛车标签页使用的汽车文件。
+- [Forza 汽车](../forza-cars.md)：`cars`，供查看器赛车分析使用的汽车文件。
 - [圈速输入](../lap-inputs.md)：工具接受的每一种圈文件格式。
 - [输出格式](../output-format.md)：`.glb` 内部的内容。
 - [归档读取器](../archive-readers.md)：每种容器格式一页，说明它读取什么、不读取什么，以及原因。

@@ -3,7 +3,7 @@ title: Startsida
 nav_order: 1
 lang: sv
 source: index.md
-source_hash: "bf76c2a9fafa"
+source_hash: "6400905cf31a"
 nav_exclude: true
 search_exclude: true
 permalink: /sv/
@@ -28,7 +28,7 @@ den som en binär glTF-fil (`.glb`). Dess huvuduppgift är **banexporten**: du
 ger den ett varv, och den skriver marken, vägen (skild från kanten och gräset), och kanterna, barriärerna, däcksväggarna, skyltarna och byggnaderna runt den.
 
 Det är en del av [3DHeat](https://github.com/Holdi601/3DHeat), en visare för
-3D-telemetrivärmekartor i realtid, racinganalys och matchgenomgång
+3D-telemetrivärmekartor i realtid, Racinganalys och matchgenomgång
 ([dokumentation](https://holdi601.github.io/3DHeat/)). `.glb`-filerna det här
 verktyget skriver är nivåerna visaren ritar värmen på.
 
@@ -123,7 +123,7 @@ python -m heat3d_gamefiles ue-map "<game>" <map> -o map.glb
 python -m heat3d_gamefiles enfusion-worlds
 python -m heat3d_gamefiles enfusion-world <world> -o world.glb
 
-# Varje Forza-bil, för visarens racinganalys-flik
+# Varje Forza-bil, för visarens Racinganalys-flik
 python -m heat3d_gamefiles cars -o forza.h3dcars
 
 # Vad är den här filen?
@@ -148,7 +148,7 @@ python -m heat3d_gamefiles identify some_archive.pak
   - [Battlefield 6-nivåer](../level-battlefield.md): `levels`, `level`
   - [Unreal 5-kartor](../level-unreal-world-partition.md): `ue-maps`, `ue-map`
   - [Arma Reforger-världar](../level-arma-reforger.md): `enfusion-worlds`, `enfusion-world`
-- [Forza-bilar](../forza-cars.md): `cars`, bilfilen för visarens racinganalys-flik.
+- [Forza-bilar](../forza-cars.md): `cars`, bilfilen för visarens Racinganalys-flik.
 - [Varvindata](../lap-inputs.md): varje varvfilform verktyget tar emot.
 - [Utdataformat](../output-format.md): vad som finns inne i `.glb`.
 - [Arkivläsare](../archive-readers.md): en sida per containerformat, med vad varje läser, vad den inte läser, och varför.
@@ -165,7 +165,7 @@ python -m heat3d_gamefiles identify some_archive.pak
 
 | Verktyg | Vad det gör | Dokumentation |
 |---|---|---|
-| [3DHeat](https://github.com/Holdi601/3DHeat) | visaren: 3D-värmekartor, racinganalys och matchgenomgång i webbläsaren | [webbplats](https://holdi601.github.io/3DHeat/) |
+| [3DHeat](https://github.com/Holdi601/3DHeat) | visaren: 3D-värmekartor, Racinganalys och matchgenomgång i webbläsaren | [webbplats](https://holdi601.github.io/3DHeat/) |
 | [GameFiles](https://github.com/Holdi601/3DHeat-GameFiles) | banor och nivåer ur de filer spel levererar, som `.glb` | [webbplats](https://holdi601.github.io/3DHeat-GameFiles/) |
 | [GameCapture](https://github.com/Holdi601/3DHeat-GameCapture) | varvtelemetri från racingspel; nivåer återskapade från spelvideo | [webbplats](https://holdi601.github.io/3DHeat-GameCapture/) |
 | [Unreal Exporter](https://github.com/Holdi601/3DHeat-UnrealExporter) | ett Unreal Editor-tillägg som sparar en nivå som `.glb` | [webbplats](https://holdi601.github.io/3DHeat-UnrealExporter/) |
@@ -180,4 +180,4 @@ python -m heat3d_gamefiles identify some_archive.pak
 
 Visarens matchfiler beskrivs i
 [En fil per match: `.3dheat`](https://holdi601.github.io/3DHeat/container.html);
-en nivå som görs här läses in bredvid dem i visarens nivåpanel.
+en nivå som görs här läses in bredvid dem i visarens panel Bakgrund / nivå.

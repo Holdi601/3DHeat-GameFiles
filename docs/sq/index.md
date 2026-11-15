@@ -3,7 +3,7 @@ title: "Kryefaqja"
 nav_order: 1
 lang: sq
 source: index.md
-source_hash: "bf76c2a9fafa"
+source_hash: "6400905cf31a"
 nav_exclude: true
 search_exclude: true
 permalink: /sq/
@@ -21,7 +21,7 @@ si një skedar 3D, që shikuesi të mund të ngjyrosë shpejtësinë ose përpla
 
 ![Hyn një xhiro, del pista përreth saj](../assets/img/sq/lap-to-course.svg)
 
-Je i ri me vijën e komandës? Fillo me [Para se të fillosh](before-you-start.md).
+Je i ri me rreshtin e komandave? Fillo me [Para se të fillosh](before-you-start.md).
 
 Më në detaje: lexon të dhënat e niveleve nga arkivat që dërgon një lojë dhe i shkruan
 si skedar binar glTF (`.glb`). Detyra e tij kryesore është **eksporti i pistës** (course): i jep
@@ -66,7 +66,7 @@ Xhirot nga Assetto Corsa EVO dhe iRacing refuzohen me një arsye. Shih
 
 ## Instalimi {#install}
 
-Je i ri me vijën e komandës? Lexo së pari [Para se të fillosh](before-you-start.md).
+Je i ri me rreshtin e komandave? Lexo së pari [Para se të fillosh](before-you-start.md).
 
 Të duhet **Python 3.10 ose më i ri** (zhvilluar në 3.13) dhe paketat në
 [`requirements.txt`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/requirements.txt).
@@ -97,7 +97,7 @@ Mjeti është shkruar për Windows. I gjen lojërat përmes listës së bibliote
 `%LOCALAPPDATA%`, dhe e ngarkon Oodle si DLL të Windows. Platformat e tjera nuk janë
 provuar.
 
-## Fillim i shpejtë {#quick-start}
+## Fillimi i shpejtë {#quick-start}
 
 Një **skedar xhiroje** (lap file) është një regjistrim i ku shkoi makina jote: një listë pikash x, y, z.
 Vjen nga [3DHeat GameCapture](https://github.com/Holdi601/3DHeat-GameCapture)

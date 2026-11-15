@@ -178,4 +178,4 @@ Open the `.glb` in the 3DHeat viewer. The game's own world coordinates are kept
 
 The viewer's match files are described in
 [One file a match: `.3dheat`](https://holdi601.github.io/3DHeat/container.html);
-a level made here is loaded beside them in the viewer's Background / Background / level panel.
+a level made here is loaded beside them in the viewer's Background / level panel.

@@ -27,7 +27,7 @@ kymmenessä minuutissa. Kirjoitat komentoja **päätteeseen**, ikkunaan, ja työ
 
 ## 3. Avaa pääte työkalun kansiossa {#open-a-terminal-in-the-tools-folder}
 
-- Avaa File Explorerissa kansio, jossa on `README.md`. Napsauta osoitepalkkiin, kirjoita
+- Avaa Resurssienhallinnassa kansio, jossa on `README.md`. Napsauta osoitepalkkiin, kirjoita
   `cmd` ja paina Enter. Musta ikkuna aukeaa, jo oikeassa kansiossa.
 - Tai avaa **Windows Terminal** ja siirry sinne komennolla `cd`:
 

@@ -3,7 +3,7 @@ title: "Kezdőlap"
 nav_order: 1
 lang: hu
 source: index.md
-source_hash: "bf76c2a9fafa"
+source_hash: "6400905cf31a"
 nav_exclude: true
 search_exclude: true
 permalink: /hu/
@@ -20,7 +20,7 @@ lévő terepet, így a megjelenítő a valódi pályán tudja megfesteni a sebes
 
 ![Egy kör bemegy, a körülötte lévő pálya kijön](../assets/img/hu/lap-to-course.svg)
 
-Még nem használt parancssort? Kezdd a [Mielőtt elkezdi](before-you-start.md) oldallal.
+Még nem használt parancssort? Kezdd a [Mielőtt elkezded](before-you-start.md) oldallal.
 
 Részletesebben: a játék által szállított archívumokból pályaadatokat olvas, és bináris glTF (`.glb`)
 fájlként írja ki. Fő feladata a **pályaexport**: megad neki egy kört, és kiírja a talajt, az utat
@@ -65,7 +65,7 @@ A kört Assetto Corsa EVO-ból és iRacingből indokkal visszautasítja. Lásd:
 
 ## Telepítés {#install}
 
-Még nem használt parancssort? Előbb olvasd el a [Mielőtt elkezdi](before-you-start.md) oldalt.
+Még nem használt parancssort? Előbb olvasd el a [Mielőtt elkezded](before-you-start.md) oldalt.
 
 Szükséges a **Python 3.10 vagy újabb** (3.13-on fejlesztve), és a
 [`requirements.txt`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/requirements.txt) fájlban
@@ -135,7 +135,7 @@ Nyisd meg a `.glb` fájlt a 3DHeat megjelenítőben. A játék saját világkoor
 
 ## A dokumentáció térképe {#map-of-this-documentation}
 
-- [Mielőtt elkezdi](before-you-start.md): Python, egy terminál, az első parancs.
+- [Mielőtt elkezded](before-you-start.md): Python, egy terminál, az első parancs.
 - [Parancsok](../commands.md): minden ige és kapcsoló, példákkal.
 - [Parancsleírás](../cli-reference.md): minden ige `--help` kimenete, a kódból generálva.
 - [Archívumok vizsgálata](../inspecting-archives.md): `identify`, `list`, `extract`, `meshes`, lépésről lépésre.

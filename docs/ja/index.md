@@ -3,7 +3,7 @@ title: "ホーム"
 nav_order: 1
 lang: ja
 source: index.md
-source_hash: "bf76c2a9fafa"
+source_hash: "6400905cf31a"
 nav_exclude: true
 search_exclude: true
 permalink: /ja/
@@ -22,7 +22,7 @@ permalink: /ja/
 
 もう少し詳しく言うと、このツールはゲームが同梱するアーカイブからレベルのデータを読み出し、バイナリのglTF（`.glb`）ファイルとして書き出します。主な仕事は **コースの書き出し（course export）** です。周回を渡すと、地面、路肩と区別された道路と芝、そしてその周りの縁石、ガードレール、タイヤの壁、標識、建物を書き出します。
 
-このツールは [3DHeat](https://github.com/Holdi601/3DHeat) の一部です。3DHeatは、リアルタイムの3Dテレメトリのヒートマップ、レース分析、試合の振り返りのためのビューアです（[ドキュメント](https://holdi601.github.io/3DHeat/)）。このツールが書く `.glb` ファイルは、ビューアがその上にヒートを描くレベルです。
+このツールは [3DHeat](https://github.com/Holdi601/3DHeat) の一部です。3DHeatは、リアルタイムの3Dテレメトリのヒートマップ、レース分析、マッチの振り返りのためのビューアです（[ドキュメント](https://holdi601.github.io/3DHeat/)）。このツールが書く `.glb` ファイルは、ビューアがその上にヒートを描くレベルです。
 
 ![ゲームとビューアの間で、GameFilesが入る位置](../assets/img/ja/where-it-fits.svg)
 
@@ -49,7 +49,7 @@ Pythonのパッケージ名は `heat3d_gamefiles`。リポジトリは [Holdi601
 | Source 2 `.vpk` | いいえ | `identify`、`list`、`extract` |
 | Unreal 5 World Partition のゲーム | 周回はなし。`ue-map`（`ue-maps` で一覧）でマップ全体: ランドスケープ、HLODの建物と小物、水 | - |
 | Arma Reforger（Enfusion） | 周回はなし。`enfusion-world`（`enfusion-worlds` で一覧）でワールド全体: 色のついた地形、海、箱にした建物 | - |
-| Forza（車） | `cars`: すべての車を低い詳細度で。ビューアのレースタブ用 | - |
+| Forza（車） | `cars`: すべての車を低い詳細度で。ビューアのレース分析 タブ用 | - |
 
 Assetto Corsa EVO と iRacing の周回は、理由を示して拒否されます。[制限と既知の欠落](../limits-and-known-gaps.md) を参照してください。
 
@@ -105,7 +105,7 @@ python -m heat3d_gamefiles ue-map "<game>" <map> -o map.glb
 python -m heat3d_gamefiles enfusion-worlds
 python -m heat3d_gamefiles enfusion-world <world> -o world.glb
 
-# すべての Forza の車。ビューアのレースタブ用
+# すべての Forza の車。ビューアのレース分析 タブ用
 python -m heat3d_gamefiles cars -o forza.h3dcars
 
 # このファイルは何？
@@ -129,7 +129,7 @@ python -m heat3d_gamefiles identify some_archive.pak
   - [Battlefield 6 のレベル](../level-battlefield.md): `levels`、`level`
   - [Unreal 5 のマップ](../level-unreal-world-partition.md): `ue-maps`、`ue-map`
   - [Arma Reforger のワールド](../level-arma-reforger.md): `enfusion-worlds`、`enfusion-world`
-- [Forza の車](../forza-cars.md): `cars`。ビューアのレースタブ用の車のファイル。
+- [Forza の車](../forza-cars.md): `cars`。ビューアのレース分析 タブ用の車のファイル。
 - [周回の入力](../lap-inputs.md): ツールが受け付けるすべての周回ファイルの形。
 - [出力の形式](../output-format.md): `.glb` の中身。
 - [アーカイブリーダー](../archive-readers.md): コンテナの形式ごとに1ページ。何を読み、何を読まないか、その理由。
@@ -146,17 +146,17 @@ python -m heat3d_gamefiles identify some_archive.pak
 
 | ツール | 内容 | ドキュメント |
 |---|---|---|
-| [3DHeat](https://github.com/Holdi601/3DHeat) | ビューア: ブラウザでの3Dヒートマップ、レース分析、試合の振り返り | [サイト](https://holdi601.github.io/3DHeat/) |
+| [3DHeat](https://github.com/Holdi601/3DHeat) | ビューア: ブラウザでの3Dヒートマップ、レース分析、マッチの振り返り | [サイト](https://holdi601.github.io/3DHeat/) |
 | [GameFiles](https://github.com/Holdi601/3DHeat-GameFiles) | ゲームが同梱するファイルから、コースとレベルを `.glb` として | [サイト](https://holdi601.github.io/3DHeat-GameFiles/) |
 | [GameCapture](https://github.com/Holdi601/3DHeat-GameCapture) | レースゲームの周回テレメトリ。ゲーム映像から再構築したレベル | [サイト](https://holdi601.github.io/3DHeat-GameCapture/) |
 | [Unreal Exporter](https://github.com/Holdi601/3DHeat-UnrealExporter) | レベルを `.glb` として保存する Unreal Editor のプラグイン | [サイト](https://holdi601.github.io/3DHeat-UnrealExporter/) |
-| [CS2](https://github.com/Holdi601/3DHeat-CS2) | Counter-Strike 2 のデモを試合ファイルに。マップを `.glb` に | [サイト](https://holdi601.github.io/3DHeat-CS2/) |
+| [CS2](https://github.com/Holdi601/3DHeat-CS2) | Counter-Strike 2 のデモをマッチファイルに。マップを `.glb` に | [サイト](https://holdi601.github.io/3DHeat-CS2/) |
 | [Watcher](https://github.com/Holdi601/3DHeat-Watcher) | ゲームが公開する情報から、あなたのプレイをバックグラウンドで記録 | [サイト](https://holdi601.github.io/3DHeat-Watcher/) |
-| [Ext-WarThunder](https://github.com/Holdi601/3DHeat-Ext-WarThunder) | War Thunder のリプレイを試合ファイルに | [サイト](https://holdi601.github.io/3DHeat-Ext-WarThunder/) |
-| [Ext-WoT](https://github.com/Holdi601/3DHeat-Ext-WoT) | World of Tanks のリプレイを試合ファイルに | [サイト](https://holdi601.github.io/3DHeat-Ext-WoT/) |
-| [Ext-WoWs](https://github.com/Holdi601/3DHeat-Ext-WoWs) | World of Warships のリプレイを試合ファイルに | [サイト](https://holdi601.github.io/3DHeat-Ext-WoWs/) |
-| [Ext-Squad](https://github.com/Holdi601/3DHeat-Ext-Squad) | Squad のサーバーのデモを試合ファイルに | [サイト](https://holdi601.github.io/3DHeat-Ext-Squad/) |
+| [Ext-WarThunder](https://github.com/Holdi601/3DHeat-Ext-WarThunder) | War Thunder のリプレイをマッチファイルに | [サイト](https://holdi601.github.io/3DHeat-Ext-WarThunder/) |
+| [Ext-WoT](https://github.com/Holdi601/3DHeat-Ext-WoT) | World of Tanks のリプレイをマッチファイルに | [サイト](https://holdi601.github.io/3DHeat-Ext-WoT/) |
+| [Ext-WoWs](https://github.com/Holdi601/3DHeat-Ext-WoWs) | World of Warships のリプレイをマッチファイルに | [サイト](https://holdi601.github.io/3DHeat-Ext-WoWs/) |
+| [Ext-Squad](https://github.com/Holdi601/3DHeat-Ext-Squad) | Squad のサーバーのデモをマッチファイルに | [サイト](https://holdi601.github.io/3DHeat-Ext-Squad/) |
 | [Ext-DCS](https://github.com/Holdi601/3DHeat-Ext-DCS) | DCS World のマップを `.glb` のレベルに | [サイト](https://holdi601.github.io/3DHeat-Ext-DCS/) |
 | [Ext-IL2](https://github.com/Holdi601/3DHeat-Ext-IL2) | IL-2 Sturmovik のマップを `.glb` のレベルに | [サイト](https://holdi601.github.io/3DHeat-Ext-IL2/) |
 
-ビューアの試合ファイルは、[1試合1ファイル: `.3dheat`](https://holdi601.github.io/3DHeat/container.html) に説明があります。ここで作ったレベルは、ビューアの背景/レベルパネルで、それらと並べて読み込まれます。
+ビューアのマッチファイルは、[1 マッチを 1 ファイルに: `.3dheat`](https://holdi601.github.io/3DHeat/container.html) に説明があります。ここで作ったレベルは、ビューアの背景/レベルパネルで、それらと並べて読み込まれます。

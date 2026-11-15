@@ -9,7 +9,7 @@ search_exclude: true
 ---
 # Para se të fillosh {#before-you-start}
 
-Je i ri me vijën e komandës? Kjo faqe të çon nga zero te një mjet që funksionon në
+Je i ri me rreshtin e komandave? Kjo faqe të çon nga zero te një mjet që funksionon në
 rreth dhjetë minuta. Shkruaj komanda në një dritare të quajtur **terminal**, dhe
 mjeti përgjigjet me tekst.
 
@@ -24,7 +24,7 @@ mjeti përgjigjet me tekst.
 
 - **Me git:** `git clone https://github.com/Holdi601/3DHeat-GameFiles.git`
 - **Pa git:** te [faqja e GitHub](https://github.com/Holdi601/3DHeat-GameFiles),
-  kliko butonin jeshil **Code**, pastaj **Download ZIP**, dhe çzipoje.
+  kliko butonin jeshil **Code**, pastaj **Download ZIP**, dhe shpaketoje.
 
 ## 3. Hap një terminal në dosjen e mjetit {#open-a-terminal-in-the-tools-folder}
 

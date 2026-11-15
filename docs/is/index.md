@@ -3,25 +3,25 @@ title: "Heim"
 nav_order: 1
 lang: is
 source: index.md
-source_hash: "bf76c2a9fafa"
+source_hash: "6400905cf31a"
 nav_exclude: true
 search_exclude: true
 permalink: /is/
 ---
 # 3DHeat GameFiles {#dheat-gamefiles}
 
-**Hvað er þetta?** Tól sem smíðar 3D líkan af kappakstursbraut eða leikjaborði
+**Hvað er þetta?** Verkfæri sem smíðar 3D líkan af kappakstursbraut eða leikjaborði
 úr skrám leiks sem þú hefur þegar sett upp.
 
 **Hvers vegna ætti ég að nota það?** 3DHeat-skoðarinn málar hvar þú ókst eða spilaðir sem
-hita. Með þessu tóli málar hann það á raunverulegu brautina eða borðið, ekki á tómt rými.
+hita. Með þessu verkfæri málar hann það á raunverulegu brautina eða borðið, ekki á tómt rými.
 
-**Dæmi:** taktu hring sem þú ókst. Tólið smíðar veginn og landið í kringum hann
+**Dæmi:** taktu hring sem þú ókst. Verkfærið smíðar veginn og landið í kringum hann
 sem eina 3D skrá, svo skoðarinn geti málað hraðann þinn eða árekstra á raunverulegu brautina:
 
 ![Hringur fer inn, brautin í kringum hann kemur út](../assets/img/is/lap-to-course.svg)
 
-Ertu ný/r í skipanalínunni? Byrjaðu á [Áður en þú byrjar](before-you-start.md).
+Hefurðu aldrei notað skipanalínu? Byrjaðu á [Áður en þú byrjar](before-you-start.md).
 
 Nánar: það les borðagögn úr skjalasöfnum sem leikur sendir með og skrifar þau
 sem tvíundar glTF (`.glb`) skrá. Aðalverkefni þess er **brautarútflutningurinn** (course export): þú
@@ -31,7 +31,7 @@ grasi, og kantsteina, varnir, dekkjaveggi, skilti og byggingar í kring.
 Það er hluti af [3DHeat](https://github.com/Holdi601/3DHeat), skoðara fyrir
 rauntíma 3D mælingahitakort, kappakstursgreiningu og leikjayfirlit
 ([skjöl](https://holdi601.github.io/3DHeat/)). `.glb` skrárnar sem þetta
-tól skrifar eru borðin sem skoðarinn teiknar hitann á.
+verkfæri skrifar eru borðin sem skoðarinn teiknar hitann á.
 
 ![Hvar GameFiles passar milli leiksins og skoðarans](../assets/img/is/where-it-fits.svg)
 
@@ -66,7 +66,7 @@ Hringir úr Assetto Corsa EVO og iRacing er hafnað með ástæðu. Sjá
 
 ## Uppsetning {#install}
 
-Ertu ný/r í skipanalínunni? Lestu fyrst [Áður en þú byrjar](before-you-start.md).
+Hefurðu aldrei notað skipanalínu? Lestu fyrst [Áður en þú byrjar](before-you-start.md).
 
 Þú þarft **Python 3.10 eða nýrra** (þróað á 3.13) og pakkana í
 [`requirements.txt`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/requirements.txt).
@@ -91,9 +91,9 @@ möppu geymslunnar, sem `python -m heat3d_gamefiles <verb>`.
 | pytest | prófananna |
 
 Unreal-efni þjappað með **Oodle** þarf Oodle-safn sem er þegar til
-á vélinni þinni. Slíku er aldrei dreift með þessu tóli. Sjá [Oodle](../reader-oodle.md).
+á vélinni þinni. Slíku er aldrei dreift með þessu verkfæri. Sjá [Oodle](../reader-oodle.md).
 
-Tólið er skrifað fyrir Windows. Það finnur leiki gegnum safnalista Steam og
+Verkfærið er skrifað fyrir Windows. Það finnur leiki gegnum safnalista Steam og
 `%LOCALAPPDATA%`, og hleður Oodle sem Windows DLL. Aðrir vettvangar hafa ekki verið
 prófaðir.
 
@@ -151,7 +151,7 @@ Opnaðu `.glb` skrána í 3DHeat-skoðaranum. Eigin heimshnit leiksins haldast
   - [Unreal 5 kort](../level-unreal-world-partition.md): `ue-maps`, `ue-map`
   - [Arma Reforger heimar](../level-arma-reforger.md): `enfusion-worlds`, `enfusion-world`
 - [Forza bílar](../forza-cars.md): `cars`, bílaskráin fyrir flipann Kappakstursgreining í skoðaranum.
-- [Hringinntök](../lap-inputs.md): hver hringskráargerð sem tólið tekur við.
+- [Hringinntök](../lap-inputs.md): hver hringskráargerð sem verkfærið tekur við.
 - [Úttakssnið](../output-format.md): hvað er inni í `.glb`.
 - [Skjalasafnalesarar](../archive-readers.md): ein síða fyrir hvert gámasnið, sem fjallar um
   hvað hver les, hvað ekki, og hvers vegna.
@@ -164,9 +164,9 @@ Opnaðu `.glb` skrána í 3DHeat-skoðaranum. Eigin heimshnit leiksins haldast
 
 ## Hluti af 3DHeat {#part-of-3dheat}
 
-3DHeat GameFiles er eitt af ókeypis tólunum í kringum 3DHeat-skoðarann:
+3DHeat GameFiles er eitt af ókeypis verkfærunum í kringum 3DHeat-skoðarann:
 
-| Tól | Hvað það gerir | Skjöl |
+| Verkfæri | Hvað það gerir | Skjöl |
 |---|---|---|
 | [3DHeat](https://github.com/Holdi601/3DHeat) | skoðarinn: 3D hitakort, kappakstursgreining og leikjayfirlit í vafranum | [vefur](https://holdi601.github.io/3DHeat/) |
 | [GameFiles](https://github.com/Holdi601/3DHeat-GameFiles) | brautir og borð úr skrám sem leikur sendir með, sem `.glb` | [vefur](https://holdi601.github.io/3DHeat-GameFiles/) |
@@ -177,7 +177,7 @@ Opnaðu `.glb` skrána í 3DHeat-skoðaranum. Eigin heimshnit leiksins haldast
 | [Ext-WarThunder](https://github.com/Holdi601/3DHeat-Ext-WarThunder) | War Thunder upptökur í leikskrár | [vefur](https://holdi601.github.io/3DHeat-Ext-WarThunder/) |
 | [Ext-WoT](https://github.com/Holdi601/3DHeat-Ext-WoT) | World of Tanks upptökur í leikskrár | [vefur](https://holdi601.github.io/3DHeat-Ext-WoT/) |
 | [Ext-WoWs](https://github.com/Holdi601/3DHeat-Ext-WoWs) | World of Warships upptökur í leikskrár | [vefur](https://holdi601.github.io/3DHeat-Ext-WoWs/) |
-| [Ext-Squad](https://github.com/Holdi601/3DHeat-Ext-Squad) | Squad þjónadem í leikskrár | [vefur](https://holdi601.github.io/3DHeat-Ext-Squad/) |
+| [Ext-Squad](https://github.com/Holdi601/3DHeat-Ext-Squad) | Squad þjónsdemo í leikskrár | [vefur](https://holdi601.github.io/3DHeat-Ext-Squad/) |
 | [Ext-DCS](https://github.com/Holdi601/3DHeat-Ext-DCS) | DCS World kort í `.glb` borð | [vefur](https://holdi601.github.io/3DHeat-Ext-DCS/) |
 | [Ext-IL2](https://github.com/Holdi601/3DHeat-Ext-IL2) | IL-2 Sturmovik kort í `.glb` borð | [vefur](https://holdi601.github.io/3DHeat-Ext-IL2/) |
 

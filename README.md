@@ -138,7 +138,7 @@ Battlefield 6 navigation mesh. No metadata about the game is written. Details:
 
 ![The part prefixes and what they mean](docs/assets/img/glb-parts.svg)
 
-Load it in the 3DHeat viewer's Background / Background / level panel. The match files the other 3DHeat
+Load it in the 3DHeat viewer's Background / level panel. The match files the other 3DHeat
 tools write are described in the viewer's
 [One file a match: `.3dheat`](https://holdi601.github.io/3DHeat/container.html);
 a match refers to its level by name and checksum, and the `.glb` stays beside

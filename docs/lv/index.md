@@ -3,7 +3,7 @@ title: Sākums
 nav_order: 1
 lang: lv
 source: index.md
-source_hash: "bf76c2a9fafa"
+source_hash: "6400905cf31a"
 nav_exclude: true
 search_exclude: true
 permalink: /lv/
@@ -11,17 +11,17 @@ permalink: /lv/
 # 3DHeat GameFiles {#dheat-gamefiles}
 
 **Kas tas ir?** Rīks, kas veido braucamās trases vai spēles līmeņa 3D modeli no failiem spēlei, kuru jau
-esi uzstādījis.
+esat uzstādījis.
 
 **Kāpēc to lietot?** 3DHeat skatītājs krāso, kur braucāt vai spēlējāt, kā siltumkarti. Ar šo rīku
 krāsa parādās uz īstās trases vai līmeņa, nevis uz tukšas telpas.
 
-**Piemērs:** ņem braucienu, ko esi nobraucis. Rīks izveido ceļu un apkārtējo zemi kā vienu 3D failu,
-lai skatītājs varētu uzkrāsot tavu ātrumu vai avārijas uz īstās trases:
+**Piemērs:** ņemiet braucienu, ko esat nobraucis. Rīks izveido ceļu un apkārtējo zemi kā vienu 3D failu,
+lai skatītājs varētu uzkrāsot jūsu ātrumu vai avārijas uz īstās trases:
 
 ![Brauciens ieiet, trase ap to iznāk](../assets/img/lv/lap-to-course.svg)
 
-Nekad nav strādāts ar komandrindu? Sāc ar [Pirms sākat](before-you-start.md).
+Nekad neesat strādājis ar komandrindu? Sāciet ar [Pirms sākat](before-you-start.md).
 
 Sīkāk: tas nolasa līmeņa datus no arhīviem, ko spēle piegādā, un raksta tos kā bināru glTF (`.glb`) failu.
 Tā galvenais darbs ir **trases eksports**: dod tam braucienu, un tas raksta zemi, ceļu, kas nošķirts no
@@ -65,7 +65,7 @@ Braucieni no Assetto Corsa EVO un iRacing tiek noraidīti ar iemeslu. Skat.
 
 ## Uzstādīšana {#install}
 
-Nekad nav strādāts ar komandrindu? Vispirms izlasi [Pirms sākat](before-you-start.md).
+Nekad neesat strādājis ar komandrindu? Vispirms izlasiet [Pirms sākat](before-you-start.md).
 
 Vajag **Python 3.10 vai jaunāku** (izstrādāts ar 3.13) un pakotnes no
 [`requirements.txt`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/requirements.txt).
@@ -76,8 +76,8 @@ cd 3DHeat-GameFiles
 pip install -r requirements.txt
 ```
 
-Tad pārbaudi: `python -m heat3d_gamefiles --help`. Tev vajadzētu redzēt
-`usage: heat3d_gamefiles [-h]` un komandu sarakstu. Katru komandu palaid no repozitorija mapes,
+Tad pārbaudiet: `python -m heat3d_gamefiles --help`. Jums vajadzētu redzēt
+`usage: heat3d_gamefiles [-h]` un komandu sarakstu. Katru komandu palaidiet no repozitorija mapes,
 kā `python -m heat3d_gamefiles <verb>`.
 
 | Pakotne | Kam tā ir |
@@ -86,10 +86,10 @@ kā `python -m heat3d_gamefiles <verb>`.
 | lz4 | Forza arhīvi (galvenokārt LZ4 bloki), dažas Unity paketes, IoStore LZ4 bloki |
 | Pillow | BC1-BC7 tekstūru dekodēšana, JPEG tekstūru rakstīšana `.glb` failā |
 | msgpack, zstandard | BeamNG kompilētās formas (`.cdae`) |
-| cryptography | tikai šifrēta `.pak` atvēršanai ar atslēgu, kas tev jau ir |
+| cryptography | tikai šifrēta `.pak` atvēršanai ar atslēgu, kas jums jau ir |
 | pytest | testi |
 
-Unreal saturs, kas saspiests ar **Oodle**, vajag Oodle bibliotēku, kas jau atrodas tavā datorā. Tās
+Unreal saturs, kas saspiests ar **Oodle**, vajag Oodle bibliotēku, kas jau atrodas jūsu datorā. Tās
 šis rīks nekad nepiegādā. Skat. [Oodle](../reader-oodle.md).
 
 Rīks ir rakstīts Windows videi. Tas atrod spēles, izmantojot Steam bibliotēku sarakstu un
@@ -97,7 +97,7 @@ Rīks ir rakstīts Windows videi. Tas atrod spēles, izmantojot Steam bibliotēk
 
 ## Ātrais sākums {#quick-start}
 
-**Brauciena fails** ir ieraksts par to, kur tavs auto brauca: x, y, z punktu saraksts. To dod
+**Brauciena fails** ir ieraksts par to, kur jūsu auto brauca: x, y, z punktu saraksts. To dod
 [3DHeat GameCapture](https://github.com/Holdi601/3DHeat-GameCapture) vai FH Companion lietotnes braucienu
 bibliotēka; arī ar roku rakstīts CSV strādā ([Braucienu ievade](../lap-inputs.md)).
 
@@ -112,11 +112,11 @@ python -m heat3d_gamefiles course my_lap.json
 # Katra trase FH Companion bibliotēkā, pa vienam .glb
 python -m heat3d_gamefiles courses -o courses
 
-# Battlefield 6: uzskaiti līmeņus, tad eksportē vienu (liels fails; skat. Komandas)
+# Battlefield 6: uzskaitiet līmeņus, tad eksportējiet vienu (liels fails; skat. Komandas)
 python -m heat3d_gamefiles levels
 python -m heat3d_gamefiles level <level> -o level.glb --textures
 
-# Unreal 5 World Partition un Arma Reforger: uzskaiti, tad eksportē
+# Unreal 5 World Partition un Arma Reforger: uzskaitiet, tad eksportējiet
 python -m heat3d_gamefiles ue-maps "<game>"
 python -m heat3d_gamefiles ue-map "<game>" <map> -o map.glb
 python -m heat3d_gamefiles enfusion-worlds
@@ -129,12 +129,12 @@ python -m heat3d_gamefiles cars -o forza.h3dcars
 python -m heat3d_gamefiles identify some_archive.pak
 ```
 
-Atver `.glb` 3DHeat skatītājā. Spēles pašas pasaules koordinātes tiek saglabātas
+Atveriet `.glb` 3DHeat skatītājā. Spēles pašas pasaules koordinātes tiek saglabātas
 (skat. [Izvades formāts](../output-format.md)), tāpēc ierakstītais brauciens sakrīt ar trasi.
 
 ## Šīs dokumentācijas karte {#map-of-this-documentation}
 
-- [Pirms sākat](before-you-start.md): Python, terminālis, pirmā komanda.
+- [Pirms sākat](before-you-start.md): Python, termināls, pirmā komanda.
 - [Komandas](../commands.md): katrs verbs un katra iespēja, ar piemēriem.
 - [Komandu atsauce](../cli-reference.md): katra verba `--help`, ģenerēts no koda.
 - [Arhīvu pārbaude](../inspecting-archives.md): `identify`, `list`, `extract`, `meshes`, soli pa solim.
@@ -154,7 +154,7 @@ Atver `.glb` 3DHeat skatītājā. Spēles pašas pasaules koordinātes tiek sagl
   ko ne un kāpēc.
 - [Ierobežojumi un zināmās nepilnības](../limits-and-known-gaps.md)
 - [Problēmu risināšana](../troubleshooting.md): kļūdu ziņojumi un ko darīt.
-- [Noteikumi un licences](../rules-and-licences.md): nav atslēgu, tavi paši faili, nav pārdale.
+- [Noteikumi un licences](../rules-and-licences.md): nav atslēgu, jūsu paši faili, nekādas pārdales.
 - [Atjauninājumi](../updates.md): atjauninājumu pārbaude un `heat3d_update`.
 - [Izstrāde](../development.md): moduļu karte un testi, arī testi, kas darbojas ar uzstādītām spēlēm.
 - [Uzturēšana](../maintaining.md): izlaides kontrolsaraksts šīm lapām.
@@ -170,7 +170,7 @@ Atver `.glb` 3DHeat skatītājā. Spēles pašas pasaules koordinātes tiek sagl
 | [GameCapture](https://github.com/Holdi601/3DHeat-GameCapture) | braucienu telemetrija no sacensību spēlēm; līmeņi, atjaunoti no spēles video | [vietne](https://holdi601.github.io/3DHeat-GameCapture/) |
 | [Unreal Exporter](https://github.com/Holdi601/3DHeat-UnrealExporter) | Unreal Editor spraudnis, kas saglabā līmeni kā `.glb` | [vietne](https://holdi601.github.io/3DHeat-UnrealExporter/) |
 | [CS2](https://github.com/Holdi601/3DHeat-CS2) | Counter-Strike 2 demo maču failos; kartes `.glb` | [vietne](https://holdi601.github.io/3DHeat-CS2/) |
-| [Watcher](https://github.com/Holdi601/3DHeat-Watcher) | fona režīmā ieraksta tavu spēli no tā, ko spēles publicē | [vietne](https://holdi601.github.io/3DHeat-Watcher/) |
+| [Watcher](https://github.com/Holdi601/3DHeat-Watcher) | fona režīmā ieraksta jūsu spēli no tā, ko spēles publicē | [vietne](https://holdi601.github.io/3DHeat-Watcher/) |
 | [Ext-WarThunder](https://github.com/Holdi601/3DHeat-Ext-WarThunder) | War Thunder ieraksti maču failos | [vietne](https://holdi601.github.io/3DHeat-Ext-WarThunder/) |
 | [Ext-WoT](https://github.com/Holdi601/3DHeat-Ext-WoT) | World of Tanks ieraksti maču failos | [vietne](https://holdi601.github.io/3DHeat-Ext-WoT/) |
 | [Ext-WoWs](https://github.com/Holdi601/3DHeat-Ext-WoWs) | World of Warships ieraksti maču failos | [vietne](https://holdi601.github.io/3DHeat-Ext-WoWs/) |

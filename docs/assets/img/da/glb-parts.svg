@@ -28,5 +28,5 @@
 <rect x="20" y="322" width="22" height="22" rx="4" fill="#5cb85c" stroke="#55606e"/>
 <text x="54" y="339" font-family="Consolas,Menlo,DejaVu Sans Mono,monospace" font-size="15" fill="#1f2328">nav:walkable</text>
 <text x="330" y="339" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="400" fill="#3d4450" text-anchor="start">Battlefield 6 --navmesh: hvor en soldat kan stå</text>
-<text x="20" y="376" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="start">Farveprøverne er illustrative; fremviseren vælger, hvordan hver type tegnes.</text>
+<text x="20" y="376" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="start">Farveprøverne er illustrative; vieweren vælger, hvordan hver type tegnes.</text>
 </svg>

@@ -18,7 +18,7 @@
 <text x="330" y="203" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="400" fill="#3d4450" text-anchor="start">gemoolte Linnen</text>
 <rect x="20" y="220" width="22" height="22" rx="4" fill="#8a8f99" stroke="#55606e"/>
 <text x="54" y="237" font-family="Consolas,Menlo,DejaVu Sans Mono,monospace" font-size="15" fill="#1f2328">structure:barriers</text>
-<text x="330" y="237" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="400" fill="#3d4450" text-anchor="start">Leitplanken, Reifemaueren</text>
+<text x="330" y="237" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="400" fill="#3d4450" text-anchor="start">Leitplanken, Pneumaueren</text>
 <rect x="20" y="254" width="22" height="22" rx="4" fill="#b07a4f" stroke="#55606e"/>
 <text x="54" y="271" font-family="Consolas,Menlo,DejaVu Sans Mono,monospace" font-size="15" fill="#1f2328">structure:buildings</text>
 <text x="330" y="271" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="400" fill="#3d4450" text-anchor="start">Gebaier a wat um Buedem steet</text>

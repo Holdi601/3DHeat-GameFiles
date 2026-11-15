@@ -3,7 +3,7 @@ title: "Галоўная"
 nav_order: 1
 lang: be
 source: index.md
-source_hash: "bf76c2a9fafa"
+source_hash: "6400905cf31a"
 nav_exclude: true
 search_exclude: true
 permalink: /be/
@@ -178,8 +178,8 @@ python -m heat3d_gamefiles identify some_archive.pak
 | [Ext-WoT](https://github.com/Holdi601/3DHeat-Ext-WoT) | рэплеі World of Tanks у файлы матчаў | [сайт](https://holdi601.github.io/3DHeat-Ext-WoT/) |
 | [Ext-WoWs](https://github.com/Holdi601/3DHeat-Ext-WoWs) | рэплеі World of Warships у файлы матчаў | [сайт](https://holdi601.github.io/3DHeat-Ext-WoWs/) |
 | [Ext-Squad](https://github.com/Holdi601/3DHeat-Ext-Squad) | дэма сервераў Squad у файлы матчаў | [сайт](https://holdi601.github.io/3DHeat-Ext-Squad/) |
-| [Ext-DCS](https://github.com/Holdi601/3DHeat-Ext-DCS) | карты DCS World у ўзроўні `.glb` | [сайт](https://holdi601.github.io/3DHeat-Ext-DCS/) |
-| [Ext-IL2](https://github.com/Holdi601/3DHeat-Ext-IL2) | карты IL-2 Sturmovik у ўзроўні `.glb` | [сайт](https://holdi601.github.io/3DHeat-Ext-IL2/) |
+| [Ext-DCS](https://github.com/Holdi601/3DHeat-Ext-DCS) | карты DCS World ва ўзроўні `.glb` | [сайт](https://holdi601.github.io/3DHeat-Ext-DCS/) |
+| [Ext-IL2](https://github.com/Holdi601/3DHeat-Ext-IL2) | карты IL-2 Sturmovik ва ўзроўні `.glb` | [сайт](https://holdi601.github.io/3DHeat-Ext-IL2/) |
 
 Файлы матчаў праглядальніка апісаны ў
 [Адзін файл на матч: `.3dheat`](https://holdi601.github.io/3DHeat/container.html);

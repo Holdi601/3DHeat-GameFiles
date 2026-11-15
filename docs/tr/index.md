@@ -3,7 +3,7 @@ title: "Ana sayfa"
 nav_order: 1
 lang: tr
 source: index.md
-source_hash: "bf76c2a9fafa"
+source_hash: "6400905cf31a"
 nav_exclude: true
 search_exclude: true
 permalink: /tr/
@@ -49,7 +49,7 @@ Python paketi: `heat3d_gamefiles`. Depo: [Holdi601/3DHeat-GameFiles](https://git
 | Source 2 `.vpk` | hayır | `identify`, `list`, `extract` |
 | Unreal 5 World Partition oyunları | pist yok; `ue-map` ile bütün bir harita (`ue-maps` ile listelenir): arazi, HLOD binaları ve süsler, su | - |
 | Arma Reforger (Enfusion) | pist yok; `enfusion-world` ile bütün bir dünya (`enfusion-worlds` ile listelenir): kendi renkleriyle arazi, deniz, kutu olarak binalar | - |
-| Forza (arabalar) | `cars`: her araba düşük ayrıntıda, görüntüleyicinin Yarış sekmesi için | - |
+| Forza (arabalar) | `cars`: her araba düşük ayrıntıda, görüntüleyicinin Yarış analizi sekmesi için | - |
 
 Assetto Corsa EVO ve iRacing'den gelen turlar nedeniyle reddedilir. Bkz. [Sınırlar ve bilinen eksikler](../limits-and-known-gaps.md).
 
@@ -129,7 +129,7 @@ python -m heat3d_gamefiles identify some_archive.pak
   - [Battlefield 6 seviyeleri](../level-battlefield.md): `levels`, `level`
   - [Unreal 5 haritaları](../level-unreal-world-partition.md): `ue-maps`, `ue-map`
   - [Arma Reforger dünyaları](../level-arma-reforger.md): `enfusion-worlds`, `enfusion-world`
-- [Forza arabaları](../forza-cars.md): `cars`, görüntüleyicinin yarış sekmesi için araba dosyası.
+- [Forza arabaları](../forza-cars.md): `cars`, görüntüleyicinin yarış analizi sekmesi için araba dosyası.
 - [Tur girdileri](../lap-inputs.md): araç tarafından kabul edilen her tur dosyası biçimi.
 - [Çıktı biçimi](../output-format.md): `.glb` içinde ne var.
 - [Arşiv okuyucuları](../archive-readers.md): her kapsayıcı biçimi için bir sayfa; neyi okuduğu, neyi okumadığı ve nedeni.

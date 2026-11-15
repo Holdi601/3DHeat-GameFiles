@@ -17,7 +17,7 @@ d'Tool äntwert mat Text.
 
 1. Gitt op [python.org/downloads](https://www.python.org/downloads/) a luet
    **Python 3.10 oder méi nei** erof.
-2. Start den Installer. Um éischten Ecran **"Add python.exe to PATH"** ukräizen,
+2. Startt den Installer. Um éischten Ecran **"Add python.exe to PATH"** ukräizen,
    dann op **Install Now** klicken.
 
 ## 2. D'Tool kréien {#get-the-tool}
@@ -26,10 +26,10 @@ d'Tool äntwert mat Text.
 - **Ouni git:** Op der [GitHub-Säit](https://github.com/Holdi601/3DHeat-GameFiles)
   klickt op de gréngen **Code**-Knäppchen, dann op **Download ZIP**, an entpackt et.
 
-## 3. E Terminal am Ordner vum Tool opmaachen {#open-a-terminal-in-the-tools-folder}
+## 3. E Terminal am Dossier vum Tool opmaachen {#open-a-terminal-in-the-tools-folder}
 
-- Mécht am File Explorer den Ordner op, deen `README.md` hält. Klickt an d'Adressleist,
-  tippt `cmd` an dréckt Enter. E schwaarzt Fënster geet op, schonn an deem Ordner.
+- Mécht am File Explorer den Dossier op, deen `README.md` hält. Klickt an d'Adressleist,
+  tippt `cmd` an dréckt Enter. E schwaarzt Fënster geet op, schonn an deem Dossier.
 - Oder mécht den **Windows Terminal** op a gitt mat `cd` dohinner:
 
   ```
@@ -59,14 +59,14 @@ Dir sollt `usage: heat3d_gamefiles [-h]` an eng Lëscht vu Verben gesinn (`ident
   spëtze Klammeren. `<lap file>` gëtt zum Beispill `laps\my_lap.json`.
 - `[--option]` an eckege Klammeren ass **optional**: looss et fort, wann Dir et net braucht.
 - E Wee mat Espacen brauch **duebel Ureechnungszeechen**: `"C:\My Games\lap.json"`.
-- Féiert all Kommando am Ordner vum Tool aus (Schrëtt 3).
+- Féiert all Kommando am Dossier vum Tool aus (Schrëtt 3).
 
 ## Wann eppes falsch geet {#when-something-goes-wrong}
 
 | Dir gesitt | Wat maachen |
 |---|---|
-| `'python' is not recognized` | Python ass net installéiert, oder "Add to PATH" war net ugekräizt. Start den Installer nach eemol an kräizt et un, dann mécht en neit Terminal op. |
-| `No module named heat3d_gamefiles` | D'Terminal ass am falschen Ordner. Gitt mat `cd` an den Ordner, deen `README.md` hält. |
+| `'python' is not recognized` | Python ass net installéiert, oder "Add to PATH" war net ugekräizt. Startt den Installer nach eemol an kräizt et un, dann mécht en neit Terminal op. |
+| `No module named heat3d_gamefiles` | D'Terminal ass am falschen Dossier. Gitt mat `cd` an den Dossier, deen `README.md` hält. |
 | `No module named numpy` (oder en anere Numm) | Schrëtt 4 gouf iwwersprong. Féiert `pip install -r requirements.txt` aus. |
 | `can't open file` / `not found` mat engem Wee | De Wee huet Espacen an keng Ureechnungszeechen, oder en Tippfeeler. Setzt en an duebel Ureechnungszeechen. |
 

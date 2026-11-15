@@ -3,7 +3,7 @@ title: "Avaleht"
 nav_order: 1
 lang: et
 source: index.md
-source_hash: "bf76c2a9fafa"
+source_hash: "6400905cf31a"
 nav_exclude: true
 search_exclude: true
 permalink: /et/
@@ -66,7 +66,7 @@ Assetto Corsa EVO ja iRacingi ringid lükatakse põhjusega tagasi. Vaata
 
 ## Paigaldus {#install}
 
-Pole sul käsurealt kogemust? Loe enne [Enne alustamist](before-you-start.md).
+Pole sul käsurealt kogemust? Loe esmalt [Enne alustamist](before-you-start.md).
 
 Vajad **Python 3.10 või uuemat** (arendatud versioonil 3.13) ja pakette failist
 [`requirements.txt`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/requirements.txt).
@@ -172,13 +172,13 @@ Ava `.glb` 3DHeat vaatajas. Mängu enda maailmakoordinaadid on alles
 | [Unreal Exporter](https://github.com/Holdi601/3DHeat-UnrealExporter) | Unreal Editori plugin, mis salvestab tasemed `.glb`-na | [sait](https://holdi601.github.io/3DHeat-UnrealExporter/) |
 | [CS2](https://github.com/Holdi601/3DHeat-CS2) | Counter-Strike 2 demod mängufailideks; kaardid `.glb`-na | [sait](https://holdi601.github.io/3DHeat-CS2/) |
 | [Watcher](https://github.com/Holdi601/3DHeat-Watcher) | salvestab sinu mängu taustal sellest, mida mängud avaldavad | [sait](https://holdi601.github.io/3DHeat-Watcher/) |
-| [Ext-WarThunder](https://github.com/Holdi601/3DHeat-Ext-WarThunder) | War Thunderi replayd mängufailideks | [sait](https://holdi601.github.io/3DHeat-Ext-WarThunder/) |
-| [Ext-WoT](https://github.com/Holdi601/3DHeat-Ext-WoT) | World of Tanksi replayd mängufailideks | [sait](https://holdi601.github.io/3DHeat-Ext-WoT/) |
-| [Ext-WoWs](https://github.com/Holdi601/3DHeat-Ext-WoWs) | World of Warshipsi replayd mängufailideks | [sait](https://holdi601.github.io/3DHeat-Ext-WoWs/) |
+| [Ext-WarThunder](https://github.com/Holdi601/3DHeat-Ext-WarThunder) | War Thunderi kordused mängufailideks | [sait](https://holdi601.github.io/3DHeat-Ext-WarThunder/) |
+| [Ext-WoT](https://github.com/Holdi601/3DHeat-Ext-WoT) | World of Tanksi kordused mängufailideks | [sait](https://holdi601.github.io/3DHeat-Ext-WoT/) |
+| [Ext-WoWs](https://github.com/Holdi601/3DHeat-Ext-WoWs) | World of Warshipsi kordused mängufailideks | [sait](https://holdi601.github.io/3DHeat-Ext-WoWs/) |
 | [Ext-Squad](https://github.com/Holdi601/3DHeat-Ext-Squad) | Squadi serverdemod mängufailideks | [sait](https://holdi601.github.io/3DHeat-Ext-Squad/) |
 | [Ext-DCS](https://github.com/Holdi601/3DHeat-Ext-DCS) | DCS Worldi kaardid `.glb` tasemeteks | [sait](https://holdi601.github.io/3DHeat-Ext-DCS/) |
 | [Ext-IL2](https://github.com/Holdi601/3DHeat-Ext-IL2) | IL-2 Sturmovigi kaardid `.glb` tasemeteks | [sait](https://holdi601.github.io/3DHeat-Ext-IL2/) |
 
 Vaataja mängufailid on kirjeldatud lehel
 [Üks fail mängu kohta: `.3dheat`](https://holdi601.github.io/3DHeat/container.html);
-siin tehtud tase laaditakse nende kõrvale vaataja Taseme paneelis.
+siin tehtud tase laaditakse nende kõrvale vaataja paneelis **Taust / tase**.

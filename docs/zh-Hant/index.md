@@ -3,7 +3,7 @@ title: "首頁"
 nav_order: 1
 lang: zh-Hant
 source: index.md
-source_hash: "bf76c2a9fafa"
+source_hash: "6400905cf31a"
 nav_exclude: true
 search_exclude: true
 permalink: /zh-Hant/
@@ -50,7 +50,7 @@ Python 套件：`heat3d_gamefiles`。儲存庫：
 | Source 2 `.vpk` | 否 | `identify`、`list`、`extract` |
 | Unreal 5 World Partition 遊戲 | 無圈速；使用 `ue-map`（由 `ue-maps` 列出）匯出整張地圖：地景、HLOD 建築與道具、水域 | - |
 | Arma Reforger（Enfusion） | 無圈速；使用 `enfusion-world`（由 `enfusion-worlds` 列出）匯出整個世界：以其顏色呈現的地形、海洋、以方塊表示的建築 | - |
-| Forza（汽車） | `cars`：每輛車的低細節模型，供檢視器的賽車分頁使用 | - |
+| Forza（汽車） | `cars`：每輛車的低細節模型，供檢視器的賽車分析分頁使用 | - |
 
 來自 Assetto Corsa EVO 與 iRacing 的圈速會被拒絕並說明原因。請見[限制與已知缺口](../limits-and-known-gaps.md)。
 
@@ -68,7 +68,7 @@ pip install -r requirements.txt
 ```
 
 接著確認：`python -m heat3d_gamefiles --help`。你應該會看到
-`usage: heat3d_gamefiles [-h]` 以及動詞清單。請在儲存庫資料夾中執行每一個命令，格式為
+`usage: heat3d_gamefiles [-h]` 以及動詞清單。請在儲存庫資料夾中執行每一個指令，格式為
 `python -m heat3d_gamefiles <verb>`。
 
 | 套件 | 用途 |
@@ -120,9 +120,9 @@ python -m heat3d_gamefiles identify some_archive.pak
 
 ## 文件地圖 {#map-of-this-documentation}
 
-- [開始之前](before-you-start.md)：Python、終端機、第一個命令。
-- [命令](../commands.md)：每個動詞與選項，附範例。
-- [命令參考](../cli-reference.md)：每個動詞的 `--help`，由程式碼產生。
+- [開始之前](before-you-start.md)：Python、終端機、第一個指令。
+- [指令](../commands.md)：每個動詞與選項，附範例。
+- [指令參考](../cli-reference.md)：每個動詞的 `--help`，由程式碼產生。
 - [檢視封存檔](../inspecting-archives.md)：`identify`、`list`、`extract`、`meshes`，逐步說明。
 - [賽道匯出](../course-export.md)：圈速如何變成賽道，適用於所有遊戲。
   - [Forza Horizon](../course-forza-horizon.md)
@@ -133,7 +133,7 @@ python -m heat3d_gamefiles identify some_archive.pak
   - [Battlefield 6 關卡](../level-battlefield.md)：`levels`、`level`
   - [Unreal 5 地圖](../level-unreal-world-partition.md)：`ue-maps`、`ue-map`
   - [Arma Reforger 世界](../level-arma-reforger.md)：`enfusion-worlds`、`enfusion-world`
-- [Forza 汽車](../forza-cars.md)：`cars`，供檢視器賽車分頁使用的汽車檔。
+- [Forza 汽車](../forza-cars.md)：`cars`，供檢視器賽車分析分頁使用的汽車檔。
 - [圈速輸入](../lap-inputs.md)：本工具接受的每一種圈速檔格式。
 - [輸出格式](../output-format.md)：`.glb` 內部的內容。
 - [封存檔讀取器](../archive-readers.md)：每種封裝格式一頁，說明它讀取什麼、不讀取什麼，以及原因。
@@ -165,4 +165,4 @@ python -m heat3d_gamefiles identify some_archive.pak
 
 檢視器的對戰檔案說明見
 [每場對戰一個檔案：`.3dheat`](https://holdi601.github.io/3DHeat/container.html)；
-在此製作的關卡，會與它們一起在檢視器的關卡面板中載入。
+在此製作的關卡，會與它們一起在檢視器的背景／關卡面板中載入。

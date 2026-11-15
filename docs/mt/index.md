@@ -3,7 +3,7 @@ title: Dar
 nav_order: 1
 lang: mt
 source: index.md
-source_hash: "bf76c2a9fafa"
+source_hash: "6400905cf31a"
 nav_exclude: true
 search_exclude: true
 permalink: /mt/
@@ -53,11 +53,13 @@ Pakkett Python: `heat3d_gamefiles`. Repożitorju:
 | Forza Horizon (ForzaTech) | iva: terren, triq u ġnub, texture tal-art, mudelli mqiegħda fit-texturi tagħhom | `identify`, `list`, `extract` fuq `.minizip`; `identify` fuq `.modelbin`; mudelli, terren u texturi permezz ta' `course` u `terrain` |
 | BeamNG.drive | iva: terren, decals tat-triq, ċirkwiti mmudellati, mudelli mqiegħda, ilma | `identify`, `list`, `extract` fuq zips tal-livelli; `identify` fuq `.ter`, `.cdae`; `.dae` permezz ta' `course` |
 | Assetto Corsa Rally (Unreal 5.6) | iva: tiles tal-art tal-istage, kulur tal-art maħmuġ, mudelli mqiegħda f'kuluri ċatti | `identify`, `list`, `extract` fuq IoStore `.utoc`/`.ucas`; pakketti zen, static meshes, texturi permezz ta' `course` |
+| Unreal `.pak` (verżjonijiet 8-12) | le | `identify`, `list`, `extract` |
 | Unity (format 22 u aktar tard) | le | `identify`, `meshes` |
 | Battlefield 6 (Frostbite `.toc`/`.cas`) | ebda lapp; livell sħiħ b'`level`: terren, meshes mqiegħda, il-mapep tal-kulur tagħhom b'`--textures` | `identify`, `levels`; bundles, meshes, terren, texturi u tqegħid permezz ta' `level` |
 | Source 2 `.vpk` | le | `identify`, `list`, `extract` |
+| Logħob ta' Unreal 5 World Partition | ebda lapp; mappa sħiħa b'`ue-map` (elenkata minn `ue-maps`): landscape, bini u props HLOD, ilma | - |
 | Arma Reforger (Enfusion) | ebda lapp; dinja sħiħa b'`enfusion-world` (elenkata minn `enfusion-worlds`): terren fil-kuluri tiegħu, il-baħar, bini bħala kaxxi | - |
-| Forza (karrijiet) | `cars`: kull karozza f'dettall baxx, għat-tab Race tal-viewer | - |
+| Forza (karozzi) | `cars`: kull karozza f'dettall baxx, għat-tab Analiżi tat-tellieqa tal-viewer | - |
 
 Laps minn Assetto Corsa EVO u iRacing jiġu miċħuda b'raġuni. Ara
 [Limiti u lakuni magħrufa](../limits-and-known-gaps.md).
@@ -95,7 +97,7 @@ L-għodda hija miktuba għal Windows. Issib il-logħob mil-lista tal-librerija t
 `%LOCALAPPDATA%`, u tgħabbi Oodle bħala DLL ta' Windows. Pjattaformi oħra ma ġewx
 ittestjati.
 
-## Tluq malajr {#quick-start}
+## Bidu veloċi {#quick-start}
 
 **Fajl tal-lapp** huwa reġistrazzjoni ta' fejn marret il-karozza tiegħek: lista ta' punti x, y, z.
 Tiġi minn [3DHeat GameCapture](https://github.com/Holdi601/3DHeat-GameCapture)
@@ -148,7 +150,7 @@ Iftaħ il-`.glb` fil-viewer ta' 3DHeat. Il-koordinati proprji tad-dinja tal-log�
   - [Livelli ta' Battlefield 6](../level-battlefield.md): `levels`, `level`
   - [Mapep ta' Unreal 5](../level-unreal-world-partition.md): `ue-maps`, `ue-map`
   - [Dinjiet ta' Arma Reforger](../level-arma-reforger.md): `enfusion-worlds`, `enfusion-world`
-- [Karrijiet ta' Forza](../forza-cars.md): `cars`, il-fajl tal-karrijiet għat-tab Race tal-viewer.
+- [Karozzi ta' Forza](../forza-cars.md): `cars`, il-fajl tal-karozzi għat-tab Analiżi tat-tellieqa tal-viewer.
 - [Inputs tal-lapp](../lap-inputs.md): kull forma ta' fajl tal-lapp li l-għodda taċċetta.
 - [Format tal-output](../output-format.md): x'hemm ġewwa l-`.glb`.
 - [Qarrejja tal-arkivji](../archive-readers.md): paġna waħda għal kull format ta' container, li tkopri
@@ -168,7 +170,7 @@ Iftaħ il-`.glb` fil-viewer ta' 3DHeat. Il-koordinati proprji tad-dinja tal-log�
 |---|---|---|
 | [3DHeat](https://github.com/Holdi601/3DHeat) | il-viewer: heatmaps 3D, analiżi tat-tlielaq u reviżjoni tal-partiti fil-browser | [sit](https://holdi601.github.io/3DHeat/) |
 | [GameFiles](https://github.com/Holdi601/3DHeat-GameFiles) | korsijiet u livelli mill-fajls li tipprovdi logħba, bħala `.glb` | [sit](https://holdi601.github.io/3DHeat-GameFiles/) |
-| [GameCapture](https://github.com/Holdi601/3DHeat-GameCapture) | telemetrija tal-laps minn logħob tat-tlielaq; livelli mibnija mill-ġdid minn vidjow tal-logħba | [sit](https://holdi601.github.io/3DHeat-GameCapture/) |
+| [GameCapture](https://github.com/Holdi601/3DHeat-GameCapture) | telemetrija tal-laps minn logħob tat-tlielaq; livelli mibnija mill-ġdid minn vidjo tal-logħba | [sit](https://holdi601.github.io/3DHeat-GameCapture/) |
 | [Unreal Exporter](https://github.com/Holdi601/3DHeat-UnrealExporter) | plugin ta' Unreal Editor li jsalva livell bħala `.glb` | [sit](https://holdi601.github.io/3DHeat-UnrealExporter/) |
 | [CS2](https://github.com/Holdi601/3DHeat-CS2) | demos ta' Counter-Strike 2 f'fajls tal-partiti; mapep f'`.glb` | [sit](https://holdi601.github.io/3DHeat-CS2/) |
 | [Watcher](https://github.com/Holdi601/3DHeat-Watcher) | jirrekordja l-logħob tiegħek fl-isfond minn dak li jippubblikaw il-logħob | [sit](https://holdi601.github.io/3DHeat-Watcher/) |
