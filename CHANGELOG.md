@@ -42,6 +42,7 @@ section below says which documentation page explains each feature.
 | Every verb and option | [Commands](https://holdi601.github.io/3DHeat-GameFiles/commands.html), [Command reference](https://holdi601.github.io/3DHeat-GameFiles/cli-reference.html) |
 | `identify`, `list`, `extract`, `meshes` | [Inspecting archives](https://holdi601.github.io/3DHeat-GameFiles/inspecting-archives.html) |
 | `course`, `courses`, `terrain` | [Course export](https://holdi601.github.io/3DHeat-GameFiles/course-export.html) and its Forza, BeamNG and AC Rally pages |
+| `races`, a race's own layer, venues | [Commands](https://holdi601.github.io/3DHeat-GameFiles/commands.html#races), [Forza Horizon courses](https://holdi601.github.io/3DHeat-GameFiles/course-forza-horizon.html#which-race) |
 | `--detail-budget` | [Levels of detail and the budget](https://holdi601.github.io/3DHeat-GameFiles/detail-budget.html) |
 | `levels`, `level` (Battlefield 6) | [Battlefield 6 levels](https://holdi601.github.io/3DHeat-GameFiles/level-battlefield.html) |
 | `ue-maps`, `ue-map` | [Unreal 5 maps](https://holdi601.github.io/3DHeat-GameFiles/level-unreal-world-partition.html) |

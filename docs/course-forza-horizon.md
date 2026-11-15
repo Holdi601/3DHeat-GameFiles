@@ -9,7 +9,10 @@ nav_order: 1
 The Forza export reads the track straight out of the game's ForzaTech archives:
 terrain with road, verge and grass told apart, a ground texture baked from the
 game's own ground maps, and every placed model in its own texture (kerbs,
-guardrails, tyre walls, signs, props, buildings).
+guardrails, tyre walls, signs, props, buildings). It also finds which of the
+game's races the lap was driven on and adds what the game puts out for that race
+alone (its event layer: barriers, tents, gantries, stands, flags), and the
+ground of any venue the driving passes through, such as a stadium's floor.
 
 ```
 python -m heat3d_gamefiles course "Example Circuit"
@@ -24,7 +27,8 @@ Sources: [`cli.py`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/heat3
 [`forzatexture.py`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/heat3d_gamefiles/forzatexture.py),
 [`courseexport.py`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/heat3d_gamefiles/courseexport.py),
 [`forzaplacement.py`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/heat3d_gamefiles/forzaplacement.py),
-[`forzamaterial.py`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/heat3d_gamefiles/forzamaterial.py).
+[`forzamaterial.py`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/heat3d_gamefiles/forzamaterial.py),
+[`forzaroute.py`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/heat3d_gamefiles/forzaroute.py).
 The container formats themselves are on [ForzaTech](reader-forzatech.md).
 
 ## Finding the installed game
@@ -74,6 +78,29 @@ A whole track answers in well under a second. A name match could pick the wrong
 map, and a wrong map looks as plausible as the right one.
 
 The console says `on <track>, in <game folder>`.
+
+## Which race
+
+The game ships each of its races as a route with a number, its **route id**. Two
+files belong to each route:
+
+| File | What it holds |
+|---|---|
+| `media\OpenWorld\<map>\AITracks\Route<id>.owt` | the race's AI driving line: a 56-byte node per point from byte `0x60`, the node count at `0x24`, each node starting with its position (x, y, z) in the game's metres |
+| `media\Stripped\gs\<map>\routedefinitions.zip` | one `route<id>_<map>.rtd` per race: plain XML listing what the race adds to the world and what it takes away (see [The race's own layer](#the-races-own-layer)) |
+
+The lap is matched to a route by comparing it with every AI line whose box
+overlaps the lap's:
+
+- From each lap sample, the distance to the nearest point of the line; and from
+  each point of the line, the distance to the nearest lap sample.
+- The two medians are added. The route with the smallest sum wins if the sum is
+  under **30 m** (`MATCH`).
+- Both directions are needed: a short sprint lies along a long route that uses
+  the same road, and a long lap covers a short route.
+
+The console says `the game's route <id> (driven line within <n> m of it)`, or that
+no route matches. With no match, only the free-roam world is placed.
 
 ## Terrain
 
@@ -195,10 +222,18 @@ layout is on [ForzaTech](reader-forzatech.md#placement-files-pgeo).
   path give the cell's square (`x * size` to `(x + 1) * size`), and only cells
   overlapping the lap's box, in a wanted category, are opened.
 - Categories by default: `barriers`, `props`, `signs`, `buildings`,
-  `infrastructure`, `bridges`, `rocks`. `--trees` adds `trees`, `bushes` and
-  `smashables`. These are never read: `grasstemplate`, `crowdtemplate` and
-  `cwdspline` (grass and spectators), and `evolving` (festival sites that change
-  with progression).
+  `infrastructure`, `bridges`, `rocks`, `evolving`. `--trees` adds `trees`,
+  `bushes` and `smashables`. These are never read: `grasstemplate`,
+  `crowdtemplate` and `cwdspline` (grass and spectators: the game draws them as
+  animated sprites, there is no geometry).
+- Each file belongs to a **layer**, read from its name after
+  `c<size>_<category>_`. A level-of-detail word (`do`, `so`, `ulc`, `ulp`, `cwd`)
+  and an optional section number is the free-roam world. Anything else is a
+  layer the game switches on: a runtime layer (`rt_0`), an activity
+  (`_tag_<name>_`), a collectible, anything filed under `evolving`. A layer
+  that names routes (`rt_x<id>`, for example `rt_x1023_x2201`) belongs to those
+  races only, and is read only when the lap matched one of them. See
+  [Switched-on layers](#switched-on-layers).
 - A copy is kept if its position is inside the box and inside the corridor.
   Exact repeats (the same position and orientation to the millimetre, listed by
   two neighbouring cells) are merged.
@@ -310,6 +345,48 @@ ships whole-building stand-ins in `scene\hlod_tier_1\`, one mesh per building
   driving is measured to the building's nearest edge.
 - The summary says `N buildings drawn whole from the game's own stand-ins (which replace M modular pieces)`.
 
+### Switched-on layers
+
+What a switched-on layer places is exported, but apart from the free-roam world,
+so the viewer can show it or hide it:
+
+| Layer | Part |
+|---|---|
+| the free-roam world | `structure:<category>` (as before) |
+| a layer naming the matched race's route | `structure:event_<category>` |
+| any other switched-on layer | `structure:layer_<category>` |
+
+The summary counts them: `switched-on layers: <n> copies in <m> (<layer names>)`.
+
+### Models already in world coordinates
+
+A few kinds of model are not in any placement file. Their meshes carry their own
+world position, as terrain does, so nothing has to place them:
+
+| Folder under `scene\models\` | What it is | Part |
+|---|---|---|
+| `plots` | a venue's own ground: a stadium's floor and infield, a festival site, a plaza | `ground:venue` |
+| `plinths` (and any model named `floor`, `ground` or `road`) | ground a street is dressed with: planters, steps, a park's paving | `ground:plinths` |
+| `hda_infrastructure` (bridges) | procedurally built bridges | `structure:bridges` |
+
+- A model counts as being in world coordinates when the middle of its box lies
+  more than **300 m** (`WORLD_REACH`) from its own origin. Models placed by the
+  placement files sit within a couple of hundred metres of theirs.
+- Not drawn: occluders, cables strung along the roads, the sea's backdrop,
+  the roofs and occluders of modular buildings (the stand-ins draw those
+  buildings), collision and water volumes.
+- Each is read from the box of its meshes (a header read), a few seconds for a
+  whole map, once per run.
+- Ground parts are never drawn coarser and never left out to fit the budget,
+  like kerbs.
+
+**A venue is cut whole.** When the driving touches a venue's own ground
+(`ground:venue`), the corridor is widened to that ground's whole footprint plus
+`--margin`, so the stands, walls and barriers around a stadium come with it, not
+only the strip the laps used. The console says
+`through a venue (<model names>): cutting all of its ground, <n> km2`. Plinths
+do not widen the cut.
+
 ### Detail and the budget
 
 Distance bands, budget, and which copies go when the budget is too small are on
@@ -326,7 +403,61 @@ Distance bands, budget, and which copies go when the budget is too small are on
     120,000 of 125,000 copies left out to fit the budget, the smallest and furthest from the driving first (--detail-budget raises it)
     2 models left out as see-through (mostly holes in their texture): fence_a, net_b
     3 placed names have no model in the archives: ...
+    venue: the driving passes through 2 pieces of a site's own ground (plt_example_floor_a, plt_example_lawn_a)
+    1 models drawn where the game builds them in place (plinths, bridges)
+    event layer (route 1234): 1,200 copies in barriers, decals, infrastructure, props
+    40 free-roam objects left out: the race takes them away
+    switched-on layers: 12 copies in 2 (rt_0, tag_example)
 ```
+
+## The race's own layer
+
+Many races put out things that are not there in free roam: concrete walls and
+fences that close off side roads, tyre stacks, tents, a start gantry,
+grandstands, flags, banners. Each race lists them in its route definition
+(`route<id>_<map>.rtd` in `routedefinitions.zip`, plain XML in a plain zip):
+
+```
+<Route>
+  <HiddenAssets>
+    <Transform guid="..." value="16 numbers" />        free-roam objects the race removes
+  </HiddenAssets>
+  <RouteAssets>
+    <Instance>
+      <Model value="tracks\<map>\scene\models\<kind>\...\<model>.model" />
+      <Transform value="16 numbers" />                  what the race adds
+      <Material value="n" />
+    </Instance>
+  </RouteAssets>
+</Route>
+```
+
+- **What is added.** Each instance is placed like a placement-file copy. The
+  transform's 16 numbers are four rows: the model's x, y and z axes (each scaled)
+  and its position in the game's metres. The third row is the cross product of the
+  first two. `Material` is the variant the copy wears. The part is
+  `structure:event_<kind>`, `<kind>` being the folder under `scene\models\`
+  (barriers, props, infrastructure, signs; anything else counts as props), and the
+  node carries the glTF extras `{"layer": "event", "route": <id>}`.
+- **What is taken away.** A free-roam copy standing within **0.1 m** of a hidden
+  asset's position is left out. A hidden asset standing at the origin is a model
+  in world coordinates; its instance GUID is looked up in the track's
+  `AssetManifest.xml` (the `<Models>` list: a model's source, then the GUIDs of
+  its copies) to name it.
+- **Ground the race hides is kept.** A race that hides a venue's ground lays its
+  own surface there. When that surface is not among the models the track ships,
+  the hidden ground stays, as the nearest thing to what is driven on, and the
+  summary says so (`kept <model>: the race hides it for a surface of its own
+  that the track does not ship`).
+- **Not drawn, but counted.** Spectator markers (`crowd_proxies`: the game draws
+  the crowd as sprites from them) and collision splines (`.splinecol`). The
+  console lists them: `its own layer: <n> copies of <m> models, <k> free-roam
+  objects hidden; not drawn: ...`.
+- Route assets the track does not ship a model for (light glows, some signs,
+  content the game streams in) are named in `placed names have no model in the
+  archives`.
+
+Only copies inside the corridor are placed, as for everything else.
 
 ## Writing the file
 
@@ -334,6 +465,17 @@ Parts are written in this order: per tile `terrain`, `verge`, `road` (each with
 the tile's image), then `water`, `tyre marks`, `markings` (flat, the last two
 lifted), then every placed part sorted by name. Coordinates are the game's own
 (metres, Y up). See [Output format](output-format.md).
+
+The file says what it holds in its glTF `asset.extras`:
+
+| Field | Meaning |
+|---|---|
+| `course_format` | `2`: the race's own layer, venues and world-space models are in it. [`courses`](commands.md#courses) exports a file with a lower number (or none) again |
+| `route` | the matched route id, or `null` |
+| `event_copies`, `event_kinds` | how many copies of the race's own layer were placed, and their kinds |
+| `hidden` | free-roam copies left out because the race removes them |
+| `venue` | the venue ground models the driving passes through |
+| `layers` | the switched-on layers placed |
 
 ## What it costs
 
@@ -359,7 +501,8 @@ source. They are not re-run by the tests unless the game is installed.
 
 ## Not drawn
 
-- Trees and bushes unless `--trees`. Grass, crowds and festival sites never.
+- Trees and bushes unless `--trees`. Grass and crowds never (the game draws them as sprites).
+- A race's own models that the track does not ship (see [The race's own layer](#the-races-own-layer)).
 - Projected decal materials on models.
 - Sign prints that are alpha-blended over their board come out opaque.
 - The ground colour is a reconstruction of where asphalt, grass and woodland are, not the game's own terrain materials.

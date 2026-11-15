@@ -86,6 +86,7 @@ python -m heat3d_gamefiles extract  <archive> <path inside> [--out file]
 python -m heat3d_gamefiles meshes   <unity .assets>
 python -m heat3d_gamefiles course   <lap file | lap folder | course name> [-o course.glb]
 python -m heat3d_gamefiles courses  [-o folder] [--only name ...]   # every course in the library
+python -m heat3d_gamefiles races    [-o folder] [--markdown file]   # every race a Forza defines
 python -m heat3d_gamefiles terrain  <forza track folder> -o map.glb \
                                     (--box x0 z0 x1 z1 | --route lap.json)
 python -m heat3d_gamefiles ue-maps  <game folder | Steam game folder name>
@@ -110,6 +111,7 @@ placeholder: type your own value, without the angle brackets.
 | `meshes` | `<unity file>`, `--limit N` |
 | `course` | `<lap file \| lap folder \| course name>`, `-o FILE`, `--game forza\|beamng\|acrally`, `--track FOLDER` (Forza), `--level NAME` and `--install FOLDER` (BeamNG, AC Rally), `--margin M` (80), `--texture-size 2048\|1024\|512`, `--no-textures`, `--season summer\|autumn\|winter\|spring`, `--no-placed`, `--trees`, `--detail-budget N` |
 | `courses` | `-o FOLDER` (`./courses`), `--library FILE`, `--only NAME ...`, `--force`, `--track FOLDER`, `--margin M`, and the texture/season/placed/trees/budget options of `course` |
+| `races` | `-o FOLDER` (`./courses`), `--library FILE`, `--track FOLDER`, `--markdown FILE` |
 | `terrain` | `<forza track folder>`, `-o FILE`, `--box X0 Z0 X1 Z1` or `--route ROUTE.json`, `--margin M`, and the texture/season/placed/trees/budget options of `course` |
 | `cars` | `-o FILE` (`./forza.h3dcars`), `--game FOLDER` |
 | `levels` | `--install FOLDER` |

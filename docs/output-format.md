@@ -33,10 +33,16 @@ scene 0
   part uses. A shared vertex array is legal glTF, but a reader that expands each
   primitive's accessors would then hold every vertex once per part.
 - `asset.generator` is `heat3d_gamefiles`.
-- **No `extras`** are written - no custom metadata, no lap, no game or track
-  name - with one exception: a Battlefield 6 part of a destructible mesh
-  carries `{"destructible": true}` on its node. Everything the viewer needs is
-  in the node names.
+- **Few `extras`**, and no lap, game or track name:
+  - a Battlefield 6 part of a destructible mesh carries `{"destructible": true}` on its node;
+  - a Forza course says what it holds in `asset.extras` (format version, matched
+    route id, how many copies of the race's own layer, venues; see
+    [Forza Horizon courses](course-forza-horizon.md#writing-the-file)), and its
+    switched-on parts carry their layer on the node: `{"layer": "event", "route": <id>}`
+    for the race's own layer, `{"layer": "layer"}` for another switched-on layer,
+    `{"layer": "venue"}` for a venue's ground.
+
+  Everything else the viewer needs is in the node names.
 
 ## Node names: the classification
 
@@ -55,8 +61,8 @@ every part the exporter writes starts with one of these prefixes, or with
 
 | Prefix | Meaning | Parts written |
 |---|---|---|
-| `ground:` | the driving surface and the land | `ground:road`, `ground:verge`, `ground:terrain`, `ground:gravel and dirt`, `ground:kerbs`, `ground:markings`, `ground:tyre marks` |
-| `structure:` | what stands on it | `structure:barriers`, `structure:props`, `structure:signs`, `structure:buildings`, `structure:infrastructure`, `structure:bridges`, `structure:rocks`, `structure:smashables`, `structure:trees` |
+| `ground:` | the driving surface and the land | `ground:road`, `ground:verge`, `ground:terrain`, `ground:gravel and dirt`, `ground:kerbs`, `ground:markings`, `ground:tyre marks`, `ground:venue`, `ground:plinths` |
+| `structure:` | what stands on it | `structure:barriers`, `structure:props`, `structure:signs`, `structure:buildings`, `structure:infrastructure`, `structure:bridges`, `structure:rocks`, `structure:smashables`, `structure:trees`; Forza layers `structure:event_<category>` and `structure:layer_<category>` |
 | `water:` | water | `water:water`; `water:<map>` (`ue-map`), `water:<world>` (`enfusion-world`) |
 | `nav:` | where a soldier can walk (Battlefield 6, `--navmesh` only) | `nav:walkable` |
 
@@ -75,6 +81,9 @@ After the kind comes, depending on the game:
 | `ground:road 1_-4` | AC Rally ground in 512 m square (1, -4) of Unreal space |
 | `structure:barriers bar_armco_bclr` | Forza placed models sharing one texture (its name without the GUID) |
 | `structure:barriers` | placed models without a texture (Forza, AC Rally) |
+| `structure:event_barriers bar_example_bclr` | Forza: what the matched race puts out for itself, apart from the free-roam world (node extras `{"layer": "event", "route": <id>}`) |
+| `structure:layer_props` | Forza: a layer the game switches on for something other than this race (an activity, a collectible, a runtime layer) |
+| `ground:venue`, `ground:plinths` | Forza: models already in world coordinates - a venue's own ground (a stadium's floor), and ground a street is dressed with |
 | `structure:barriers armco_metal` | BeamNG placed models of one material |
 | `ground:markings`, `water:water` | flat parts, one for the whole file |
 | `ground:terrain` (Battlefield 6) | the heightfield; `ground:terrain backdrop` the distant terrain meshes, `ground:terrain blend` meshes that blend into the terrain |
@@ -84,7 +93,8 @@ After the kind comes, depending on the game:
 | `structure:buildings t_concreteclean_01_cs (destructible)` (Battlefield 6) | the same, for meshes a match can destroy: those with a destruction asset of their own name (walls, houses, props). The node also carries the glTF extras `{"destructible": true}`. Their destroyed states are not exported |
 
 The viewer can filter by these names. For example, "only the racing surface" is
-`ground:road` together with `ground:kerbs`, in all three games. The prefix is also
+`ground:road` together with `ground:kerbs`, in all three games, and "the world
+without the race's own props" is everything but `structure:event_*`. The prefix is also
 how the viewer draws a part: ground as the surface the heat lies on, structure as
 what stands on it.
 
