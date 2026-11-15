@@ -707,6 +707,10 @@ def _layer_extras(part: str, route_id) -> dict | None:
     return None
 
 
+#: The folder under `HEAT3D_LEVELS` for a game the lap names in more than one way.
+_COURSE_FOLDERS = {"assetto-corsa-rally": "acrally"}
+
+
 def _course(args) -> int:
     """
     A lap in, the ground around it out.
@@ -726,7 +730,7 @@ def _course(args) -> int:
         return 1
     game = (getattr(args, "game", None) or driven.game or "forza").lower()
     target = args.out or levelshome.default(
-        _slug(driven.name) + ".glb", "forza" if game.startswith("forza") else game, "courses"
+        _slug(driven.name) + ".glb", _COURSE_FOLDERS.get(game, "forza" if game.startswith("forza") else game), "courses"
     )
     target.parent.mkdir(parents=True, exist_ok=True)
     if game == "beamng":
