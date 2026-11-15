@@ -69,4 +69,4 @@ python -m heat3d_gamefiles --help
 | `No module named numpy` (или друго име) | Стъпка 4 е пропусната. Стартирайте `pip install -r requirements.txt`. |
 | `can't open file` / `not found` с път | Пътят има интервали без кавички, или е сбъркан. Сложете го в двойни кавички. |
 
-Още съобщения и как да ги поправите: [Отстраняване на неизправности](../troubleshooting.md).
+Още съобщения и как да ги поправите: [Отстраняване на неизправности](troubleshooting.md).

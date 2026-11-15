@@ -60,7 +60,7 @@ Pachet Python: `heat3d_gamefiles`. Depozit:
 | Arma Reforger (Enfusion) | fără tur; o lume întreagă cu `enfusion-world` (listată de `enfusion-worlds`): teren în culorile sale, marea, clădiri ca cutii | - |
 | Forza (mașini) | `cars`: fiecare mașină la detaliu mic, pentru fila Analiză de cursă a vizualizatorului | - |
 
-Tururile din Assetto Corsa EVO și iRacing sunt refuzate, cu motiv. Vezi [Limite și lacune cunoscute](../limits-and-known-gaps.md).
+Tururile din Assetto Corsa EVO și iRacing sunt refuzate, cu motiv. Vezi [Limite și lacune cunoscute](limits-and-known-gaps.md).
 
 ## Instalare {#install}
 
@@ -89,7 +89,7 @@ depozitului, ca `python -m heat3d_gamefiles <verb>`.
 | pytest | testele |
 
 Conținutul Unreal comprimat cu **Oodle** are nevoie de o bibliotecă Oodle care există deja pe
-calculatorul dumneavoastră. Niciuna nu este livrată cu acest instrument. Vezi [Oodle](../reader-oodle.md).
+calculatorul dumneavoastră. Niciuna nu este livrată cu acest instrument. Vezi [Oodle](reader-oodle.md).
 
 Instrumentul este scris pentru Windows. Găsește jocurile prin lista de biblioteci Steam și prin
 `%LOCALAPPDATA%`, iar Oodle îl încarcă ca DLL Windows. Alte platforme nu au fost testate.
@@ -99,7 +99,7 @@ Instrumentul este scris pentru Windows. Găsește jocurile prin lista de bibliot
 Un **fișier de tur** este o înregistrare a locului unde a mers mașina: o listă de puncte x, y, z.
 Vine de la [3DHeat GameCapture](https://github.com/Holdi601/3DHeat-GameCapture) sau din biblioteca
 de tururi a aplicației FH Companion; un CSV scris de mână funcționează și el
-([Intrările de tur](../lap-inputs.md)).
+([Intrările de tur](lap-inputs.md)).
 
 ```
 # Forza: a lap file, a lap folder, or a course name from the FH Companion library
@@ -130,34 +130,34 @@ python -m heat3d_gamefiles identify some_archive.pak
 ```
 
 Deschideți `.glb` în vizualizatorul 3DHeat. Coordonatele lumii jocului sunt păstrate
-(vezi [Formatul de ieșire](../output-format.md)), deci un tur înregistrat se aliniază cu circuitul.
+(vezi [Formatul de ieșire](output-format.md)), deci un tur înregistrat se aliniază cu circuitul.
 
 ## Harta acestei documentații {#map-of-this-documentation}
 
 - [Înainte de a începe](before-you-start.md): Python, un terminal, prima comandă.
-- [Comenzi](../commands.md): fiecare verb și opțiune, cu exemple.
+- [Comenzi](commands.md): fiecare verb și opțiune, cu exemple.
 - [Referința comenzilor](../cli-reference.md): `--help` al fiecărui verb, generat din cod.
-- [Inspectarea arhivelor](../inspecting-archives.md): `identify`, `list`, `extract`, `meshes`, pas cu pas.
-- [Exportul de circuit](../course-export.md): cum devine un tur un circuit, pentru toate jocurile.
-  - [Forza Horizon](../course-forza-horizon.md)
-  - [BeamNG.drive](../course-beamng.md)
-  - [Assetto Corsa Rally](../course-assetto-corsa-rally.md)
-  - [Nivelurile de detaliu și bugetul](../detail-budget.md)
-- [Niveluri întregi](../whole-levels.md): un nivel, o hartă sau o lume fără tur.
-  - [Nivelurile Battlefield 6](../level-battlefield.md): `levels`, `level`
-  - [Hărțile Unreal 5](../level-unreal-world-partition.md): `ue-maps`, `ue-map`
-  - [Lumile Arma Reforger](../level-arma-reforger.md): `enfusion-worlds`, `enfusion-world`
-- [Mașinile Forza](../forza-cars.md): `cars`, fișierul cu mașini pentru fila Analiză de cursă a vizualizatorului.
-- [Intrările de tur](../lap-inputs.md): fiecare formă de fișier de tur pe care o acceptă instrumentul.
-- [Formatul de ieșire](../output-format.md): ce conține `.glb`.
-- [Cititoarele de arhive](../archive-readers.md): câte o pagină pentru fiecare format de container, cu ce citește,
+- [Inspectarea arhivelor](inspecting-archives.md): `identify`, `list`, `extract`, `meshes`, pas cu pas.
+- [Exportul de circuit](course-export.md): cum devine un tur un circuit, pentru toate jocurile.
+  - [Forza Horizon](course-forza-horizon.md)
+  - [BeamNG.drive](course-beamng.md)
+  - [Assetto Corsa Rally](course-assetto-corsa-rally.md)
+  - [Nivelurile de detaliu și bugetul](detail-budget.md)
+- [Niveluri întregi](whole-levels.md): un nivel, o hartă sau o lume fără tur.
+  - [Nivelurile Battlefield 6](level-battlefield.md): `levels`, `level`
+  - [Hărțile Unreal 5](level-unreal-world-partition.md): `ue-maps`, `ue-map`
+  - [Lumile Arma Reforger](level-arma-reforger.md): `enfusion-worlds`, `enfusion-world`
+- [Mașinile Forza](forza-cars.md): `cars`, fișierul cu mașini pentru fila Analiză de cursă a vizualizatorului.
+- [Intrările de tur](lap-inputs.md): fiecare formă de fișier de tur pe care o acceptă instrumentul.
+- [Formatul de ieșire](output-format.md): ce conține `.glb`.
+- [Cititoarele de arhive](archive-readers.md): câte o pagină pentru fiecare format de container, cu ce citește,
   ce nu citește și de ce.
-- [Limite și lacune cunoscute](../limits-and-known-gaps.md)
-- [Depanare](../troubleshooting.md): mesajele de eroare și ce să faceți.
-- [Reguli și licențe](../rules-and-licences.md): fără chei, propriile fișiere, fără redistribuire.
-- [Actualizări](../updates.md): verificarea actualizărilor și `heat3d_update`.
-- [Dezvoltare](../development.md): harta modulelor și testele, inclusiv cele care rulează pe jocuri instalate.
-- [Întreținere](../maintaining.md): lista de verificare pentru lansarea acestor pagini.
+- [Limite și lacune cunoscute](limits-and-known-gaps.md)
+- [Depanare](troubleshooting.md): mesajele de eroare și ce să faceți.
+- [Reguli și licențe](rules-and-licences.md): fără chei, propriile fișiere, fără redistribuire.
+- [Actualizări](updates.md): verificarea actualizărilor și `heat3d_update`.
+- [Dezvoltare](development.md): harta modulelor și testele, inclusiv cele care rulează pe jocuri instalate.
+- [Întreținere](maintaining.md): lista de verificare pentru lansarea acestor pagini.
 
 ## Parte din 3DHeat {#part-of-3dheat}
 

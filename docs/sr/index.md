@@ -62,7 +62,7 @@ Python пакет: `heat3d_gamefiles`. Репозиторијум:
 | Forza (аутомобили) | `cars`: сваки аутомобил у ниском детаљу, за картицу Анализа трке приказивача | - |
 
 Кругови из Assetto Corsa EVO и iRacing се одбијају, с разлогом. Види
-[Ограничења и познате празнине](../limits-and-known-gaps.md).
+[Ограничења и познате празнине](limits-and-known-gaps.md).
 
 ## Инсталација {#install}
 
@@ -91,7 +91,7 @@ pip install -r requirements.txt
 | pytest | тестови |
 
 Unreal садржај компресован помоћу **Oodle**-а треба Oodle библиотеку која је
-већ на вашем рачунару. Она се никад не испоручује уз овај алат. Видите [Oodle](../reader-oodle.md).
+већ на вашем рачунару. Она се никад не испоручује уз овај алат. Видите [Oodle](reader-oodle.md).
 
 Алат је писан за Windows. Игре проналази преко Steam листе библиотека и
 `%LOCALAPPDATA%`, а Oodle учитава као Windows DLL. Друге платформе нису
@@ -102,7 +102,7 @@ Unreal садржај компресован помоћу **Oodle**-а треб�
 **Датотека круга** је снимак где је ваш аутомобил ишао: списак x, y, z тачака.
 Долази из [3DHeat GameCapture](https://github.com/Holdi601/3DHeat-GameCapture)
 или из библиотеке кругова апликације FH Companion; CSV који је унет руком такође ради
-([Улази за круг](../lap-inputs.md)).
+([Улази за круг](lap-inputs.md)).
 
 ```
 # Forza: датотека круга, фасцикла кругова, или име стазе из библиотеке FH Companion
@@ -133,34 +133,34 @@ python -m heat3d_gamefiles identify some_archive.pak
 ```
 
 Отворите `.glb` у 3DHeat приказивачу. Игрине сопствене координате света се чувају
-(видите [Формат излаза](../output-format.md)), па се снимљени круг поклапа са стазом.
+(видите [Формат излаза](output-format.md)), па се снимљени круг поклапа са стазом.
 
 ## Мапа ове документације {#map-of-this-documentation}
 
 - [Пре почетка](before-you-start.md): Python, терминал, прва команда.
-- [Команде](../commands.md): свака глагол и опција, с примерима.
+- [Команде](commands.md): свака глагол и опција, с примерима.
 - [Референца команди](../cli-reference.md): `--help` сваког глагола, генерисан из кода.
-- [Преглед архива](../inspecting-archives.md): `identify`, `list`, `extract`, `meshes`, корак по корак.
-- [Извоз стазе](../course-export.md): како круг постаје стаза, за све игре.
-  - [Forza Horizon](../course-forza-horizon.md)
-  - [BeamNG.drive](../course-beamng.md)
-  - [Assetto Corsa Rally](../course-assetto-corsa-rally.md)
-  - [Нивои детаља и буџет](../detail-budget.md)
-- [Цели нивои](../whole-levels.md): ниво, мапа или свет без круга.
-  - [Battlefield 6 нивои](../level-battlefield.md): `levels`, `level`
-  - [Unreal 5 мапе](../level-unreal-world-partition.md): `ue-maps`, `ue-map`
-  - [Arma Reforger светови](../level-arma-reforger.md): `enfusion-worlds`, `enfusion-world`
-- [Forza аутомобили](../forza-cars.md): `cars`, датотека аутомобила за картицу трке приказивача.
-- [Улази за круг](../lap-inputs.md): сваки облик датотеке круга који алат прихвата.
-- [Формат излаза](../output-format.md): шта је у `.glb`-у.
-- [Читачи архива](../archive-readers.md): по једна страница за сваки формат контејнера,
+- [Преглед архива](inspecting-archives.md): `identify`, `list`, `extract`, `meshes`, корак по корак.
+- [Извоз стазе](course-export.md): како круг постаје стаза, за све игре.
+  - [Forza Horizon](course-forza-horizon.md)
+  - [BeamNG.drive](course-beamng.md)
+  - [Assetto Corsa Rally](course-assetto-corsa-rally.md)
+  - [Нивои детаља и буџет](detail-budget.md)
+- [Цели нивои](whole-levels.md): ниво, мапа или свет без круга.
+  - [Battlefield 6 нивои](level-battlefield.md): `levels`, `level`
+  - [Unreal 5 мапе](level-unreal-world-partition.md): `ue-maps`, `ue-map`
+  - [Arma Reforger светови](level-arma-reforger.md): `enfusion-worlds`, `enfusion-world`
+- [Forza аутомобили](forza-cars.md): `cars`, датотека аутомобила за картицу трке приказивача.
+- [Улази за круг](lap-inputs.md): сваки облик датотеке круга који алат прихвата.
+- [Формат излаза](output-format.md): шта је у `.glb`-у.
+- [Читачи архива](archive-readers.md): по једна страница за сваки формат контејнера,
   са тим шта чита, шта не, и зашто.
-- [Ограничења и познате празнине](../limits-and-known-gaps.md)
-- [Решавање проблема](../troubleshooting.md): поруке о грешкама и шта урадити.
-- [Правила и лиценце](../rules-and-licences.md): без кључева, ваше сопствене датотеке, без поновног дељења.
-- [Ажурирања](../updates.md): провера ажурирања и `heat3d_update`.
-- [Развој](../development.md): мапа модула и тестови, укључујући тестове које раде над инсталираним играма.
-- [Одржавање](../maintaining.md): контролна листа издања за ове странице.
+- [Ограничења и познате празнине](limits-and-known-gaps.md)
+- [Решавање проблема](troubleshooting.md): поруке о грешкама и шта урадити.
+- [Правила и лиценце](rules-and-licences.md): без кључева, ваше сопствене датотеке, без поновног дељења.
+- [Ажурирања](updates.md): провера ажурирања и `heat3d_update`.
+- [Развој](development.md): мапа модула и тестови, укључујући тестове које раде над инсталираним играма.
+- [Одржавање](maintaining.md): контролна листа издања за ове странице.
 
 ## Део 3DHeat-а {#part-of-3dheat}
 

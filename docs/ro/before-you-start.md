@@ -70,4 +70,4 @@ Ar trebui să vedeți `usage: heat3d_gamefiles [-h]` și o listă de verbe (`ide
 | `No module named numpy` (sau alt nume) | Pasul 4 a fost sărit. Rulați `pip install -r requirements.txt`. |
 | `can't open file` / `not found` cu o cale | Calea are spații fără ghilimele, sau o greșeală de scriere. Puneți-o între ghilimele duble. |
 
-Mai multe mesaje și remedierile lor: [Depanare](../troubleshooting.md).
+Mai multe mesaje și remedierile lor: [Depanare](troubleshooting.md).

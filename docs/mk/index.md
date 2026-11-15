@@ -29,7 +29,7 @@ permalink: /mk/
 трева, и рабниците, оградите, гумените ѕидови, знаците и зградите околу него.
 
 Дел е од [3DHeat](https://github.com/Holdi601/3DHeat), прегледувач за
-3D топлински мапи во реално време, анализа на трки и преглед на мечеви
+3D топлински мапи во реално време, анализа на трки и преглед на натпревари
 ([документација](https://holdi601.github.io/3DHeat/)). Датотеките `.glb` што ги пишува оваа
 алатка се нивоата врз кои прегледувачот ја црта топлината.
 
@@ -48,7 +48,7 @@ Python пакет: `heat3d_gamefiles`. Складиште:
 
 ## Што може да прави {#what-it-can-do}
 
-| Игра или мотор | Извоз на патека (`course`) | Читање на архиви |
+| Игра или engine | Извоз на патека (`course`) | Читање на архиви |
 |---|---|---|
 | Forza Horizon (ForzaTech) | да: терен, пат и банкина, текстура на земја, поставени модели во нивните текстури | `identify`, `list`, `extract` на `.minizip`; `identify` на `.modelbin`; модели, терен и текстури преку `course` и `terrain` |
 | BeamNG.drive | да: терен, налепници на пат, моделирани патеки, поставени модели, вода | `identify`, `list`, `extract` на zip-ови на нивоа; `identify` на `.ter`, `.cdae`; `.dae` преку `course` |
@@ -62,7 +62,7 @@ Python пакет: `heat3d_gamefiles`. Складиште:
 | Forza (автомобили) | `cars`: секој автомобил со ниски детали, за табот Анализа на трка на прегледувачот | - |
 
 Круговите од Assetto Corsa EVO и iRacing се одбиваат со образложение. Видете
-[Ограничувања и познати празнини](../limits-and-known-gaps.md).
+[Ограничувања и познати празнини](limits-and-known-gaps.md).
 
 ## Инсталација {#install}
 
@@ -91,7 +91,7 @@ pip install -r requirements.txt
 | pytest | тестовите |
 
 Содржина на Unreal компресирана со **Oodle** бара библиотека Oodle што веќе е
-на вашата машина. Таква никогаш не се испорачува со оваа алатка. Видете [Oodle](../reader-oodle.md).
+на вашата машина. Таква никогаш не се испорачува со оваа алатка. Видете [Oodle](reader-oodle.md).
 
 Алатката е напишана за Windows. Ги наоѓа игрите преку списокот на библиотеки на Steam и
 `%LOCALAPPDATA%`, а Oodle го вчитува како Windows DLL. Други платформи не се
@@ -102,7 +102,7 @@ pip install -r requirements.txt
 **Датотека со круг (lap file)** е снимка на тоа каде одел вашиот автомобил: список од точки x, y, z.
 Доаѓа од [3DHeat GameCapture](https://github.com/Holdi601/3DHeat-GameCapture)
 или од библиотеката на кругови на апликацијата FH Companion; рачно напишан CSV исто така работи
-([Влезови за круг](../lap-inputs.md)).
+([Влезови за круг](lap-inputs.md)).
 
 ```
 # Forza: a lap file, a lap folder, or a course name from the FH Companion library
@@ -133,34 +133,34 @@ python -m heat3d_gamefiles identify some_archive.pak
 ```
 
 Отворете ја `.glb` во прегледувачот 3DHeat. Сопствените светски координати на играта се чуваат
-(видете [Формат на излезот](../output-format.md)), па снимениот круг се порамнува со патеката.
+(видете [Формат на излезот](output-format.md)), па снимениот круг се порамнува со патеката.
 
 ## Карта на оваа документација {#map-of-this-documentation}
 
 - [Пред да започнете](before-you-start.md): Python, терминал, првата команда.
-- [Команди](../commands.md): секој глагол и опција, со примери.
+- [Команди](commands.md): секој глагол и опција, со примери.
 - [Упатство за команди](../cli-reference.md): `--help` на секој глагол, генерирано од кодот.
-- [Прегледување архиви](../inspecting-archives.md): `identify`, `list`, `extract`, `meshes`, чекор по чекор.
-- [Извоз на патека](../course-export.md): како кругот станува патека, за сите игри.
-  - [Forza Horizon](../course-forza-horizon.md)
-  - [BeamNG.drive](../course-beamng.md)
-  - [Assetto Corsa Rally](../course-assetto-corsa-rally.md)
-  - [Нивоа на детали и буџетот](../detail-budget.md)
-- [Цели нивоа](../whole-levels.md): ниво, мапа или свет без круг.
-  - [Нивоа на Battlefield 6](../level-battlefield.md): `levels`, `level`
-  - [Мапи на Unreal 5](../level-unreal-world-partition.md): `ue-maps`, `ue-map`
-  - [Светови на Arma Reforger](../level-arma-reforger.md): `enfusion-worlds`, `enfusion-world`
-- [Автомобили на Forza](../forza-cars.md): `cars`, датотеката со автомобили за табот Анализа на трка на прегледувачот.
-- [Влезови за круг](../lap-inputs.md): секој облик на датотека со круг што алатката го прифаќа.
-- [Формат на излезот](../output-format.md): што има внатре во `.glb`.
-- [Читачи на архиви](../archive-readers.md): по една страница за секој формат на контејнер, што
+- [Преглед на архиви](inspecting-archives.md): `identify`, `list`, `extract`, `meshes`, чекор по чекор.
+- [Извоз на патека](course-export.md): како кругот станува патека, за сите игри.
+  - [Forza Horizon](course-forza-horizon.md)
+  - [BeamNG.drive](course-beamng.md)
+  - [Assetto Corsa Rally](course-assetto-corsa-rally.md)
+  - [Нивоа на детали и буџетот](detail-budget.md)
+- [Цели нивоа](whole-levels.md): ниво, мапа или свет без круг.
+  - [Нивоа на Battlefield 6](level-battlefield.md): `levels`, `level`
+  - [Мапи на Unreal 5](level-unreal-world-partition.md): `ue-maps`, `ue-map`
+  - [Светови на Arma Reforger](level-arma-reforger.md): `enfusion-worlds`, `enfusion-world`
+- [Автомобили од Forza](forza-cars.md): `cars`, датотеката со автомобили за табот Анализа на трка на прегледувачот.
+- [Влезови за круг](lap-inputs.md): секој облик на датотека со круг што алатката го прифаќа.
+- [Формат на излезот](output-format.md): што има внатре во `.glb`.
+- [Читачи на архиви](archive-readers.md): по една страница за секој формат на контејнер, што
   секој чита, што не чита, и зошто.
-- [Ограничувања и познати празнини](../limits-and-known-gaps.md)
-- [Отстранување проблеми](../troubleshooting.md): пораките за грешки и што да се прави.
-- [Правила и лиценци](../rules-and-licences.md): без клучеви, вашите сопствени датотеки, без редистрибуција.
-- [Ажурирања](../updates.md): проверката за ажурирање и `heat3d_update`.
-- [Развој](../development.md): карта на модулите и тестови, вклучително тестовите што работат врз инсталирани игри.
-- [Одржување](../maintaining.md): списокот за проверка при издание за овие страници.
+- [Ограничувања и познати празнини](limits-and-known-gaps.md)
+- [Отстранување проблеми](troubleshooting.md): пораките за грешки и што да се прави.
+- [Правила и лиценци](rules-and-licences.md): без клучеви, вашите сопствени датотеки, без редистрибуција.
+- [Ажурирања](updates.md): проверката за ажурирање и `heat3d_update`.
+- [Развој](development.md): карта на модулите и тестови, вклучително тестовите што работат врз инсталирани игри.
+- [Одржување](maintaining.md): списокот за проверка при издание за овие страници.
 
 ## Дел од 3DHeat {#part-of-3dheat}
 
@@ -168,19 +168,19 @@ python -m heat3d_gamefiles identify some_archive.pak
 
 | Алатка | Што прави | Документација |
 |---|---|---|
-| [3DHeat](https://github.com/Holdi601/3DHeat) | прегледувачот: 3D топлински мапи, анализа на трки и преглед на мечеви во прелистувачот | [сајт](https://holdi601.github.io/3DHeat/) |
+| [3DHeat](https://github.com/Holdi601/3DHeat) | прегледувачот: 3D топлински мапи, анализа на трки и преглед на натпревари во прелистувачот | [сајт](https://holdi601.github.io/3DHeat/) |
 | [GameFiles](https://github.com/Holdi601/3DHeat-GameFiles) | патеки и нивоа од датотеките што ги испорачува играта, како `.glb` | [сајт](https://holdi601.github.io/3DHeat-GameFiles/) |
 | [GameCapture](https://github.com/Holdi601/3DHeat-GameCapture) | телеметрија на кругови од тркачки игри; нивоа обновени од видео од игра | [сајт](https://holdi601.github.io/3DHeat-GameCapture/) |
 | [Unreal Exporter](https://github.com/Holdi601/3DHeat-UnrealExporter) | приклучок за Unreal Editor што го зачувува нивото како `.glb` | [сајт](https://holdi601.github.io/3DHeat-UnrealExporter/) |
-| [CS2](https://github.com/Holdi601/3DHeat-CS2) | демоа од Counter-Strike 2 во датотеки за мечеви; мапи во `.glb` | [сајт](https://holdi601.github.io/3DHeat-CS2/) |
+| [CS2](https://github.com/Holdi601/3DHeat-CS2) | демоа од Counter-Strike 2 во датотеки за натпревари; мапи во `.glb` | [сајт](https://holdi601.github.io/3DHeat-CS2/) |
 | [Watcher](https://github.com/Holdi601/3DHeat-Watcher) | ја снима вашата игра во заднина од она што играта го објавува | [сајт](https://holdi601.github.io/3DHeat-Watcher/) |
-| [Ext-WarThunder](https://github.com/Holdi601/3DHeat-Ext-WarThunder) | снимки од War Thunder во датотеки за мечеви | [сајт](https://holdi601.github.io/3DHeat-Ext-WarThunder/) |
-| [Ext-WoT](https://github.com/Holdi601/3DHeat-Ext-WoT) | снимки од World of Tanks во датотеки за мечеви | [сајт](https://holdi601.github.io/3DHeat-Ext-WoT/) |
-| [Ext-WoWs](https://github.com/Holdi601/3DHeat-Ext-WoWs) | снимки од World of Warships во датотеки за мечеви | [сајт](https://holdi601.github.io/3DHeat-Ext-WoWs/) |
-| [Ext-Squad](https://github.com/Holdi601/3DHeat-Ext-Squad) | демоа од Squad сервери во датотеки за мечеви | [сајт](https://holdi601.github.io/3DHeat-Ext-Squad/) |
+| [Ext-WarThunder](https://github.com/Holdi601/3DHeat-Ext-WarThunder) | снимки од War Thunder во датотеки за натпревари | [сајт](https://holdi601.github.io/3DHeat-Ext-WarThunder/) |
+| [Ext-WoT](https://github.com/Holdi601/3DHeat-Ext-WoT) | снимки од World of Tanks во датотеки за натпревари | [сајт](https://holdi601.github.io/3DHeat-Ext-WoT/) |
+| [Ext-WoWs](https://github.com/Holdi601/3DHeat-Ext-WoWs) | снимки од World of Warships во датотеки за натпревари | [сајт](https://holdi601.github.io/3DHeat-Ext-WoWs/) |
+| [Ext-Squad](https://github.com/Holdi601/3DHeat-Ext-Squad) | демоа од Squad сервери во датотеки за натпревари | [сајт](https://holdi601.github.io/3DHeat-Ext-Squad/) |
 | [Ext-DCS](https://github.com/Holdi601/3DHeat-Ext-DCS) | мапи од DCS World во нивоа `.glb` | [сајт](https://holdi601.github.io/3DHeat-Ext-DCS/) |
 | [Ext-IL2](https://github.com/Holdi601/3DHeat-Ext-IL2) | мапи од IL-2 Sturmovik во нивоа `.glb` | [сајт](https://holdi601.github.io/3DHeat-Ext-IL2/) |
 
-Датотеките за мечеви на прегледувачот се опишани во
-[Една датотека по меч: `.3dheat`](https://holdi601.github.io/3DHeat/container.html);
+Датотеките за натпревари на прегледувачот се опишани во
+[Една датотека по натпревар: `.3dheat`](https://holdi601.github.io/3DHeat/container.html);
 ниво направено тука се вчитува покрај нив во панелот Позадина / ниво на прегледувачот.

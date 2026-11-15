@@ -59,7 +59,7 @@ permalink: /bg/
 | Forza (коли) | `cars`: всяка кола в ниска подробност, за раздела Състезателен анализ на визуализатора | - |
 
 Обиколки от Assetto Corsa EVO и iRacing се отказват с причина. Вижте
-[Ограничения и известни празноти](../limits-and-known-gaps.md).
+[Ограничения и известни празноти](limits-and-known-gaps.md).
 
 ## Инсталиране {#install}
 
@@ -88,7 +88,7 @@ pip install -r requirements.txt
 | pytest | тестовете |
 
 Съдържанието на Unreal, компресирано с **Oodle**, изисква библиотека Oodle, която вече е на вашата
-машина. Такава никога не се доставя с този инструмент. Вижте [Oodle](../reader-oodle.md).
+машина. Такава никога не се доставя с този инструмент. Вижте [Oodle](reader-oodle.md).
 
 Инструментът е написан за Windows. Намира игрите чрез списъка с библиотеки на Steam и
 `%LOCALAPPDATA%`, а Oodle зарежда като DLL на Windows. Други платформи не са тествани.
@@ -98,7 +98,7 @@ pip install -r requirements.txt
 **Файл с обиколка** е запис къде е карал колата ви: списък с точки x, y, z.
 Идва от [3DHeat GameCapture](https://github.com/Holdi601/3DHeat-GameCapture)
 или от библиотеката с обиколки на приложението FH Companion; ръчно написан CSV също работи
-([Входове за обиколки](../lap-inputs.md)).
+([Входове за обиколки](lap-inputs.md)).
 
 ```
 # Forza: файл с обиколка, папка с обиколки или име на трасе от библиотеката на FH Companion
@@ -129,34 +129,34 @@ python -m heat3d_gamefiles identify some_archive.pak
 ```
 
 Отворете `.glb` във визуализатора 3DHeat. Координатите на света на самата игра се пазят
-(вижте [Формат на изхода](../output-format.md)), така че записаната обиколка се подрежда по трасето.
+(вижте [Формат на изхода](output-format.md)), така че записаната обиколка се подрежда по трасето.
 
 ## Карта на документацията {#map-of-this-documentation}
 
 - [Преди да започнете](before-you-start.md): Python, терминал, първата команда.
-- [Команди](../commands.md): всеки глагол и опция, с примери.
+- [Команди](commands.md): всеки глагол и опция, с примери.
 - [Справка за командите](../cli-reference.md): `--help` на всеки глагол, генериран от кода.
-- [Преглед на архиви](../inspecting-archives.md): `identify`, `list`, `extract`, `meshes`, стъпка по стъпка.
-- [Експорт на трасе](../course-export.md): как една обиколка става трасе, за всички игри.
-  - [Forza Horizon](../course-forza-horizon.md)
-  - [BeamNG.drive](../course-beamng.md)
-  - [Assetto Corsa Rally](../course-assetto-corsa-rally.md)
-  - [Нива на подробност и бюджетът](../detail-budget.md)
-- [Цели нива](../whole-levels.md): ниво, карта или свят без обиколка.
-  - [Нива на Battlefield 6](../level-battlefield.md): `levels`, `level`
-  - [Карти на Unreal 5](../level-unreal-world-partition.md): `ue-maps`, `ue-map`
-  - [Светове на Arma Reforger](../level-arma-reforger.md): `enfusion-worlds`, `enfusion-world`
-- [Коли на Forza](../forza-cars.md): `cars`, файлът с коли за раздела Състезателен анализ на визуализатора.
-- [Входове за обиколки](../lap-inputs.md): всяка форма на файл с обиколка, която инструментът приема.
-- [Формат на изхода](../output-format.md): какво има в `.glb`.
-- [Четци на архиви](../archive-readers.md): по една страница за всеки формат на контейнер,
+- [Преглед на архиви](inspecting-archives.md): `identify`, `list`, `extract`, `meshes`, стъпка по стъпка.
+- [Експорт на трасе](course-export.md): как една обиколка става трасе, за всички игри.
+  - [Forza Horizon](course-forza-horizon.md)
+  - [BeamNG.drive](course-beamng.md)
+  - [Assetto Corsa Rally](course-assetto-corsa-rally.md)
+  - [Нива на подробност и бюджетът](detail-budget.md)
+- [Цели нива](whole-levels.md): ниво, карта или свят без обиколка.
+  - [Нива на Battlefield 6](level-battlefield.md): `levels`, `level`
+  - [Карти на Unreal 5](level-unreal-world-partition.md): `ue-maps`, `ue-map`
+  - [Светове на Arma Reforger](level-arma-reforger.md): `enfusion-worlds`, `enfusion-world`
+- [Коли на Forza](forza-cars.md): `cars`, файлът с коли за раздела Състезателен анализ на визуализатора.
+- [Входове за обиколки](lap-inputs.md): всяка форма на файл с обиколка, която инструментът приема.
+- [Формат на изхода](output-format.md): какво има в `.glb`.
+- [Четци на архиви](archive-readers.md): по една страница за всеки формат на контейнер,
   какво чете, какво не, и защо.
-- [Ограничения и известни празноти](../limits-and-known-gaps.md)
-- [Отстраняване на неизправности](../troubleshooting.md): съобщенията за грешки и какво да направите.
-- [Правила и лицензи](../rules-and-licences.md): без ключове, собствените ви файлове, без препубликуване.
-- [Обновления](../updates.md): проверката за обновления и `heat3d_update`.
-- [Разработка](../development.md): карта на модулите и тестове, включително тестовете, които работят върху инсталирани игри.
-- [Поддръжка](../maintaining.md): списъкът за издаване на тези страници.
+- [Ограничения и известни празноти](limits-and-known-gaps.md)
+- [Отстраняване на неизправности](troubleshooting.md): съобщенията за грешки и какво да направите.
+- [Правила и лицензи](rules-and-licences.md): без ключове, собствените ви файлове, без препубликуване.
+- [Обновления](updates.md): проверката за обновления и `heat3d_update`.
+- [Разработка](development.md): карта на модулите и тестове, включително тестовете, които работят върху инсталирани игри.
+- [Поддръжка](maintaining.md): списъкът за издаване на тези страници.
 
 ## Част от 3DHeat {#part-of-3dheat}
 
@@ -179,4 +179,4 @@ python -m heat3d_gamefiles identify some_archive.pak
 
 Файловете на мачовете на визуализатора са описани в
 [Един файл на мач: `.3dheat`](https://holdi601.github.io/3DHeat/container.html);
-създаденото тук ниво се зарежда до тях в панела Фон / ниво на визуализатора.
+създаденото тук ниво се зарежда до тях в панела „Фон / ниво“ на визуализатора.
