@@ -3,7 +3,7 @@ title: "Etusivu"
 nav_order: 1
 lang: "fi"
 source: index.md
-source_hash: "6400905cf31a"
+source_hash: "dc4db9349e8c"
 nav_exclude: true
 search_exclude: true
 permalink: /fi/
@@ -46,6 +46,25 @@ Se on yksi kolmesta tavasta saada kentän geometria 3DHeatiin:
 Python-paketti: `heat3d_gamefiles`. Repositorio:
 [Holdi601/3DHeat-GameFiles](https://github.com/Holdi601/3DHeat-GameFiles). Lisenssi: MIT.
 
+
+## Pelien omat lukijat {#the-games-own-readers}
+
+Jokaisella pelin lukijalla on oma projektinsa, joten yhden pelin ehtojen ongelma koskee vain
+sitä peliä: asenna pelisi lukija (sen sivu kertoo miten), niin sen oma komento ja tämän
+työkalun komennot toimivat. GameFiles suorittaa pelin oman työkalun sille antamillasi
+argumenteilla; mitään työkalusta ei tuoda sisään. Työkalu löytyy komentona `PATH`-polulta,
+asennettuna pakettina tai kansiona muuttujasta `HEAT3D_<GAME>_MAPS` tai GameFilesin vierestä
+(`exporters/ext/<game>-maps` 3DHeat-kopiossa tai `3DHeat-Ext-<Game>` tämän kansion vieressä).
+Kun sitä ei ole asennettu, komento kertoo mistä sen saa ja poistuu koodilla 2.
+
+| Peli | Sen oma työkalu | Tämän työkalun komennot, jotka sitä suorittavat |
+|---|---|---|
+| Forza Horizon / Motorsport | [3DHeat-Ext-Forza](https://holdi601.github.io/3DHeat-Ext-Forza/) (`heat3d-forza-maps`) | `course` (Forza-kierrokset), `courses`, `races`, `cars`, `terrain`; `identify`, `list`, `extract` `.minizip`-tiedostolle |
+| Battlefield (Frostbite) | [3DHeat-Ext-Battlefield](https://holdi601.github.io/3DHeat-Ext-Battlefield/) (`heat3d-battlefield-maps`) | `levels`, `level`; `identify` Frostbite `.toc`-tiedostolle |
+| BeamNG.drive | [3DHeat-Ext-BeamNG](https://holdi601.github.io/3DHeat-Ext-BeamNG/) (`heat3d-beamng-maps`) | `course` (BeamNG-kierrokset); `identify` `.cdae`- tai `.ter`-tiedostolle |
+| Assetto Corsa Rally | [3DHeat-Ext-ACRally](https://holdi601.github.io/3DHeat-Ext-ACRally/) (`heat3d-acrally-maps`) | `course` (AC Rally -kierrokset) |
+| Arma Reforger (Enfusion) | [3DHeat-Ext-Reforger](https://holdi601.github.io/3DHeat-Ext-Reforger/) (`heat3d-reforger-maps`) | `enfusion-worlds`, `enfusion-world` |
+
 ## Mitä se osaa {#what-it-can-do}
 
 | Peli tai moottori | Radan vienti (`course`) | Arkistojen lukeminen |
@@ -59,10 +78,10 @@ Python-paketti: `heat3d_gamefiles`. Repositorio:
 | Source 2 `.vpk` | ei | `identify`, `list`, `extract` |
 | Unreal 5 World Partition -pelit | ei kierrosta; koko kartta `ue-map`-komennolla (listataan `ue-maps`-komennolla): maisema, HLOD-rakennukset ja esineet, vesi | - |
 | Arma Reforger (Enfusion) | ei kierrosta; koko maailma `enfusion-world`-komennolla (listataan `enfusion-worlds`-komennolla): maasto väreissään, meri, rakennukset laatikoina | - |
-| Forza (autot) | `cars`: jokainen auto matalalla tarkkuudella katselimen Kilpa-välilehteä varten | - |
+| Forza (autot) | `cars`: jokainen auto matalalla tarkkuudella katselimen Kisa-analyysi-välilehteä varten | - |
 
 Assetto Corsa EVO:n ja iRacingin kierrokset hylätään perusteluineen. Katso
-[Rajoitukset ja tunnetut puutteet](../limits-and-known-gaps.md).
+[Rajoitukset ja tunnetut puutteet](limits-and-known-gaps.md).
 
 ## Asennus {#install}
 
@@ -91,7 +110,7 @@ ja komentojen luettelo. Suorita jokainen komento repositorion kansiosta muodossa
 | pytest | testit |
 
 Oodle-pakatun Unreal-sisällön tarvitsee Oodle-kirjaston, joka on jo koneellasi. Yhtään
-ei toimiteta tämän työkalun mukana. Katso [Oodle](../reader-oodle.md).
+ei toimiteta tämän työkalun mukana. Katso [Oodle](reader-oodle.md).
 
 Työkalu on kirjoitettu Windowsille. Se löytää pelit Steamin kirjastoluettelosta ja
 `%LOCALAPPDATA%`-kansiosta, ja lataa Oodlen Windows-DLL:nä. Muilla alustoilla ei ole testattu.
@@ -101,7 +120,7 @@ Työkalu on kirjoitettu Windowsille. Se löytää pelit Steamin kirjastoluettelo
 **Kierrostiedosto** on tallenne siitä, minne autosi meni: lista x-, y- ja z-pisteistä.
 Se tulee [3DHeat GameCapturesta](https://github.com/Holdi601/3DHeat-GameCapture) tai FH Companion
 -sovelluksen kierroskirjastosta; käsin kirjoitettu CSV käy myös
-([Kierrossyötteet](../lap-inputs.md)).
+([Kierrossyötteet](lap-inputs.md)).
 
 ```
 # Forza: kierrostiedosto, kierroskansio tai radan nimi FH Companion -kirjastosta
@@ -132,34 +151,34 @@ python -m heat3d_gamefiles identify some_archive.pak
 ```
 
 Avaa `.glb` 3DHeat-katselimessa. Pelin oman maailman koordinaatit säilyvät (katso
-[Tulostemuoto](../output-format.md)), joten tallennettu kierros osuu radalle kohdalleen.
+[Tulostemuoto](output-format.md)), joten tallennettu kierros osuu radalle kohdalleen.
 
 ## Dokumentaation kartta {#map-of-this-documentation}
 
 - [Ennen aloittamista](before-you-start.md): Python, pääte, ensimmäinen komento.
-- [Komennot](../commands.md): jokainen komento ja asetus esimerkkeineen.
+- [Komennot](commands.md): jokainen komento ja asetus esimerkkeineen.
 - [Komentoviite](../cli-reference.md): jokaisen komennon `--help`, luotu koodista.
-- [Arkistojen tarkastelu](../inspecting-archives.md): `identify`, `list`, `extract`, `meshes`, vaihe vaiheelta.
-- [Radan vienti](../course-export.md): miten kierros muuttuu radaksi, kaikille peleille.
-  - [Forza Horizon](../course-forza-horizon.md)
-  - [BeamNG.drive](../course-beamng.md)
-  - [Assetto Corsa Rally](../course-assetto-corsa-rally.md)
-  - [Yksityiskohtaisuustasot ja budjetti](../detail-budget.md)
-- [Koko kentät](../whole-levels.md): kenttä, kartta tai maailma ilman kierrosta.
-  - [Battlefield 6 -kentät](../level-battlefield.md): `levels`, `level`
-  - [Unreal 5 -kartat](../level-unreal-world-partition.md): `ue-maps`, `ue-map`
-  - [Arma Reforger -maailmat](../level-arma-reforger.md): `enfusion-worlds`, `enfusion-world`
-- [Forza-autot](../forza-cars.md): `cars`, katselimen kilpa-välilehden autotiedosto.
-- [Kierrossyötteet](../lap-inputs.md): jokainen kierrostiedoston muoto, jonka työkalu hyväksyy.
-- [Tulostemuoto](../output-format.md): mitä `.glb`-tiedostossa on.
-- [Arkistojen lukijat](../archive-readers.md): yksi sivu kullekin säiliömuodolle, kertoen mitä se lukee,
+- [Arkistojen tarkastelu](inspecting-archives.md): `identify`, `list`, `extract`, `meshes`, vaihe vaiheelta.
+- [Radan vienti](https://holdi601.github.io/3DHeat-Ext-Forza/course-export.html): miten kierros muuttuu radaksi, kaikille peleille.
+  - [Forza Horizon](https://holdi601.github.io/3DHeat-Ext-Forza/course-forza-horizon.html)
+  - [BeamNG.drive](https://holdi601.github.io/3DHeat-Ext-BeamNG/course-beamng.html)
+  - [Assetto Corsa Rally](https://holdi601.github.io/3DHeat-Ext-ACRally/course-assetto-corsa-rally.html)
+  - [Yksityiskohtaisuustasot ja budjetti](detail-budget.md)
+- [Koko kentät](whole-levels.md): kenttä, kartta tai maailma ilman kierrosta.
+  - [Battlefield 6 -kentät](https://holdi601.github.io/3DHeat-Ext-Battlefield/level-battlefield.html): `levels`, `level`
+  - [Unreal 5 -kartat](level-unreal-world-partition.md): `ue-maps`, `ue-map`
+  - [Arma Reforger -maailmat](https://holdi601.github.io/3DHeat-Ext-Reforger/level-arma-reforger.html): `enfusion-worlds`, `enfusion-world`
+- [Forza-autot](https://holdi601.github.io/3DHeat-Ext-Forza/forza-cars.html): `cars`, katselimen kilpa-välilehden autotiedosto.
+- [Kierrossyötteet](lap-inputs.md): jokainen kierrostiedoston muoto, jonka työkalu hyväksyy.
+- [Tulostemuoto](output-format.md): mitä `.glb`-tiedostossa on.
+- [Arkistojen lukijat](archive-readers.md): yksi sivu kullekin säiliömuodolle, kertoen mitä se lukee,
   mitä ei, ja miksi.
-- [Rajoitukset ja tunnetut puutteet](../limits-and-known-gaps.md)
-- [Vianmääritys](../troubleshooting.md): virheilmoitukset ja mitä niille tehdään.
-- [Säännöt ja lisenssit](../rules-and-licences.md): ei avaimia, omat tiedostot, ei jakelua.
-- [Päivitykset](../updates.md): päivitystarkistus ja `heat3d_update`.
-- [Kehitys](../development.md): moduulikartta ja testit, myös pelattuja asennuksia vastaan ajettavat testit.
-- [Ylläpito](../maintaining.md): julkaisun tarkistuslista näille sivuille.
+- [Rajoitukset ja tunnetut puutteet](limits-and-known-gaps.md)
+- [Vianmääritys](troubleshooting.md): virheilmoitukset ja mitä niille tehdään.
+- [Säännöt ja lisenssit](rules-and-licences.md): ei avaimia, omat tiedostot, ei jakelua.
+- [Päivitykset](updates.md): päivitystarkistus ja `heat3d_update`.
+- [Kehitys](development.md): moduulikartta ja testit, myös pelattuja asennuksia vastaan ajettavat testit.
+- [Ylläpito](maintaining.md): julkaisun tarkistuslista näille sivuille.
 
 ## Osa 3DHeatia {#part-of-3dheat}
 
@@ -179,6 +198,15 @@ Avaa `.glb` 3DHeat-katselimessa. Pelin oman maailman koordinaatit säilyvät (ka
 | [Ext-Squad](https://github.com/Holdi601/3DHeat-Ext-Squad) | Squad-palvelindemot ottelutiedostoiksi | [sivusto](https://holdi601.github.io/3DHeat-Ext-Squad/) |
 | [Ext-DCS](https://github.com/Holdi601/3DHeat-Ext-DCS) | DCS World -kartat `.glb`-kentiksi | [sivusto](https://holdi601.github.io/3DHeat-Ext-DCS/) |
 | [Ext-IL2](https://github.com/Holdi601/3DHeat-Ext-IL2) | IL-2 Sturmovik -kartat `.glb`-kentiksi | [sivusto](https://holdi601.github.io/3DHeat-Ext-IL2/) |
+| [Ext-Dota](https://github.com/Holdi601/3DHeat-Ext-Dota) | Dota 2 -kartta omasta asennuksestasi 3D-kenttänä | [sivusto](https://holdi601.github.io/3DHeat-Ext-Dota/) |
+| [Ext-DotaReplay](https://github.com/Holdi601/3DHeat-Ext-DotaReplay) | Dota 2 -tallenteet | [sivusto](https://holdi601.github.io/3DHeat-Ext-DotaReplay/) |
+| [Ext-Riot](https://github.com/Holdi601/3DHeat-Ext-Riot) | League of Legends- ja VALORANT-tallenteet (mitä ne sisältävät salaamattomana) | [sivusto](https://holdi601.github.io/3DHeat-Ext-Riot/) |
+| [Ext-Forza](https://github.com/Holdi601/3DHeat-Ext-Forza) | Forza-radat, kisat ja autot omasta asennuksestasi | [sivusto](https://holdi601.github.io/3DHeat-Ext-Forza/) |
+| [Ext-Battlefield](https://github.com/Holdi601/3DHeat-Ext-Battlefield) | Battlefield-kentät (Frostbite) 3D-kenttinä | [sivusto](https://holdi601.github.io/3DHeat-Ext-Battlefield/) |
+| [Ext-BeamNG](https://github.com/Holdi601/3DHeat-Ext-BeamNG) | BeamNG.drive -radat | [sivusto](https://holdi601.github.io/3DHeat-Ext-BeamNG/) |
+| [Ext-ACRally](https://github.com/Holdi601/3DHeat-Ext-ACRally) | Assetto Corsa Rally -osuudet radoiksi | [sivusto](https://holdi601.github.io/3DHeat-Ext-ACRally/) |
+| [Ext-Reforger](https://github.com/Holdi601/3DHeat-Ext-Reforger) | Arma Reforger -maailmat (Enfusion) 3D-kenttinä | [sivusto](https://holdi601.github.io/3DHeat-Ext-Reforger/) |
+| [Ext-R6](https://github.com/Holdi601/3DHeat-Ext-R6) | Rainbow Six Siege -ottelutallenteet | [sivusto](https://holdi601.github.io/3DHeat-Ext-R6/) |
 
 Katselimen ottelutiedostot on kuvattu sivulla
 [Yksi tiedosto ottelua kohden: `.3dheat`](https://holdi601.github.io/3DHeat/container.html);

@@ -69,4 +69,4 @@ Pitäisi näkyä `usage: heat3d_gamefiles [-h]` ja luettelo komennoista (`identi
 | `No module named numpy` (tai muu nimi) | Vaihe 4 jäi väliin. Suorita `pip install -r requirements.txt`. |
 | `can't open file` / `not found` polun kanssa | Polussa on välilyöntejä ilman lainausmerkkejä, tai siinä on kirjoitusvirhe. Laita se kaksinkertaisiin lainausmerkkeihin. |
 
-Lisää viestejä ja niiden korjauksia: [Vianmääritys](../troubleshooting.md).
+Lisää viestejä ja niiden korjauksia: [Vianmääritys](troubleshooting.md).

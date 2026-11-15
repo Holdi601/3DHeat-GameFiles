@@ -61,7 +61,7 @@ Python-paket: `heat3d_gamefiles`. Repositoryt:
 | Forza (bilar) | `cars`: varje bil i låg detaljnivå, för visarens Racinganalys-flik | - |
 
 Varv från Assetto Corsa EVO och iRacing avvisas med en orsak. Se
-[Begränsningar och kända luckor](../limits-and-known-gaps.md).
+[Begränsningar och kända luckor](limits-and-known-gaps.md).
 
 ## Installation {#install}
 
@@ -90,7 +90,7 @@ repositorymappen, som `python -m heat3d_gamefiles <verb>`.
 | pytest | testerna |
 
 Unreal-innehåll komprimerat med **Oodle** behöver ett Oodle-bibliotek som redan finns
-på din dator. Ett sådant levereras aldrig med det här verktyget. Se [Oodle](../reader-oodle.md).
+på din dator. Ett sådant levereras aldrig med det här verktyget. Se [Oodle](reader-oodle.md).
 
 Verktyget är skrivet för Windows. Det hittar spel via Steams bibliotekslista och
 `%LOCALAPPDATA%`, och läser in Oodle som en Windows-DLL. Andra plattformar har inte testats.
@@ -100,7 +100,7 @@ Verktyget är skrivet för Windows. Det hittar spel via Steams bibliotekslista o
 En **varvfil** är en inspelning av var din bil körde: en lista med x-, y-, z-punkter.
 Den kommer från [3DHeat GameCapture](https://github.com/Holdi601/3DHeat-GameCapture)
 eller FH Companion-appens varvbibliotek; en handskriven CSV fungerar också
-([Varvindata](../lap-inputs.md)).
+([Varvindata](lap-inputs.md)).
 
 ```
 # Forza: en varvfil, en varvmapp, eller ett bannamn från FH Companion-biblioteket
@@ -131,33 +131,33 @@ python -m heat3d_gamefiles identify some_archive.pak
 ```
 
 Öppna `.glb`-filen i 3DHeat-visaren. Spelets egna världskoordinater behålls
-(se [Utdataformat](../output-format.md)), så ett inspelat varv linjerar upp med banan.
+(se [Utdataformat](output-format.md)), så ett inspelat varv linjerar upp med banan.
 
 ## Dokumentationens karta {#map-of-this-documentation}
 
 - [Innan du börjar](before-you-start.md): Python, en terminal, det första kommandot.
-- [Kommandon](../commands.md): varje verb och alternativ, med exempel.
+- [Kommandon](commands.md): varje verb och alternativ, med exempel.
 - [Kommandoreferens](../cli-reference.md): varje verbs `--help`, genererat från koden.
-- [Granska arkiv](../inspecting-archives.md): `identify`, `list`, `extract`, `meshes`, steg för steg.
-- [Banexport](../course-export.md): hur ett varv blir en bana, för alla spel.
-  - [Forza Horizon](../course-forza-horizon.md)
-  - [BeamNG.drive](../course-beamng.md)
-  - [Assetto Corsa Rally](../course-assetto-corsa-rally.md)
-  - [Detaljnivåer och budgeten](../detail-budget.md)
-- [Hela nivåer](../whole-levels.md): en nivå, karta eller värld utan varv.
-  - [Battlefield 6-nivåer](../level-battlefield.md): `levels`, `level`
-  - [Unreal 5-kartor](../level-unreal-world-partition.md): `ue-maps`, `ue-map`
-  - [Arma Reforger-världar](../level-arma-reforger.md): `enfusion-worlds`, `enfusion-world`
+- [Granska arkiv](inspecting-archives.md): `identify`, `list`, `extract`, `meshes`, steg för steg.
+- [Banexport](course-export.md): hur ett varv blir en bana, för alla spel.
+  - [Forza Horizon](course-forza-horizon.md)
+  - [BeamNG.drive](course-beamng.md)
+  - [Assetto Corsa Rally](course-assetto-corsa-rally.md)
+  - [Detaljnivåer och budgeten](detail-budget.md)
+- [Hela nivåer](whole-levels.md): en nivå, karta eller värld utan varv.
+  - [Battlefield 6-nivåer](level-battlefield.md): `levels`, `level`
+  - [Unreal 5-kartor](level-unreal-world-partition.md): `ue-maps`, `ue-map`
+  - [Arma Reforger-världar](level-arma-reforger.md): `enfusion-worlds`, `enfusion-world`
 - [Forza-bilar](../forza-cars.md): `cars`, bilfilen för visarens Racinganalys-flik.
-- [Varvindata](../lap-inputs.md): varje varvfilform verktyget tar emot.
-- [Utdataformat](../output-format.md): vad som finns inne i `.glb`.
-- [Arkivläsare](../archive-readers.md): en sida per containerformat, med vad varje läser, vad den inte läser, och varför.
-- [Begränsningar och kända luckor](../limits-and-known-gaps.md)
-- [Felsökning](../troubleshooting.md): felmeddelandena och vad man gör åt dem.
-- [Regler och licenser](../rules-and-licences.md): inga nycklar, dina egna filer, ingen vidaredistribution.
-- [Uppdateringar](../updates.md): uppdateringskontrollen och `heat3d_update`.
-- [Utveckling](../development.md): modulkarta och tester, inklusive testerna som körs mot installerade spel.
-- [Underhålla](../maintaining.md): utgivningschecklistan för de här sidorna.
+- [Varvindata](lap-inputs.md): varje varvfilform verktyget tar emot.
+- [Utdataformat](output-format.md): vad som finns inne i `.glb`.
+- [Arkivläsare](archive-readers.md): en sida per containerformat, med vad varje läser, vad den inte läser, och varför.
+- [Begränsningar och kända luckor](limits-and-known-gaps.md)
+- [Felsökning](troubleshooting.md): felmeddelandena och vad man gör åt dem.
+- [Regler och licenser](rules-and-licences.md): inga nycklar, dina egna filer, ingen vidaredistribution.
+- [Uppdateringar](updates.md): uppdateringskontrollen och `heat3d_update`.
+- [Utveckling](development.md): modulkarta och tester, inklusive testerna som körs mot installerade spel.
+- [Underhålla](maintaining.md): utgivningschecklistan för de här sidorna.
 
 ## En del av 3DHeat {#part-of-3dheat}
 

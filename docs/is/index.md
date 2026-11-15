@@ -3,7 +3,7 @@ title: "Heim"
 nav_order: 1
 lang: "is"
 source: index.md
-source_hash: "6400905cf31a"
+source_hash: "dc4db9349e8c"
 nav_exclude: true
 search_exclude: true
 permalink: /is/
@@ -46,6 +46,26 @@ verkfæri skrifar eru borðin sem skoðarinn teiknar hitann á.
 Python-pakki: `heat3d_gamefiles`. Geymsla (repository):
 [Holdi601/3DHeat-GameFiles](https://github.com/Holdi601/3DHeat-GameFiles). Leyfi: MIT.
 
+
+## Eigin lesarar leikjanna {#the-games-own-readers}
+
+Lesari hvers leiks er sérstakt verkefni, svo vandamál með skilmála eins leiks
+snertir aðeins þann leik: settu upp verkfærið fyrir þinn leik (síða þess segir
+hvernig), og þá virka bæði eigin skipun þess og skipanirnar hér. GameFiles keyrir
+verkfæri leiksins með þeim færibreytum sem þú gafst; ekkert úr verkfærinu er
+flutt inn. Það finnst sem skipun þess á `PATH`, sem uppsettur pakki þess, eða sem
+mappa þess í `HEAT3D_<GAME>_MAPS` eða við hlið GameFiles (`exporters/ext/<game>-maps` í
+3DHeat-afriti, eða `3DHeat-Ext-<Game>` við hlið þessarar möppu). Þegar það er ekki
+uppsett segir skipunin hvar hægt er að fá það og hættir með kóðann 2.
+
+| Leikur | Eigið verkfæri hans | Skipanir hér sem keyra það |
+|---|---|---|
+| Forza Horizon / Motorsport | [3DHeat-Ext-Forza](https://holdi601.github.io/3DHeat-Ext-Forza/) (`heat3d-forza-maps`) | `course` (Forza-hringir), `courses`, `races`, `cars`, `terrain`; `identify`, `list`, `extract` á `.minizip` |
+| Battlefield (Frostbite) | [3DHeat-Ext-Battlefield](https://holdi601.github.io/3DHeat-Ext-Battlefield/) (`heat3d-battlefield-maps`) | `levels`, `level`; `identify` á Frostbite `.toc` |
+| BeamNG.drive | [3DHeat-Ext-BeamNG](https://holdi601.github.io/3DHeat-Ext-BeamNG/) (`heat3d-beamng-maps`) | `course` (BeamNG-hringir); `identify` á `.cdae` eða `.ter` |
+| Assetto Corsa Rally | [3DHeat-Ext-ACRally](https://holdi601.github.io/3DHeat-Ext-ACRally/) (`heat3d-acrally-maps`) | `course` (AC Rally hringir) |
+| Arma Reforger (Enfusion) | [3DHeat-Ext-Reforger](https://holdi601.github.io/3DHeat-Ext-Reforger/) (`heat3d-reforger-maps`) | `enfusion-worlds`, `enfusion-world` |
+
 ## Hvað það getur {#what-it-can-do}
 
 | Leikur eða vél | Brautarútflutningur (`course`) | Lestur skjalasafna |
@@ -61,8 +81,8 @@ Python-pakki: `heat3d_gamefiles`. Geymsla (repository):
 | Arma Reforger (Enfusion) | enginn hringur; heill heimur með `enfusion-world` (talinn upp af `enfusion-worlds`): landslag í sínum litum, sjórinn, byggingar sem kassar | - |
 | Forza (bílar) | `cars`: sérhver bíll í lágum smáatriðum, fyrir flipann Kappakstursgreining í skoðaranum | - |
 
-Hringir úr Assetto Corsa EVO og iRacing er hafnað með ástæðu. Sjá
-[Takmarkanir og þekktar eyður](../limits-and-known-gaps.md).
+Hringjum úr Assetto Corsa EVO og iRacing er hafnað með ástæðu. Sjá
+[Takmarkanir og þekktar eyður](limits-and-known-gaps.md).
 
 ## Uppsetning {#install}
 
@@ -91,7 +111,7 @@ möppu geymslunnar, sem `python -m heat3d_gamefiles <verb>`.
 | pytest | prófananna |
 
 Unreal-efni þjappað með **Oodle** þarf Oodle-safn sem er þegar til
-á vélinni þinni. Slíku er aldrei dreift með þessu verkfæri. Sjá [Oodle](../reader-oodle.md).
+á vélinni þinni. Slíku er aldrei dreift með þessu verkfæri. Sjá [Oodle](reader-oodle.md).
 
 Verkfærið er skrifað fyrir Windows. Það finnur leiki gegnum safnalista Steam og
 `%LOCALAPPDATA%`, og hleður Oodle sem Windows DLL. Aðrir vettvangar hafa ekki verið
@@ -102,7 +122,7 @@ prófaðir.
 **Hringskrá** (lap file) er upptaka af því hvert bíllinn þinn fór: listi af x, y, z punktum.
 Hún kemur frá [3DHeat GameCapture](https://github.com/Holdi601/3DHeat-GameCapture)
 eða hringasafni FH Companion forritsins; handskrifuð CSV virkar líka
-([Hringinntök](../lap-inputs.md)).
+([Hringinntök](lap-inputs.md)).
 
 ```
 # Forza: a lap file, a lap folder, or a course name from the FH Companion library
@@ -133,34 +153,34 @@ python -m heat3d_gamefiles identify some_archive.pak
 ```
 
 Opnaðu `.glb` skrána í 3DHeat-skoðaranum. Eigin heimshnit leiksins haldast
-(sjá [Úttakssnið](../output-format.md)), svo skráður hringur raðast upp við brautina.
+(sjá [Úttakssnið](output-format.md)), svo skráður hringur raðast upp við brautina.
 
 ## Kort yfir þessi skjöl {#map-of-this-documentation}
 
 - [Áður en þú byrjar](before-you-start.md): Python, skipanalína, fyrsta skipunin.
-- [Skipanir](../commands.md): hver skipun og valkostur, með dæmum.
+- [Skipanir](commands.md): hver skipun og valkostur, með dæmum.
 - [Skipanayfirlit](../cli-reference.md): `--help` hverrar skipunar, búið til úr kóðanum.
-- [Skoðun skjalasafna](../inspecting-archives.md): `identify`, `list`, `extract`, `meshes`, skref fyrir skref.
-- [Brautarútflutningur](../course-export.md): hvernig hringur verður að braut, fyrir alla leiki.
-  - [Forza Horizon](../course-forza-horizon.md)
-  - [BeamNG.drive](../course-beamng.md)
-  - [Assetto Corsa Rally](../course-assetto-corsa-rally.md)
-  - [Smáatriðastig og kostnaðarhámarkið](../detail-budget.md)
-- [Heil borð](../whole-levels.md): borð, kort eða heimur án hrings.
-  - [Battlefield 6 borð](../level-battlefield.md): `levels`, `level`
-  - [Unreal 5 kort](../level-unreal-world-partition.md): `ue-maps`, `ue-map`
-  - [Arma Reforger heimar](../level-arma-reforger.md): `enfusion-worlds`, `enfusion-world`
-- [Forza bílar](../forza-cars.md): `cars`, bílaskráin fyrir flipann Kappakstursgreining í skoðaranum.
-- [Hringinntök](../lap-inputs.md): hver hringskráargerð sem verkfærið tekur við.
-- [Úttakssnið](../output-format.md): hvað er inni í `.glb`.
-- [Skjalasafnalesarar](../archive-readers.md): ein síða fyrir hvert gámasnið, sem fjallar um
+- [Skoðun skjalasafna](inspecting-archives.md): `identify`, `list`, `extract`, `meshes`, skref fyrir skref.
+- [Brautarútflutningur](https://holdi601.github.io/3DHeat-Ext-Forza/course-export.html): hvernig hringur verður að braut, fyrir alla leiki.
+  - [Forza Horizon](https://holdi601.github.io/3DHeat-Ext-Forza/course-forza-horizon.html)
+  - [BeamNG.drive](https://holdi601.github.io/3DHeat-Ext-BeamNG/course-beamng.html)
+  - [Assetto Corsa Rally](https://holdi601.github.io/3DHeat-Ext-ACRally/course-assetto-corsa-rally.html)
+  - [Smáatriðastig og kostnaðarhámarkið](detail-budget.md)
+- [Heil borð](whole-levels.md): borð, kort eða heimur án hrings.
+  - [Battlefield 6 borð](https://holdi601.github.io/3DHeat-Ext-Battlefield/level-battlefield.html): `levels`, `level`
+  - [Unreal 5 kort](level-unreal-world-partition.md): `ue-maps`, `ue-map`
+  - [Arma Reforger heimar](https://holdi601.github.io/3DHeat-Ext-Reforger/level-arma-reforger.html): `enfusion-worlds`, `enfusion-world`
+- [Forza bílar](https://holdi601.github.io/3DHeat-Ext-Forza/forza-cars.html): `cars`, bílaskráin fyrir flipann Kappakstursgreining í skoðaranum.
+- [Hringinntök](lap-inputs.md): hver hringskráargerð sem verkfærið tekur við.
+- [Úttakssnið](output-format.md): hvað er inni í `.glb`.
+- [Skjalasafnalesarar](archive-readers.md): ein síða fyrir hvert gámasnið, sem fjallar um
   hvað hver les, hvað ekki, og hvers vegna.
-- [Takmarkanir og þekktar eyður](../limits-and-known-gaps.md)
-- [Bilanaleit](../troubleshooting.md): villuboðin og hvað á að gera.
-- [Reglur og leyfi](../rules-and-licences.md): engir lyklar, þínar eigin skrár, engin endurdreifing.
-- [Uppfærslur](../updates.md): uppfærsluathugunin og `heat3d_update`.
-- [Þróun](../development.md): einingakort og prófanir, þar á meðal prófanirnar sem keyra gegn uppsettum leikjum.
-- [Viðhald](../maintaining.md): útgáfugátlisti fyrir þessar síður.
+- [Takmarkanir og þekktar eyður](limits-and-known-gaps.md)
+- [Bilanaleit](troubleshooting.md): villuboðin og hvað á að gera.
+- [Reglur og leyfi](rules-and-licences.md): engir lyklar, þínar eigin skrár, engin endurdreifing.
+- [Uppfærslur](updates.md): uppfærsluathugunin og `heat3d_update`.
+- [Þróun](development.md): einingakort og prófanir, þar á meðal prófanirnar sem keyra gegn uppsettum leikjum.
+- [Viðhald](maintaining.md): útgáfugátlisti fyrir þessar síður.
 
 ## Hluti af 3DHeat {#part-of-3dheat}
 

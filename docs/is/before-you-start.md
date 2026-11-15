@@ -70,4 +70,4 @@ python -m heat3d_gamefiles --help
 | `No module named numpy` (eða annað nafn) | Skrefi 4 var sleppt. Keyrðu `pip install -r requirements.txt`. |
 | `can't open file` / `not found` með slóð | Slóðin hefur bil og engar gæsalappir, eða innsláttarvillu. Settu hana innan tvöfaldra gæsalappa. |
 
-Fleiri skilaboð og lagfæringar þeirra: [Bilanaleit](../troubleshooting.md).
+Fleiri skilaboð og lagfæringar þeirra: [Bilanaleit](troubleshooting.md).
