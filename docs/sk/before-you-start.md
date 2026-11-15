@@ -70,4 +70,4 @@ Mali by ste vidieť `usage: heat3d_gamefiles [-h]` a zoznam príkazov (`identify
 | `No module named numpy` (alebo iný názov) | Krok 4 sa preskočil. Spustite `pip install -r requirements.txt`. |
 | `can't open file` / `not found` s cestou | Cesta má medzery a nemá úvodzovky, alebo je v nej preklep. Dajte ju do dvojitých úvodzoviek. |
 
-Ďalšie hlásenia a ich riešenia: [Riešenie problémov](../troubleshooting.md).
+Ďalšie hlásenia a ich riešenia: [Riešenie problémov](troubleshooting.md).

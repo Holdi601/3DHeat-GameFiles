@@ -11,17 +11,17 @@ permalink: /bs/
 # 3DHeat GameFiles {#dheat-gamefiles}
 
 **Šta je to?** Alat koji gradi 3D model trkaće staze ili nivoa igre iz
-datoteka igre koju već imaš instaliranu.
+datoteka igre koju već imate instaliranu.
 
-**Zašto bih ga koristio?** Preglednik 3DHeat boji kao toplotu gdje si vozio ili igrao.
+**Zašto bih ga koristio?** Preglednik 3DHeat boji kao toplotu gdje ste vozili ili igrali.
 Uz ovaj alat boji to na stvarnoj stazi ili nivou, a ne u praznom prostoru.
 
-**Primjer:** uzmi krug koji si vozio. Alat gradi cestu i tlo oko njega
-kao jednu 3D datoteku, pa preglednik može obojiti tvoju brzinu ili sudare na stvarnoj stazi:
+**Primjer:** uzmite krug koji ste vozili. Alat gradi cestu i tlo oko njega
+kao jednu 3D datoteku, pa preglednik može obojiti vašu brzinu ili sudare na stvarnoj stazi:
 
 ![Krug ulazi, staza oko njega izlazi](../assets/img/bs/lap-to-course.svg)
 
-Komandna linija ti je nova? Počni s [Prije nego počneš](before-you-start.md).
+Je li vam komandna linija nova? Počnite s [Prije nego počnete](before-you-start.md).
 
 Detaljnije: čita podatke nivoa iz arhiva koje igra isporučuje i piše
 ih kao binarnu glTF (`.glb`) datoteku. Glavni posao je **izvoz staze (course)**: daš
@@ -39,7 +39,7 @@ To je jedan od tri načina da geometrija nivoa dospije u 3DHeat:
 
 | Put | Treba | Daje |
 |---|---|---|
-| 3DHeat Unreal Exporter | Unreal projekt otvoren u editoru | tačnu geometriju |
+| 3DHeat Unreal Exporter | Unreal projekat otvoren u editoru | tačnu geometriju |
 | 3DHeat GameCapture | ekran i snimak | procjenu |
 | **3DHeat GameFiles** | **instaliranu, isporučenu igru** | **tačnu geometriju, bez projekta** |
 
@@ -61,14 +61,14 @@ Python paket: `heat3d_gamefiles`. Repozitorij:
 | Arma Reforger (Enfusion) | bez kruga; cijeli svijet pomoću `enfusion-world` (popis daje `enfusion-worlds`): teren u svojim bojama, more, zgrade kao kutije | - |
 | Forza (automobili) | `cars`: svaki automobil u niskom detalju, za karticu Analiza utrke preglednika | - |
 
-Krugovi iz Assetto Corsa EVO i iRacinga se odbijaju uz razlog. Vidi
-[Ograničenja i poznate praznine](../limits-and-known-gaps.md).
+Krugovi iz Assetto Corsa EVO i iRacinga se odbijaju uz razlog. Pogledajte
+[Ograničenja i poznate praznine](limits-and-known-gaps.md).
 
 ## Instalacija {#install}
 
-Komandna linija ti je nova? Prvo pročitaj [Prije nego počneš](before-you-start.md).
+Je li vam komandna linija nova? Prvo pročitajte [Prije nego počnete](before-you-start.md).
 
-Treba ti **Python 3.10 ili noviji** (razvijano na 3.13) i paketi iz
+Trebate **Python 3.10 ili noviji** (razvijano na 3.13) i paketi iz
 [`requirements.txt`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/requirements.txt).
 
 ```
@@ -77,8 +77,8 @@ cd 3DHeat-GameFiles
 pip install -r requirements.txt
 ```
 
-Zatim provjeri: `python -m heat3d_gamefiles --help`. Trebao bi vidjeti
-`usage: heat3d_gamefiles [-h]` i popis naredbi. Svaku naredbu pokreni iz
+Zatim provjerite: `python -m heat3d_gamefiles --help`. Trebali biste vidjeti
+`usage: heat3d_gamefiles [-h]` i popis komandi. Svaku komandu pokrenite iz
 foldera repozitorija, kao `python -m heat3d_gamefiles <verb>`.
 
 | Paket | Koristi se za |
@@ -87,11 +87,11 @@ foldera repozitorija, kao `python -m heat3d_gamefiles <verb>`.
 | lz4 | Forza arhive (uglavnom LZ4 blokovi), neki Unity bundle-ovi, IoStore LZ4 blokovi |
 | Pillow | dekodiranje BC1-BC7 tekstura, pisanje JPEG tekstura u `.glb` |
 | msgpack, zstandard | BeamNG-ovi kompajlirani oblici (`.cdae`) |
-| cryptography | samo za otvaranje šifriranog `.pak` ključem koji već imaš |
+| cryptography | samo za otvaranje šifriranog `.pak` ključem koji već imate |
 | pytest | testovi |
 
 Unreal sadržaj komprimiran **Oodleom** treba Oodle biblioteku koja je već
-na tvom računaru. Nijedna se nikad ne isporučuje s ovim alatom. Vidi [Oodle](../reader-oodle.md).
+na tvom računaru. Nijedna se nikad ne isporučuje s ovim alatom. Pogledajte [Oodle](reader-oodle.md).
 
 Alat je pisan za Windows. Igre pronalazi preko Steamovog popisa biblioteka i
 `%LOCALAPPDATA%`, a Oodle učitava kao Windows DLL. Druge platforme nisu
@@ -99,10 +99,10 @@ testirane.
 
 ## Brzi početak {#quick-start}
 
-**Datoteka kruga (lap file)** je snimak gdje je tvoj automobil išao: popis x, y, z tačaka.
+**Datoteka kruga (lap file)** je snimak gdje je vaš automobil išao: popis x, y, z tačaka.
 Dolazi iz [3DHeat GameCapture](https://github.com/Holdi601/3DHeat-GameCapture)
 ili iz biblioteke krugova aplikacije FH Companion; radi i ručno ukucan CSV
-([Ulazi kruga](../lap-inputs.md)).
+([Ulazi kruga](lap-inputs.md)).
 
 ```
 # Forza: a lap file, a lap folder, or a course name from the FH Companion library
@@ -132,35 +132,35 @@ python -m heat3d_gamefiles cars -o forza.h3dcars
 python -m heat3d_gamefiles identify some_archive.pak
 ```
 
-Otvori `.glb` u pregledniku 3DHeat. Vlastite svjetske koordinate igre se čuvaju
-(vidi [Format izlaza](../output-format.md)), pa se snimljeni krug poravna sa stazom.
+Otvorite `.glb` u pregledniku 3DHeat. Vlastite svjetske koordinate igre se čuvaju
+(pogledajte [Format izlaza](output-format.md)), pa se snimljeni krug poravna sa stazom.
 
 ## Karta ove dokumentacije {#map-of-this-documentation}
 
-- [Prije nego počneš](before-you-start.md): Python, terminal, prva naredba.
-- [Naredbe](../commands.md): svaka naredba i opcija, s primjerima.
-- [Referenca naredbi](../cli-reference.md): `--help` svake naredbe, generiran iz koda.
-- [Pregled arhiva](../inspecting-archives.md): `identify`, `list`, `extract`, `meshes`, korak po korak.
-- [Izvoz staze](../course-export.md): kako krug postaje staza, za sve igre.
-  - [Forza Horizon](../course-forza-horizon.md)
-  - [BeamNG.drive](../course-beamng.md)
-  - [Assetto Corsa Rally](../course-assetto-corsa-rally.md)
-  - [Nivoi detalja i budžet](../detail-budget.md)
-- [Cijeli nivoi](../whole-levels.md): nivo, mapa ili svijet bez kruga.
-  - [Battlefield 6 nivoi](../level-battlefield.md): `levels`, `level`
-  - [Unreal 5 mape](../level-unreal-world-partition.md): `ue-maps`, `ue-map`
-  - [Arma Reforger svjetovi](../level-arma-reforger.md): `enfusion-worlds`, `enfusion-world`
-- [Forza automobili](../forza-cars.md): `cars`, datoteka automobila za karticu Analiza utrke preglednika.
-- [Ulazi kruga](../lap-inputs.md): svaki oblik datoteke kruga koji alat prihvata.
-- [Format izlaza](../output-format.md): šta je unutar `.glb`.
-- [Čitači arhiva](../archive-readers.md): jedna stranica po formatu spremnika, o tome
+- [Prije nego počnete](before-you-start.md): Python, terminal, prva komanda.
+- [Komande](commands.md): svaka komanda i opcija, s primjerima.
+- [Referenca komandi](../cli-reference.md): `--help` svake komande, generiran iz koda.
+- [Pregled arhiva](inspecting-archives.md): `identify`, `list`, `extract`, `meshes`, korak po korak.
+- [Izvoz staze](course-export.md): kako krug postaje staza, za sve igre.
+  - [Forza Horizon](course-forza-horizon.md)
+  - [BeamNG.drive](course-beamng.md)
+  - [Assetto Corsa Rally](course-assetto-corsa-rally.md)
+  - [Nivoi detalja i budžet](detail-budget.md)
+- [Cijeli nivoi](whole-levels.md): nivo, mapa ili svijet bez kruga.
+  - [Battlefield 6 nivoi](level-battlefield.md): `levels`, `level`
+  - [Unreal 5 mape](level-unreal-world-partition.md): `ue-maps`, `ue-map`
+  - [Arma Reforger svjetovi](level-arma-reforger.md): `enfusion-worlds`, `enfusion-world`
+- [Forza automobili](forza-cars.md): `cars`, datoteka automobila za karticu Analiza utrke preglednika.
+- [Ulazi kruga](lap-inputs.md): svaki oblik datoteke kruga koji alat prihvata.
+- [Format izlaza](output-format.md): šta je unutar `.glb`.
+- [Čitači arhiva](archive-readers.md): jedna stranica po formatu spremnika, o tome
   šta svaki čita, šta ne čita i zašto.
-- [Ograničenja i poznate praznine](../limits-and-known-gaps.md)
-- [Rješavanje problema](../troubleshooting.md): poruke o greškama i šta učiniti.
-- [Pravila i licence](../rules-and-licences.md): bez ključeva, tvoje vlastite datoteke, bez redistribucije.
-- [Ažuriranja](../updates.md): provjera ažuriranja i `heat3d_update`.
-- [Razvoj](../development.md): mapa modula i testovi, uključujući testove koji rade na instaliranim igrama.
-- [Održavanje](../maintaining.md): lista za provjeru pri izdanju ovih stranica.
+- [Ograničenja i poznate praznine](limits-and-known-gaps.md)
+- [Rješavanje problema](troubleshooting.md): poruke o greškama i šta učiniti.
+- [Pravila i licence](rules-and-licences.md): bez ključeva, vaše vlastite datoteke, bez redistribucije.
+- [Ažuriranja](updates.md): provjera ažuriranja i `heat3d_update`.
+- [Razvoj](development.md): mapa modula i testovi, uključujući testove koji rade na instaliranim igrama.
+- [Održavanje](maintaining.md): lista za provjeru pri izdanju ovih stranica.
 
 ## Dio 3DHeat-a {#part-of-3dheat}
 
@@ -173,7 +173,7 @@ Otvori `.glb` u pregledniku 3DHeat. Vlastite svjetske koordinate igre se čuvaju
 | [GameCapture](https://github.com/Holdi601/3DHeat-GameCapture) | telemetrija krugova iz trkaćih igara; nivoi rekonstruirani iz video snimka igranja | [stranica](https://holdi601.github.io/3DHeat-GameCapture/) |
 | [Unreal Exporter](https://github.com/Holdi601/3DHeat-UnrealExporter) | dodatak za Unreal Editor koji sprema nivo kao `.glb` | [stranica](https://holdi601.github.io/3DHeat-UnrealExporter/) |
 | [CS2](https://github.com/Holdi601/3DHeat-CS2) | Counter-Strike 2 demoi u datoteke mečeva; mape u `.glb` | [stranica](https://holdi601.github.io/3DHeat-CS2/) |
-| [Watcher](https://github.com/Holdi601/3DHeat-Watcher) | bilježi tvoje igranje u pozadini iz onoga što igre objavljuju | [stranica](https://holdi601.github.io/3DHeat-Watcher/) |
+| [Watcher](https://github.com/Holdi601/3DHeat-Watcher) | bilježi vaše igranje u pozadini iz onoga što igre objavljuju | [stranica](https://holdi601.github.io/3DHeat-Watcher/) |
 | [Ext-WarThunder](https://github.com/Holdi601/3DHeat-Ext-WarThunder) | War Thunder snimci u datoteke mečeva | [stranica](https://holdi601.github.io/3DHeat-Ext-WarThunder/) |
 | [Ext-WoT](https://github.com/Holdi601/3DHeat-Ext-WoT) | World of Tanks snimci u datoteke mečeva | [stranica](https://holdi601.github.io/3DHeat-Ext-WoT/) |
 | [Ext-WoWs](https://github.com/Holdi601/3DHeat-Ext-WoWs) | World of Warships snimci u datoteke mečeva | [stranica](https://holdi601.github.io/3DHeat-Ext-WoWs/) |

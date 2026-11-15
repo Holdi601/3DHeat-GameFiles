@@ -61,7 +61,7 @@ Balík Python: `heat3d_gamefiles`. Repozitár:
 | Forza (autá) | `cars`: každé auto v nízkom detaile, pre kartu Analýza pretekov prehliadača | - |
 
 Kolá z Assetto Corsa EVO a iRacing sa odmietnu s uvedením dôvodu. Pozri
-[Obmedzenia a známe medzery](../limits-and-known-gaps.md).
+[Obmedzenia a známe medzery](limits-and-known-gaps.md).
 
 ## Inštalácia {#install}
 
@@ -90,7 +90,7 @@ priečinka repozitára, ako `python -m heat3d_gamefiles <verb>`.
 | pytest | testy |
 
 Obsah Unreal komprimovaný **Oodle** potrebuje knižnicu Oodle, ktorá už je na vašom
-počítači. Tento nástroj ju nikdy neobsahuje. Pozri [Oodle](../reader-oodle.md).
+počítači. Tento nástroj ju nikdy neobsahuje. Pozri [Oodle](reader-oodle.md).
 
 Nástroj je napísaný pre Windows. Hry nachádza v zozname knižníc Steamu a v
 `%LOCALAPPDATA%` a Oodle načítava ako DLL pre Windows. Iné platformy neboli
@@ -101,7 +101,7 @@ testované.
 **Súbor kola** je záznam toho, kam išlo vaše auto: zoznam bodov x, y, z.
 Pochádza z [3DHeat GameCapture](https://github.com/Holdi601/3DHeat-GameCapture)
 alebo z knižnice kôl aplikácie FH Companion; ručne písané CSV tiež funguje
-([Vstupy kôl](../lap-inputs.md)).
+([Vstupy kôl](lap-inputs.md)).
 
 ```
 # Forza: súbor kola, priečinok kôl, alebo názov trate z knižnice FH Companion
@@ -132,34 +132,34 @@ python -m heat3d_gamefiles identify some_archive.pak
 ```
 
 Otvorte `.glb` v prehliadači 3DHeat. Herné svetové súradnice hry sa zachovávajú
-(pozri [Formát výstupu](../output-format.md)), takže zaznamenané kolo sedí na trati.
+(pozri [Formát výstupu](output-format.md)), takže zaznamenané kolo sedí na trati.
 
 ## Prehľad tejto dokumentácie {#map-of-this-documentation}
 
 - [Ako začať](before-you-start.md): Python, terminál, prvý príkaz.
-- [Príkazy](../commands.md): každé verb a možnosť, s príkladmi.
+- [Príkazy](commands.md): každé verb a možnosť, s príkladmi.
 - [Referencia príkazov](../cli-reference.md): `--help` každého verba, generované z kódu.
-- [Prehliadanie archívov](../inspecting-archives.md): `identify`, `list`, `extract`, `meshes`, krok za krokom.
-- [Export trate](../course-export.md): ako sa kolo stane traťou, pre všetky hry.
-  - [Forza Horizon](../course-forza-horizon.md)
-  - [BeamNG.drive](../course-beamng.md)
-  - [Assetto Corsa Rally](../course-assetto-corsa-rally.md)
-  - [Úrovne detailu a rozpočet](../detail-budget.md)
-- [Celé úrovne](../whole-levels.md): úroveň, mapa alebo svet bez kola.
-  - [Úrovne Battlefield 6](../level-battlefield.md): `levels`, `level`
-  - [Mapy Unreal 5](../level-unreal-world-partition.md): `ue-maps`, `ue-map`
-  - [Svety Arma Reforger](../level-arma-reforger.md): `enfusion-worlds`, `enfusion-world`
-- [Autá Forza](../forza-cars.md): `cars`, súbor áut pre kartu Analýza pretekov prehliadača.
-- [Vstupy kôl](../lap-inputs.md): každý tvar súboru kola, ktorý nástroj prijíma.
-- [Formát výstupu](../output-format.md): čo je vnútri `.glb`.
-- [Čítače archívov](../archive-readers.md): jedna stránka pre každý formát kontajnera, s tým,
+- [Prehliadanie archívov](inspecting-archives.md): `identify`, `list`, `extract`, `meshes`, krok za krokom.
+- [Export trate](course-export.md): ako sa kolo stane traťou, pre všetky hry.
+  - [Forza Horizon](course-forza-horizon.md)
+  - [BeamNG.drive](course-beamng.md)
+  - [Assetto Corsa Rally](course-assetto-corsa-rally.md)
+  - [Úrovne detailu a rozpočet](detail-budget.md)
+- [Celé úrovne](whole-levels.md): úroveň, mapa alebo svet bez kola.
+  - [Úrovne Battlefield 6](level-battlefield.md): `levels`, `level`
+  - [Mapy Unreal 5](level-unreal-world-partition.md): `ue-maps`, `ue-map`
+  - [Svety Arma Reforger](level-arma-reforger.md): `enfusion-worlds`, `enfusion-world`
+- [Autá Forza](forza-cars.md): `cars`, súbor áut pre kartu Analýza pretekov prehliadača.
+- [Vstupy kôl](lap-inputs.md): každý tvar súboru kola, ktorý nástroj prijíma.
+- [Formát výstupu](output-format.md): čo je vnútri `.glb`.
+- [Čítače archívov](archive-readers.md): jedna stránka pre každý formát kontajnera, s tým,
   čo číta, čo nečíta a prečo.
-- [Obmedzenia a známe medzery](../limits-and-known-gaps.md)
-- [Riešenie problémov](../troubleshooting.md): chybové hlásenia a čo s nimi.
-- [Pravidlá a licencie](../rules-and-licences.md): žiadne kľúče, vaše vlastné súbory, žiadne ďalšie šírenie.
-- [Aktualizácie](../updates.md): kontrola aktualizácií a `heat3d_update`.
-- [Vývoj](../development.md): mapa modulov a testy, vrátane testov, ktoré bežia na nainštalovaných hrách.
-- [Údržba](../maintaining.md): kontrolný zoznam vydania pre tieto stránky.
+- [Obmedzenia a známe medzery](limits-and-known-gaps.md)
+- [Riešenie problémov](troubleshooting.md): chybové hlásenia a čo s nimi.
+- [Pravidlá a licencie](rules-and-licences.md): žiadne kľúče, vaše vlastné súbory, žiadne ďalšie šírenie.
+- [Aktualizácie](updates.md): kontrola aktualizácií a `heat3d_update`.
+- [Vývoj](development.md): mapa modulov a testy, vrátane testov, ktoré bežia na nainštalovaných hrách.
+- [Údržba](maintaining.md): kontrolný zoznam vydania pre tieto stránky.
 
 ## Súčasť 3DHeat {#part-of-3dheat}
 

@@ -52,10 +52,10 @@ Python paket: `heat3d_gamefiles`. Repozitorij:
 | Source 2 `.vpk` | ne | `identify`, `list`, `extract` |
 | Unreal 5 igre World Partition | bez kruga; cijela karta s `ue-map` (popisana s `ue-maps`): teren, HLOD zgrade i rekviziti, voda | - |
 | Arma Reforger (Enfusion) | bez kruga; cijeli svijet s `enfusion-world` (popisan s `enfusion-worlds`): teren u svojim bojama, more, zgrade kao kvadri | - |
-| Forza (automobili) | `cars`: svaki automobil u niskom detalju, za karticu Utrka preglednika | - |
+| Forza (automobili) | `cars`: svaki automobil u niskom detalju, za karticu Analiza utrke u pregledniku | - |
 
 Krugovi iz Assetto Corsa EVO i iRacinga odbijaju se uz razlog. Vidi
-[Ograničenja i poznati nedostaci](../limits-and-known-gaps.md).
+[Ograničenja i poznati nedostaci](limits-and-known-gaps.md).
 
 ## Instalacija {#install}
 
@@ -83,7 +83,7 @@ mape repozitorija, kao `python -m heat3d_gamefiles <verb>`.
 | cryptography | samo za otvaranje šifriranog `.pak`-a ključem koji već imate |
 | pytest | testovi |
 
-Unreal sadržaj komprimiran s **Oodle** treba Oodle biblioteku koja je već na vašem računalu. Nijedna se ne isporučuje s ovim alatom. Vidi [Oodle](../reader-oodle.md).
+Unreal sadržaj komprimiran s **Oodle** treba Oodle biblioteku koja je već na vašem računalu. Nijedna se ne isporučuje s ovim alatom. Vidi [Oodle](reader-oodle.md).
 
 Alat je pisan za Windows. Pronalazi igre preko popisa Steam biblioteka i `%LOCALAPPDATA%`, a Oodle učitava kao Windows DLL. Ostale platforme nisu testirane.
 
@@ -92,7 +92,7 @@ Alat je pisan za Windows. Pronalazi igre preko popisa Steam biblioteka i `%LOCAL
 **Datoteka kruga** je zapis gdje je vaš automobil išao: popis točaka x, y, z.
 Dolazi iz [3DHeat GameCapture](https://github.com/Holdi601/3DHeat-GameCapture)
 ili iz knjižnice krugova aplikacije FH Companion; ručno upisani CSV također radi
-([Ulazi kruga](../lap-inputs.md)).
+([Ulazni podaci kruga](lap-inputs.md)).
 
 ```
 # Forza: datoteka kruga, mapa krugova ili ime staze iz knjižnice FH Companion
@@ -123,34 +123,34 @@ python -m heat3d_gamefiles identify some_archive.pak
 ```
 
 Otvorite `.glb` u pregledniku 3DHeat. Svjetske koordinate igre se čuvaju
-(vidi [Format izlaza](../output-format.md)), pa se snimljeni krug poklapa sa stazom.
+(vidi [Format izlaza](output-format.md)), pa se snimljeni krug poklapa sa stazom.
 
 ## Karta ove dokumentacije {#map-of-this-documentation}
 
 - [Prije nego što počnete](before-you-start.md): Python, terminal, prva naredba.
-- [Naredbe](../commands.md): svaka naredba i opcija, s primjerima.
+- [Naredbe](commands.md): svaka naredba i opcija, s primjerima.
 - [Referenca naredbi](../cli-reference.md): `--help` svake naredbe, generirano iz koda.
-- [Pregled arhiva](../inspecting-archives.md): `identify`, `list`, `extract`, `meshes`, korak po korak.
-- [Izvoz staze](../course-export.md): kako krug postaje stazom, za sve igre.
-  - [Forza Horizon](../course-forza-horizon.md)
-  - [BeamNG.drive](../course-beamng.md)
-  - [Assetto Corsa Rally](../course-assetto-corsa-rally.md)
-  - [Razine detalja i proračun](../detail-budget.md)
-- [Cijele razine](../whole-levels.md): razina, karta ili svijet bez kruga.
-  - [Battlefield 6 razine](../level-battlefield.md): `levels`, `level`
-  - [Unreal 5 karte](../level-unreal-world-partition.md): `ue-maps`, `ue-map`
-  - [Arma Reforger svjetovi](../level-arma-reforger.md): `enfusion-worlds`, `enfusion-world`
-- [Forza automobili](../forza-cars.md): `cars`, datoteka automobila za karticu utrka preglednika.
-- [Ulazi kruga](../lap-inputs.md): svaki oblik datoteke kruga koji alat prihvaća.
-- [Format izlaza](../output-format.md): što je unutar `.glb`-a.
-- [Čitači arhiva](../archive-readers.md): jedna stranica po vrsti spremnika, što koji čita,
+- [Pregled arhiva](inspecting-archives.md): `identify`, `list`, `extract`, `meshes`, korak po korak.
+- [Izvoz staze](course-export.md): kako krug postaje stazom, za sve igre.
+  - [Forza Horizon](course-forza-horizon.md)
+  - [BeamNG.drive](course-beamng.md)
+  - [Assetto Corsa Rally](course-assetto-corsa-rally.md)
+  - [Razine detalja i proračun](detail-budget.md)
+- [Cijele razine](whole-levels.md): razina, karta ili svijet bez kruga.
+  - [Battlefield 6 razine](level-battlefield.md): `levels`, `level`
+  - [Unreal 5 karte](level-unreal-world-partition.md): `ue-maps`, `ue-map`
+  - [Arma Reforger svjetovi](level-arma-reforger.md): `enfusion-worlds`, `enfusion-world`
+- [Forza automobili](forza-cars.md): `cars`, datoteka automobila za karticu utrka preglednika.
+- [Ulazni podaci kruga](lap-inputs.md): svaki oblik datoteke kruga koji alat prihvaća.
+- [Format izlaza](output-format.md): što je unutar `.glb`-a.
+- [Čitači arhiva](archive-readers.md): jedna stranica po vrsti spremnika, što koji čita,
   što ne čita i zašto.
-- [Ograničenja i poznati nedostaci](../limits-and-known-gaps.md)
-- [Rješavanje problema](../troubleshooting.md): poruke o greškama i što učiniti.
-- [Pravila i licence](../rules-and-licences.md): bez ključeva, vaše vlastite datoteke, bez dalje distribucije.
-- [Ažuriranja](../updates.md): provjera ažuriranja i `heat3d_update`.
-- [Razvoj](../development.md): karta modula i testovi, uključujući testove koji rade nad instaliranim igrama.
-- [Održavanje](../maintaining.md): popis za izdavanje verzije ovih stranica.
+- [Ograničenja i poznati nedostaci](limits-and-known-gaps.md)
+- [Rješavanje problema](troubleshooting.md): poruke o greškama i što učiniti.
+- [Pravila i licence](rules-and-licences.md): bez ključeva, vaše vlastite datoteke, bez dalje distribucije.
+- [Ažuriranja](updates.md): provjera ažuriranja i `heat3d_update`.
+- [Razvoj](development.md): karta modula i testovi, uključujući testove koji rade nad instaliranim igrama.
+- [Održavanje](maintaining.md): popis za izdavanje verzije ovih stranica.
 
 ## Dio 3DHeata {#part-of-3dheat}
 

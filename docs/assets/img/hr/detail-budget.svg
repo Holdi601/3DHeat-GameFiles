@@ -7,15 +7,15 @@
 <text x="215" y="106" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">u detalju koji traži njegova udaljenost:</text>
 <text x="215" y="127" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">&lt;25 m / 25-60 m / &gt;60 m</text>
 <rect x="450" y="52" width="390" height="104" rx="8" fill="#ffffff" stroke="#8a94a3"/>
-<text x="645" y="80" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#1f2328" text-anchor="middle">Previše za proračun?</text>
+<text x="645" y="80" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#1f2328" text-anchor="middle">Previše?</text>
 <text x="645" y="106" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">najskuplji modeli</text>
 <text x="645" y="127" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">spusti jednu razinu</text>
 <rect x="20" y="192" width="390" height="104" rx="8" fill="#ffffff" stroke="#8a94a3"/>
-<text x="215" y="220" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#1f2328" text-anchor="middle">Još uvijek previše?</text>
+<text x="215" y="220" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#1f2328" text-anchor="middle">Još previše?</text>
 <text x="215" y="246" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">ponavlja do</text>
 <text x="215" y="267" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">najgrublja razina</text>
 <rect x="450" y="192" width="390" height="104" rx="8" fill="#ffffff" stroke="#8a94a3"/>
-<text x="645" y="220" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#1f2328" text-anchor="middle">Još uvijek previše?</text>
+<text x="645" y="220" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#1f2328" text-anchor="middle">Još previše?</text>
 <text x="645" y="246" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">najudaljenije kopije</text>
 <text x="645" y="267" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">se izostavljaju</text>
 <line x1="414" y1="104.0" x2="446" y2="104.0" stroke="#8a94a3" stroke-width="2" marker-end="url(#a)"/>
