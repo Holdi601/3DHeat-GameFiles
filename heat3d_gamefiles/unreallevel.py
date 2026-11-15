@@ -59,7 +59,7 @@ def find_paks(where: str | Path | None) -> Path | None:
         if path.exists():
             candidates.append(path)
         else:
-            from .forzainstall import STEAM_DEFAULTS, steam_libraries
+            from .steam import STEAM_DEFAULTS, steam_libraries
 
             for library in [Path(p) for p in STEAM_DEFAULTS] + [Path(p) for p in steam_libraries()]:
                 candidates.append(library / "steamapps" / "common" / str(where))

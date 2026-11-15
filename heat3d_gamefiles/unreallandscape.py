@@ -98,7 +98,7 @@ class Landscape:
         local[..., 1] = gy[:, None] * self.scale[1]
         local[..., 2] = np.nan_to_num(h) * self.scale[2]
         if any(self.rotation):
-            from .acrally import rotator_matrix
+            from .unrealmath import rotator_matrix
 
             local = local @ rotator_matrix(*self.rotation)
         local += np.asarray(self.location)

@@ -1229,7 +1229,7 @@ def _drawn_levels(shape) -> list[int]:
 
 def _choose_levels(chosen, shapes, materials: Materials, route: np.ndarray, budget: int | None, out) -> dict[int, int]:
     """The detail level each chosen copy is drawn at, by its index; absent if left out."""
-    from .forzaplacement import FAR, NEAR, auto_budget, choose_levels, route_distance
+    from .detail import FAR, NEAR, auto_budget, choose_levels, route_distance
 
     if not chosen:
         return {}

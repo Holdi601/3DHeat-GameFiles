@@ -1216,7 +1216,7 @@ def _frostbite_install(given: Path | None) -> Path | None:
     A Frostbite game's folder: the one given, or the first Steam game whose
     `Data` holds a `layout.toc`.
     """
-    from .forzainstall import STEAM_DEFAULTS, steam_libraries
+    from .steam import STEAM_DEFAULTS, steam_libraries
 
     if given is not None:
         return given
@@ -1346,7 +1346,7 @@ def _level(args) -> int:
 
 def _export_options(p) -> None:
     """The options `course` and `terrain` share: what goes into the file."""
-    from .forzaplacement import DEFAULT_BUDGET
+    from .detail import DEFAULT_BUDGET
 
     p.add_argument(
         "--texture-size",

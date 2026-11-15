@@ -39,6 +39,7 @@ from pathlib import Path
 import numpy as np
 
 from .unversioned import CHAINS, PropertyError, read_properties
+from .unrealmath import rotator_matrix  # noqa: F401
 from .zen import Export, Package, Packages
 
 GAME_FOLDER = "Assetto Corsa Rally"
@@ -58,7 +59,7 @@ def find_paks(extra: tuple[str | Path, ...] = (), *, defaults: bool = True) -> P
     """The game's `Content/Paks` folder."""
     candidates = [Path(p) for p in extra]
     if defaults:
-        from .forzainstall import steam_libraries
+        from .steam import steam_libraries
 
         for library in steam_libraries():
             candidates.append(Path(library) / "steamapps" / "common" / GAME_FOLDER)
@@ -68,18 +69,6 @@ def find_paks(extra: tuple[str | Path, ...] = (), *, defaults: bool = True) -> P
                 return paks
     return None
 
-
-def rotator_matrix(pitch: float, yaw: float, roll: float) -> np.ndarray:
-    """Unreal's `FRotationMatrix`: rows are the turned axes (row vectors)."""
-    p, y, r = (math.radians(v) for v in (pitch, yaw, roll))
-    sp, cp, sy, cy, sr, cr = math.sin(p), math.cos(p), math.sin(y), math.cos(y), math.sin(r), math.cos(r)
-    return np.array(
-        [
-            [cp * cy, cp * sy, sp],
-            [sr * sp * cy - cr * sy, sr * sp * sy + cr * cy, -sr * cp],
-            [-(cr * sp * cy + sr * sy), cy * sr - cr * sp * sy, cr * cp],
-        ]
-    )
 
 
 def transform(location, rotation, scale) -> np.ndarray:

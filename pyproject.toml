@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+# 3DHeat GameFiles as a library: the engine-format readers (Unreal pak and
+# IoStore, Unity, Source 2 VPK, the Oodle loader) and the shared level and course
+# plumbing (glTF writer, lap files, corridor, surfaces, detail budget, Steam
+# libraries) that the per-game readers (3DHeat-Ext-Forza, -Battlefield, -BeamNG,
+# -ACRally, -Reforger) build on. Only the heat3d_gamefiles package is installed:
+# the update module stays with the checkout, so it never shadows a game
+# reader's own.
+[project]
+name = "heat3d-gamefiles"
+version = "1.0.3"
+description = "Engine-format readers and shared level plumbing for the 3DHeat game readers"
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.10"
+dependencies = ["numpy>=2.0", "lz4>=4.3", "Pillow>=10.0"]
+
+[project.optional-dependencies]
+aes = ["cryptography>=42.0"]
+test = ["pytest>=8.0"]
+
+[project.scripts]
+heat3d-gamefiles = "heat3d_gamefiles.cli:main"
+
+[tool.setuptools]
+packages = ["heat3d_gamefiles"]

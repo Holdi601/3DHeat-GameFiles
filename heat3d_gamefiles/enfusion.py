@@ -165,7 +165,7 @@ def find_install(where: str | Path | None = None) -> Path | None:
     """The game's folder: given, or in any Steam library."""
     candidates = [Path(where)] if where else []
     if not where:
-        from .forzainstall import STEAM_DEFAULTS, steam_libraries
+        from .steam import STEAM_DEFAULTS, steam_libraries
 
         for library in [Path(p) for p in STEAM_DEFAULTS] + [Path(p) for p in steam_libraries()]:
             candidates.append(library / "steamapps" / "common" / STEAM_FOLDER)

@@ -73,7 +73,7 @@ def find_oodle(extra: str | os.PathLike[str] | None = None) -> Path | None:
     # most games live, and the only copy on a machine is often there.
     hints = list(_SEARCH_HINTS)
     try:
-        from .forzainstall import steam_libraries
+        from .steam import steam_libraries
 
         hints += [str(Path(library) / "steamapps" / "common") for library in steam_libraries()]
     except OSError:

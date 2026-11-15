@@ -537,7 +537,7 @@ def _levels(chosen, shelf: MeshShelf, frame: np.ndarray, route: np.ndarray, budg
     go until it does, as in the BeamNG export. Kerbs never step down and are
     never left out, so only a budget smaller than the kerbs alone is exceeded.
     """
-    from .forzaplacement import FAR, NEAR, auto_budget, choose_levels, route_distance
+    from .detail import FAR, NEAR, auto_budget, choose_levels, route_distance
 
     if not chosen:
         return [], budget or 0, 0

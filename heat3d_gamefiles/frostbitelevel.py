@@ -728,7 +728,7 @@ def build_level(
     metres; 0 leaves it out. `ground_texture`, in metres a pixel, bakes the
     terrain decals into the heightfield's colour where they are; 0 does not.
     """
-    from .forzaplacement import DEFAULT_BUDGET, auto_budget, choose_levels
+    from .detail import DEFAULT_BUDGET, auto_budget, choose_levels
 
     table = find_level(root, name)
     toc = table.toc
