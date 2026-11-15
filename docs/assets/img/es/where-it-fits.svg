@@ -12,11 +12,11 @@
 <text x="645" y="127" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">enfusion-world, cars</text>
 <rect x="20" y="192" width="390" height="104" rx="8" fill="#ffffff" stroke="#8a94a3"/>
 <text x="215" y="220" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#1f2328" text-anchor="middle">Un .glb</text>
-<text x="215" y="246" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">los propios del juego</text>
+<text x="215" y="246" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">propios del juego</text>
 <text x="215" y="267" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">coordenadas</text>
 <rect x="450" y="192" width="390" height="104" rx="8" fill="#ffffff" stroke="#8a94a3"/>
 <text x="645" y="220" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#1f2328" text-anchor="middle">visor 3DHeat</text>
-<text x="645" y="246" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">Panel Nivel: tu calor</text>
+<text x="645" y="246" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">Fondo / nivel: tu calor</text>
 <text x="645" y="267" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="middle">queda sobre el nivel</text>
 <line x1="414" y1="104.0" x2="446" y2="104.0" stroke="#8a94a3" stroke-width="2" marker-end="url(#a)"/>
 <path d="M645,158 V174 H215 V188" fill="none" stroke="#8a94a3" stroke-width="2" marker-end="url(#a)"/>

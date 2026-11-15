@@ -63,7 +63,7 @@ Paquete de Python: `heat3d_gamefiles`. Repositorio:
 | Forza (coches) | `cars`: cada coche con poco detalle, para la pestaña Análisis de carrera del visor | - |
 
 Las vueltas de Assetto Corsa EVO e iRacing se rechazan, con el motivo. Consulta
-[Límites y huecos conocidos](../limits-and-known-gaps.md).
+[Límites y huecos conocidos](limits-and-known-gaps.md).
 
 ## Instalación {#install}
 
@@ -92,7 +92,7 @@ repositorio, como `python -m heat3d_gamefiles <verb>`.
 | pytest | las pruebas |
 
 El contenido de Unreal comprimido con **Oodle** necesita una biblioteca Oodle que ya esté en tu equipo.
-Esta herramienta nunca incluye una. Consulta [Oodle](../reader-oodle.md).
+Esta herramienta nunca incluye una. Consulta [Oodle](reader-oodle.md).
 
 La herramienta está escrita para Windows. Encuentra los juegos mediante la lista de bibliotecas de
 Steam y `%LOCALAPPDATA%`, y carga Oodle como una DLL de Windows. Otras plataformas no se han
@@ -103,7 +103,7 @@ probado.
 Una **vuelta** (archivo de vuelta) es un registro de por dónde fue tu coche: una lista de puntos x, y, z.
 Viene de [3DHeat GameCapture](https://github.com/Holdi601/3DHeat-GameCapture) o de la biblioteca de
 vueltas de la app FH Companion; también sirve un CSV escrito a mano
-([Entradas de vuelta](../lap-inputs.md)).
+([Entradas de vuelta](lap-inputs.md)).
 
 ```
 # Forza: un archivo de vuelta, una carpeta de vueltas, o el nombre de un circuito de la biblioteca de FH Companion
@@ -134,34 +134,34 @@ python -m heat3d_gamefiles identify some_archive.pak
 ```
 
 Abre el `.glb` en el visor 3DHeat. Se conservan las coordenadas propias del mundo del juego
-(ver [Formato de salida](../output-format.md)), así que una vuelta grabada queda alineada con el circuito.
+(ver [Formato de salida](output-format.md)), así que una vuelta grabada queda alineada con el circuito.
 
 ## Mapa de esta documentación {#map-of-this-documentation}
 
 - [Antes de empezar](before-you-start.md): Python, una terminal, el primer comando.
-- [Comandos](../commands.md): cada verbo y opción, con ejemplos.
+- [Comandos](commands.md): cada verbo y opción, con ejemplos.
 - [Referencia de comandos](../cli-reference.md): el `--help` de cada verbo, generado desde el código.
-- [Inspeccionar archivos](../inspecting-archives.md): `identify`, `list`, `extract`, `meshes`, paso a paso.
-- [Exportación de circuito](../course-export.md): cómo una vuelta se convierte en circuito, para todos los juegos.
-  - [Forza Horizon](../course-forza-horizon.md)
-  - [BeamNG.drive](../course-beamng.md)
-  - [Assetto Corsa Rally](../course-assetto-corsa-rally.md)
-  - [Niveles de detalle y presupuesto](../detail-budget.md)
-- [Niveles completos](../whole-levels.md): un nivel, mapa o mundo sin vuelta.
-  - [Niveles de Battlefield 6](../level-battlefield.md): `levels`, `level`
-  - [Mapas de Unreal 5](../level-unreal-world-partition.md): `ue-maps`, `ue-map`
-  - [Mundos de Arma Reforger](../level-arma-reforger.md): `enfusion-worlds`, `enfusion-world`
-- [Coches de Forza](../forza-cars.md): `cars`, el archivo de coches para la pestaña Análisis de carrera del visor.
-- [Entradas de vuelta](../lap-inputs.md): cada forma de archivo de vuelta que acepta la herramienta.
-- [Formato de salida](../output-format.md): lo que hay dentro del `.glb`.
-- [Lectores de archivos](../archive-readers.md): una página por formato de contenedor, con lo que lee,
+- [Inspeccionar archivos](inspecting-archives.md): `identify`, `list`, `extract`, `meshes`, paso a paso.
+- [Exportación de circuito](course-export.md): cómo una vuelta se convierte en circuito, para todos los juegos.
+  - [Forza Horizon](course-forza-horizon.md)
+  - [BeamNG.drive](course-beamng.md)
+  - [Assetto Corsa Rally](course-assetto-corsa-rally.md)
+  - [Niveles de detalle y presupuesto](detail-budget.md)
+- [Niveles completos](whole-levels.md): un nivel, mapa o mundo sin vuelta.
+  - [Niveles de Battlefield 6](level-battlefield.md): `levels`, `level`
+  - [Mapas de Unreal 5](level-unreal-world-partition.md): `ue-maps`, `ue-map`
+  - [Mundos de Arma Reforger](level-arma-reforger.md): `enfusion-worlds`, `enfusion-world`
+- [Coches de Forza](forza-cars.md): `cars`, el archivo de coches para la pestaña Análisis de carrera del visor.
+- [Entradas de vuelta](lap-inputs.md): cada forma de archivo de vuelta que acepta la herramienta.
+- [Formato de salida](output-format.md): lo que hay dentro del `.glb`.
+- [Lectores de archivos](archive-readers.md): una página por formato de contenedor, con lo que lee,
   lo que no lee, y por qué.
-- [Límites y huecos conocidos](../limits-and-known-gaps.md)
-- [Solución de problemas](../troubleshooting.md): los mensajes de error y qué hacer con cada uno.
-- [Normas y licencias](../rules-and-licences.md): sin claves, tus propios archivos, sin redistribución.
-- [Actualizaciones](../updates.md): la comprobación de actualizaciones y `heat3d_update`.
-- [Desarrollo](../development.md): mapa de módulos y pruebas, incluidas las que se ejecutan contra juegos instalados.
-- [Mantenimiento](../maintaining.md): la lista de comprobación de cada versión de estas páginas.
+- [Límites y huecos conocidos](limits-and-known-gaps.md)
+- [Solución de problemas](troubleshooting.md): los mensajes de error y qué hacer con cada uno.
+- [Normas y licencias](rules-and-licences.md): sin claves, tus propios archivos, sin redistribución.
+- [Actualizaciones](updates.md): la comprobación de actualizaciones y `heat3d_update`.
+- [Desarrollo](development.md): mapa de módulos y pruebas, incluidas las que se ejecutan contra juegos instalados.
+- [Mantenimiento](maintaining.md): la lista de comprobación de cada versión de estas páginas.
 
 ## Parte de 3DHeat {#part-of-3dheat}
 

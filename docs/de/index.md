@@ -61,7 +61,7 @@ Python-Paket: `heat3d_gamefiles`. Repository:
 | Forza (Autos) | `cars`: jedes Auto in niedriger Auflösung, für den Rennanalyse-Reiter des Viewers | - |
 
 Runden aus Assetto Corsa EVO und iRacing werden mit einem Grund abgelehnt. Siehe
-[Grenzen und bekannte Lücken](../limits-and-known-gaps.md).
+[Grenzen und bekannte Lücken](limits-and-known-gaps.md).
 
 ## Installation {#install}
 
@@ -89,7 +89,7 @@ der Befehle sehen. Führe jeden Befehl aus dem Ordner des Repositorys aus, als `
 | pytest | die Tests |
 
 Unreal-Inhalte, die mit **Oodle** komprimiert sind, brauchen eine Oodle-Bibliothek, die schon auf deinem
-Rechner liegt. Eine solche wird mit diesem Werkzeug nie mitgeliefert. Siehe [Oodle](../reader-oodle.md).
+Rechner liegt. Eine solche wird mit diesem Werkzeug nie mitgeliefert. Siehe [Oodle](reader-oodle.md).
 
 Das Werkzeug ist für Windows geschrieben. Es findet Spiele über die Bibliotheksliste von Steam und
 `%LOCALAPPDATA%` und lädt Oodle als Windows-DLL. Andere Plattformen wurden nicht getestet.
@@ -99,7 +99,7 @@ Das Werkzeug ist für Windows geschrieben. Es findet Spiele über die Bibliothek
 Eine **Rundendatei** ist eine Aufnahme, wohin dein Auto gefahren ist: eine Liste von x-, y-, z-Punkten.
 Sie kommt von [3DHeat GameCapture](https://github.com/Holdi601/3DHeat-GameCapture) oder aus der
 Rundenbibliothek der FH-Companion-App; eine von Hand getippte CSV funktioniert auch
-([Rundeneingaben](../lap-inputs.md)).
+([Rundeneingaben](lap-inputs.md)).
 
 ```
 # Forza: a lap file, a lap folder, or a course name from the FH Companion library
@@ -130,34 +130,34 @@ python -m heat3d_gamefiles identify some_archive.pak
 ```
 
 Öffne die `.glb` im 3DHeat-Viewer. Die Weltkoordinaten des Spiels bleiben erhalten
-(siehe [Ausgabeformat](../output-format.md)), sodass eine aufgenommene Runde mit der Strecke übereinstimmt.
+(siehe [Ausgabeformat](output-format.md)), sodass eine aufgenommene Runde mit der Strecke übereinstimmt.
 
 ## Karte dieser Dokumentation {#map-of-this-documentation}
 
 - [Bevor du anfängst](before-you-start.md): Python, ein Terminal, der erste Befehl.
-- [Befehle](../commands.md): jeder Befehl und jede Option, mit Beispielen.
+- [Befehle](commands.md): jeder Befehl und jede Option, mit Beispielen.
 - [Befehlsreferenz](../cli-reference.md): das `--help` jedes Befehls, aus dem Code erzeugt.
-- [Archive untersuchen](../inspecting-archives.md): `identify`, `list`, `extract`, `meshes`, Schritt für Schritt.
-- [Streckenexport](../course-export.md): wie eine Runde zu einer Strecke wird, für alle Spiele.
-  - [Forza Horizon](../course-forza-horizon.md)
-  - [BeamNG.drive](../course-beamng.md)
-  - [Assetto Corsa Rally](../course-assetto-corsa-rally.md)
-  - [Detailstufen und Budget](../detail-budget.md)
-- [Ganze Levels](../whole-levels.md): ein Level, eine Karte oder eine Welt ohne Runde.
-  - [Battlefield-6-Levels](../level-battlefield.md): `levels`, `level`
-  - [Unreal-5-Karten](../level-unreal-world-partition.md): `ue-maps`, `ue-map`
-  - [Arma-Reforger-Welten](../level-arma-reforger.md): `enfusion-worlds`, `enfusion-world`
-- [Forza-Autos](../forza-cars.md): `cars`, die Autodatei für den Rennanalyse-Reiter des Viewers.
-- [Rundeneingaben](../lap-inputs.md): jede Form von Rundendatei, die das Werkzeug annimmt.
-- [Ausgabeformat](../output-format.md): was in der `.glb` steckt.
-- [Archivleser](../archive-readers.md): eine Seite pro Containerformat, mit dem, was jeder liest, was nicht,
+- [Archive untersuchen](inspecting-archives.md): `identify`, `list`, `extract`, `meshes`, Schritt für Schritt.
+- [Streckenexport](course-export.md): wie eine Runde zu einer Strecke wird, für alle Spiele.
+  - [Forza Horizon](course-forza-horizon.md)
+  - [BeamNG.drive](course-beamng.md)
+  - [Assetto Corsa Rally](course-assetto-corsa-rally.md)
+  - [Detailstufen und Budget](detail-budget.md)
+- [Ganze Levels](whole-levels.md): ein Level, eine Karte oder eine Welt ohne Runde.
+  - [Battlefield-6-Levels](level-battlefield.md): `levels`, `level`
+  - [Unreal-5-Karten](level-unreal-world-partition.md): `ue-maps`, `ue-map`
+  - [Arma-Reforger-Welten](level-arma-reforger.md): `enfusion-worlds`, `enfusion-world`
+- [Forza-Autos](forza-cars.md): `cars`, die Autodatei für den Rennanalyse-Reiter des Viewers.
+- [Rundeneingaben](lap-inputs.md): jede Form von Rundendatei, die das Werkzeug annimmt.
+- [Ausgabeformat](output-format.md): was in der `.glb` steckt.
+- [Archivleser](archive-readers.md): eine Seite pro Containerformat, mit dem, was jeder liest, was nicht,
   und warum.
-- [Grenzen und bekannte Lücken](../limits-and-known-gaps.md)
-- [Fehlersuche](../troubleshooting.md): die Fehlermeldungen und was zu tun ist.
-- [Regeln und Lizenzen](../rules-and-licences.md): keine Schlüssel, deine eigenen Dateien, keine Weitergabe.
-- [Updates](../updates.md): die Update-Prüfung und `heat3d_update`.
-- [Entwicklung](../development.md): Modulübersicht und Tests, einschließlich der Tests, die gegen installierte Spiele laufen.
-- [Pflege](../maintaining.md): die Release-Checkliste für diese Seiten.
+- [Grenzen und bekannte Lücken](limits-and-known-gaps.md)
+- [Fehlersuche](troubleshooting.md): die Fehlermeldungen und was zu tun ist.
+- [Regeln und Lizenzen](rules-and-licences.md): keine Schlüssel, deine eigenen Dateien, keine Weitergabe.
+- [Updates](updates.md): die Update-Prüfung und `heat3d_update`.
+- [Entwicklung](development.md): Modulübersicht und Tests, einschließlich der Tests, die gegen installierte Spiele laufen.
+- [Pflege](maintaining.md): die Release-Checkliste für diese Seiten.
 
 ## Teil von 3DHeat {#part-of-3dheat}
 

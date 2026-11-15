@@ -61,7 +61,7 @@ Paquet Python : `heat3d_gamefiles`. Dépôt :
 | Arma Reforger (Enfusion) | pas de tour ; un monde entier avec `enfusion-world` (listé par `enfusion-worlds`) : terrain dans ses couleurs, la mer, bâtiments en boîtes | - |
 | Forza (voitures) | `cars` : chaque voiture en faible détail, pour l'onglet Analyse de course de la visionneuse | - |
 
-Les tours d'Assetto Corsa EVO et d'iRacing sont refusés, avec la raison. Voir [Limites et lacunes connues](../limits-and-known-gaps.md).
+Les tours d'Assetto Corsa EVO et d'iRacing sont refusés, avec la raison. Voir [Limites et lacunes connues](limits-and-known-gaps.md).
 
 ## Installation {#install}
 
@@ -90,7 +90,7 @@ dossier du dépôt, sous la forme `python -m heat3d_gamefiles <verbe>`.
 | pytest | les tests |
 
 Le contenu Unreal compressé en **Oodle** a besoin d'une bibliothèque Oodle déjà présente
-sur votre ordinateur. Elle n'est jamais livrée avec cet outil. Voir [Oodle](../reader-oodle.md).
+sur votre ordinateur. Elle n'est jamais livrée avec cet outil. Voir [Oodle](reader-oodle.md).
 
 L'outil est écrit pour Windows. Il trouve les jeux par la liste des bibliothèques Steam et par
 `%LOCALAPPDATA%`, et charge Oodle comme DLL Windows. Les autres plateformes n'ont pas été testées.
@@ -100,7 +100,7 @@ L'outil est écrit pour Windows. Il trouve les jeux par la liste des bibliothèq
 Un **fichier de tour** est un enregistrement de l'endroit où votre voiture est passée : une liste de points x, y, z.
 Il vient de [3DHeat GameCapture](https://github.com/Holdi601/3DHeat-GameCapture)
 ou de la bibliothèque de tours de l'application FH Companion ; un CSV tapé à la main fonctionne aussi
-([Entrées de tour](../lap-inputs.md)).
+([Entrées de tour](lap-inputs.md)).
 
 ```
 # Forza : un fichier de tour, un dossier de tours, ou le nom d'un circuit de la bibliothèque FH Companion
@@ -131,34 +131,34 @@ python -m heat3d_gamefiles identify un_fichier_d_archive.pak
 ```
 
 Ouvrez le `.glb` dans la visionneuse 3DHeat. Les coordonnées du monde propres au jeu sont conservées
-(voir [Format de sortie](../output-format.md)), donc un tour enregistré s'aligne sur le circuit.
+(voir [Format de sortie](output-format.md)), donc un tour enregistré s'aligne sur le circuit.
 
 ## Plan de cette documentation {#map-of-this-documentation}
 
 - [Avant de commencer](before-you-start.md) : Python, un terminal, la première commande.
-- [Commandes](../commands.md) : chaque verbe et chaque option, avec des exemples.
+- [Commandes](commands.md) : chaque verbe et chaque option, avec des exemples.
 - [Référence des commandes](../cli-reference.md) : le `--help` de chaque verbe, généré depuis le code.
-- [Inspecter les archives](../inspecting-archives.md) : `identify`, `list`, `extract`, `meshes`, pas à pas.
-- [Export de circuit](../course-export.md) : comment un tour devient un circuit, pour tous les jeux.
-  - [Forza Horizon](../course-forza-horizon.md)
-  - [BeamNG.drive](../course-beamng.md)
-  - [Assetto Corsa Rally](../course-assetto-corsa-rally.md)
-  - [Niveaux de détail et budget](../detail-budget.md)
-- [Niveaux entiers](../whole-levels.md) : un niveau, une carte ou un monde sans tour.
-  - [Niveaux de Battlefield 6](../level-battlefield.md) : `levels`, `level`
-  - [Cartes Unreal 5](../level-unreal-world-partition.md) : `ue-maps`, `ue-map`
-  - [Mondes d'Arma Reforger](../level-arma-reforger.md) : `enfusion-worlds`, `enfusion-world`
-- [Voitures Forza](../forza-cars.md) : `cars`, le fichier de voitures de l'onglet Analyse de course de la visionneuse.
-- [Entrées de tour](../lap-inputs.md) : chaque forme de fichier de tour acceptée par l'outil.
-- [Format de sortie](../output-format.md) : ce qu'il y a dans le `.glb`.
-- [Lecteurs d'archives](../archive-readers.md) : une page par format de conteneur, décrivant ce qu'il lit,
+- [Inspecter les archives](inspecting-archives.md) : `identify`, `list`, `extract`, `meshes`, pas à pas.
+- [Export de circuit](course-export.md) : comment un tour devient un circuit, pour tous les jeux.
+  - [Forza Horizon](course-forza-horizon.md)
+  - [BeamNG.drive](course-beamng.md)
+  - [Assetto Corsa Rally](course-assetto-corsa-rally.md)
+  - [Niveaux de détail et budget](detail-budget.md)
+- [Niveaux entiers](whole-levels.md) : un niveau, une carte ou un monde sans tour.
+  - [Niveaux de Battlefield 6](level-battlefield.md) : `levels`, `level`
+  - [Cartes Unreal 5](level-unreal-world-partition.md) : `ue-maps`, `ue-map`
+  - [Mondes d'Arma Reforger](level-arma-reforger.md) : `enfusion-worlds`, `enfusion-world`
+- [Voitures Forza](forza-cars.md) : `cars`, le fichier de voitures de l'onglet Analyse de course de la visionneuse.
+- [Entrées de tour](lap-inputs.md) : chaque forme de fichier de tour acceptée par l'outil.
+- [Format de sortie](output-format.md) : ce qu'il y a dans le `.glb`.
+- [Lecteurs d'archives](archive-readers.md) : une page par format de conteneur, décrivant ce qu'il lit,
   ce qu'il ne lit pas, et pourquoi.
-- [Limites et lacunes connues](../limits-and-known-gaps.md)
-- [Dépannage](../troubleshooting.md) : les messages d'erreur et quoi faire.
-- [Règles et licences](../rules-and-licences.md) : aucune clé, vos propres fichiers, aucune redistribution.
-- [Mises à jour](../updates.md) : la vérification des mises à jour et `heat3d_update`.
-- [Développement](../development.md) : carte des modules et tests, y compris les tests qui tournent sur des jeux installés.
-- [Maintenir ces documents](../maintaining.md) : la liste de contrôle des versions pour ces pages.
+- [Limites et lacunes connues](limits-and-known-gaps.md)
+- [Dépannage](troubleshooting.md) : les messages d'erreur et quoi faire.
+- [Règles et licences](rules-and-licences.md) : aucune clé, vos propres fichiers, aucune redistribution.
+- [Mises à jour](updates.md) : la vérification des mises à jour et `heat3d_update`.
+- [Développement](development.md) : carte des modules et tests, y compris les tests qui tournent sur des jeux installés.
+- [Maintenir ces documents](maintaining.md) : la liste de contrôle des versions pour ces pages.
 
 ## Partie de 3DHeat {#part-of-3dheat}
 
@@ -170,15 +170,15 @@ Ouvrez le `.glb` dans la visionneuse 3DHeat. Les coordonnées du monde propres a
 | [GameFiles](https://github.com/Holdi601/3DHeat-GameFiles) | circuits et niveaux tirés des fichiers livrés par un jeu, en `.glb` | [site](https://holdi601.github.io/3DHeat-GameFiles/) |
 | [GameCapture](https://github.com/Holdi601/3DHeat-GameCapture) | télémétrie de tour des jeux de course ; niveaux reconstruits à partir de vidéos de jeu | [site](https://holdi601.github.io/3DHeat-GameCapture/) |
 | [Unreal Exporter](https://github.com/Holdi601/3DHeat-UnrealExporter) | un plugin de l'éditeur Unreal qui enregistre un niveau en `.glb` | [site](https://holdi601.github.io/3DHeat-UnrealExporter/) |
-| [CS2](https://github.com/Holdi601/3DHeat-CS2) | démos de Counter-Strike 2 en fichiers de partie ; cartes en `.glb` | [site](https://holdi601.github.io/3DHeat-CS2/) |
+| [CS2](https://github.com/Holdi601/3DHeat-CS2) | démos de Counter-Strike 2 en fichiers de match ; cartes en `.glb` | [site](https://holdi601.github.io/3DHeat-CS2/) |
 | [Watcher](https://github.com/Holdi601/3DHeat-Watcher) | enregistre votre jeu en arrière-plan à partir de ce que publient les jeux | [site](https://holdi601.github.io/3DHeat-Watcher/) |
-| [Ext-WarThunder](https://github.com/Holdi601/3DHeat-Ext-WarThunder) | replays de War Thunder en fichiers de partie | [site](https://holdi601.github.io/3DHeat-Ext-WarThunder/) |
-| [Ext-WoT](https://github.com/Holdi601/3DHeat-Ext-WoT) | replays de World of Tanks en fichiers de partie | [site](https://holdi601.github.io/3DHeat-Ext-WoT/) |
-| [Ext-WoWs](https://github.com/Holdi601/3DHeat-Ext-WoWs) | replays de World of Warships en fichiers de partie | [site](https://holdi601.github.io/3DHeat-Ext-WoWs/) |
-| [Ext-Squad](https://github.com/Holdi601/3DHeat-Ext-Squad) | démos de serveurs Squad en fichiers de partie | [site](https://holdi601.github.io/3DHeat-Ext-Squad/) |
+| [Ext-WarThunder](https://github.com/Holdi601/3DHeat-Ext-WarThunder) | replays de War Thunder en fichiers de match | [site](https://holdi601.github.io/3DHeat-Ext-WarThunder/) |
+| [Ext-WoT](https://github.com/Holdi601/3DHeat-Ext-WoT) | replays de World of Tanks en fichiers de match | [site](https://holdi601.github.io/3DHeat-Ext-WoT/) |
+| [Ext-WoWs](https://github.com/Holdi601/3DHeat-Ext-WoWs) | replays de World of Warships en fichiers de match | [site](https://holdi601.github.io/3DHeat-Ext-WoWs/) |
+| [Ext-Squad](https://github.com/Holdi601/3DHeat-Ext-Squad) | démos de serveurs Squad en fichiers de match | [site](https://holdi601.github.io/3DHeat-Ext-Squad/) |
 | [Ext-DCS](https://github.com/Holdi601/3DHeat-Ext-DCS) | cartes de DCS World en niveaux `.glb` | [site](https://holdi601.github.io/3DHeat-Ext-DCS/) |
 | [Ext-IL2](https://github.com/Holdi601/3DHeat-Ext-IL2) | cartes d'IL-2 Sturmovik en niveaux `.glb` | [site](https://holdi601.github.io/3DHeat-Ext-IL2/) |
 
-Les fichiers de partie de la visionneuse sont décrits dans
-[Un fichier par partie : `.3dheat`](https://holdi601.github.io/3DHeat/container.html) ;
+Les fichiers de match de la visionneuse sont décrits dans
+[Un fichier par match : `.3dheat`](https://holdi601.github.io/3DHeat/container.html) ;
 un niveau fait ici se charge à côté d'eux, dans le panneau Arrière-plan / niveau de la visionneuse.

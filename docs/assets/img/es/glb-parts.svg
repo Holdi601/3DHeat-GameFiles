@@ -6,7 +6,7 @@
 <text x="330" y="67" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="400" fill="#3d4450" text-anchor="start">el terreno; por tesela o cuadrado de 512 m</text>
 <rect x="20" y="84" width="22" height="22" rx="4" fill="#55595f" stroke="#55606e"/>
 <text x="54" y="101" font-family="Consolas,Menlo,DejaVu Sans Mono,monospace" font-size="15" fill="#1f2328">ground:road</text>
-<text x="330" y="101" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="400" fill="#3d4450" text-anchor="start">la superficie de conducción</text>
+<text x="330" y="101" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="400" fill="#3d4450" text-anchor="start">superficie de conducción</text>
 <rect x="20" y="118" width="22" height="22" rx="4" fill="#c8b48a" stroke="#55606e"/>
 <text x="54" y="135" font-family="Consolas,Menlo,DejaVu Sans Mono,monospace" font-size="15" fill="#1f2328">ground:verge</text>
 <text x="330" y="135" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="400" fill="#3d4450" text-anchor="start">el borde de la carretera</text>

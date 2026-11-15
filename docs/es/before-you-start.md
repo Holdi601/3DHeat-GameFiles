@@ -70,4 +70,4 @@ Deberías ver `usage: heat3d_gamefiles [-h]` y una lista de verbos (`identify`,
 | `No module named numpy` (u otro nombre) | Se saltó el paso 4. Ejecuta `pip install -r requirements.txt`. |
 | `can't open file` / `not found` con una ruta | La ruta tiene espacios y no lleva comillas, o hay una errata. Ponla entre comillas dobles. |
 
-Más mensajes y cómo resolverlos: [Solución de problemas](../troubleshooting.md).
+Más mensajes y cómo resolverlos: [Solución de problemas](troubleshooting.md).

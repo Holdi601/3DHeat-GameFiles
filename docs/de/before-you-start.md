@@ -69,4 +69,4 @@ Du solltest `usage: heat3d_gamefiles [-h]` und eine Liste von Befehlen sehen (`i
 | `No module named numpy` (oder ein anderer Name) | Schritt 4 wurde übersprungen. Führe `pip install -r requirements.txt` aus. |
 | `can't open file` / `not found` mit einem Pfad | Der Pfad hat Leerzeichen und keine Anführungszeichen, oder einen Tippfehler. Setze ihn in doppelte Anführungszeichen. |
 
-Weitere Meldungen und ihre Lösungen: [Fehlersuche](../troubleshooting.md).
+Weitere Meldungen und ihre Lösungen: [Fehlersuche](troubleshooting.md).
