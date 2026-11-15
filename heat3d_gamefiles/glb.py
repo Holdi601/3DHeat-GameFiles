@@ -153,6 +153,7 @@ def write_glb(
     uvs: np.ndarray | None = None,
     quantize: bool = True,
     repeat: bool = False,
+    extras: dict | None = None,
 ) -> Path:
     """
     Write a mesh, as one part or as several.
@@ -168,6 +169,9 @@ def write_glb(
     With `repeat`, textures tile: UVs are written as floats, unclamped, and the
     sampler repeats. Frostbite's materials tile across a wall; clamped, every
     texture past its first copy would smear its edge pixels.
+
+    `extras` is written as the file's `asset.extras`: what the file is, for a
+    reader that wants to know without reading the meshes.
 
     Raises rather than writing something a viewer would open and show wrongly:
     an index past the end of the vertex list renders as noise, a textured part
@@ -369,7 +373,7 @@ def write_glb(
         nodes.append(node)
 
     document = {
-        "asset": {"version": "2.0", "generator": "heat3d_gamefiles"},
+        "asset": {"version": "2.0", "generator": "heat3d_gamefiles", **({"extras": extras} if extras else {})},
         "scene": 0,
         "scenes": [{"nodes": list(range(len(nodes)))}],
         "nodes": nodes,

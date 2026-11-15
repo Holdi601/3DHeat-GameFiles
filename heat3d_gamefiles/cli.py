@@ -557,7 +557,9 @@ def _open_archive(path: Path, key: str | None) -> _Listing:
     return _PakListing(PakArchive(path, aes_key=aes))
 
 
-def _write_course(out, track, target, args, low, high, route=None, corridor=None) -> Path:
+def _write_course(
+    out, track, target, args, low, high, route=None, corridor=None, route_id=None, route_assets=None
+) -> Path:
     """
     Bake, place, plan and write: the part of an export both verbs share.
 
@@ -614,6 +616,8 @@ def _write_course(out, track, target, args, low, high, route=None, corridor=None
             textures=not args.no_textures,
             route=route,
             corridor=corridor,
+            route_id=route_id,
+            route_assets=route_assets,
         )
         if placed.parts:
             print(
@@ -628,20 +632,77 @@ def _write_course(out, track, target, args, low, high, route=None, corridor=None
             uvs.append(mesh.uvs if mesh.uvs is not None else np.zeros((len(mesh.positions), 2), np.float32))
             texture = placed.textures.get(mesh.texture) if mesh.texture else None
             textured = textured or texture is not None
+            layer = _layer_extras(name.split(" ")[0], route_id)
             parts.append(
-                Part(name=name, faces=mesh.faces + offset, colour=None if texture is not None else mesh.colour, texture=texture)
+                Part(
+                    name=name,
+                    faces=mesh.faces + offset,
+                    colour=None if texture is not None else mesh.colour,
+                    texture=texture,
+                    extras=layer,
+                )
             )
             offset += len(mesh.positions)
 
+    about = {"course_format": COURSE_FORMAT, "route": route_id}
+    if not args.no_placed:
+        about.update(
+            event_copies=sum(placed.event.values()),
+            event_kinds=sorted(placed.event),
+            hidden=placed.hidden,
+            venue=sorted(placed.venue),
+            layers=sorted(placed.layers),
+        )
     written = write_glb(
         target,
         np.concatenate(positions),
         parts=parts,
         normals=np.concatenate(normals),
         uvs=np.concatenate(uvs).astype(np.float32) if textured else None,
+        extras=about,
     )
     print(f"\nwrote {written} ({written.stat().st_size:,} bytes)")
     return written
+
+
+#: What a Forza course file holds, as its glTF `asset.extras.course_format`
+#: says: 2 adds the race's own layer, a venue's ground and the world-space
+#: models. `courses` re-exports a file older than this.
+COURSE_FORMAT = 2
+
+
+def course_format(path: Path) -> int:
+    """The `course_format` a course file was written with; 0 if it does not say."""
+    import json
+    import struct
+
+    try:
+        with open(path, "rb") as handle:
+            head = handle.read(20)
+            if len(head) < 20 or head[:4] != b"glTF":
+                return 0
+            (length,) = struct.unpack_from("<I", head, 12)
+            document = json.loads(handle.read(length))
+    except (OSError, ValueError):
+        return 0
+    return int(document.get("asset", {}).get("extras", {}).get("course_format", 0))
+
+
+def _layer_extras(part: str, route_id) -> dict | None:
+    """
+    What a part is, for a viewer that switches layers on and off: the race's
+    own layer (`event`), another switched-on layer (`layer`) or a venue's own
+    ground (`venue`). The free-roam world carries nothing.
+    """
+    from .forzaplacement import EVENT_PART, LAYER_PART, VENUE_PART
+
+    if part.startswith(EVENT_PART.format("")):
+        return {"layer": "event", "route": route_id}
+    if part.startswith(LAYER_PART.format("")):
+        return {"layer": "layer"}
+    if part == VENUE_PART:
+        return {"layer": "venue"}
+    return None
 
 
 def _course(args) -> int:
@@ -747,6 +808,26 @@ def export_course(driven, target: Path, args) -> int:
             return 1
         print(f"  on {track.name}, in {track.parents[2].name}")
 
+    corridor, low, high = _with_venues(track, driven, corridor, low, high, args.margin)
+
+    from .forzaroute import match, read_routes
+
+    from .forzaroute import route_assets as assets_of
+
+    route, fit = match(driven.positions, read_routes(track))
+    route_id = route.id if route is not None else None
+    assets = assets_of(track, route_id) if route_id is not None else None
+    if route is not None:
+        print(f"  the game's route {route.id} (driven line within {fit:.0f} m of it)")
+        if assets is not None:
+            markers = ", ".join(f"{n:,} {k}" for k, n in sorted(assets.markers.items()))
+            print(
+                f"  its own layer: {assets.copies:,} copies of {len(assets.models)} models, "
+                f"{len(assets.hidden):,} free-roam objects hidden"
+                + (f"; not drawn: {markers}" if markers else "")
+            )
+    else:
+        print("  no route of the game's matches the driving; only the free-roam world is placed")
     print(
         f"  cutting {args.margin:,.0f} m either side of the driving: "
         f"{corridor.area / 1e6:,.2f} km2 of a {high[0] - low[0]:,.0f} by "
@@ -764,8 +845,46 @@ def export_course(driven, target: Path, args) -> int:
 
     print()
     print(out.summary())
-    _write_course(out, track, target, args, low, high, route=driven.positions, corridor=corridor)
+    _write_course(
+        out, track, target, args, low, high, route=driven.positions, corridor=corridor,
+        route_id=route_id, route_assets=assets,
+    )
     return 0
+
+
+def _with_venues(track, driven, corridor, low, high, margin):
+    """
+    Widen the cut to the whole of every venue the driving passes through.
+
+    A stadium circuit uses part of its stadium's floor, and the grandstands,
+    walls and barriers that make it a stadium stand around the rest of it. A
+    venue is drawn whole or it is not the venue: so where the driving touches
+    a site's own ground (see `forzaplacement.WORLD_REACH`), the corridor takes
+    in all of that ground's footprint, and everything placed on it comes too.
+    """
+    import numpy as np
+
+    from .corridor import Corridor
+    from .forzaplacement import Track
+
+    with Track(track) as opened:
+        venues = opened.venues(low, high, corridor)
+    if not venues:
+        return corridor, low, high
+    step = max(10.0, margin / 2)
+    points = [np.asarray(driven.positions, dtype=np.float64)[:, [0, 2]]]
+    for _stem, lo, hi in venues:
+        xs = np.arange(lo[0], hi[0] + step, step)
+        zs = np.arange(lo[2], hi[2] + step, step)
+        gx, gz = np.meshgrid(xs, zs, indexing="ij")
+        points.append(np.stack([gx.ravel(), gz.ravel()], axis=1))
+    plane = np.concatenate(points)
+    corridor = Corridor(plane, margin)
+    low = (min(low[0], float(plane[:, 0].min()) - margin), min(low[1], float(plane[:, 1].min()) - margin))
+    high = (max(high[0], float(plane[:, 0].max()) + margin), max(high[1], float(plane[:, 1].max()) + margin))
+    names = ", ".join(sorted({stem for stem, _lo, _hi in venues})[:3])
+    print(f"  through a venue ({names}): cutting all of its ground, {corridor.area / 1e6:,.2f} km2")
+    return corridor, low, high
 
 
 def _cars(args) -> int:
@@ -838,10 +957,9 @@ def _courses(args) -> int:
         wanted = [w.lower() for w in args.only]
         courses = [p for p in courses if any(w in p.name.lower() for w in wanted)]
     results = []
-    for number, course in enumerate(courses, 1):
+    for number, (course, target) in enumerate(_course_files(courses, folder), 1):
         name = course.name.split(" (course_")[0]
-        target = folder / (_slug(name) + ".glb")
-        if target.exists() and not args.force:
+        if target.exists() and not args.force and course_format(target) >= COURSE_FORMAT:
             results.append((name, "kept", target.stat().st_size, 0.0))
             continue
         print(f"\n=== {number}/{len(courses)}: {name} ===")
@@ -864,6 +982,150 @@ def _courses(args) -> int:
     failed = [r for r in results if r[1] == "FAILED"]
     print(f"\n{len(results) - len(failed)} of {len(results)} courses in {folder}")
     return 1 if failed else 0
+
+
+def _course_files(courses: list[Path], folder: Path) -> list[tuple[Path, Path]]:
+    """
+    Each recorded course and the file it is written to: its name as a file
+    name. Where two courses carry one name (a recorder that named a new circuit
+    after an old one), the one recorded first keeps it and the other is named
+    after where it starts as well, so neither overwrites the other.
+    """
+    import os
+
+    def created(course: Path) -> float:
+        try:
+            found = os.stat(course)
+        except OSError:
+            return float("inf")
+        return getattr(found, "st_birthtime", found.st_ctime)
+
+    by_slug: dict[str, list[Path]] = {}
+    for course in courses:
+        by_slug.setdefault(_slug(course.name.split(" (course_")[0]), []).append(course)
+    target_of = {}
+    for slug, group in by_slug.items():
+        for rank, course in enumerate(sorted(group, key=lambda c: (created(c), c.name))):
+            if rank:
+                start = course.name.split("(course_", 1)[-1].split("_to_")[0]
+                target_of[course] = folder / f"{slug}_{_slug(start.replace('-', 'm'))}.glb"
+            else:
+                target_of[course] = folder / f"{slug}.glb"
+    return [(course, target_of[course]) for course in courses]
+
+
+def _races(args) -> int:
+    """
+    Every race the installed game defines, and what each adds to the world.
+
+    For each route the game ships a definition of: how many copies of its own
+    assets it places (and how many of those the track has models for), what
+    kinds they are, how many free-roam objects it hides, whether its line
+    passes through a venue's own ground, which recorded course was driven on it
+    and whether that course's export (in `--out`) already carries the race's
+    layer. With `--markdown` the table is written there too.
+    """
+    import numpy as np
+
+    from .forzainstall import track_folders
+    from .forzaplacement import Track
+    from .forzaroute import defined_routes, match, read_routes, route_assets
+
+    tracks = [args.track] if args.track else [t for t in track_folders() if defined_routes(t)]
+    if not tracks:
+        print("no installed Forza with route definitions found; name its track folder with --track", file=sys.stderr)
+        return 1
+    track = Path(tracks[0])
+    routes = {r.id: r for r in read_routes(track)}
+    defined = defined_routes(track)
+    print(f"{len(defined)} races defined in {track.parents[2].name} ({track.name}), {len(routes)} with an AI line")
+
+    recorded: dict[int, list[tuple[str, Path]]] = {}
+    from .lapinput import UnreadableLap, default_library, read
+
+    try:
+        library = Path(args.library) if args.library else default_library()
+    except UnreadableLap:
+        library = None
+    folder = Path(args.out)
+    if library is not None and library.is_dir():
+        courses = sorted(p for p in library.iterdir() if p.is_dir() and "course_" in p.name)
+        for course, target in _course_files([c for c in courses if " (course_" in c.name], folder) + [
+            (c, folder / (_slug(c.name) + ".glb")) for c in courses if " (course_" not in c.name
+        ]:
+            try:
+                driven = read(course)
+            except (UnreadableLap, OSError, ValueError):
+                continue
+            route, _fit = match(driven.positions, list(routes.values()))
+            if route is not None:
+                recorded.setdefault(route.id, []).append((course.name.split(" (course_")[0], target))
+
+    with Track(track) as opened:
+        venues = [(stem, lo, hi) for stem, part, lo, hi in opened.world_models() if part.startswith("ground:venue")]
+        rows = []
+        for route_id in sorted(defined):
+            assets = route_assets(track, route_id)
+            shipped = {stem for stem in assets.models if stem in opened.clusters}
+            drawn = sum(len(v) for k, v in assets.models.items() if k in shipped)
+            kinds: dict[str, int] = {}
+            for stem, copies in assets.models.items():
+                kinds[assets.kinds[stem]] = kinds.get(assets.kinds[stem], 0) + len(copies)
+            line = routes[route_id].points if route_id in routes else None
+            if line is None and assets.models:
+                line = np.concatenate(list(assets.models.values()))[:, :3]
+            touched = []
+            if line is not None and len(line):
+                plane = line[:, [0, 2]]
+                for stem, lo, hi in venues:
+                    if ((plane[:, 0] >= lo[0] - 10) & (plane[:, 0] <= hi[0] + 10)
+                            & (plane[:, 1] >= lo[2] - 10) & (plane[:, 1] <= hi[2] + 10)).any():
+                        touched.append(stem)
+            for name, target in recorded.get(route_id, [(None, None)]):
+                exported = target is not None and target.exists()
+                current = exported and course_format(target) >= COURSE_FORMAT
+                rows.append(
+                    dict(
+                        route=route_id,
+                        course=name or "",
+                        copies=assets.copies,
+                        drawn=drawn,
+                        kinds=", ".join(f"{k} {n}" for k, n in sorted(kinds.items(), key=lambda kv: -kv[1])),
+                        markers=", ".join(f"{k} {n}" for k, n in sorted(assets.markers.items())),
+                        hidden=len(assets.hidden),
+                        venue=", ".join(sorted(touched)),
+                        export=("current" if current else "older format") if exported else ("not exported" if name else ""),
+                    )
+                )
+
+    print(f"\n{'route':>6} {'copies':>7} {'drawn':>6} {'hidden':>6}  venue  export          course")
+    for row in rows:
+        print(
+            f"{row['route']:>6} {row['copies']:>7,} {row['drawn']:>6,} {row['hidden']:>6,}  "
+            f"{'yes' if row['venue'] else 'no ':5}  {row['export']:15} {row['course']}"
+        )
+    races = {row["route"] for row in rows}
+    with_layer = {row["route"] for row in rows if row["copies"]}
+    with_venue = {row["route"] for row in rows if row["venue"]}
+    driven_on = {row["route"] for row in rows if row["course"]}
+    stale = [row for row in rows if row["export"] in ("older format", "not exported")]
+    print(
+        f"\n{len(races)} races: {len(with_layer)} with assets of their own, {len(with_venue)} through a venue, "
+        f"{len(driven_on)} driven in the lap library, {len(stale)} recorded courses to export again"
+    )
+    if args.markdown:
+        lines = [
+            "| route | recorded course | own assets | drawn | kinds | not geometry | hidden | venue | export |",
+            "|---:|---|---:|---:|---|---|---:|---|---|",
+        ]
+        for row in rows:
+            lines.append(
+                f"| {row['route']} | {row['course']} | {row['copies']} | {row['drawn']} | {row['kinds']} | "
+                f"{row['markers']} | {row['hidden']} | {row['venue'] or 'no'} | {row['export']} |"
+            )
+        Path(args.markdown).write_text("\n".join(lines) + "\n", encoding="utf-8")
+        print(f"wrote {args.markdown}")
+    return 0
 
 
 def _route_box(path: Path, margin: float) -> tuple[tuple[float, float], tuple[float, float]]:
@@ -1241,6 +1503,15 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--margin", type=float, default=80.0, help="metres either side of the driving (default 80)")
     p.set_defaults(run=_courses)
 
+    p = sub.add_parser(
+        "races", help="every race an installed Forza defines: its own assets, venues, and the exports of it"
+    )
+    p.add_argument("-o", "--out", default="courses", help="the folder `courses` writes to (default ./courses)")
+    p.add_argument("--library", default=None, help="the lap library (default: FH Companion's)")
+    p.add_argument("--track", type=Path, default=None, help="the track folder, if not the installed game's")
+    p.add_argument("--markdown", type=Path, default=None, help="also write the table here")
+    p.set_defaults(run=_races)
+
     p = sub.add_parser("cars", help="every car of an installed Forza at low detail, in one file for the viewer")
     p.add_argument("-o", "--out", type=Path, default=Path("forza.h3dcars"), help="the file to write (default ./forza.h3dcars)")
     p.add_argument("--game", type=Path, default=None, help="the game's folder, if not the installed one found")
@@ -1376,6 +1647,8 @@ def main(argv: list[str] | None = None) -> int:
         return _course(args)
     if args.verb == "courses":
         return _courses(args)
+    if args.verb == "races":
+        return _races(args)
     if args.verb == "cars":
         return _cars(args)
     if args.verb == "levels":

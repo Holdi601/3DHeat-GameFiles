@@ -109,9 +109,10 @@ _RECORD = re.compile(rb"[\x05-\x7f]\x00\x00\x00([A-Za-z0-9_\-]{2,120}_3[Dd])")
 
 #: Categories and the part each is exported as. Kerbs are pulled out of props
 #: below. Left out by default: `trees` and `bushes` (hundreds of thousands of
-#: leaf cards, and they hide the road), `grasstemplate`, `crowdtemplate` and
-#: `cwdspline` (grass and spectators, which are not geometry anyone drives
-#: against), and `evolving` (festival sites that change with progression).
+#: leaf cards, and they hide the road), and `grasstemplate`, `crowdtemplate` and
+#: `cwdspline` (grass and spectators: animated sprites, no geometry). `evolving`
+#: (sites that change with progression) is read, but only ever as a layer of
+#: its own (see `layer_of`).
 CATEGORIES = {
     "barriers": "structure:barriers",
     "props": "structure:props",
@@ -123,11 +124,61 @@ CATEGORIES = {
     "smashables": "structure:smashables",
     "trees": "structure:trees",
     "bushes": "structure:trees",
+    "evolving": "structure:props",
 }
 DEFAULT_CATEGORIES = (
-    "barriers", "props", "signs", "buildings", "infrastructure", "bridges", "rocks",
+    "barriers", "props", "signs", "buildings", "infrastructure", "bridges", "rocks", "evolving",
 )
 VEGETATION = ("trees", "bushes", "smashables")
+
+#: What a placement file's name says after `c<size>_<category>_` when it is part
+#: of the free-roam world: a level-of-detail set and perhaps a section number.
+#: Everything else names a layer the game switches on - a race's own layer
+#: (`rt_x<route>`), a runtime layer (`rt_<n>`), an activity
+#: (`_tag_drift_zone_04_`), a collectible - and is exported apart, labelled.
+#: The level-of-detail token is a short word (`do`, `so`, `ulc`, `ulp`, `cwd`;
+#: whatever a later game calls it, it has stayed under four letters); `rt`
+#: never is one - it opens a runtime layer.
+_BASE_LAYER = re.compile(r"^(?!rt(?:_|$))[a-z]{0,3}(?:_\d+)?$")
+_LOD_TOKEN = re.compile(r"^(?:do|so|ulc|ulp|cwd)_|_(?:do|so|ulc|ulp|cwd)$")
+#: The race a layer belongs to: `x<route id>`, one or more.
+_ROUTE_TOKEN = re.compile(r"(?:^|_)x(\d+)(?=_|$)")
+
+#: Parts for what is switched on with something: the race being exported's own
+#: layer, and every other layer that is not the free-roam world.
+EVENT_PART = "structure:event_{}"
+LAYER_PART = "structure:layer_{}"
+
+
+def layer_of(name: str) -> str:
+    """
+    A placement file's layer: "" for the free-roam world, else its tag.
+
+    `c200_props_do.pgeo` and `c50_buildings_do_119.pgeo` are the world;
+    `c200_props_do_rt_0_discount_board_xp_a_054.pgeo` is layer
+    `rt_0_discount_board_xp_a`, `c300_crowdtemplate_cwd_rt_x2292.pgeo` layer
+    `rt_x2292`, and anything filed under `evolving` is a layer whatever it says.
+    """
+    leaf = name.replace("/", "\\").rsplit("\\", 1)[-1].lower()
+    leaf = leaf.removesuffix(".pgeo")
+    pieces = leaf.split("_", 2)
+    if len(pieces) < 2:
+        return ""
+    rest = pieces[2] if len(pieces) > 2 else ""
+    if pieces[1] == "evolving":
+        return "evolving_" + (_LOD_TOKEN.sub("", rest).strip("_") or "world")
+    if _BASE_LAYER.match(rest):
+        return ""
+    tag = _LOD_TOKEN.sub("", rest)
+    # A trailing number is the file's section, except the one after `rt`,
+    # which is the layer's own.
+    tag = re.sub(r"(?<!rt)_\d+$", "", tag) if not _ROUTE_TOKEN.search(tag) else tag
+    return tag.strip("_") or rest.strip("_")
+
+
+def routes_of(layer: str) -> set[int]:
+    """The route ids a layer is placed for: `rt_x1023_x2201` -> {1023, 2201}."""
+    return {int(found) for found in _ROUTE_TOKEN.findall(layer)}
 
 #: Kerbs ship as props - `road_gen_rum_…`, rumble strips - but they are part of
 #: the racing surface, and they are the one prop a lap analysis cannot do
@@ -139,6 +190,7 @@ KERB_PART = "ground:kerbs"
 #: Linear RGB for what has no texture, by part.
 FALLBACK_COLOURS = {
     KERB_PART: (0.60, 0.12, 0.10),
+    "ground:venue": (0.33, 0.33, 0.34),
     "structure:barriers": (0.50, 0.50, 0.50),
     "structure:props": (0.45, 0.35, 0.25),
     "structure:signs": (0.70, 0.70, 0.70),
@@ -204,6 +256,44 @@ def auto_budget(costs: dict, pinned=()) -> int:
 #: slabs standing. Where a stand-in covers a building, it is used instead of the
 #: pieces, and is kept or left out whole.
 HLOD = "hlod_tier_1_"
+
+#: Models already in world coordinates, outside the placement files: a venue's
+#: own ground (a stadium's floor and infield, a plaza, the plinth a site
+#: stands on - `scene\models\plots\`, `scene\models\plinths\`), procedurally
+#: built bridges (`scene\models\hda_infrastructure\`) and a few one-off pieces.
+#: Nothing places them; their meshes carry their own world position, as
+#: terrain does. A stadium circuit is driven on its floor, and without it the
+#: export is the open-world ground the game hides under it.
+#:
+#: Told from models in their own space by where their box lies: a model's own
+#: space has it within a couple of hundred metres of its origin (a stadium's
+#: roof hangs far off its own), a world-space one sits wherever it is on the map.
+WORLD_REACH = 300.0
+#: World-space models that are not drawn: occluders, cables strung along the
+#: roads, the sea's backdrop, building roofs and occluders the stand-ins
+#: already draw, collision and water volumes.
+_NOT_DRAWN = re.compile(r"occ|vista|cable|collision|boundary|trigger", re.I)
+_NOT_DRAWN_FOLDERS = {
+    "hda_buildings", "hda_cables", "collision", "building_shells", "water", "vista",
+    "whitebox", "development", "decals", "road_decals", "terrain_decals", "groundcover",
+}
+#: World-space models that are ground: what a venue's racing is driven on.
+_VENUE_FOLDERS = {"plots", "plinths"}
+_GROUNDLIKE = re.compile(r"floor|ground|road", re.I)
+VENUE_PART = "ground:venue"
+#: Track folder -> its world-space models, read once a process.
+_WORLD_CACHE: dict[str, list] = {}
+
+
+def world_part(folder: str, stem: str) -> str | None:
+    """The part a world-space model is exported as, or None if it is not drawn."""
+    if folder in _NOT_DRAWN_FOLDERS or _NOT_DRAWN.search(stem):
+        return None
+    if folder in _VENUE_FOLDERS or _GROUNDLIKE.search(stem):
+        return VENUE_PART
+    if "bridge" in stem:
+        return CATEGORIES["bridges"]
+    return CATEGORIES.get(folder, CATEGORIES["infrastructure"])
 
 #: Copies further than this from the driving start one level coarser, and
 #: further than `FAR` at their coarsest. What stands beside the road is what a
@@ -314,6 +404,8 @@ class Track:
         self.folder = Path(folder)
         self.archives = {}
         self.placements: list[tuple[int, int, tuple[int, int, int, str]]] = []
+        #: (chunk, entry) -> the placement file's layer, "" for the free-roam world.
+        self.layers: dict[tuple[int, int], str] = {}
         self.clusters: dict[str, list[tuple[int, int, str]]] = defaultdict(list)
         for number in chunks:
             if not (self.folder / f"GeoChunk{number}.minizip").exists():
@@ -326,10 +418,65 @@ class Track:
                     cell = cell_of(lower)
                     if cell:
                         self.placements.append((number, entry, cell))
+                        layer = layer_of(lower)
+                        if layer:
+                            self.layers[(number, entry)] = layer
                 elif lower.endswith(".modelbin") and "_cluster" in lower:
                     stem = lower.rsplit("\\", 1)[-1].split("_cluster")[0]
                     self.clusters[stem].append((number, entry, name))
         self._stand_ins: list | None = None
+        self._world: list | None = None
+
+    def layer(self, number: int, entry: int) -> str:
+        return self.layers.get((number, entry), "")
+
+    def world_models(self) -> list[tuple[str, str, np.ndarray, np.ndarray]]:
+        """
+        Every drawn model already in world coordinates, as (stem, part, low,
+        high): a venue's ground, procedural bridges (see `WORLD_REACH`). Header
+        reads only, a few seconds for a whole map.
+        """
+        key = str(self.folder.resolve()) if isinstance(self.folder, Path) else str(self.folder)
+        if self._world is None and key in _WORLD_CACHE:
+            self._world = _WORLD_CACHE[key]
+        if self._world is None:
+            found = []
+            for stem, clusters in self.clusters.items():
+                if stem.startswith((HLOD, "autoterrain", "autouberlod")):
+                    continue
+                number, entry, name = min(clusters, key=lambda c: c[2])
+                path = name.lower().replace("/", "\\")
+                if "\\scene\\models\\" not in path:
+                    continue
+                folder = path.split("\\scene\\models\\", 1)[1].split("\\", 1)[0]
+                part = world_part(folder, stem)
+                if part is None:
+                    continue
+                try:
+                    model = read_model(name, self.read(number, entry))
+                    meshes = _chunks_by_tag(model).get("Mesh") or []
+                    boxes = [position_box(model.raw(mesh)) for mesh in meshes]
+                except (UnsupportedForza, struct.error, ValueError, AttributeError, TypeError):
+                    continue
+                if not boxes:
+                    continue
+                low = np.min([bias - np.abs(scale) for scale, bias in boxes], axis=0)
+                high = np.max([bias + np.abs(scale) for scale, bias in boxes], axis=0)
+                middle = (low + high) / 2
+                if np.hypot(middle[0], middle[2]) > WORLD_REACH and np.isfinite(low).all():
+                    found.append((stem, part, low, high))
+            self._world = _WORLD_CACHE[key] = found
+        return self._world
+
+    def venues(self, low, high, corridor=None) -> list[tuple[str, np.ndarray, np.ndarray]]:
+        """A venue's own ground the driving passes over, as (stem, low, high)."""
+        return [
+            (stem, lo, hi)
+            for stem, part, lo, hi in self.world_models()
+            if part == VENUE_PART
+            and hi[0] >= low[0] and lo[0] <= high[0] and hi[2] >= low[1] and lo[2] <= high[1]
+            and (corridor is None or corridor.touches((lo[0], lo[2]), (hi[0], hi[2])))
+        ]
 
     def stand_ins(self) -> list[tuple[str, np.ndarray, np.ndarray]]:
         """
@@ -807,6 +954,19 @@ class Placed:
     #: Models that are nothing but see-through surfaces - chain-link fences,
     #: nets - and so were left out.
     see_through: set[str] = field(default_factory=set)
+    #: The game's route this was placed for, if the driving matched one.
+    route_id: int | None = None
+    #: Layer -> copies: the race's own layers, and every other switched-on layer.
+    event: dict[str, int] = field(default_factory=dict)
+    layers: dict[str, int] = field(default_factory=dict)
+    #: World-space ground of a venue the driving passes through, and how many
+    #: other world-space models (bridges) were drawn.
+    venue: list[str] = field(default_factory=list)
+    world: int = 0
+    #: Free-roam copies left out because the race hides them, and a venue's
+    #: ground it hides but that is kept, its replacement not being shipped.
+    hidden: int = 0
+    kept_ground: list[str] = field(default_factory=list)
 
     def triangles(self) -> int:
         return sum(len(m.faces) for m in self.parts.values())
@@ -819,6 +979,33 @@ class Placed:
             triangles = sum(len(m.faces) for name, m in self.parts.items() if name.split(" ")[0] == part)
             lines.append(
                 f"    {copies:7,} placed  {len(models):4} models  {triangles:10,} triangles  {part}"
+            )
+        if self.venue:
+            lines.append(
+                f"    venue: the driving passes through {len(self.venue)} pieces of a site's own ground "
+                f"({', '.join(sorted(self.venue)[:3])}{'...' if len(self.venue) > 3 else ''})"
+            )
+        if self.world:
+            lines.append(f"    {self.world} models drawn where the game builds them in place (bridges and the like)")
+        race = f"route {self.route_id}" if self.route_id is not None else "no matched route"
+        if self.event:
+            lines.append(
+                f"    event layer ({race}): {sum(self.event.values()):,} copies in "
+                + ", ".join(sorted(self.event))
+            )
+        else:
+            lines.append(f"    event layer ({race}): nothing placed for this race alone")
+        if self.hidden:
+            lines.append(f"    {self.hidden:,} free-roam objects left out: the race takes them away")
+        if self.kept_ground:
+            lines.append(
+                f"    kept {', '.join(self.kept_ground)}: the race hides it for a surface of its own "
+                "that the track does not ship"
+            )
+        if self.layers:
+            lines.append(
+                f"    switched-on layers: {sum(self.layers.values()):,} copies in {len(self.layers)} "
+                f"({', '.join(sorted(self.layers)[:4])}{'...' if len(self.layers) > 4 else ''})"
             )
         coarser = sum(1 for level, _n in self.levels.values() if level)
         if coarser:
@@ -848,6 +1035,38 @@ class Placed:
         return "\n".join(lines)
 
 
+class _Hidden:
+    """
+    Where the free-roam objects a race hides stand, for finding them among the
+    placements: a copy within `REACH` of one is the one hidden. Hashed on a grid
+    of that size, so a city race's six thousand hidden objects cost nothing.
+    """
+
+    REACH = 0.1
+
+    def __init__(self, positions: np.ndarray):
+        self.positions = np.asarray(positions, dtype=np.float64).reshape(-1, 3)
+        self.keys = np.unique(self._key(np.floor(self.positions / self.REACH).astype(np.int64)))
+
+    @staticmethod
+    def _key(cells: np.ndarray) -> np.ndarray:
+        # 21 bits a coordinate: a tenth of a metre over two hundred kilometres.
+        shifted = cells + (1 << 20)
+        return (shifted[:, 0] << 42) | (shifted[:, 1] << 21) | shifted[:, 2]
+
+    def __len__(self) -> int:
+        return len(self.positions)
+
+    def near(self, points: np.ndarray) -> np.ndarray:
+        cells = np.floor(np.asarray(points, dtype=np.float64) / self.REACH).astype(np.int64)
+        out = np.zeros(len(cells), dtype=bool)
+        for dx in (-1, 0, 1):
+            for dy in (-1, 0, 1):
+                for dz in (-1, 0, 1):
+                    out |= np.isin(self._key(cells + np.array([dx, dy, dz])), self.keys)
+        return out
+
+
 def _unique(instances: np.ndarray) -> np.ndarray:
     """
     Drop exact repeats of one placement.
@@ -872,6 +1091,8 @@ def place_in_box(
     texture_size: int = MODEL_TEXTURE,
     route: np.ndarray | None = None,
     corridor=None,
+    route_id: int | None = None,
+    route_assets=None,
 ) -> Placed:
     """
     Every placed model standing inside a box, grouped into export parts.
@@ -879,7 +1100,11 @@ def place_in_box(
     `route` is where the car drove, world positions (x, y, z) or (x, z). Detail
     goes to what stands near it; without one, to what stands near the middle
     of the box. With a `corridor`, nothing outside it is placed - the terrain
-    under it has been cut away.
+    under it has been cut away. `route_id`, the game's route the driving was
+    matched to, decides which races' own layers are placed: that race's, and no
+    other's. `route_assets` (`forzaroute.RouteAssets`) is that race's own layer
+    from the game's route definitions: placed as the event parts, and what it
+    hides of the free-roam world taken away.
     """
     from .forzatexture import TextureShelf
 
@@ -888,7 +1113,20 @@ def place_in_box(
     try:
         library = Textures(shelf, texture_size) if shelf else None
         models = ModelShelf(track, manifest, library, season)
-        return _place(track, low, high, categories, budget, models, _plane(route, low, high), corridor)
+        hidden_world = set()
+        if route_assets is not None and len(route_assets.hidden):
+            # A hidden copy standing at the origin is a model in world
+            # coordinates (a stadium's lawn), known by its instance id only.
+            from .forzaroute import instance_models
+
+            at_origin = np.abs(route_assets.hidden).max(axis=1) < 0.01
+            ids = [i for i, o in zip(route_assets.hidden_ids, at_origin) if o]
+            hidden_world = set(instance_models(track.folder, ids).values())
+        return _place(
+            track, low, high, categories, budget, models, _plane(route, low, high), corridor,
+            route_id if route_id is not None else getattr(route_assets, "id", None),
+            route_assets, hidden_world,
+        )
     finally:
         if shelf is not None:
             shelf.close()
@@ -939,8 +1177,12 @@ def _covered(points: np.ndarray, boxes: np.ndarray) -> np.ndarray:
     return out
 
 
-def _place(track, low, high, categories, budget, models: ModelShelf, route: np.ndarray, corridor=None) -> Placed:
-    out = Placed()
+def _place(
+    track, low, high, categories, budget, models: ModelShelf, route: np.ndarray, corridor=None, route_id=None,
+    route_assets=None, hidden_world=frozenset(),
+) -> Placed:
+    out = Placed(route_id=route_id)
+    hidden = _Hidden(route_assets.hidden if route_assets is not None else np.zeros((0, 3)))
     stand_ins = []
     if "buildings" in categories and hasattr(track, "stand_ins"):
         stand_ins = [
@@ -955,7 +1197,13 @@ def _place(track, low, high, categories, budget, models: ModelShelf, route: np.n
 
     found: dict[str, list[np.ndarray]] = defaultdict(list)
     part_of: dict[str, str] = {}
+    layer_of_file = getattr(track, "layer", lambda number, entry: "")
     for number, entry, category in track.placement_files(low, high, categories):
+        layer = layer_of_file(number, entry)
+        races = routes_of(layer)
+        if races and route_id not in races:
+            # Another race's own layer: not there when this one is driven.
+            continue
         try:
             placements = parse_pgeo(track.read(number, entry))
         except (UnsupportedForza, struct.error):
@@ -965,21 +1213,75 @@ def _place(track, low, high, categories, budget, models: ModelShelf, route: np.n
             inside = (x >= low[0]) & (x <= high[0]) & (z >= low[1]) & (z <= high[1])
             if corridor is not None and inside.any():
                 inside &= corridor.contains(instances[:, [0, 2]])
-            if category == "buildings" and len(boxes):
+            if len(hidden):
+                gone = inside & hidden.near(instances[:, 0:3])
+                out.hidden += int(gone.sum())
+                inside &= ~gone
+            if category == "buildings" and not layer and len(boxes):
                 covered = inside & _covered(instances[:, [0, 2]], boxes)
                 out.replaced += int(covered.sum())
                 inside &= ~covered
             if not inside.any():
                 continue
-            key = models.stem(name)
+            stem = models.stem(name)
+            if KERB.match(stem):
+                part = KERB_PART
+            elif races:
+                part = EVENT_PART.format(category)
+            elif layer:
+                part = LAYER_PART.format(category)
+            else:
+                part = CATEGORIES[category]
+            # One model can stand in the world and in a layer; each is its own
+            # entry, so the layer can be told apart and switched off.
+            key = stem if part == CATEGORIES.get(category) or part == KERB_PART else f"{stem}@{part}"
             found[key].append(instances[inside])
-            part_of[key] = KERB_PART if KERB.match(key) else CATEGORIES[category]
+            part_of[key] = part
+            if layer:
+                tally = out.event if races else out.layers
+                tally[layer] = tally.get(layer, 0) + int(inside.sum())
+
+    # Models already in world coordinates: a venue's ground, procedural bridges.
+    world = []
+    if hasattr(track, "world_models"):
+        world = [
+            (stem, part, lo, hi)
+            for stem, part, lo, hi in track.world_models()
+            if hi[0] >= low[0] and lo[0] <= high[0] and hi[2] >= low[1] and lo[2] <= high[1]
+            and (corridor is None or corridor.touches((lo[0], lo[2]), (hi[0], hi[2])))
+        ]
+        # A race that hides a venue's ground lays its own surface there, and
+        # that surface is not among the models the track ships (measured on a
+        # stadium circuit: its laps ride on the hidden lawn's height). The
+        # ground stays, as the nearest thing to what is driven on; anything
+        # else the race hides goes.
+        out.kept_ground = sorted(w[0] for w in world if w[0] in hidden_world and w[1] == VENUE_PART)
+        out.hidden += sum(1 for w in world if w[0] in hidden_world and w[1] != VENUE_PART)
+        world = [w for w in world if w[0] not in hidden_world or w[1] == VENUE_PART]
+
+    # The race's own layer: everything the game adds to the world for it.
+    if route_assets is not None:
+        for stem, instances in route_assets.models.items():
+            x, z = instances[:, 0], instances[:, 2]
+            inside = (x >= low[0]) & (x <= high[0]) & (z >= low[1]) & (z <= high[1])
+            if corridor is not None and inside.any():
+                inside &= corridor.contains(instances[:, [0, 2]])
+            if not inside.any():
+                continue
+            kind = route_assets.kinds.get(stem, "props")
+            category = kind if kind in CATEGORIES else "props"
+            part = KERB_PART if KERB.match(stem) else EVENT_PART.format(category)
+            key = f"{stem}@{part}"
+            found[key].append(instances[inside])
+            part_of[key] = part
+            out.event[kind] = out.event.get(kind, 0) + int(inside.sum())
 
     loaded: dict[str, tuple[Model, np.ndarray]] = {}
     for key, chunks in found.items():
-        model = models.load(key)
+        stem = key.split("@")[0]
+        model = models.load(stem)
         if model is None:
-            (out.see_through if key in models.see_through else out.missing).add(key)
+            (out.see_through if stem in models.see_through else out.missing).add(stem)
             continue
         loaded[key] = (model, _unique(np.concatenate(chunks)))
 
@@ -1005,9 +1307,24 @@ def _place(track, low, high, categories, budget, models: ModelShelf, route: np.n
         distance = np.maximum(route_distance(centre, route) - reach, 0.0)
         entries[(stem, 0)] = (model, identity, distance)
         part_of[stem] = CATEGORIES["buildings"]
+    for stem, part, lo, hi in world:
+        model = models.load(stem)
+        if model is None:
+            continue
+        centre = np.array([[(lo[0] + hi[0]) / 2, (lo[2] + hi[2]) / 2]])
+        reach = np.hypot(hi[0] - lo[0], hi[2] - lo[2]) / 2
+        distance = np.maximum(route_distance(centre, route) - reach, 0.0)
+        entries[(stem, 0)] = (model, identity, distance)
+        part_of[stem] = part
+        if part == VENUE_PART:
+            out.venue.append(stem)
+        else:
+            out.world += 1
 
     costs = {name: (len(inst), [lv.triangles for lv in m.levels]) for name, (m, inst, _d) in entries.items()}
-    pinned = {name for name in entries if part_of[name[0]] == KERB_PART}
+    # Kerbs and a venue's ground are what a lap is driven on and measured
+    # against: never coarser, never left out.
+    pinned = {name for name in entries if part_of[name[0]] in (KERB_PART, VENUE_PART)}
     start = {name: (0, 1, 99)[name[1]] for name in entries}
     if budget is None:
         budget = auto_budget(costs, pinned)
@@ -1121,8 +1438,19 @@ def _merge_blocks(pieces) -> Mesh:
         uvs=np.concatenate(uvs) if textured else None,
         faces=np.concatenate(faces),
         texture=pieces[0][4],
-        colour=FALLBACK_COLOURS.get(part, (0.5, 0.5, 0.5)),
+        colour=fallback_colour(part),
     )
+
+
+def fallback_colour(part: str) -> tuple[float, float, float]:
+    """A part's flat colour; a layer's parts take their category's."""
+    if part in FALLBACK_COLOURS:
+        return FALLBACK_COLOURS[part]
+    for template in (EVENT_PART, LAYER_PART):
+        prefix = template.format("")
+        if part.startswith(prefix):
+            return FALLBACK_COLOURS.get(CATEGORIES.get(part[len(prefix):], ""), (0.5, 0.5, 0.5))
+    return (0.5, 0.5, 0.5)
 
 
 def place_in_track(folder: str | Path, low, high, **options) -> Placed:
