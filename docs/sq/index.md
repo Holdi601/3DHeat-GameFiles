@@ -62,7 +62,7 @@ Paketa Python: `heat3d_gamefiles`. Depoja:
 | Forza (makina) | `cars`: çdo makinë me detaje të ulëta, për skedën Analiza e garës të shikuesit | - |
 
 Xhirot nga Assetto Corsa EVO dhe iRacing refuzohen me një arsye. Shih
-[Kufizimet dhe boshllëqet e njohura](../limits-and-known-gaps.md).
+[Kufizimet dhe boshllëqet e njohura](limits-and-known-gaps.md).
 
 ## Instalimi {#install}
 
@@ -91,7 +91,7 @@ dosja e depos, si `python -m heat3d_gamefiles <verb>`.
 | pytest | testet |
 
 Përmbajtja Unreal e ngjeshur me **Oodle** kërkon një bibliotekë Oodle që është tashmë
-në kompjuterin tënd. Një të tillë ky mjet nuk e dërgon kurrë. Shih [Oodle](../reader-oodle.md).
+në kompjuterin tënd. Një të tillë ky mjet nuk e dërgon kurrë. Shih [Oodle](reader-oodle.md).
 
 Mjeti është shkruar për Windows. I gjen lojërat përmes listës së bibliotekave të Steam dhe
 `%LOCALAPPDATA%`, dhe e ngarkon Oodle si DLL të Windows. Platformat e tjera nuk janë
@@ -102,7 +102,7 @@ provuar.
 Një **skedar xhiroje** (lap file) është një regjistrim i ku shkoi makina jote: një listë pikash x, y, z.
 Vjen nga [3DHeat GameCapture](https://github.com/Holdi601/3DHeat-GameCapture)
 ose nga biblioteka e xhirove e aplikacionit FH Companion; funksionon edhe një CSV e shkruar me dorë
-([Hyrjet e xhiros](../lap-inputs.md)).
+([Hyrjet e xhiros](lap-inputs.md)).
 
 ```
 # Forza: a lap file, a lap folder, or a course name from the FH Companion library
@@ -133,34 +133,34 @@ python -m heat3d_gamefiles identify some_archive.pak
 ```
 
 Hape `.glb` në shikuesin 3DHeat. Koordinatat e vetë botës së lojës ruhen
-(shih [Formati i daljes](../output-format.md)), kështu që një xhiro e regjistruar përputhet me pistën.
+(shih [Formati i daljes](output-format.md)), kështu që një xhiro e regjistruar përputhet me pistën.
 
 ## Harta e këtij dokumentacioni {#map-of-this-documentation}
 
 - [Para se të fillosh](before-you-start.md): Python, një terminal, komanda e parë.
-- [Komandat](../commands.md): çdo folje dhe opsion, me shembuj.
+- [Komandat](commands.md): çdo folje dhe opsion, me shembuj.
 - [Referenca e komandave](../cli-reference.md): `--help` i çdo foljeje, e gjeneruar nga kodi.
-- [Inspektimi i arkivave](../inspecting-archives.md): `identify`, `list`, `extract`, `meshes`, hap pas hapi.
-- [Eksporti i pistës](../course-export.md): si një xhiro bëhet pistë, për të gjitha lojërat.
-  - [Forza Horizon](../course-forza-horizon.md)
-  - [BeamNG.drive](../course-beamng.md)
-  - [Assetto Corsa Rally](../course-assetto-corsa-rally.md)
-  - [Nivelet e detajeve dhe buxheti](../detail-budget.md)
-- [Nivele të plota](../whole-levels.md): një nivel, hartë ose botë pa xhiro.
-  - [Nivelet e Battlefield 6](../level-battlefield.md): `levels`, `level`
-  - [Hartat Unreal 5](../level-unreal-world-partition.md): `ue-maps`, `ue-map`
-  - [Botët e Arma Reforger](../level-arma-reforger.md): `enfusion-worlds`, `enfusion-world`
-- [Makinat e Forza](../forza-cars.md): `cars`, skedari i makinave për skedën Analiza e garës të shikuesit.
-- [Hyrjet e xhiros](../lap-inputs.md): çdo formë skedari xhiroje që pranon mjeti.
-- [Formati i daljes](../output-format.md): çfarë ka brenda `.glb`.
-- [Lexuesit e arkivave](../archive-readers.md): një faqe për çdo format kontejneri, që mbulon
+- [Inspektimi i arkivave](inspecting-archives.md): `identify`, `list`, `extract`, `meshes`, hap pas hapi.
+- [Eksporti i pistës](course-export.md): si një xhiro bëhet pistë, për të gjitha lojërat.
+  - [Forza Horizon](course-forza-horizon.md)
+  - [BeamNG.drive](course-beamng.md)
+  - [Assetto Corsa Rally](course-assetto-corsa-rally.md)
+  - [Nivelet e detajeve dhe buxheti](detail-budget.md)
+- [Nivele të plota](whole-levels.md): një nivel, hartë ose botë pa xhiro.
+  - [Nivelet e Battlefield 6](level-battlefield.md): `levels`, `level`
+  - [Hartat Unreal 5](level-unreal-world-partition.md): `ue-maps`, `ue-map`
+  - [Botët e Arma Reforger](level-arma-reforger.md): `enfusion-worlds`, `enfusion-world`
+- [Makinat e Forza](forza-cars.md): `cars`, skedari i makinave për skedën Analiza e garës të shikuesit.
+- [Hyrjet e xhiros](lap-inputs.md): çdo formë skedari xhiroje që pranon mjeti.
+- [Formati i daljes](output-format.md): çfarë ka brenda `.glb`.
+- [Lexuesit e arkivave](archive-readers.md): një faqe për çdo format kontejneri, që mbulon
   çfarë lexon secili, çfarë jo, dhe pse.
-- [Kufizimet dhe boshllëqet e njohura](../limits-and-known-gaps.md)
-- [Zgjidhja e problemeve](../troubleshooting.md): mesazhet e gabimit dhe çfarë të bëhet.
-- [Rregullat dhe licencat](../rules-and-licences.md): pa çelësa, skedarët e tu, pa ripërhapje.
-- [Përditësimet](../updates.md): kontrolli i përditësimeve dhe `heat3d_update`.
-- [Zhvillimi](../development.md): harta e moduleve dhe testet, përfshirë testet që ekzekutohen mbi lojëra të instaluara.
-- [Mirëmbajtja](../maintaining.md): lista e kontrollit të botimit për këto faqe.
+- [Kufizimet dhe boshllëqet e njohura](limits-and-known-gaps.md)
+- [Zgjidhja e problemeve](troubleshooting.md): mesazhet e gabimit dhe çfarë të bëhet.
+- [Rregullat dhe licencat](rules-and-licences.md): pa çelësa, skedarët e tu, pa ripërhapje.
+- [Përditësimet](updates.md): kontrolli i përditësimeve dhe `heat3d_update`.
+- [Zhvillimi](development.md): harta e moduleve dhe testet, përfshirë testet që ekzekutohen mbi lojëra të instaluara.
+- [Mirëmbajtja](maintaining.md): lista e kontrollit të botimit për këto faqe.
 
 ## Pjesë e 3DHeat {#part-of-3dheat}
 

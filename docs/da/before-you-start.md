@@ -70,4 +70,4 @@ Du bør se `usage: heat3d_gamefiles [-h]` og en liste over verber (`identify`,
 | `No module named numpy` (eller et andet navn) | Trin 4 blev sprunget over. Kør `pip install -r requirements.txt`. |
 | `can't open file` / `not found` med en sti | Stien har mellemrum uden anførselstegn, eller en tastefejl. Sæt den i dobbelte anførselstegn. |
 
-Flere meddelelser og deres rettelser: [Fejlfinding](../troubleshooting.md).
+Flere meddelelser og deres rettelser: [Fejlfinding](troubleshooting.md).

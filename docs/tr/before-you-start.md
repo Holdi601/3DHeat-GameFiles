@@ -62,4 +62,4 @@ python -m heat3d_gamefiles --help
 | `No module named numpy` (ya da başka bir ad) | 4. adım atlanmış. `pip install -r requirements.txt` çalıştırın. |
 | bir yolla birlikte `can't open file` / `not found` | Yolda boşluk var ve tırnak yok, ya da yazım hatası. Yolu çift tırnak içine alın. |
 
-Daha fazla ileti ve çözümleri: [Sorun giderme](../troubleshooting.md).
+Daha fazla ileti ve çözümleri: [Sorun giderme](troubleshooting.md).

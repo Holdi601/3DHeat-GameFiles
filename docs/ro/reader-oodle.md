@@ -9,7 +9,7 @@ search_exclude: true
 ---
 # Oodle: găsit, nu livrat {#oodle-found-not-bundled}
 
-Majoritatea conținutului Unreal livrat, și unele încărcături Frostbite, sunt comprimate cu **Oodle** (RAD Game Tools, acum Epic). Oodle este proprietar. Nu există o versiune redistribuibilă și nicio implementare în Python, iar `oo2core_*.dll` este licențiat produsului care îl livrează. Așadar acest instrument **găsește o copie deja aflată pe calculatorul tău și o încarcă**. Nu o transportă niciodată. FModel și UModel funcționează în același mod.
+Majoritatea conținutului Unreal livrat, și unele încărcături Frostbite, sunt comprimate cu **Oodle** (RAD Game Tools, acum Epic). Oodle este proprietar. Nu există o versiune redistribuibilă și nicio implementare în Python, iar `oo2core_*.dll` este licențiat produsului care îl livrează. Așadar acest instrument **găsește o copie deja aflată pe calculatorul dumneavoastră și o încarcă**. Nu o transportă niciodată. FModel și UModel funcționează în același mod.
 
 Sursa: [`oodle.py`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/heat3d_gamefiles/oodle.py).
 

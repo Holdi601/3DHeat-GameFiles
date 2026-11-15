@@ -9,7 +9,7 @@ search_exclude: true
 ---
 # Actualizări {#updates}
 
-3DHeat GameFiles verifică la pornire lansările de pe GitHub ale acestui depozit, spune când a apărut o versiune nouă și oferă să se actualizeze. Fișierele tale (ture, exporturi) nu sunt atinse niciodată.
+3DHeat GameFiles verifică la pornire lansările de pe GitHub ale acestui depozit, spune când a apărut o versiune nouă și oferă să se actualizeze. Fișierele dumneavoastră (ture, exporturi) nu sunt atinse niciodată.
 
 Sursa: [`heat3d_update/__init__.py`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/heat3d_update/__init__.py),
 [`heat3d_update/__main__.py`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/heat3d_update/__main__.py).
@@ -47,7 +47,7 @@ Aceasta întreabă mereu GitHub (fără cache). Afișează `Up to date: 1.0.1.`,
 | un **clon git** (un folder `.git` și `git` în PATH) | `git pull --ff-only`. **Refuzată** cât timp fișierele urmărite au modificări locale: „this checkout has local changes; commit or stash them, then run `git pull`”. Fișierele neurmărite nu o blochează |
 | o **copie descărcată** | arhiva sursă a lansării (`zipball_url`) este descărcată și dezarhivată într-un folder temporar, ignorând orice cale care ar ieși din el; `VERSION` ei trebuie să fie egal cu versiunea lansării, altfel nu se copiază nimic; apoi fișierele ei sunt copiate peste acest folder |
 
-Când copiază dintr-o arhivă, fișierele care nu fac parte din lansare (ture, exporturi, medii virtuale, orice ai făcut tu) sunt lăsate în pace. Actualizatorul încearcă și să șteargă modulele `.py` pe care o lansare le-a scos din pachetele sale, ca un modul vechi să nu umbrească înlocuitorul. Caută pachete `heat3d_*` la rădăcina arhivei și cu un folder mai jos, și șterge fișierele `.py` pe care lansarea nu le mai are.
+Când copiază dintr-o arhivă, fișierele care nu fac parte din lansare (ture, exporturi, medii virtuale, orice ați făcut dumneavoastră) sunt lăsate în pace. Actualizatorul încearcă și să șteargă modulele `.py` pe care o lansare le-a scos din pachetele sale, ca un modul vechi să nu umbrească înlocuitorul. Caută pachete `heat3d_*` la rădăcina arhivei și cu un folder mai jos, și șterge fișierele `.py` pe care lansarea nu le mai are.
 
 ## Dezactivarea {#switching-it-off}
 

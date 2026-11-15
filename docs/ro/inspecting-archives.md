@@ -59,6 +59,6 @@ Un joc își împachetează fișierele în cutii mari numite **arhive**. Aceste 
 | | `--key HEX` | ca la `list` |
 | `meshes` | `<file>`, `--limit N` | un `SerializedFile` Unity; cel mult N mesh-uri |
 
-Instrumentul nu livrează chei și nu recuperează niciuna: o arhivă criptată se deschide doar cu o cheie pe care o dai tu. Un fișier pe care nu îl poate citi este refuzat, pe o linie, cu codul de ieșire 1.
+Instrumentul nu livrează chei și nu recuperează niciuna: o arhivă criptată se deschide doar cu o cheie pe care o dați dumneavoastră. Un fișier pe care nu îl poate citi este refuzat, pe o linie, cu codul de ieșire 1.
 
 Fiecare comandă și cod de ieșire se află în [Comenzi](commands.md). Modul în care este citit fiecare format este la [Cititoare de arhive](archive-readers.md).

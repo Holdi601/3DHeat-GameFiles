@@ -70,4 +70,4 @@ Duhet të shohësh `usage: heat3d_gamefiles [-h]` dhe një listë foljesh (`iden
 | `No module named numpy` (ose emër tjetër) | Hapi 4 u anashkalua. Ekzekuto `pip install -r requirements.txt`. |
 | `can't open file` / `not found` me një shteg | Shtegu ka hapësira pa thonjëza, ose një gabim shkrimi. Vendose në thonjëza të dyfishta. |
 
-Më shumë mesazhe dhe zgjidhjet e tyre: [Zgjidhja e problemeve](../troubleshooting.md).
+Më shumë mesazhe dhe zgjidhjet e tyre: [Zgjidhja e problemeve](troubleshooting.md).

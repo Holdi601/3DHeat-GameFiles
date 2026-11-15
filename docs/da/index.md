@@ -62,7 +62,7 @@ Python-pakke: `heat3d_gamefiles`. Repository:
 | Forza (biler) | `cars`: hver bil i lav detaljegrad, til viewerens Løbsanalyse-fanen | - |
 
 Omgange fra Assetto Corsa EVO og iRacing afvises med en grund. Se
-[Begrænsninger og kendte huller](../limits-and-known-gaps.md).
+[Begrænsninger og kendte huller](limits-and-known-gaps.md).
 
 ## Installation {#install}
 
@@ -91,7 +91,7 @@ repository-mappen, som `python -m heat3d_gamefiles <verb>`.
 | pytest | testene |
 
 Unreal-indhold komprimeret med **Oodle** kræver et Oodle-bibliotek, der allerede er på
-din maskine. Et sådant leveres aldrig med dette værktøj. Se [Oodle](../reader-oodle.md).
+din maskine. Et sådant leveres aldrig med dette værktøj. Se [Oodle](reader-oodle.md).
 
 Værktøjet er skrevet til Windows. Det finder spil via Steams biblioteksliste og
 `%LOCALAPPDATA%`, og indlæser Oodle som en Windows-DLL. Andre platforme er ikke
@@ -102,7 +102,7 @@ testet.
 En **lap-fil** er en optagelse af, hvor din bil kørte: en liste af x-, y- og z-punkter.
 Den kommer fra [3DHeat GameCapture](https://github.com/Holdi601/3DHeat-GameCapture)
 eller FH Companion-appens omgangsbibliotek; en CSV, du skriver selv, virker også
-([Lap-input](../lap-inputs.md)).
+([Lap-input](lap-inputs.md)).
 
 ```
 # Forza: a lap file, a lap folder, or a course name from the FH Companion library
@@ -133,34 +133,34 @@ python -m heat3d_gamefiles identify some_archive.pak
 ```
 
 Åbn `.glb`-filen i 3DHeat-vieweren. Spillets egne verdenskoordinater bevares
-(se [Outputformat](../output-format.md)), så en optaget omgang flugter med banen.
+(se [Outputformat](output-format.md)), så en optaget omgang flugter med banen.
 
 ## Dokumentationens kort {#map-of-this-documentation}
 
 - [Før du går i gang](before-you-start.md): Python, en terminal, den første kommando.
-- [Kommandoer](../commands.md): hvert verbum og hver valgmulighed, med eksempler.
+- [Kommandoer](commands.md): hvert verbum og hver valgmulighed, med eksempler.
 - [Kommandoreference](../cli-reference.md): hvert verbums `--help`, genereret ud fra koden.
-- [Undersøg arkiver](../inspecting-archives.md): `identify`, `list`, `extract`, `meshes`, trin for trin.
-- [Banegenerering](../course-export.md): hvordan en omgang bliver til en bane, for alle spil.
-  - [Forza Horizon](../course-forza-horizon.md)
-  - [BeamNG.drive](../course-beamng.md)
-  - [Assetto Corsa Rally](../course-assetto-corsa-rally.md)
-  - [Detaljeniveauer og budgettet](../detail-budget.md)
-- [Hele baner](../whole-levels.md): en bane, et kort eller en verden uden en omgang.
-  - [Battlefield 6-baner](../level-battlefield.md): `levels`, `level`
-  - [Unreal 5-kort](../level-unreal-world-partition.md): `ue-maps`, `ue-map`
-  - [Arma Reforger-verdener](../level-arma-reforger.md): `enfusion-worlds`, `enfusion-world`
-- [Forza-biler](../forza-cars.md): `cars`, bilfilen til viewerens Løbsanalyse-fanen.
-- [Lap-input](../lap-inputs.md): hver lap-filform, værktøjet accepterer.
-- [Outputformat](../output-format.md): hvad der er inde i `.glb`.
-- [Arkivlæsere](../archive-readers.md): én side pr. containerformat, der dækker
+- [Undersøg arkiver](inspecting-archives.md): `identify`, `list`, `extract`, `meshes`, trin for trin.
+- [Banegenerering](course-export.md): hvordan en omgang bliver til en bane, for alle spil.
+  - [Forza Horizon](course-forza-horizon.md)
+  - [BeamNG.drive](course-beamng.md)
+  - [Assetto Corsa Rally](course-assetto-corsa-rally.md)
+  - [Detaljeniveauer og budgettet](detail-budget.md)
+- [Hele baner](whole-levels.md): en bane, et kort eller en verden uden en omgang.
+  - [Battlefield 6-baner](level-battlefield.md): `levels`, `level`
+  - [Unreal 5-kort](level-unreal-world-partition.md): `ue-maps`, `ue-map`
+  - [Arma Reforger-verdener](level-arma-reforger.md): `enfusion-worlds`, `enfusion-world`
+- [Forza-biler](forza-cars.md): `cars`, bilfilen til viewerens Løbsanalyse-fanen.
+- [Lap-input](lap-inputs.md): hver lap-filform, værktøjet accepterer.
+- [Outputformat](output-format.md): hvad der er inde i `.glb`.
+- [Arkivlæsere](archive-readers.md): én side pr. containerformat, der dækker
   hvad hver læser, hvad den ikke læser, og hvorfor.
-- [Begrænsninger og kendte huller](../limits-and-known-gaps.md)
-- [Fejlfinding](../troubleshooting.md): fejlmeddelelserne, og hvad du gør.
-- [Regler og licenser](../rules-and-licences.md): ingen nøgler, dine egne filer, ingen videredistribution.
-- [Opdateringer](../updates.md): opdateringstjekket og `heat3d_update`.
-- [Udvikling](../development.md): modulkort og tests, inklusive testene, der kører mod installerede spil.
-- [Vedligeholdelse](../maintaining.md): udgivelsestjeklisten for disse sider.
+- [Begrænsninger og kendte huller](limits-and-known-gaps.md)
+- [Fejlfinding](troubleshooting.md): fejlmeddelelserne, og hvad du gør.
+- [Regler og licenser](rules-and-licences.md): ingen nøgler, dine egne filer, ingen videredistribution.
+- [Opdateringer](updates.md): opdateringstjekket og `heat3d_update`.
+- [Udvikling](development.md): modulkort og tests, inklusive testene, der kører mod installerede spil.
+- [Vedligeholdelse](maintaining.md): udgivelsestjeklisten for disse sider.
 
 ## Del af 3DHeat {#part-of-3dheat}
 

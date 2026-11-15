@@ -51,7 +51,7 @@ Python paketi: `heat3d_gamefiles`. Depo: [Holdi601/3DHeat-GameFiles](https://git
 | Arma Reforger (Enfusion) | pist yok; `enfusion-world` ile bütün bir dünya (`enfusion-worlds` ile listelenir): kendi renkleriyle arazi, deniz, kutu olarak binalar | - |
 | Forza (arabalar) | `cars`: her araba düşük ayrıntıda, görüntüleyicinin Yarış analizi sekmesi için | - |
 
-Assetto Corsa EVO ve iRacing'den gelen turlar nedeniyle reddedilir. Bkz. [Sınırlar ve bilinen eksikler](../limits-and-known-gaps.md).
+Assetto Corsa EVO ve iRacing'den gelen turlar nedeniyle reddedilir. Bkz. [Sınırlar ve bilinen eksikler](limits-and-known-gaps.md).
 
 ## Kurulum {#install}
 
@@ -76,13 +76,13 @@ Sonra denetleyin: `python -m heat3d_gamefiles --help`. `usage: heat3d_gamefiles 
 | cryptography | yalnızca zaten elinizde olan bir anahtarla şifreli bir `.pak` açmak için |
 | pytest | testler |
 
-**Oodle** ile sıkıştırılmış Unreal içeriği, makinenizde zaten bulunan bir Oodle kitaplığı gerektirir. Bu araçla hiçbir zaman bir tane dağıtılmaz. Bkz. [Oodle](../reader-oodle.md).
+**Oodle** ile sıkıştırılmış Unreal içeriği, makinenizde zaten bulunan bir Oodle kitaplığı gerektirir. Bu araçla hiçbir zaman bir tane dağıtılmaz. Bkz. [Oodle](reader-oodle.md).
 
 Araç Windows için yazıldı. Oyunları Steam'in kitaplık listesi ve `%LOCALAPPDATA%` üzerinden bulur; Oodle'ı bir Windows DLL'i olarak yükler. Diğer platformlar test edilmedi.
 
 ## Hızlı başlangıç {#quick-start}
 
-Bir **tur dosyası**, arabanızın nereye gittiğinin kaydıdır: x, y, z noktalarının bir listesi. [3DHeat GameCapture](https://github.com/Holdi601/3DHeat-GameCapture) ya da FH Companion uygulamasının tur kitaplığından gelir; elle yazılmış bir CSV de olur ([Tur girdileri](../lap-inputs.md)).
+Bir **tur dosyası**, arabanızın nereye gittiğinin kaydıdır: x, y, z noktalarının bir listesi. [3DHeat GameCapture](https://github.com/Holdi601/3DHeat-GameCapture) ya da FH Companion uygulamasının tur kitaplığından gelir; elle yazılmış bir CSV de olur ([Tur girdileri](lap-inputs.md)).
 
 ```
 # Forza: a lap file, a lap folder, or a course name from the FH Companion library
@@ -112,33 +112,33 @@ python -m heat3d_gamefiles cars -o forza.h3dcars
 python -m heat3d_gamefiles identify some_archive.pak
 ```
 
-`.glb` dosyasını 3DHeat görüntüleyicisinde açın. Oyunun kendi dünya koordinatları korunur (bkz. [Çıktı biçimi](../output-format.md)), bu yüzden kaydedilen bir tur pistle hizalanır.
+`.glb` dosyasını 3DHeat görüntüleyicisinde açın. Oyunun kendi dünya koordinatları korunur (bkz. [Çıktı biçimi](output-format.md)), bu yüzden kaydedilen bir tur pistle hizalanır.
 
 ## Bu belgelerin haritası {#map-of-this-documentation}
 
 - [Başlamadan önce](before-you-start.md): Python, bir terminal, ilk komut.
-- [Komutlar](../commands.md): her fiil ve seçenek, örneklerle.
+- [Komutlar](commands.md): her fiil ve seçenek, örneklerle.
 - [Komut başvurusu](../cli-reference.md): her fiilin `--help` çıktısı, koddan üretilmiş.
-- [Arşivleri inceleme](../inspecting-archives.md): `identify`, `list`, `extract`, `meshes`, adım adım.
-- [Kurs dışa aktarımı](../course-export.md): bir turun her oyun için nasıl bir kursa dönüştüğü.
-  - [Forza Horizon](../course-forza-horizon.md)
-  - [BeamNG.drive](../course-beamng.md)
-  - [Assetto Corsa Rally](../course-assetto-corsa-rally.md)
-  - [Ayrıntı düzeyleri ve bütçe](../detail-budget.md)
-- [Bütün seviyeler](../whole-levels.md): tur olmadan bir seviye, harita ya da dünya.
-  - [Battlefield 6 seviyeleri](../level-battlefield.md): `levels`, `level`
-  - [Unreal 5 haritaları](../level-unreal-world-partition.md): `ue-maps`, `ue-map`
-  - [Arma Reforger dünyaları](../level-arma-reforger.md): `enfusion-worlds`, `enfusion-world`
-- [Forza arabaları](../forza-cars.md): `cars`, görüntüleyicinin yarış analizi sekmesi için araba dosyası.
-- [Tur girdileri](../lap-inputs.md): araç tarafından kabul edilen her tur dosyası biçimi.
-- [Çıktı biçimi](../output-format.md): `.glb` içinde ne var.
-- [Arşiv okuyucuları](../archive-readers.md): her kapsayıcı biçimi için bir sayfa; neyi okuduğu, neyi okumadığı ve nedeni.
-- [Sınırlar ve bilinen eksikler](../limits-and-known-gaps.md)
-- [Sorun giderme](../troubleshooting.md): hata iletileri ve ne yapılacağı.
-- [Kurallar ve lisanslar](../rules-and-licences.md): anahtar yok, kendi dosyalarınız, yeniden dağıtım yok.
-- [Güncellemeler](../updates.md): güncelleme denetimi ve `heat3d_update`.
-- [Geliştirme](../development.md): modül haritası ve testler; kurulu oyunlara karşı çalışan testler dahil.
-- [Bakım](../maintaining.md): bu sayfalar için sürüm kontrol listesi.
+- [Arşivleri inceleme](inspecting-archives.md): `identify`, `list`, `extract`, `meshes`, adım adım.
+- [Kurs dışa aktarımı](course-export.md): bir turun her oyun için nasıl bir kursa dönüştüğü.
+  - [Forza Horizon](course-forza-horizon.md)
+  - [BeamNG.drive](course-beamng.md)
+  - [Assetto Corsa Rally](course-assetto-corsa-rally.md)
+  - [Ayrıntı düzeyleri ve bütçe](detail-budget.md)
+- [Bütün seviyeler](whole-levels.md): tur olmadan bir seviye, harita ya da dünya.
+  - [Battlefield 6 seviyeleri](level-battlefield.md): `levels`, `level`
+  - [Unreal 5 haritaları](level-unreal-world-partition.md): `ue-maps`, `ue-map`
+  - [Arma Reforger dünyaları](level-arma-reforger.md): `enfusion-worlds`, `enfusion-world`
+- [Forza arabaları](forza-cars.md): `cars`, görüntüleyicinin yarış analizi sekmesi için araba dosyası.
+- [Tur girdileri](lap-inputs.md): araç tarafından kabul edilen her tur dosyası biçimi.
+- [Çıktı biçimi](output-format.md): `.glb` içinde ne var.
+- [Arşiv okuyucuları](archive-readers.md): her kapsayıcı biçimi için bir sayfa; neyi okuduğu, neyi okumadığı ve nedeni.
+- [Sınırlar ve bilinen eksikler](limits-and-known-gaps.md)
+- [Sorun giderme](troubleshooting.md): hata iletileri ve ne yapılacağı.
+- [Kurallar ve lisanslar](rules-and-licences.md): anahtar yok, kendi dosyalarınız, yeniden dağıtım yok.
+- [Güncellemeler](updates.md): güncelleme denetimi ve `heat3d_update`.
+- [Geliştirme](development.md): modül haritası ve testler; kurulu oyunlara karşı çalışan testler dahil.
+- [Bakım](maintaining.md): bu sayfalar için sürüm kontrol listesi.
 
 ## 3DHeat'in parçası {#part-of-3dheat}
 
