@@ -184,9 +184,10 @@ class TestLayers:
 
 
 class TestWorldModels:
-    def test_a_venue_is_ground(self):
+    def test_a_venue_and_a_plinth_are_ground(self):
         assert world_part("plots", "plt_stadium_01_a") == VENUE_PART
-        assert world_part("plinths", "plnth_plaza_01") == VENUE_PART
+        assert world_part("plinths", "plnth_plaza_01") == "ground:plinths"
+        assert world_part("models", "tunnel_floor_01_a") == "ground:plinths"
 
     def test_bridges_and_the_rest(self):
         assert world_part("hda_infrastructure", "ps_bridge_tool_bridge_0_0_ab") == "structure:bridges"

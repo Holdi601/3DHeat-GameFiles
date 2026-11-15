@@ -12,9 +12,9 @@ section below says which documentation page explains each feature.
   and that race's own layer from the game's route definitions is placed as
   `structure:event_*` parts (barriers, tents, gantries, stands, flags); what
   the race takes away from the free-roam world is left out. A venue's own
-  ground (stadium floors, plazas, plinths) and procedurally built bridges,
-  which nothing places, are drawn; a venue the driving passes through is cut
-  whole. Switched-on placement layers are their own `structure:layer_*`
+  ground (stadium floors, festival sites), plinths and procedurally built
+  bridges, which nothing places, are drawn; a venue the driving passes
+  through is cut whole. Switched-on placement layers are their own `structure:layer_*`
   parts. Files say what they hold in `asset.extras`; `courses` re-exports
   older ones and keeps two courses of one name apart.
 - `races`: every race an installed Forza defines, what it adds and hides,

@@ -191,6 +191,7 @@ KERB_PART = "ground:kerbs"
 FALLBACK_COLOURS = {
     KERB_PART: (0.60, 0.12, 0.10),
     "ground:venue": (0.33, 0.33, 0.34),
+    "ground:plinths": (0.42, 0.41, 0.39),
     "structure:barriers": (0.50, 0.50, 0.50),
     "structure:props": (0.45, 0.35, 0.25),
     "structure:signs": (0.70, 0.70, 0.70),
@@ -277,10 +278,16 @@ _NOT_DRAWN_FOLDERS = {
     "hda_buildings", "hda_cables", "collision", "building_shells", "water", "vista",
     "whitebox", "development", "decals", "road_decals", "terrain_decals", "groundcover",
 }
-#: World-space models that are ground: what a venue's racing is driven on.
-_VENUE_FOLDERS = {"plots", "plinths"}
+#: World-space models that are ground. A plot is a venue's own ground - a
+#: stadium's floor, a festival site, a plaza - and a venue the driving touches
+#: is cut whole. A plinth is the ground a street is dressed with (planters,
+#: steps, a park's paving): drawn where the driving is, like the rest.
+_VENUE_FOLDERS = {"plots"}
+_GROUND_FOLDERS = {"plinths"}
 _GROUNDLIKE = re.compile(r"floor|ground|road", re.I)
 VENUE_PART = "ground:venue"
+PLINTH_PART = "ground:plinths"
+WORLD_GROUND = (VENUE_PART, PLINTH_PART)
 #: Track folder -> its world-space models, read once a process.
 _WORLD_CACHE: dict[str, list] = {}
 
@@ -289,8 +296,10 @@ def world_part(folder: str, stem: str) -> str | None:
     """The part a world-space model is exported as, or None if it is not drawn."""
     if folder in _NOT_DRAWN_FOLDERS or _NOT_DRAWN.search(stem):
         return None
-    if folder in _VENUE_FOLDERS or _GROUNDLIKE.search(stem):
+    if folder in _VENUE_FOLDERS:
         return VENUE_PART
+    if folder in _GROUND_FOLDERS or _GROUNDLIKE.search(stem):
+        return PLINTH_PART
     if "bridge" in stem:
         return CATEGORIES["bridges"]
     return CATEGORIES.get(folder, CATEGORIES["infrastructure"])
@@ -986,7 +995,7 @@ class Placed:
                 f"({', '.join(sorted(self.venue)[:3])}{'...' if len(self.venue) > 3 else ''})"
             )
         if self.world:
-            lines.append(f"    {self.world} models drawn where the game builds them in place (bridges and the like)")
+            lines.append(f"    {self.world} models drawn where the game builds them in place (plinths, bridges)")
         race = f"route {self.route_id}" if self.route_id is not None else "no matched route"
         if self.event:
             lines.append(
@@ -1255,9 +1264,9 @@ def _place(
         # stadium circuit: its laps ride on the hidden lawn's height). The
         # ground stays, as the nearest thing to what is driven on; anything
         # else the race hides goes.
-        out.kept_ground = sorted(w[0] for w in world if w[0] in hidden_world and w[1] == VENUE_PART)
-        out.hidden += sum(1 for w in world if w[0] in hidden_world and w[1] != VENUE_PART)
-        world = [w for w in world if w[0] not in hidden_world or w[1] == VENUE_PART]
+        out.kept_ground = sorted(w[0] for w in world if w[0] in hidden_world and w[1] in WORLD_GROUND)
+        out.hidden += sum(1 for w in world if w[0] in hidden_world and w[1] not in WORLD_GROUND)
+        world = [w for w in world if w[0] not in hidden_world or w[1] in WORLD_GROUND]
 
     # The race's own layer: everything the game adds to the world for it.
     if route_assets is not None:
@@ -1324,7 +1333,7 @@ def _place(
     costs = {name: (len(inst), [lv.triangles for lv in m.levels]) for name, (m, inst, _d) in entries.items()}
     # Kerbs and a venue's ground are what a lap is driven on and measured
     # against: never coarser, never left out.
-    pinned = {name for name in entries if part_of[name[0]] in (KERB_PART, VENUE_PART)}
+    pinned = {name for name in entries if part_of[name[0]] in (KERB_PART, *WORLD_GROUND)}
     start = {name: (0, 1, 99)[name[1]] for name in entries}
     if budget is None:
         budget = auto_budget(costs, pinned)
