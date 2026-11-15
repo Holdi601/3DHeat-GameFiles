@@ -331,3 +331,10 @@ def _platform_header(data: bytes, names: list[str]) -> int | None:
                 return cursor + 12
             at = data.find(tag, at + 1)
     return None
+
+
+#: Public names for what other readers use: a DDS file around raw block-compressed
+#: pixels (the Enfusion reader's textures are DDS too), and a virtual texture's
+#: tile address.
+dds_file = _dds
+morton = _morton
