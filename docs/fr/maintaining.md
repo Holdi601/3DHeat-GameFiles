@@ -7,7 +7,7 @@ source_hash: "0ee713010eb1"
 nav_exclude: true
 search_exclude: true
 ---
-# Maintenance : la liste de contrôle de version {#maintaining-the-release-checklist}
+# Maintenance : la liste de contrôle des publications {#maintaining-the-release-checklist}
 
 Avant d'étiqueter une version (`v` + le numéro de `VERSION`), parcourez cette liste
 dans l'ordre. Elle garde les pages, les images et les traductions fidèles au code.

@@ -1,15 +1,15 @@
 ---
-title: Unreal 5 IoStore
+title: "Unreal 5 IoStore"
 nav_order: 2
 lang: "es"
 source: reader-unreal-iostore.md
-source_hash: "a09552249e75"
+source_hash: "a71af3169c83"
 nav_exclude: true
 search_exclude: true
 ---
 # Unreal 5 IoStore {#unreal-5-iostore}
 
-Unreal 5 distribuye la mayor parte del contenido en contenedores **IoStore**: una tabla de contenidos `.utoc` y los datos `.ucas` que indexa. Un `.pak` sigue existiendo, pero contiene poco más que un pie. Los lectores de aquí van desde el contenedor hasta la geometría y los píxeles, hasta donde necesita un circuito. Se construyeron y comprobaron con Assetto Corsa Rally (Unreal 5.6.1, modificado), y se llega a ellos a través de la exportación de circuito de [Assetto Corsa Rally](course-assetto-corsa-rally.md). `identify`, `list` y `extract` aceptan un `.utoc` (o el `.ucas` que está a su lado): los archivos que nombra su directorio, por su ruta bajo el punto de montaje. Un contenedor sin índice de directorio no nombra archivos y no se lista.
+Unreal 5 distribuye la mayor parte del contenido en contenedores **IoStore**: una tabla de contenidos `.utoc` y los datos `.ucas` que indexa. Un `.pak` sigue existiendo, pero contiene poco más que un pie. Los lectores de aquí van desde el contenedor hasta la geometría y los píxeles, hasta donde necesita un circuito. Se construyeron y comprobaron con Assetto Corsa Rally (Unreal 5.6.1, modificado), y se llega a ellos a través de la exportación de circuito de [Assetto Corsa Rally](https://holdi601.github.io/3DHeat-Ext-ACRally/course-assetto-corsa-rally.html), y `identify`, `list` y `extract` aceptan un `.utoc` (o el `.ucas` que está a su lado): los archivos que nombra su directorio, por su ruta bajo el punto de montaje. Un contenedor sin índice de directorio no nombra archivos y no se lista.
 
 | Capa | Módulo |
 |---|---|

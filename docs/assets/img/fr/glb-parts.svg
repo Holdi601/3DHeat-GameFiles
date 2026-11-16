@@ -12,7 +12,7 @@
 <text x="330" y="135" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="400" fill="#3d4450" text-anchor="start">le bord de la route</text>
 <rect x="20" y="152" width="22" height="22" rx="4" fill="#d9534f" stroke="#55606e"/>
 <text x="54" y="169" font-family="Consolas,Menlo,DejaVu Sans Mono,monospace" font-size="15" fill="#1f2328">ground:kerbs</text>
-<text x="330" y="169" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="400" fill="#3d4450" text-anchor="start">bordures, toujours en pleine finesse</text>
+<text x="330" y="169" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="400" fill="#3d4450" text-anchor="start">bordures, toujours en plein détail</text>
 <rect x="20" y="186" width="22" height="22" rx="4" fill="#f1f1f1" stroke="#55606e"/>
 <text x="54" y="203" font-family="Consolas,Menlo,DejaVu Sans Mono,monospace" font-size="15" fill="#1f2328">ground:markings</text>
 <text x="330" y="203" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="400" fill="#3d4450" text-anchor="start">lignes peintes</text>
@@ -28,5 +28,5 @@
 <rect x="20" y="322" width="22" height="22" rx="4" fill="#5cb85c" stroke="#55606e"/>
 <text x="54" y="339" font-family="Consolas,Menlo,DejaVu Sans Mono,monospace" font-size="15" fill="#1f2328">nav:walkable</text>
 <text x="330" y="339" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="15" font-weight="400" fill="#3d4450" text-anchor="start">Battlefield 6 --navmesh : où un soldat peut se tenir</text>
-<text x="20" y="376" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="start">Les couleurs des échantillons sont indicatives ; la visionneuse choisit comment chaque sorte est dessinée.</text>
+<text x="20" y="376" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#3d4450" text-anchor="start">Les couleurs des échantillons sont indicatives ; le visualiseur choisit comment chaque sorte est dessinée.</text>
 </svg>

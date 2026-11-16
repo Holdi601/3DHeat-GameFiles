@@ -1,15 +1,15 @@
 ---
-title: Entradas de vuelta
+title: "Entradas de vuelta"
 nav_order: 7
 lang: "es"
 source: lap-inputs.md
-source_hash: "76716785ff83"
+source_hash: "3f335d2fc454"
 nav_exclude: true
 search_exclude: true
 ---
 # Entradas de vuelta {#lap-inputs}
 
-Un **archivo de vuelta** es una lista de puntos x, y, z: por dónde fue el coche. La forma más rápida de hacer uno a mano es la tabla CSV de [5. Una tabla `.csv`](#5-una-tabla-csv) más abajo.
+Un **archivo de vuelta** es una lista de puntos x, y, z: por dónde fue el coche. La forma más rápida de hacer uno a mano es la tabla CSV de [5. Una tabla `.csv`](#a-csv-table) más abajo.
 
 Una vuelta le dice a la exportación de circuito **por dónde fue el coche**. Nada más de ella se usa: la velocidad, los controles y las fuerzas g pertenecen al lado de telemetría de 3DHeat. La herramienta lee posiciones en metros del mundo del propio juego, y además, cuando el archivo lo indica, el juego y el circuito.
 
@@ -40,7 +40,7 @@ Lo escriben los grabadores de telemetría de 3DHeat (`heat3d_capture telemetry` 
 - `channels.x`, `channels.y`, `channels.z` son obligatorios. Las filas en las que alguno de los tres no es un número finito se descartan. Los demás canales se ignoran.
 - `game` decide la exportación (ver [Comandos](commands.md#which-game)).
 - `track` lo usa Assetto Corsa Rally para probar primero la etapa nombrada.
-- Ejes: y es la altura. Las vueltas de Forza y de AC Rally usan los ejes horizontales del juego tal como los escribe el grabador. Las vueltas de BeamNG se esperan en el marco del visor, `(x, z, -y)` del mundo de BeamNG con Z hacia arriba (ver [BeamNG.drive](course-beamng.md#the-laps-frame)).
+- Ejes: y es la altura. Las vueltas de Forza y de AC Rally usan los ejes horizontales del juego tal como los escribe el grabador. Las vueltas de BeamNG se esperan en el marco del visor, `(x, z, -y)` del mundo de BeamNG con Z hacia arriba (ver [BeamNG.drive](https://holdi601.github.io/3DHeat-Ext-BeamNG/course-beamng.html#the-laps-frame)).
 
 ### 2. Un archivo de ruta {#a-route-file}
 
@@ -112,7 +112,7 @@ Así, `"Example Circuit"` encuentra `Example Circuit (course_1200_3400_to_1175_3
 | nombre | el nombre base del archivo, o el nombre de la carpeta, sin ` (course_...)`; se convierte en el nombre de archivo de salida por defecto |
 | distancia conducida | la suma de las separaciones entre muestras consecutivas (se imprime como `m driven`; en una carpeta incluye también los saltos entre archivos) |
 | caja | la extensión en x y z ampliada con `--margin`; la altura nunca se acota |
-| corredor | las x y z de cada muestra, ver [Exportación de circuito](course-export.md#the-corridor) |
+| corredor | las x y z de cada muestra, ver [Exportación de circuito](https://holdi601.github.io/3DHeat-Ext-Forza/course-export.html#the-corridor) |
 | detalle | la distancia de cada copia colocada a la muestra más cercana, ver [Niveles de detalle y presupuesto](detail-budget.md) |
 
 Una vuelta con menos de dos muestras se rechaza (`holds no driving`).

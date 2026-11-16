@@ -72,7 +72,7 @@ licenza prevede, e la stessa che usano FModel e UModel. Vedi [Oodle](reader-oodl
   pubbliche di versioni più vecchie (gli strumenti di modding Frosty, una nota sul formato di Need for Speed Heat, un talk GDC) hanno fornito
   nomi di campi e una mappa di cosa cercare. Non è stato copiato alcun codice; ogni offset è stato misurato sui file (vedi
   [`LICENSES.md`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/LICENSES.md)).
-- Le tappe estratte sono per uso personale. Lo strumento le scrive sul tuo disco e da nessun'altra parte; non pubblicarle.
+- I livelli estratti sono per uso personale. Lo strumento le scrive sul tuo disco e da nessun'altra parte; non pubblicarle.
 - BeamNG pubblica il layout del suo `.cdae`, e il lettore lo segue.
 - Valve documenta il VPK.
 - Le proprietà cotte di Unreal 5 hanno bisogno dell'elenco delle proprietà di ogni classe. Gli elenchi in `unversioned.py` sono **solo

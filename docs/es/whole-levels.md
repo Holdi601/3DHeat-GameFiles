@@ -1,9 +1,9 @@
 ---
-title: Niveles completos
+title: "Niveles completos"
 nav_order: 5
 lang: "es"
 source: whole-levels.md
-source_hash: "1b82d34dfb69"
+source_hash: "70840dceebe6"
 nav_exclude: true
 search_exclude: true
 ---
@@ -17,9 +17,9 @@ un nivel, mapa o mundo completo de una vez:
 
 | Juego o motor | Listar | Exportar | Página |
 |---|---|---|---|
-| Battlefield 6 (Frostbite) | `levels` | `level <nivel>` | [Niveles de Battlefield 6](level-battlefield.md) |
+| Battlefield 6 (Frostbite) | `levels` | `level <nivel>` | [Niveles de Battlefield 6](https://holdi601.github.io/3DHeat-Ext-Battlefield/level-battlefield.html) |
 | Juegos de Unreal 5 con World Partition | `ue-maps <juego>` | `ue-map <juego> <mapa>` | [Mapas de Unreal 5](level-unreal-world-partition.md) |
-| Arma Reforger (Enfusion) | `enfusion-worlds` | `enfusion-world <mundo>` | [Mundos de Arma Reforger](level-arma-reforger.md) |
+| Arma Reforger (Enfusion) | `enfusion-worlds` | `enfusion-world <mundo>` | [Mundos de Arma Reforger](https://holdi601.github.io/3DHeat-Ext-Reforger/level-arma-reforger.html) |
 
 Cada pareja funciona igual: el primer comando lista lo que tiene el juego instalado, y el
 segundo escribe uno de ellos como un único `.glb` en las coordenadas de mundo propias del juego, así que las posiciones

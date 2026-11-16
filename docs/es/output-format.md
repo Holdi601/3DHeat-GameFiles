@@ -3,7 +3,7 @@ title: "Formato de salida"
 nav_order: 8
 lang: "es"
 source: output-format.md
-source_hash: "064faedd6147"
+source_hash: "636bb4f5e616"
 nav_exclude: true
 search_exclude: true
 ---
@@ -30,7 +30,11 @@ scene 0
 - Cada nodo tiene su propia malla con **una primitiva** y su propio material. El nodo, la malla y el material llevan todos el nombre de la parte.
 - Cada primitiva tiene **sus propias matrices de vértices compactas**, solo los vértices que usa esa parte. Una matriz de vértices compartida es glTF válido, pero un lector que expande las matrices de cada primitiva tendría cada vértice guardado una vez por parte.
 - `asset.generator` es `heat3d_gamefiles`.
-- **No se escriben `extras`**: ningún metadato personalizado, ni vuelta, ni nombre de juego o de circuito. La única excepción es una parte de Battlefield 6 de una malla destructible, que lleva `{"destructible": true}` en su nodo. Todo lo que necesita el visor está en los nombres de los nodos.
+- **Pocos `extras`**, y ningún nombre de vuelta, de juego ni de circuito:
+  - una parte de Battlefield 6 de una malla destructible lleva `{"destructible": true}` en su nodo;
+  - un circuito de Forza dice lo que contiene en `asset.extras` (versión de formato, id de la ruta emparejada, cuántas copias de la capa propia de la carrera, lugares; ver [Circuitos de Forza Horizon](https://holdi601.github.io/3DHeat-Ext-Forza/course-forza-horizon.html#writing-the-file)), y sus partes encendidas llevan su capa en el nodo: `{"layer": "event", "route": <id>}` para la capa propia de la carrera, `{"layer": "layer"}` para otra capa encendida, `{"layer": "venue"}` para el suelo de un lugar.
+
+  Todo lo demás que necesita el visor está en los nombres de los nodos.
 
 ## Nombres de nodo: la clasificación {#node-names-the-classification}
 
@@ -46,8 +50,8 @@ Lo demás se clasifica con una heurística escrita para paisajes de Unreal. Así
 
 | Prefijo | Significado | Partes que se escriben |
 |---|---|---|
-| `ground:` | la superficie de conducción y la tierra | `ground:road`, `ground:verge`, `ground:terrain`, `ground:gravel and dirt`, `ground:kerbs`, `ground:markings`, `ground:tyre marks` |
-| `structure:` | lo que está sobre ella | `structure:barriers`, `structure:props`, `structure:signs`, `structure:buildings`, `structure:infrastructure`, `structure:bridges`, `structure:rocks`, `structure:smashables`, `structure:trees` |
+| `ground:` | la superficie de conducción y la tierra | `ground:road`, `ground:verge`, `ground:terrain`, `ground:gravel and dirt`, `ground:kerbs`, `ground:markings`, `ground:tyre marks`, `ground:venue`, `ground:plinths` |
+| `structure:` | lo que está sobre ella | `structure:barriers`, `structure:props`, `structure:signs`, `structure:buildings`, `structure:infrastructure`, `structure:bridges`, `structure:rocks`, `structure:smashables`, `structure:trees`; capas de Forza `structure:event_<category>` y `structure:layer_<category>` |
 | `water:` | agua | `water:water`; `water:<map>` (`ue-map`), `water:<world>` (`enfusion-world`) |
 | `nav:` | por dónde puede caminar un soldado (Battlefield 6, solo con `--navmesh`) | `nav:walkable` |
 
@@ -63,6 +67,9 @@ Después del tipo viene, según el juego:
 | `ground:road 1_-4` | suelo de AC Rally en el cuadrado de 512 m (1, -4) del espacio de Unreal |
 | `structure:barriers bar_armco_bclr` | modelos colocados de Forza que comparten una textura (su nombre sin el GUID) |
 | `structure:barriers` | modelos colocados sin textura (Forza, AC Rally) |
+| `structure:event_barriers bar_example_bclr` | Forza: lo que pone la carrera emparejada para sí misma, aparte del mundo libre (extras del nodo `{"layer": "event", "route": <id>}`) |
+| `structure:layer_props` | Forza: una capa que el juego enciende para algo distinto de esta carrera (una actividad, un coleccionable, una capa de ejecución) |
+| `ground:venue`, `ground:plinths` | Forza: modelos ya en coordenadas del mundo: el suelo propio de un lugar (el suelo de un estadio), y el suelo con el que se adorna una calle |
 | `structure:barriers armco_metal` | modelos colocados de BeamNG de un material |
 | `ground:markings`, `water:water` | partes planas, una para todo el archivo |
 | `ground:terrain` (Battlefield 6) | el mapa de alturas; `ground:terrain backdrop` las mallas de terreno lejano, `ground:terrain blend` las mallas que se funden con el terreno |
@@ -71,7 +78,7 @@ Después del tipo viene, según el juego:
 | `structure:buildings t_concreteclean_01_cs` (Battlefield 6, `--textures`) | cada superficie de ese tipo que muestra ese mapa de color; sin `--textures`, una parte por tipo, sin sufijo |
 | `structure:buildings t_concreteclean_01_cs (destructible)` (Battlefield 6) | lo mismo, para las mallas que un partido puede destruir: las que tienen un recurso de destrucción con su propio nombre (muros, casas, objetos). El nodo también lleva los extras de glTF `{"destructible": true}`. Sus estados destruidos no se exportan |
 
-El visor puede filtrar por estos nombres. Por ejemplo, "solo la superficie de carrera" es `ground:road` junto con `ground:kerbs`, en los tres juegos. El prefijo también es la forma en que el visor dibuja una parte: el suelo como la superficie sobre la que está el calor, y la estructura como lo que está sobre ella.
+El visor puede filtrar por estos nombres. Por ejemplo, "solo la superficie de carrera" es `ground:road` junto con `ground:kerbs`, en los tres juegos, y "el mundo sin los objetos propios de la carrera" es todo menos `structure:event_*`. El prefijo también es la forma en que el visor dibuja una parte: el suelo como la superficie sobre la que está el calor, y la estructura como lo que está sobre ella.
 
 ## Unidades, ejes y marco {#units-axes-and-frame}
 
@@ -81,7 +88,7 @@ El visor puede filtrar por estos nombres. Por ejemplo, "solo la superficie de ca
 - **Forza:** las coordenadas del mundo propias del juego (x, y hacia arriba, z), sin cambios. Son las mismas que su telemetría, así que una vuelta grabada cae sobre el recorrido.
 - **BeamNG.drive:** `(x, z, -y)` del mundo de BeamNG con Z hacia arriba, que es la rotación que aplica la grabadora de telemetría. Una rotación, no un espejo.
 - **Battlefield 6:** las coordenadas del mundo propias del juego (x, y hacia arriba, z), sin cambios: las transformaciones de instancia del nivel aplicadas a cada malla tal como están guardadas. Las copias reflejadas se reordenan para que sus normales apunten hacia fuera.
-- **Assetto Corsa Rally:** el marco de la vuelta. Los centímetros de Unreal pasan a metros, la Z de Unreal pasa a y, y las X e Y de Unreal pasan a x y z en cualquiera de las ocho orientaciones en que encajó la vuelta (mira [Assetto Corsa Rally](course-assetto-corsa-rally.md#which-stage-and-which-way-round)). Los triángulos se reordenan donde esa transformación refleja.
+- **Assetto Corsa Rally:** el marco de la vuelta. Los centímetros de Unreal pasan a metros, la Z de Unreal pasa a y, y las X e Y de Unreal pasan a x y z en cualquiera de las ocho orientaciones en que encajó la vuelta (mira [Assetto Corsa Rally](https://holdi601.github.io/3DHeat-Ext-ACRally/course-assetto-corsa-rally.html#which-stage-and-which-way-round)). Los triángulos se reordenan donde esa transformación refleja.
 
 Cada exportación conserva los ejes que usa su telemetría, así que la grabación y el nivel comparten un marco. No se ha comprobado si ese marco es zurdo o diestro en cada juego.
 
@@ -105,9 +112,9 @@ Las normales vienen del juego cuando las guarda (el terreno y los modelos de For
 
 - Cada material tiene `metallicFactor 0`, `roughnessFactor 1`.
 - **Parte con textura:** `baseColorTexture` con la imagen de la parte, sus UV, y sin color de vértice. glTF multiplica las dos cosas, así que una superficie saldría oscurecida dos veces.
-- **Parte sin textura:** color de vértice `COLOR_0` con el color plano de la parte, y un `baseColorFactor` blanco. Si ninguna parte del archivo tiene color, no hay `COLOR_0`. Cuando las partes comparten vértices, gana el color de la parte posterior, así que las partes planas se escriben en orden de importancia creciente.
-- **Las imágenes** se incrustan en el fragmento binario como **JPEG**, calidad 90, sin submuestreo de crominancia, solo RGB (el alfa se descarta), salvo un mapa de recortes de Battlefield 6 (hojas, vallas), que es **PNG** con su alfa, en un material con `alphaMode` MASK, `alphaCutoff` 0.5 y `doubleSided` (mira [Frostbite](reader-frostbite.md#textures-and-materials)). El visor de 3DHeat descarta los texels por debajo del corte. Un suelo de 2048 px de hierba y copas de árbol es ruido para un codificador sin pérdida: varios megabytes por loseta como PNG, menos de uno como JPEG. Una imagen compartida por varias partes se guarda una sola vez.
-- **Un solo muestreador** para todas las texturas: ampliación lineal, reducción lineal-con-mipmap-lineal, **recorte al borde** en ambos ejes, para las exportaciones de recorridos, cuyas texturas cubren sus superficies una sola vez. BeamNG dibuja las texturas repetidas de modelos como colores planos (mira [BeamNG.drive](course-beamng.md#placed-models)).
+- **Parte sin textura:** color de vértice `COLOR_0` con el color plano de la parte, y un `baseColorFactor` blanco. Si ninguna parte del archivo tiene color, no hay `COLOR_0`. Cuando las partes comparten vértices, gana el color de la parte que se escribe después, así que las partes planas se escriben en orden de importancia creciente.
+- **Las imágenes** se incrustan en el fragmento binario como **JPEG**, calidad 90, sin submuestreo de crominancia, solo RGB (el alfa se descarta), salvo un mapa de recortes de Battlefield 6 (hojas, vallas), que es **PNG** con su alfa, en un material con `alphaMode` MASK, `alphaCutoff` 0.5 y `doubleSided` (mira [Frostbite](https://holdi601.github.io/3DHeat-Ext-Battlefield/reader-frostbite.html#textures-and-materials)). El visor de 3DHeat descarta los texels por debajo del corte. Un suelo de 2048 px de hierba y copas de árbol es ruido para un codificador sin pérdida: varios megabytes por loseta como PNG, menos de uno como JPEG. Una imagen compartida por varias partes se guarda una sola vez.
+- **Un solo muestreador** para todas las texturas: ampliación lineal, reducción lineal-con-mipmap-lineal, **recorte al borde** en ambos ejes, para las exportaciones de recorridos, cuyas texturas cubren sus superficies una sola vez. BeamNG dibuja las texturas repetidas de modelos como colores planos (mira [BeamNG.drive](https://holdi601.github.io/3DHeat-Ext-BeamNG/course-beamng.html#placed-models)).
 - Un Battlefield 6 exportado con `--textures`, cuyos materiales forman mosaico, escribe las coordenadas de textura propias del juego, sin recortar, como `TEXCOORD_0` float32 incluso en la forma cuantizada, con un muestreador que **repite** en ambos ejes (`write_glb(..., repeat=True)`): una pared de ladrillo es un par de triángulos cuyo UV va de 0 a 40. El visor de 3DHeat envuelve esa textura dentro de su atlas (mira su página *Model levels*). Para un renderizador que no puede repetir una textura, `level --clamped-uvs` (`write_level(..., clamped=True)`) corta cada triángulo a lo largo de las líneas donde su textura se repite y mueve cada trozo a 0..1: los mismos píxeles sobre la misma superficie, con alrededor de una quinta parte más de triángulos. Los triángulos sobre los que una textura se repite más de 16 veces conservan sus coordenadas. Un triángulo que su textura cortaría en más de 4 trozos (corteza que se repite por cada rama de un árbol, y que, cortada, convirtió los 1.099 triángulos de un árbol en 51.735) va a una parte propia, `<part> (average colour)`, con el color medio de la textura; `level` indica cuántos son.
 
 | Textura | Tamaño | Cubre |

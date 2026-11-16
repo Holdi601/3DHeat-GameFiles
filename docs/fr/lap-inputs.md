@@ -3,7 +3,7 @@ title: "Entrées de tour"
 nav_order: 7
 lang: "fr"
 source: lap-inputs.md
-source_hash: "76716785ff83"
+source_hash: "3f335d2fc454"
 nav_exclude: true
 search_exclude: true
 ---
@@ -49,8 +49,8 @@ se reconnaissent à leur extension et que tout le reste est essayé comme du JSO
 - `track` sert à Assetto Corsa Rally pour essayer l'étape nommée en premier.
 - Axes : y est la hauteur. Les tours de Forza et d'AC Rally utilisent les axes horizontaux du
   jeu tels que l'enregistreur les écrit. Les tours de BeamNG sont attendus dans le repère de la
-  visionneuse, `(x, z, -y)` du monde de BeamNG en Z vers le haut (voir
-  [BeamNG.drive](course-beamng.md#the-laps-frame)).
+  visualiseur, `(x, z, -y)` du monde de BeamNG en Z vers le haut (voir
+  [BeamNG.drive](https://holdi601.github.io/3DHeat-Ext-BeamNG/course-beamng.html#the-laps-frame)).
 
 ### 2. Un fichier de parcours (route) {#2-a-route-file}
 
@@ -146,7 +146,7 @@ couloir et guident le détail.
 | nom | le nom du fichier, ou le nom du dossier sans ` (course_...)` ; il devient le nom par défaut du fichier de sortie |
 | distance parcourue | la somme des écarts entre points successifs (affichée `m driven` ; pour un dossier, cela inclut les sauts entre fichiers) |
 | boîte | l'étendue en x et z élargie de `--margin` ; la hauteur n'est jamais bornée |
-| couloir | les x et z de chaque point, voir [Export de parcours](course-export.md#the-corridor) |
+| couloir | les x et z de chaque point, voir [Export de parcours](https://holdi601.github.io/3DHeat-Ext-Forza/course-export.html#the-corridor) |
 | détail | la distance de chaque copie placée au point le plus proche, voir [Niveaux de détail et budget](detail-budget.md) |
 
 Un tour de moins de deux points est refusé (« holds no driving »).

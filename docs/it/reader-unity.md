@@ -12,7 +12,7 @@ search_exclude: true
 **Elenca gli oggetti e decodifica le mesh** dei `SerializedFile` di Unity dal formato 22 in poi (Unity 2020 fino alla 6000),
 e apre i bundle `UnityFS`. Non esiste un'esportazione del percorso per Unity.
 
-Sorgenti: [`unity.py`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/heat3d_gamefiles/unity.py),
+Fonti: [`unity.py`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/heat3d_gamefiles/unity.py),
 [`unity_mesh.py`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/heat3d_gamefiles/unity_mesh.py).
 Comandi: `identify` (contenitori e bundle), `meshes` (solo contenitori semplici).
 
@@ -70,7 +70,7 @@ le scrive: nome, sottomesh, blend shape (saltate), pose di bind e dati delle oss
 il buffer degli indici, i canali dei vertici e i dati dei vertici, il blocco della mesh compressa, il riquadro di contenimento
 locale e le informazioni di streaming.
 
-- **Vertici esterni.** La maggior parte della geometria distribuita vive in un file `.resS` accanto al contenitore. Il tool lo
+- **Vertici esterni.** La maggior parte della geometria distribuita vive in un file `.resS` accanto al contenitore. Lo strumento lo
   legge dalla cartella del contenitore (si usa solo il nome del file del percorso `archive:/...` memorizzato). Un `.resS`
   mancante è un errore, non una mesh vuota.
 - **Stream e canali.** I canali dicono quale stream, offset, formato e dimensione ha ogni attributo. Gli stream sono impacchettati

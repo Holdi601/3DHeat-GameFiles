@@ -1,9 +1,9 @@
 ---
-title: Unreal-5-Karten
+title: "Unreal-5-Karten"
 nav_order: 2
 lang: "de"
 source: level-unreal-world-partition.md
-source_hash: "eca14618a673"
+source_hash: "c1744b0b011d"
 nav_exclude: true
 search_exclude: true
 ---
@@ -47,7 +47,7 @@ Wasserkörper. Kein Editor und kein Projekt sind nötig, nur das installierte Sp
    python -m heat3d_gamefiles ue-map "<game>" <map> --ground-spacing 4
    ```
 
-4. **`map.glb` öffnen** im Bereich Hintergrund / Level des 3DHeat-Viewers
+4. **`map.glb` öffnen** im Panel Hintergrund / Level des 3DHeat-Viewers
    ([Level laden](https://holdi601.github.io/3DHeat/levels.html)).
 
 ## Optionen {#options}
@@ -96,14 +96,14 @@ sie auf der Karte.
 | Wasser | das Mesh jedes Wasserkörpers, auf das Bodenraster gelegt, behalten dort, wo es über dem Boden steht | Wasser liegt einige Meter über dem Boden darunter, wie ein Fluss über seinem Bett |
 
 Die Eigenschaften der Landschaft werden über ihre Form gefunden, nicht über die
-Plattposition (die Plätze verschieben sich zwischen Engine-Versionen). Die
+Platznummer (die Plätze verschieben sich zwischen Engine-Versionen). Die
 Strukturen sind die vereinfachten Stellvertreter, nicht die Modelle in voller
 Detailtiefe. Laub, Decals und Landschaftsmaterialien werden nicht exportiert; der
 Boden ist ohne Textur und wird vom Viewer schattiert. Archivdetails:
 [Unreal 5 IoStore](reader-unreal-iostore.md).
 
 **Begriffe:** Die Lizenzen der Spiele erlauben meist persönliche, nichtkommerzielle
-Nutzung und verbieten das Reverse Engineering „soweit solche Handlungen nicht per
-Gesetz verboten werden können". Das Lesen deiner eigenen Installation ist deine
+Nutzung und verbieten das Reverse Engineering „to the extent that such actions cannot be
+prohibited by law“. Das Lesen deiner eigenen Installation ist deine
 Entscheidung unter diesen Lizenzen; die Ausgabe ist für deinen eigenen Gebrauch
 bestimmt und wird nicht weitergegeben.

@@ -3,7 +3,7 @@ title: "Cartes Unreal 5"
 nav_order: 2
 lang: "fr"
 source: level-unreal-world-partition.md
-source_hash: "eca14618a673"
+source_hash: "c1744b0b011d"
 nav_exclude: true
 search_exclude: true
 ---
@@ -46,7 +46,7 @@ seulement le jeu installé.
    python -m heat3d_gamefiles ue-map "<game>" <map> --ground-spacing 4
    ```
 
-4. **Ouvrez `map.glb`** dans le panneau Arrière-plan / niveau de la visionneuse 3DHeat
+4. **Ouvrez `map.glb`** dans le panneau Arrière-plan / niveau du visualiseur 3DHeat
    ([charger un niveau](https://holdi601.github.io/3DHeat/levels.html)).
 
 ## Options {#options}
@@ -55,7 +55,7 @@ seulement le jeu installé.
 |---|---|---|
 | `<game>` | obligatoire | le dossier du jeu, son `Content/Paks`, ou son nom de dossier Steam |
 | `<map>` | obligatoire | un nom tel que l'affiche `ue-maps`, ou une partie unique de celui-ci |
-| `-o`, `--out FILE` | `<map>.glb` | le fichier à écrire |
+| `-o`, `--out FILE` | `<map>.glb` (dans `$HEAT3D_LEVELS/<game>/` quand cette variable est définie) | le fichier à écrire |
 | `--ground-spacing METRES` | 2 | l'écart entre sommets du paysage, arrondi à un nombre entier de ses propres quads |
 | `--no-structures` | | laisser de côté les bâtiments HLOD et accessoires |
 | `--no-water` | | laisser de côté les plans d'eau |
@@ -96,10 +96,9 @@ utilise le même repère, donc elle tombe sur la carte.
 Les propriétés du paysage sont trouvées par leur forme, non par leur numéro d'emplacement (les
 emplacements bougent entre versions du moteur). Les structures sont les substituts simplifiés, non
 les modèles en pleine définition. Le feuillage, les décalques et les matériaux de paysage ne sont pas
-exportés ; le sol est sans texture et éclairé par la visionneuse. Détails d'archive :
+exportés ; le sol est sans texture et éclairé par le visualiseur. Détails d'archive :
 [Unreal 5 IoStore](reader-unreal-iostore.md).
 
 **Termes :** les licences des jeux autorisent en général l'usage personnel non commercial et
-interdisent la rétro-ingénierie « dans la mesure où de tels actes ne peuvent pas être interdits par la
-loi ». Lire votre propre installation relève de votre décision au titre de ces licences ; le résultat
+interdisent la rétro-ingénierie « to the extent that such actions cannot be prohibited by law ». Lire votre propre installation relève de votre décision au titre de ces licences ; le résultat
 est pour votre usage personnel et ne doit pas être partagé.

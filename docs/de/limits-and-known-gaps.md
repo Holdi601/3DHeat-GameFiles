@@ -1,9 +1,9 @@
 ---
-title: Grenzen und bekannte Lücken
+title: "Grenzen und bekannte Lücken"
 nav_order: 10
 lang: "de"
 source: limits-and-known-gaps.md
-source_hash: "d4e0f1a4714e"
+source_hash: "02df0dd20fc9"
 nav_exclude: true
 search_exclude: true
 ---
@@ -70,11 +70,11 @@ Prüfen erzeugt Ausgaben, die richtig aussehen und es nicht sind.
   der Hangneigung des Höhenfeldes, nach einer eigenen Regel, und ein Level, dessen
   Maskenseiten nicht zusammenpassen, bekommt eine einzige Farbe. Jede Schicht ist der
   Mittelwert ihrer Farbkarte, nicht ihre Textur. Siehe
-  [Frostbite](reader-frostbite.md#terrain-layers). Stücke des Höhenfeldes mit
+  [Frostbite](https://holdi601.github.io/3DHeat-Ext-Battlefield/reader-frostbite.html#terrain-layers). Stücke des Höhenfeldes mit
   verschiedener Auflösung treffen sich mit kleinen Stufen.
 - **Eine Farbkarte von Battlefield 6 wird ausgewählt, nicht gelesen.** Ein
   Shader-Block benennt jede Textur, die er abtastet, ohne zu sagen, welche die Farbe
-  ist; die Wahl erfolgt nach dem Namen (siehe [Frostbite](reader-frostbite.md#textures-and-materials))
+  ist; die Wahl erfolgt nach dem Namen (siehe [Frostbite](https://holdi601.github.io/3DHeat-Ext-Battlefield/reader-frostbite.html#textures-and-materials))
   und kann für eine Oberfläche ein Detail- oder Verzierungsblatt wählen. Decal-Blätter
   (`t_de_...`) verlieren gegen die eigene Karte der Oberfläche; das Decal eines Schildes,
   als seine Tafel gezeichnet, zeigte sein Wappen um ein Viertel gedreht. Distanzfelder,
@@ -91,12 +91,12 @@ Prüfen erzeugt Ausgaben, die richtig aussehen und es nicht sind.
   Dort platziert sind Fels- und Klippenmeshes, und kein Asset des Levels ist für Löcher,
   Tunnel oder Höhlen benannt. Zwei Rastersbäume werden lauflängenkodiert gelesen, aber
   nicht platziert, und sie sind das, was übrig bleibt (siehe
-  [Frostbite](reader-frostbite.md#terrain-layers)).
+  [Frostbite](https://holdi601.github.io/3DHeat-Ext-Battlefield/reader-frostbite.html#terrain-layers)).
 - **Eine Objektvariation von Battlefield 6 erreicht einen Abschnitt über seine
   Zwillinge.** Die Variation einer platzierten Kopie wählt die Shader-Blöcke ihrer
   Abschnitte über den Schlüssel; hat ein Mesh für eine Variation keinen Block, wird die
   Variante eines Abschnitts eines anderen Meshes mit einem identischen Standardblock
-  genommen (siehe [Frostbite](reader-frostbite.md#textures-and-materials)). Das ist die
+  genommen (siehe [Frostbite](https://holdi601.github.io/3DHeat-Ext-Battlefield/reader-frostbite.html#textures-and-materials)). Das ist die
   Regel des Exporters; ein Abschnitt ohne variierenden Zwilling behält sein
   Standardaussehen.
 - **Geschichtete Materialien von Battlefield 6 werden als ihre Basis und ein Blatt

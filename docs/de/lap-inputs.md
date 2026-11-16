@@ -1,16 +1,16 @@
 ---
-title: Rundeneingaben
+title: "Rundeneingaben"
 nav_order: 7
 lang: "de"
 source: lap-inputs.md
-source_hash: "76716785ff83"
+source_hash: "3f335d2fc454"
 nav_exclude: true
 search_exclude: true
 ---
 # Rundeneingaben {#lap-inputs}
 
 Eine **Rundendatei** ist eine Liste von x-, y-, z-Punkten: wohin das Auto gefahren
-ist. Die schnellste selbst gemachte ist die CSV unter [5. Eine `.csv`-Tabelle](#5-a-csv-table) unten.
+ist. Die einfachste selbst gemachte ist die CSV unter [5. Eine `.csv`-Tabelle](#5-a-csv-table) unten.
 
 Eine Runde sagt dem Streckenexport **wohin das Auto gefahren ist**. Alles andere darin
 wird nicht verwendet: Geschwindigkeit, Eingaben und g-Kräfte gehören zur
@@ -50,7 +50,7 @@ Geschrieben von den Telemetrie-Recordern von 3DHeat (`heat3d_capture telemetry`
 - Achsen: y ist die Höhe. Forza- und AC-Rally-Runden verwenden die horizontalen
   Achsen des Spiels, so wie der Recorder sie schreibt. BeamNG-Runden werden im
   Bezugssystem des Viewers erwartet, `(x, z, -y)` des Z-nach-oben-Weltsystems von
-  BeamNG (siehe [BeamNG.drive](course-beamng.md#the-laps-frame)).
+  BeamNG (siehe [BeamNG.drive](https://holdi601.github.io/3DHeat-Ext-BeamNG/course-beamng.html#the-laps-frame)).
 
 ### 2. Eine Routendatei {#a-route-file}
 
@@ -147,7 +147,7 @@ sind, grenzen sie den Ausschnitt auf einen Korridor ein und steuern die Detailti
 | Name | der Dateiname ohne Endung oder der Ordnername ohne ` (course_...)`; er wird zum Standardnamen der Ausgabedatei |
 | zurückgelegte Strecke | die Summe der Abstände zwischen aufeinanderfolgenden Punkten (ausgegeben als `m driven`; bei einem Ordner zählen die Sprünge zwischen den Dateien mit) |
 | Box | die Ausdehnung in x und z, um `--margin` erweitert; die Höhe wird nie begrenzt |
-| Korridor | die x- und z-Werte jedes Punktes, siehe [Streckenexport](course-export.md#the-corridor) |
+| Korridor | die x- und z-Werte jedes Punktes, siehe [Streckenexport](https://holdi601.github.io/3DHeat-Ext-Forza/course-export.html#the-corridor) |
 | Detailtiefe | die Entfernung jeder platzierten Kopie zum nächsten Punkt, siehe [Detailstufen und Budget](detail-budget.md) |
 
 Eine Runde mit weniger als zwei Punkten wird abgelehnt ("holds no driving").

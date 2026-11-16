@@ -3,7 +3,7 @@ title: Limiti e lacune note
 nav_order: 10
 lang: "it"
 source: limits-and-known-gaps.md
-source_hash: "d4e0f1a4714e"
+source_hash: "02df0dd20fc9"
 nav_exclude: true
 search_exclude: true
 ---
@@ -63,10 +63,10 @@ sembra giusto e non lo è.
   strade vengono lasciate fuori. Il gioco mescola i suoi strati di superficie in un grafo di shader che non viene
   letto; l'esportazione dispone i colori degli strati secondo le loro maschere e la pendenza della mappa delle altezze,
   con una regola propria, e un livello le cui pagine di maschera non combaciano ottiene un unico colore. Ogni strato
-  è la media della sua mappa colore, non la sua texture. Vedi [Frostbite](reader-frostbite.md#terrain-layers). I pezzi
+  è la media della sua mappa colore, non la sua texture. Vedi [Frostbite](https://holdi601.github.io/3DHeat-Ext-Battlefield/reader-frostbite.html#terrain-layers). I pezzi
   della mappa delle altezze a risoluzioni diverse si incontrano con piccoli gradini.
 - **Una mappa colore di Battlefield 6 viene scelta, non letta.** Un blocco shader elenca ogni texture che campiona
-  senza dire quale sia il colore; la scelta avviene per nome (vedi [Frostbite](reader-frostbite.md#textures-and-materials))
+  senza dire quale sia il colore; la scelta avviene per nome (vedi [Frostbite](https://holdi601.github.io/3DHeat-Ext-Battlefield/reader-frostbite.html#textures-and-materials))
   e può prendere un foglio di rifinitura o di dettaglio per una superficie. I fogli di decalcomania (`t_de_...`) perdono
   contro la mappa propria della superficie; la decalcomania di un cartello disegnata come il suo pannello mostrava il
   suo scudo ruotato di un quarto. Campi di distanza, tavolozze e maschere di canale non vengono mai presi. Gli edifici
@@ -79,11 +79,11 @@ sembra giusto e non lo è.
   valore di altezza riservato (nessuna pagina di altezze contiene 0 o 65.535), i flag dei nodi (tutti uguali), e le mesh
   o gli asset che scavano il suolo: ciò che è collocato sotto il suolo lì sono mesh di roccia e scogliera, e nessun asset
   del livello è dichiarato per buchi, gallerie o grotte. Due alberi raster sono decodificati a sequenze di lunghezza ma
-  non collocati, e sono ciò che resta (vedi [Frostbite](reader-frostbite.md#terrain-layers)).
+  non collocati, e sono ciò che resta (vedi [Frostbite](https://holdi601.github.io/3DHeat-Ext-Battlefield/reader-frostbite.html#terrain-layers)).
 - **Una variazione di oggetto di Battlefield 6 raggiunge una sezione tramite i suoi gemelli.** La variazione di una copia
   collocata sceglie i blocchi shader delle sue sezioni tramite chiave; dove una mesh non ha un blocco per una variazione,
   si prende la variante di una sezione di un'altra mesh con un blocco predefinito identico (vedi
-  [Frostbite](reader-frostbite.md#textures-and-materials)). Questa è la regola dell'esportatore; una sezione senza un
+  [Frostbite](https://holdi601.github.io/3DHeat-Ext-Battlefield/reader-frostbite.html#textures-and-materials)). Questa è la regola dell'esportatore; una sezione senza un
   gemello che varia mantiene il suo aspetto predefinito.
 - **I materiali stratificati di Battlefield 6 vengono disegnati come la loro base e un unico foglio.** Un pannello di
   parete con scritte viene disegnato come il suo intonaco con sopra il foglio delle lettere; gli altri strati del

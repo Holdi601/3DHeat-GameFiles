@@ -1,9 +1,9 @@
 ---
-title: Niveles de detalle y presupuesto
+title: "Niveles de detalle y presupuesto"
 nav_order: 4
 lang: "es"
 source: detail-budget.md
-source_hash: "4ff76afee3ab"
+source_hash: "d80740cf6973"
 nav_exclude: true
 search_exclude: true
 ---
@@ -65,7 +65,7 @@ Las entradas fijadas cuentan en su nivel más fino. El 25% (`HEADROOM`) permite 
 | AC Rally | lo más lejos de la conducción primero, como BeamNG |
 | Battlefield 6 | lo más pequeño primero: diagonal de la caja que envuelve por la escala |
 
-Los bordillos (y, en BeamNG, los modelos de superficie de conducción) nunca se dejan fuera, así que un presupuesto menor de lo que cuestan ellos por sí solos lo supera solo lo que ocupan ellos, y nada más.
+Los bordillos (y, en BeamNG, los modelos de superficie de conducción) nunca se dejan fuera, así que un presupuesto menor de lo que cuestan ellos por sí solos solo lo superan ellos, y nada más.
 
 La herramienta usa distancia dividida por tamaño en Forza porque, si se ordenara solo por distancia, una unidad de aire acondicionado en una pared a nueve metros duraría más que la fachada de veinte metros a la que está sujeta, a doce metros. Lo que está junto a la carretera va el último, sea cual sea su tamaño, porque una barrera de tres metros a cinco metros de la línea es el borde de la pista, mientras que un edificio de cincuenta metros a sesenta metros atrás es escenografía.
 
@@ -73,7 +73,7 @@ El resumen informa `N of M copies left out to fit the budget, the smallest and f
 
 ## Edificios completos (Forza) {#whole-buildings-forza}
 
-Un sustituto de edificio entero cuenta como una copia, a una distancia medida hasta el borde más cercano del edificio. Se conserva o se deja fuera como una unidad. Las piezas modulares que sustituye no se presupuestan en absoluto. Ver [Forza Horizon](course-forza-horizon.md#buildings-drawn-whole).
+Un sustituto de edificio entero cuenta como una copia, a una distancia medida hasta el borde más cercano del edificio. Se conserva o se deja fuera como una unidad. Las piezas modulares que sustituye no se presupuestan en absoluto. Ver [Forza Horizon](https://holdi601.github.io/3DHeat-Ext-Forza/course-forza-horizon.html#buildings-drawn-whole).
 
 ## Qué es un nivel de detalle, por juego {#what-a-level-of-detail-is-per-game}
 

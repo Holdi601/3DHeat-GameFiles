@@ -12,7 +12,7 @@ search_exclude: true
 **Elenca ed estrae** gli archivi `.pak` di Unreal 4.22-5.x: versioni 8, 9, 10, 11 e 12, compressione Zlib, Gzip e Oodle, e
 archivi cifrati quando fornisci la chiave AES. Non interpreta ciò che estrae (`.uasset`, `.umap`).
 
-Sorgente: [`pak.py`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/heat3d_gamefiles/pak.py).
+Fonte: [`pak.py`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/heat3d_gamefiles/pak.py).
 Comandi: `identify`, `list`, `extract` (vedi [Comandi](commands.md)).
 
 ## Struttura {#layout}
@@ -27,7 +27,7 @@ campi conta:
 ```
 
 Il flag di cifratura sta **prima** del magic. Prenderlo da dopo il magic cade sulla "Z" di "Zlib". Allora ogni archivio risulta
-cifrato e ogni nome di metodo perde la prima lettera ("lib", "odle"), un errore silenzioso e plausibile. La versione è il bit basso,
+cifrato e ogni nome di metodo perde la prima lettera ("lib", "odle"), un errore silenzioso e plausibile. La versione è il byte basso,
 perché le build "frozen index" impostano un bit alto.
 
 L'indice contiene il punto di montaggio, l'indice dei percorsi con hash, l'indice completo delle directory, e un blocco di **voci

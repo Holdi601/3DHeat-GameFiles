@@ -1,9 +1,9 @@
 ---
-title: Detailstufen und Budget
+title: "Detailstufen und Budget"
 nav_order: 4
 lang: "de"
 source: detail-budget.md
-source_hash: "4ff76afee3ab"
+source_hash: "d80740cf6973"
 nav_exclude: true
 search_exclude: true
 ---
@@ -93,8 +93,9 @@ Budget, das kleiner ist als ihre eigenen Kosten, wird also nur durch sie
 überschritten, durch nichts anderes.
 
 Das Verfahren nimmt bei Forza Entfernung geteilt durch Größe, weil eine Ordnung nur
-nach Entfernung eine Klimaanlage an einer neun Meter entfernten Wand länger
-überleben ließe als die zwanzig Meter entfernte Fassade, an der sie hängt. Dinge
+nach Entfernung eine Klimaanlage an einer Wand, neun Meter entfernt, länger
+überleben ließe als die Fassade, an der sie hängt: zwanzig Meter groß und zwölf Meter
+entfernt. Dinge
 neben der Straße kommen unabhängig von ihrer Größe zuletzt, denn eine drei Meter
 hohe Absperrung fünf Meter von der Linie ist der Rand der Strecke, während ein
 fünfzig Meter großes Gebäude sechzig Meter zurückliegt und Kulisse ist.
@@ -109,7 +110,7 @@ Die Zusammenfassung meldet
 Ein Stellvertreter für ein ganzes Gebäude zählt als eine Kopie, mit einer Entfernung
 bis zur nächsten Kante des Gebäudes gemessen. Es wird als Einheit behalten oder
 weggelassen. Die modularen Teile, die es ersetzt, werden gar nicht budgetiert. Siehe
-[Forza Horizon](course-forza-horizon.md#buildings-drawn-whole).
+[Forza Horizon](https://holdi601.github.io/3DHeat-Ext-Forza/course-forza-horizon.html#buildings-drawn-whole).
 
 ## Was eine Detailstufe ist, je Spiel {#what-a-level-of-detail-is-per-game}
 
@@ -127,7 +128,7 @@ außerhalb des Budgets und richtet sich nach `--ground-spacing`. Unter einem Bud
 das du vorgibst, werden, sobald jedes Mesh auf seiner gröbsten Stufe steht, Kopien
 kleinste zuerst weggelassen. Die Größe ist die Diagonale der Bounding Box des Meshes
 mal Skalierung der Kopie, weil es keine Fahrt gibt, von der aus man die Entfernung
-messen könnte. Der Geländehintergrund wird nie weggelassen. Eine Ebene kommt
+messen könnte. Der Geländehintergrund wird nie weggelassen. Ein Level kommt
 automatisch auf etwa zehn Millionen Dreiecke.
 
 ## Eine Zahl wählen {#choosing-a-number}

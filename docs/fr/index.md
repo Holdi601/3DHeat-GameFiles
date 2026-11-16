@@ -3,21 +3,21 @@ title: "Accueil"
 nav_order: 1
 lang: "fr"
 source: index.md
-source_hash: "6400905cf31a"
+source_hash: "dc4db9349e8c"
 nav_exclude: true
 search_exclude: true
 permalink: /fr/
 ---
-# 3DHeat GameFiles {#dheat-gamefiles}
+# 3DHeat GameFiles
 
 **Qu'est-ce que c'est ?** Un outil qui construit un modèle 3D d'un circuit de course ou d'un
 niveau de jeu, à partir des fichiers d'un jeu que vous avez déjà installé.
 
-**À quoi ça sert ?** La visionneuse 3DHeat peint les endroits où vous avez roulé ou joué sous forme
+**À quoi ça sert ?** Le visualiseur 3DHeat peint les endroits où vous avez roulé ou joué sous forme
 de carte de chaleur. Avec cet outil, elle la peint sur le vrai circuit ou le vrai niveau, et non sur un espace vide.
 
 **Exemple :** prenez un tour que vous avez roulé. L'outil construit la route et le terrain autour
-en un seul fichier 3D, pour que la visionneuse peigne votre vitesse ou vos sorties de route sur le vrai circuit :
+en un seul fichier 3D, pour que le visualiseur peigne votre vitesse ou vos sorties de route sur le vrai circuit :
 
 ![Un tour entre, le circuit qui l'entoure sort](../assets/img/fr/lap-to-course.svg)
 
@@ -28,12 +28,12 @@ sous forme de fichier glTF binaire (`.glb`). Sa tâche principale est l'**export
 lui donnez un tour, et il écrit le sol, la route distinguée de l'accotement et de l'herbe, et les
 bordures, glissières, murs de pneus, panneaux et bâtiments qui l'entourent.
 
-Il fait partie de [3DHeat](https://github.com/Holdi601/3DHeat), une visionneuse de cartes de chaleur
+Il fait partie de [3DHeat](https://github.com/Holdi601/3DHeat), un visualiseur de cartes de chaleur
 de télémétrie 3D en temps réel, d'analyse de course et de revue de partie
 ([documentation](https://holdi601.github.io/3DHeat/)). Les fichiers `.glb` que cet
-outil écrit sont les niveaux sur lesquels la visionneuse dessine la chaleur.
+outil écrit sont les niveaux sur lesquels le visualiseur dessine la chaleur.
 
-![Où GameFiles se situe entre le jeu et la visionneuse](../assets/img/fr/where-it-fits.svg)
+![Où GameFiles se situe entre le jeu et le visualiseur](../assets/img/fr/where-it-fits.svg)
 
 Il existe trois façons de faire entrer la géométrie d'un niveau dans 3DHeat :
 
@@ -46,7 +46,7 @@ Il existe trois façons de faire entrer la géométrie d'un niveau dans 3DHeat :
 Paquet Python : `heat3d_gamefiles`. Dépôt :
 [Holdi601/3DHeat-GameFiles](https://github.com/Holdi601/3DHeat-GameFiles). Licence : MIT.
 
-## Ce qu'il sait faire {#what-it-can-do}
+## Ce qu'il sait faire
 
 | Jeu ou moteur | Export de circuit (`course`) | Lecture des archives |
 |---|---|---|
@@ -59,11 +59,11 @@ Paquet Python : `heat3d_gamefiles`. Dépôt :
 | `.vpk` Source 2 | non | `identify`, `list`, `extract` |
 | Jeux Unreal 5 en World Partition | pas de tour ; une carte entière avec `ue-map` (listée par `ue-maps`) : paysage, bâtiments HLOD et accessoires, eau | - |
 | Arma Reforger (Enfusion) | pas de tour ; un monde entier avec `enfusion-world` (listé par `enfusion-worlds`) : terrain dans ses couleurs, la mer, bâtiments en boîtes | - |
-| Forza (voitures) | `cars` : chaque voiture en faible détail, pour l'onglet Analyse de course de la visionneuse | - |
+| Forza (voitures) | `cars` : chaque voiture en faible détail, pour l'onglet Analyse de course du visualiseur | - |
 
 Les tours d'Assetto Corsa EVO et d'iRacing sont refusés, avec la raison. Voir [Limites et lacunes connues](limits-and-known-gaps.md).
 
-## Installation {#install}
+## Installation
 
 Vous débutez avec la ligne de commande ? Lisez d'abord [Avant de commencer](before-you-start.md).
 
@@ -95,7 +95,7 @@ sur votre ordinateur. Elle n'est jamais livrée avec cet outil. Voir [Oodle](rea
 L'outil est écrit pour Windows. Il trouve les jeux par la liste des bibliothèques Steam et par
 `%LOCALAPPDATA%`, et charge Oodle comme DLL Windows. Les autres plateformes n'ont pas été testées.
 
-## Démarrage rapide {#quick-start}
+## Démarrage rapide
 
 Un **fichier de tour** est un enregistrement de l'endroit où votre voiture est passée : une liste de points x, y, z.
 Il vient de [3DHeat GameCapture](https://github.com/Holdi601/3DHeat-GameCapture)
@@ -123,32 +123,32 @@ python -m heat3d_gamefiles ue-map "<jeu>" <carte> -o map.glb
 python -m heat3d_gamefiles enfusion-worlds
 python -m heat3d_gamefiles enfusion-world <monde> -o world.glb
 
-# Chaque voiture Forza, pour l'onglet Analyse de course de la visionneuse
+# Chaque voiture Forza, pour l'onglet Analyse de course du visualiseur
 python -m heat3d_gamefiles cars -o forza.h3dcars
 
 # Quel est ce fichier ?
 python -m heat3d_gamefiles identify un_fichier_d_archive.pak
 ```
 
-Ouvrez le `.glb` dans la visionneuse 3DHeat. Les coordonnées du monde propres au jeu sont conservées
+Ouvrez le `.glb` dans le visualiseur 3DHeat. Les coordonnées du monde propres au jeu sont conservées
 (voir [Format de sortie](output-format.md)), donc un tour enregistré s'aligne sur le circuit.
 
-## Plan de cette documentation {#map-of-this-documentation}
+## Plan de cette documentation
 
 - [Avant de commencer](before-you-start.md) : Python, un terminal, la première commande.
 - [Commandes](commands.md) : chaque verbe et chaque option, avec des exemples.
 - [Référence des commandes](../cli-reference.md) : le `--help` de chaque verbe, généré depuis le code.
 - [Inspecter les archives](inspecting-archives.md) : `identify`, `list`, `extract`, `meshes`, pas à pas.
-- [Export de circuit](course-export.md) : comment un tour devient un circuit, pour tous les jeux.
-  - [Forza Horizon](course-forza-horizon.md)
-  - [BeamNG.drive](course-beamng.md)
-  - [Assetto Corsa Rally](course-assetto-corsa-rally.md)
+- [Export de circuit](https://holdi601.github.io/3DHeat-Ext-Forza/course-export.html) : comment un tour devient un circuit, pour tous les jeux.
+  - [Forza Horizon](https://holdi601.github.io/3DHeat-Ext-Forza/course-forza-horizon.html)
+  - [BeamNG.drive](https://holdi601.github.io/3DHeat-Ext-BeamNG/course-beamng.html)
+  - [Assetto Corsa Rally](https://holdi601.github.io/3DHeat-Ext-ACRally/course-assetto-corsa-rally.html)
   - [Niveaux de détail et budget](detail-budget.md)
 - [Niveaux entiers](whole-levels.md) : un niveau, une carte ou un monde sans tour.
-  - [Niveaux de Battlefield 6](level-battlefield.md) : `levels`, `level`
+  - [Niveaux de Battlefield 6](https://holdi601.github.io/3DHeat-Ext-Battlefield/level-battlefield.html) : `levels`, `level`
   - [Cartes Unreal 5](level-unreal-world-partition.md) : `ue-maps`, `ue-map`
-  - [Mondes d'Arma Reforger](level-arma-reforger.md) : `enfusion-worlds`, `enfusion-world`
-- [Voitures Forza](forza-cars.md) : `cars`, le fichier de voitures de l'onglet Analyse de course de la visionneuse.
+  - [Mondes d'Arma Reforger](https://holdi601.github.io/3DHeat-Ext-Reforger/level-arma-reforger.html) : `enfusion-worlds`, `enfusion-world`
+- [Voitures Forza](https://holdi601.github.io/3DHeat-Ext-Forza/forza-cars.html) : `cars`, le fichier de voitures de l'onglet Analyse de course du visualiseur.
 - [Entrées de tour](lap-inputs.md) : chaque forme de fichier de tour acceptée par l'outil.
 - [Format de sortie](output-format.md) : ce qu'il y a dans le `.glb`.
 - [Lecteurs d'archives](archive-readers.md) : une page par format de conteneur, décrivant ce qu'il lit,
@@ -160,13 +160,13 @@ Ouvrez le `.glb` dans la visionneuse 3DHeat. Les coordonnées du monde propres a
 - [Développement](development.md) : carte des modules et tests, y compris les tests qui tournent sur des jeux installés.
 - [Maintenir ces documents](maintaining.md) : la liste de contrôle des versions pour ces pages.
 
-## Partie de 3DHeat {#part-of-3dheat}
+## Partie de 3DHeat
 
-3DHeat GameFiles est l'un des outils gratuits qui entourent la visionneuse 3DHeat :
+3DHeat GameFiles est l'un des outils gratuits qui entourent le visualiseur 3DHeat :
 
 | Outil | Ce qu'il fait | Documentation |
 |---|---|---|
-| [3DHeat](https://github.com/Holdi601/3DHeat) | la visionneuse : cartes de chaleur 3D, analyse de course et revue de partie dans le navigateur | [site](https://holdi601.github.io/3DHeat/) |
+| [3DHeat](https://github.com/Holdi601/3DHeat) | le visualiseur : cartes de chaleur 3D, analyse de course et revue de partie dans le navigateur | [site](https://holdi601.github.io/3DHeat/) |
 | [GameFiles](https://github.com/Holdi601/3DHeat-GameFiles) | circuits et niveaux tirés des fichiers livrés par un jeu, en `.glb` | [site](https://holdi601.github.io/3DHeat-GameFiles/) |
 | [GameCapture](https://github.com/Holdi601/3DHeat-GameCapture) | télémétrie de tour des jeux de course ; niveaux reconstruits à partir de vidéos de jeu | [site](https://holdi601.github.io/3DHeat-GameCapture/) |
 | [Unreal Exporter](https://github.com/Holdi601/3DHeat-UnrealExporter) | un plugin de l'éditeur Unreal qui enregistre un niveau en `.glb` | [site](https://holdi601.github.io/3DHeat-UnrealExporter/) |
@@ -178,7 +178,16 @@ Ouvrez le `.glb` dans la visionneuse 3DHeat. Les coordonnées du monde propres a
 | [Ext-Squad](https://github.com/Holdi601/3DHeat-Ext-Squad) | démos de serveurs Squad en fichiers de match | [site](https://holdi601.github.io/3DHeat-Ext-Squad/) |
 | [Ext-DCS](https://github.com/Holdi601/3DHeat-Ext-DCS) | cartes de DCS World en niveaux `.glb` | [site](https://holdi601.github.io/3DHeat-Ext-DCS/) |
 | [Ext-IL2](https://github.com/Holdi601/3DHeat-Ext-IL2) | cartes d'IL-2 Sturmovik en niveaux `.glb` | [site](https://holdi601.github.io/3DHeat-Ext-IL2/) |
+| [Ext-Dota](https://github.com/Holdi601/3DHeat-Ext-Dota) | la carte de Dota 2 de votre propre installation, en niveau 3D | [site](https://holdi601.github.io/3DHeat-Ext-Dota/) |
+| [Ext-DotaReplay](https://github.com/Holdi601/3DHeat-Ext-DotaReplay) | replays de Dota 2 | [site](https://holdi601.github.io/3DHeat-Ext-DotaReplay/) |
+| [Ext-Riot](https://github.com/Holdi601/3DHeat-Ext-Riot) | replays de League of Legends et de VALORANT (ce qu'ils contiennent sans chiffrement) | [site](https://holdi601.github.io/3DHeat-Ext-Riot/) |
+| [Ext-Forza](https://github.com/Holdi601/3DHeat-Ext-Forza) | tours, courses et voitures Forza depuis votre propre installation | [site](https://holdi601.github.io/3DHeat-Ext-Forza/) |
+| [Ext-Battlefield](https://github.com/Holdi601/3DHeat-Ext-Battlefield) | niveaux de Battlefield (Frostbite) en niveaux 3D | [site](https://holdi601.github.io/3DHeat-Ext-Battlefield/) |
+| [Ext-BeamNG](https://github.com/Holdi601/3DHeat-Ext-BeamNG) | circuits de BeamNG.drive | [site](https://holdi601.github.io/3DHeat-Ext-BeamNG/) |
+| [Ext-ACRally](https://github.com/Holdi601/3DHeat-Ext-ACRally) | étapes d'Assetto Corsa Rally en circuits | [site](https://holdi601.github.io/3DHeat-Ext-ACRally/) |
+| [Ext-Reforger](https://github.com/Holdi601/3DHeat-Ext-Reforger) | mondes d'Arma Reforger (Enfusion) en niveaux 3D | [site](https://holdi601.github.io/3DHeat-Ext-Reforger/) |
+| [Ext-R6](https://github.com/Holdi601/3DHeat-Ext-R6) | replays de matchs Rainbow Six Siege | [site](https://holdi601.github.io/3DHeat-Ext-R6/) |
 
-Les fichiers de match de la visionneuse sont décrits dans
+Les fichiers de match du visualiseur sont décrits dans
 [Un fichier par match : `.3dheat`](https://holdi601.github.io/3DHeat/container.html) ;
-un niveau fait ici se charge à côté d'eux, dans le panneau Arrière-plan / niveau de la visionneuse.
+un niveau fait ici se charge à côté d'eux, dans le panneau Arrière-plan / niveau du visualiseur.

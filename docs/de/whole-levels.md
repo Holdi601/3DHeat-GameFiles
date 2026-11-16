@@ -1,9 +1,9 @@
 ---
-title: Ganze Level
+title: "Ganze Level"
 nav_order: 5
 lang: "de"
 source: whole-levels.md
-source_hash: "1b82d34dfb69"
+source_hash: "70840dceebe6"
 nav_exclude: true
 search_exclude: true
 ---
@@ -15,10 +15,10 @@ search_exclude: true
 
 | Spiel oder Engine | Auflisten | Exportieren | Seite |
 |---|---|---|---|
-| Battlefield 6 (Frostbite) | `levels` | `level <level>` | [Battlefield-6-Level](level-battlefield.md) |
+| Battlefield 6 (Frostbite) | `levels` | `level <level>` | [Battlefield-6-Level](https://holdi601.github.io/3DHeat-Ext-Battlefield/level-battlefield.html) |
 | Unreal-5-Spiele mit World Partition | `ue-maps <game>` | `ue-map <game> <map>` | [Unreal-5-Karten](level-unreal-world-partition.md) |
-| Arma Reforger (Enfusion) | `enfusion-worlds` | `enfusion-world <world>` | [Arma-Reforger-Welten](level-arma-reforger.md) |
+| Arma Reforger (Enfusion) | `enfusion-worlds` | `enfusion-world <world>` | [Arma-Reforger-Welten](https://holdi601.github.io/3DHeat-Ext-Reforger/level-arma-reforger.html) |
 
-Jedes Paar funktioniert gleich: Der erste Befehl listet auf, was das installierte Spiel enthält, der zweite schreibt eines davon als eine einzige `.glb` in den eigenen Weltkoordinaten des Spiels, damit dort aufgenommene Positionen darauf liegen. Die Teile heißen `ground:`, `structure:` und `water:` wie bei jedem anderen Export (siehe [Ausgabeformat](output-format.md)). Lade die Datei im Level-Bereich des 3DHeat-Viewers.
+Jedes Paar funktioniert gleich: Der erste Befehl listet auf, was das installierte Spiel enthält, der zweite schreibt eines davon als eine einzige `.glb` in den eigenen Weltkoordinaten des Spiels, damit dort aufgenommene Positionen darauf liegen. Die Teile heißen `ground:`, `structure:` und `water:` wie bei jedem anderen Export (siehe [Ausgabeformat](output-format.md)). Lade die Datei im Panel Hintergrund / Level des 3DHeat-Viewers.
 
-![Where GameFiles fits between the game and the viewer](../assets/img/de/where-it-fits.svg)
+![Wo GameFiles zwischen Spiel und Viewer steht](../assets/img/de/where-it-fits.svg)

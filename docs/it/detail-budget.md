@@ -3,7 +3,7 @@ title: Livelli di dettaglio e budget
 nav_order: 4
 lang: "it"
 source: detail-budget.md
-source_hash: "4ff76afee3ab"
+source_hash: "d80740cf6973"
 nav_exclude: true
 search_exclude: true
 ---
@@ -83,8 +83,8 @@ entrano, le copie vengono escluse:
 I cordoli (e, per BeamNG, i modelli di superficie di guida) non vengono mai esclusi, quindi un budget più
 piccolo di quanto costino da soli viene superato da loro, e da nient'altro.
 
-Lo strumento usa distanza su dimensione per Forza perché, ordinando solo per distanza, un'unità di
-condizionamento su un muro a nove metri supererebbe la facciata di venti metri a cui è appesa, a dodici metri.
+Lo strumento usa distanza su dimensione per Forza perché, ordinando solo per distanza, un condizionatore
+appeso a un muro a nove metri verrebbe mantenuto più a lungo della facciata da venti metri a cui è appeso, che sta a dodici metri.
 Le cose accanto alla strada vanno per ultime qualunque sia la loro dimensione, perché una barriera alta tre
 metri a cinque dalla linea è il bordo della pista, mentre un edificio di cinquanta metri arretrato di sessanta
 è scenografia.
@@ -98,7 +98,7 @@ Il riepilogo riporta
 
 Un sostituto di edificio intero conta come una copia, a una distanza misurata fino allo spigolo più vicino
 dell'edificio. Viene tenuto o escluso come un'unità. I pezzi modulari che sostituisce non sono affatto nel
-budget. Vedi [Forza Horizon](course-forza-horizon.md#buildings-drawn-whole).
+budget. Vedi [Forza Horizon](https://holdi601.github.io/3DHeat-Ext-Forza/course-forza-horizon.html#buildings-drawn-whole).
 
 ## Che cosa è un livello di dettaglio, per gioco {#what-a-level-of-detail-is-per-game}
 

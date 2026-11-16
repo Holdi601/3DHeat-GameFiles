@@ -1,9 +1,9 @@
 ---
-title: Inicio
+title: "Inicio"
 nav_order: 1
 lang: "es"
 source: index.md
-source_hash: "6400905cf31a"
+source_hash: "dc4db9349e8c"
 nav_exclude: true
 search_exclude: true
 permalink: /es/
@@ -46,6 +46,19 @@ Es una de tres formas de llevar la geometría de un nivel a 3DHeat:
 
 Paquete de Python: `heat3d_gamefiles`. Repositorio:
 [Holdi601/3DHeat-GameFiles](https://github.com/Holdi601/3DHeat-GameFiles). Licencia: MIT.
+
+
+## Los lectores propios de cada juego {#the-games-own-readers}
+
+Cada lector de juego es un proyecto propio, así que un problema con las condiciones de un juego solo afecta a ese juego: instala el de tu juego (su página dice cómo), y tanto su comando propio como los verbos de aquí funcionan. GameFiles ejecuta la herramienta del juego con los argumentos que le diste; no se importa nada de ella. Se encuentra como su comando en `PATH`, como su paquete instalado, o como su carpeta en `HEAT3D_<GAME>_MAPS` o junto a GameFiles (`exporters/ext/<game>-maps` en una copia de 3DHeat, o `3DHeat-Ext-<Game>` al lado de esta carpeta). Si no está instalada, el verbo dice dónde conseguirla y sale con código 2.
+
+| Juego | Su herramienta propia | Verbos de aquí que la ejecutan |
+|---|---|---|
+| Forza Horizon / Motorsport | [3DHeat-Ext-Forza](https://holdi601.github.io/3DHeat-Ext-Forza/) (`heat3d-forza-maps`) | `course` (vueltas de Forza), `courses`, `races`, `cars`, `terrain`; `identify`, `list`, `extract` de un `.minizip` |
+| Battlefield (Frostbite) | [3DHeat-Ext-Battlefield](https://holdi601.github.io/3DHeat-Ext-Battlefield/) (`heat3d-battlefield-maps`) | `levels`, `level`; `identify` de un `.toc` de Frostbite |
+| BeamNG.drive | [3DHeat-Ext-BeamNG](https://holdi601.github.io/3DHeat-Ext-BeamNG/) (`heat3d-beamng-maps`) | `course` (vueltas de BeamNG); `identify` de un `.cdae` o `.ter` |
+| Assetto Corsa Rally | [3DHeat-Ext-ACRally](https://holdi601.github.io/3DHeat-Ext-ACRally/) (`heat3d-acrally-maps`) | `course` (vueltas de AC Rally) |
+| Arma Reforger (Enfusion) | [3DHeat-Ext-Reforger](https://holdi601.github.io/3DHeat-Ext-Reforger/) (`heat3d-reforger-maps`) | `enfusion-worlds`, `enfusion-world` |
 
 ## Qué puede hacer {#what-it-can-do}
 
@@ -142,16 +155,16 @@ Abre el `.glb` en el visor 3DHeat. Se conservan las coordenadas propias del mund
 - [Comandos](commands.md): cada verbo y opción, con ejemplos.
 - [Referencia de comandos](../cli-reference.md): el `--help` de cada verbo, generado desde el código.
 - [Inspeccionar archivos](inspecting-archives.md): `identify`, `list`, `extract`, `meshes`, paso a paso.
-- [Exportación de circuito](course-export.md): cómo una vuelta se convierte en circuito, para todos los juegos.
-  - [Forza Horizon](course-forza-horizon.md)
-  - [BeamNG.drive](course-beamng.md)
-  - [Assetto Corsa Rally](course-assetto-corsa-rally.md)
+- [Exportación de circuito](https://holdi601.github.io/3DHeat-Ext-Forza/course-export.html): cómo una vuelta se convierte en circuito, para todos los juegos.
+  - [Forza Horizon](https://holdi601.github.io/3DHeat-Ext-Forza/course-forza-horizon.html)
+  - [BeamNG.drive](https://holdi601.github.io/3DHeat-Ext-BeamNG/course-beamng.html)
+  - [Assetto Corsa Rally](https://holdi601.github.io/3DHeat-Ext-ACRally/course-assetto-corsa-rally.html)
   - [Niveles de detalle y presupuesto](detail-budget.md)
 - [Niveles completos](whole-levels.md): un nivel, mapa o mundo sin vuelta.
-  - [Niveles de Battlefield 6](level-battlefield.md): `levels`, `level`
+  - [Niveles de Battlefield 6](https://holdi601.github.io/3DHeat-Ext-Battlefield/level-battlefield.html): `levels`, `level`
   - [Mapas de Unreal 5](level-unreal-world-partition.md): `ue-maps`, `ue-map`
-  - [Mundos de Arma Reforger](level-arma-reforger.md): `enfusion-worlds`, `enfusion-world`
-- [Coches de Forza](forza-cars.md): `cars`, el archivo de coches para la pestaña Análisis de carrera del visor.
+  - [Mundos de Arma Reforger](https://holdi601.github.io/3DHeat-Ext-Reforger/level-arma-reforger.html): `enfusion-worlds`, `enfusion-world`
+- [Coches de Forza](https://holdi601.github.io/3DHeat-Ext-Forza/forza-cars.html): `cars`, el archivo de coches para la pestaña Análisis de carrera del visor.
 - [Entradas de vuelta](lap-inputs.md): cada forma de archivo de vuelta que acepta la herramienta.
 - [Formato de salida](output-format.md): lo que hay dentro del `.glb`.
 - [Lectores de archivos](archive-readers.md): una página por formato de contenedor, con lo que lee,
@@ -181,6 +194,15 @@ Abre el `.glb` en el visor 3DHeat. Se conservan las coordenadas propias del mund
 | [Ext-Squad](https://github.com/Holdi601/3DHeat-Ext-Squad) | demos de servidores de Squad en archivos de partida | [sitio](https://holdi601.github.io/3DHeat-Ext-Squad/) |
 | [Ext-DCS](https://github.com/Holdi601/3DHeat-Ext-DCS) | mapas de DCS World en niveles `.glb` | [sitio](https://holdi601.github.io/3DHeat-Ext-DCS/) |
 | [Ext-IL2](https://github.com/Holdi601/3DHeat-Ext-IL2) | mapas de IL-2 Sturmovik en niveles `.glb` | [sitio](https://holdi601.github.io/3DHeat-Ext-IL2/) |
+| [Ext-Dota](https://github.com/Holdi601/3DHeat-Ext-Dota) | el mapa de Dota 2 de tu propia instalación como nivel 3D | [sitio](https://holdi601.github.io/3DHeat-Ext-Dota/) |
+| [Ext-DotaReplay](https://github.com/Holdi601/3DHeat-Ext-DotaReplay) | repeticiones de Dota 2 | [sitio](https://holdi601.github.io/3DHeat-Ext-DotaReplay/) |
+| [Ext-Riot](https://github.com/Holdi601/3DHeat-Ext-Riot) | repeticiones de League of Legends y VALORANT (lo que llevan sin cifrar) | [sitio](https://holdi601.github.io/3DHeat-Ext-Riot/) |
+| [Ext-Forza](https://github.com/Holdi601/3DHeat-Ext-Forza) | circuitos, carreras y coches de Forza desde tu propia instalación | [sitio](https://holdi601.github.io/3DHeat-Ext-Forza/) |
+| [Ext-Battlefield](https://github.com/Holdi601/3DHeat-Ext-Battlefield) | niveles de Battlefield (Frostbite) como niveles 3D | [sitio](https://holdi601.github.io/3DHeat-Ext-Battlefield/) |
+| [Ext-BeamNG](https://github.com/Holdi601/3DHeat-Ext-BeamNG) | circuitos de BeamNG.drive | [sitio](https://holdi601.github.io/3DHeat-Ext-BeamNG/) |
+| [Ext-ACRally](https://github.com/Holdi601/3DHeat-Ext-ACRally) | etapas de Assetto Corsa Rally como circuitos | [sitio](https://holdi601.github.io/3DHeat-Ext-ACRally/) |
+| [Ext-Reforger](https://github.com/Holdi601/3DHeat-Ext-Reforger) | mundos de Arma Reforger (Enfusion) como niveles 3D | [sitio](https://holdi601.github.io/3DHeat-Ext-Reforger/) |
+| [Ext-R6](https://github.com/Holdi601/3DHeat-Ext-R6) | repeticiones de partidas de Rainbow Six Siege | [sitio](https://holdi601.github.io/3DHeat-Ext-R6/) |
 
 Los archivos de partida del visor se describen en
 [Un archivo por partida: `.3dheat`](https://holdi601.github.io/3DHeat/container.html);

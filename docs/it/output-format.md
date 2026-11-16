@@ -3,14 +3,14 @@ title: Formato del file
 nav_order: 8
 lang: "it"
 source: output-format.md
-source_hash: "064faedd6147"
+source_hash: "636bb4f5e616"
 nav_exclude: true
 search_exclude: true
 ---
 # Formato del file {#output-format}
 
 Un `.glb` è un unico file 3D: il suolo, gli edifici e l'acqua di un percorso o di un
-livello, che si apre nella pannello Sfondo / livello del visualizzatore 3DHeat.
+livello, che si apre nel pannello Sfondo / livello del visualizzatore 3DHeat.
 
 Ogni esportazione (`course`, `courses`, `terrain`, `level`, `ue-map`, `enfusion-world`)
 scrive un unico file **glTF 2.0 binario** (`.glb`). È volutamente piccolo e piatto, e
@@ -37,10 +37,16 @@ scene 0
   parte usa. Un array di vertici condiviso è glTF valido, ma un lettore che espande gli
   accessori di ogni primitiva terrebbe ogni vertice una volta per parte.
 - `asset.generator` è `heat3d_gamefiles`.
-- **Non vengono scritti `extras`** - nessun metadato personalizzato, nessun giro, nessun
-  nome di gioco o percorso - con un'eccezione: una parte di Battlefield 6 di una mesh
-  distruttibile porta `{"destructible": true}` sul suo nodo. Tutto ciò che il visualizzatore
-  serve sta nei nomi dei nodi.
+- **Pochi `extras`**, e nessun nome di giro, gioco o pista:
+  - una parte di Battlefield 6 di una mesh distruttibile porta `{"destructible": true}` sul suo nodo;
+  - un percorso di Forza dice cosa contiene in `asset.extras` (versione del formato, id del
+    percorso abbinato, quante copie del livello della gara stessa, luoghi; vedi
+    [Percorsi di Forza Horizon](https://holdi601.github.io/3DHeat-Ext-Forza/course-forza-horizon.html#writing-the-file)), e
+    le sue parti accese portano il loro livello sul nodo: `{"layer": "event", "route": <id>}`
+    per il livello della gara stessa, `{"layer": "layer"}` per un altro livello acceso,
+    `{"layer": "venue"}` per il suolo di un luogo.
+
+  Tutto il resto di cui il visualizzatore ha bisogno sta nei nomi dei nodi.
 
 ## Nomi dei nodi: la classificazione {#node-names-the-classification}
 
@@ -59,8 +65,8 @@ con `nav:` (sotto):
 
 | Prefisso | Significato | Parti scritte |
 |---|---|---|
-| `ground:` | la superficie di guida e il terreno | `ground:road`, `ground:verge`, `ground:terrain`, `ground:gravel and dirt`, `ground:kerbs`, `ground:markings`, `ground:tyre marks` |
-| `structure:` | ciò che sorge sopra | `structure:barriers`, `structure:props`, `structure:signs`, `structure:buildings`, `structure:infrastructure`, `structure:bridges`, `structure:rocks`, `structure:smashables`, `structure:trees` |
+| `ground:` | la superficie di guida e il terreno | `ground:road`, `ground:verge`, `ground:terrain`, `ground:gravel and dirt`, `ground:kerbs`, `ground:markings`, `ground:tyre marks`, `ground:venue`, `ground:plinths` |
+| `structure:` | ciò che sorge sopra | `structure:barriers`, `structure:props`, `structure:signs`, `structure:buildings`, `structure:infrastructure`, `structure:bridges`, `structure:rocks`, `structure:smashables`, `structure:trees`; i livelli di Forza `structure:event_<category>` e `structure:layer_<category>` |
 | `water:` | acqua | `water:water`; `water:<map>` (`ue-map`), `water:<world>` (`enfusion-world`) |
 | `nav:` | dove può camminare un soldato (Battlefield 6, solo con `--navmesh`) | `nav:walkable` |
 
@@ -79,6 +85,9 @@ Dopo il tipo viene, a seconda del gioco:
 | `ground:road 1_-4` | suolo di AC Rally nel quadrato di 512 m (1, -4) dello spazio di Unreal |
 | `structure:barriers bar_armco_bclr` | modelli collocati di Forza che condividono una texture (il loro nome senza il GUID) |
 | `structure:barriers` | modelli collocati senza texture (Forza, AC Rally) |
+| `structure:event_barriers bar_example_bclr` | Forza: ciò che la gara abbinata mette in campo per sé, a parte il mondo di gioco libero (extras del nodo `{"layer": "event", "route": <id>}`) |
+| `structure:layer_props` | Forza: un livello che il gioco accende per qualcosa di diverso da questa gara (un'attività, un oggetto da raccogliere, un livello di runtime) |
+| `ground:venue`, `ground:plinths` | Forza: modelli già in coordinate del mondo - il suolo proprio di un luogo (il pavimento di uno stadio), e il suolo con cui una strada viene arredata |
 | `structure:barriers armco_metal` | modelli collocati di BeamNG di un materiale |
 | `ground:markings`, `water:water` | parti piatte, una per l'intero file |
 | `ground:terrain` (Battlefield 6) | il campo altimetrico; `ground:terrain backdrop` le mesh del terreno lontano, `ground:terrain blend` le mesh che si fondono nel terreno |
@@ -88,7 +97,8 @@ Dopo il tipo viene, a seconda del gioco:
 | `structure:buildings t_concreteclean_01_cs (destructible)` (Battlefield 6) | lo stesso, per le mesh che una partita può distruggere: quelle con un asset di distruzione del proprio nome (muri, case, oggetti di scena). Il nodo porta anche gli extras glTF `{"destructible": true}`. I loro stati distrutti non vengono esportati |
 
 Il visualizzatore può filtrare per questi nomi. Per esempio, "solo la superficie da corsa" è
-`ground:road` insieme a `ground:kerbs`, in tutti e tre i giochi. Il prefisso è anche il
+`ground:road` insieme a `ground:kerbs`, in tutti e tre i giochi, e "il mondo senza gli oggetti di
+scena della gara" è tutto tranne `structure:event_*`. Il prefisso è anche il
 modo in cui il visualizzatore disegna una parte: il suolo come la superficie su cui giace il
 calore, la struttura come ciò che sorge sopra.
 
@@ -113,7 +123,7 @@ calore, la struttura come ciò che sorge sopra.
 - **Assetto Corsa Rally:** il sistema di riferimento del giro. I centimetri di Unreal
   diventano metri, la Z di Unreal diventa y, e la X e la Y di Unreal diventano x e z in
   uno degli otto orientamenti con cui il giro si è adattato (vedi
-  [Assetto Corsa Rally](course-assetto-corsa-rally.md#which-stage-and-which-way-round)).
+  [Assetto Corsa Rally](https://holdi601.github.io/3DHeat-Ext-ACRally/course-assetto-corsa-rally.html#which-stage-and-which-way-round)).
   I triangoli vengono riavvolti dove quella mappatura specchia.
 
 Ogni esportazione mantiene gli assi che usa la sua telemetria, così la registrazione e il
@@ -156,14 +166,14 @@ triangoli. Le normali di AC Rally vengono sempre calcolate.
   sottocampionamento della crominanza, solo RGB (l'alfa viene scartato) - tranne una mappa
   con ritagli di Battlefield 6 (foglie, recinzioni), che è **PNG** con il suo alfa, su un
   materiale con `alphaMode` MASK, `alphaCutoff` 0,5 e `doubleSided` (vedi
-  [Frostbite](reader-frostbite.md#textures-and-materials)). Il visualizzatore 3DHeat scarta i
+  [Frostbite](https://holdi601.github.io/3DHeat-Ext-Battlefield/reader-frostbite.html#textures-and-materials)). Il visualizzatore 3DHeat scarta i
   texel sotto il valore di taglio. Un suolo di 2.048 px di erba e chiome d'albero è rumore
   per un codificatore senza perdite: diversi megabyte a tassello come PNG, meno di uno
   come JPEG. Un'immagine condivisa da più parti viene memorizzata una sola volta.
 - Un solo campionatore per tutte le texture: ingrandimento lineare, riduzione lineare con
   mip lineare, **clamp to edge** su entrambi gli assi, per le esportazioni dei percorsi, le
   cui texture coprono le superfici una volta sola. BeamNG disegna le texture ripetute dei
-  modelli come colori piatti (vedi [BeamNG.drive](course-beamng.md#placed-models)).
+  modelli come colori piatti (vedi [BeamNG.drive](https://holdi601.github.io/3DHeat-Ext-BeamNG/course-beamng.html#placed-models)).
 - Un'esportazione di Battlefield 6 con `--textures`, i cui materiali si ripetono, scrive le
   coordinate di texture proprie del gioco, non limitate, come `TEXCOORD_0` float32 anche
   nella forma quantizzata, con un campionatore che **si ripete** su entrambi gli assi
@@ -212,11 +222,11 @@ di MB per un percorso di città con il budget automatico.
 
 ## In 3DHeat {#in-3dheat}
 
-Carica il `.glb` nella pannello Sfondo / livello del visualizzatore di
+Carica il `.glb` nel pannello Sfondo / livello del visualizzatore di
 [3DHeat](https://github.com/Holdi601/3DHeat); la telemetria registrata nello stesso gioco
 si appoggia su di esso, perché entrambi mantengono le coordinate del gioco. La
 documentazione del visualizzatore ([holdi601.github.io/3DHeat](https://holdi601.github.io/3DHeat/))
-descrive la pannello Sfondo / livello e i file delle partite che scrivono gli altri
-strumenti ([Un file per partita: `.3dheat`](https://holdi601.github.io/3DHeat/container.html)).
+descrive il pannello Sfondo / livello e i file delle partite che scrivono gli altri
+strumenti ([Una partita in un file: `.3dheat`](https://holdi601.github.io/3DHeat/container.html)).
 Un livello non è memorizzato in ogni file `.3dheat`: una partita ne indica il nome nei suoi
 `references` (`kind: "level"`, nome e sha256), e il `.glb` resta accanto alle partite.

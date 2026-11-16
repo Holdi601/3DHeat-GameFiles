@@ -3,7 +3,7 @@ title: Livelli interi
 nav_order: 5
 lang: "it"
 source: whole-levels.md
-source_hash: "1b82d34dfb69"
+source_hash: "70840dceebe6"
 nav_exclude: true
 search_exclude: true
 ---
@@ -17,9 +17,9 @@ un intero livello, mappa o mondo in una volta:
 
 | Gioco o motore | Elenco | Esportazione | Pagina |
 |---|---|---|---|
-| Battlefield 6 (Frostbite) | `levels` | `level <level>` | [Livelli di Battlefield 6](level-battlefield.md) |
+| Battlefield 6 (Frostbite) | `levels` | `level <level>` | [Livelli di Battlefield 6](https://holdi601.github.io/3DHeat-Ext-Battlefield/level-battlefield.html) |
 | Giochi Unreal 5 World Partition | `ue-maps <game>` | `ue-map <game> <map>` | [Mappe Unreal 5](level-unreal-world-partition.md) |
-| Arma Reforger (Enfusion) | `enfusion-worlds` | `enfusion-world <world>` | [Mondi di Arma Reforger](level-arma-reforger.md) |
+| Arma Reforger (Enfusion) | `enfusion-worlds` | `enfusion-world <world>` | [Mondi di Arma Reforger](https://holdi601.github.io/3DHeat-Ext-Reforger/level-arma-reforger.html) |
 
 Ogni coppia funziona allo stesso modo: il primo comando elenca ciò che il gioco installato
 contiene, il secondo ne scrive uno come un unico `.glb` nelle coordinate del mondo del gioco stesso, così

@@ -12,11 +12,11 @@ search_exclude: true
 ## Struttura {#layout}
 
 ```
-heat3d_gamefiles/     the package: readers, course exports, the command line
-heat3d_update/        the release check and updater (see Updates)
-tests/                synthetic tests, fixtures, and tests against installed games
-docs/                 this documentation (docs/wiki is generated from it)
-VERSION               the installed version, compared with GitHub releases
+heat3d_gamefiles/     il pacchetto: lettori, esportazioni dei percorsi, la riga di comando
+heat3d_update/        il controllo delle versioni e l'aggiornamento (vedi Aggiornamenti)
+tests/                test sintetici, fixture e test sui giochi installati
+docs/                 questa documentazione (docs/wiki è generata da essa)
+VERSION               la versione installata, confrontata con le release su GitHub
 requirements.txt      numpy, cryptography, lz4, Pillow, msgpack, zstandard, pytest
 ```
 
@@ -62,7 +62,7 @@ requirements.txt      numpy, cryptography, lz4, Pillow, msgpack, zstandard, pyte
 | `frostbitenav.py` | tessere della mesh di navigazione di Frostbite: le superfici percorribili dai soldati |
 | `frostbitelevel.py` | gruppi di modelli statici di Frostbite, posizionamento, l'esportazione `level` |
 | `vpk.py` | VPK di Source 2 |
-| `unrealpaesaggio.py` | componenti paesaggio di Unreal 5: mappe di altezza nella mesh del suolo (`ue-map`) |
+| `unreallandscape.py` | componenti paesaggio di Unreal 5: mappe di altezza nella mesh del suolo (`ue-map`) |
 | `unreallevel.py` | mappe World Partition di Unreal 5: elenco, strutture HLOD, acqua, l'esportazione `ue-map` |
 | `enfusion.py` | `.pak` di Enfusion, `.edds`, tessere del terreno, `resourceDatabase.rdb` |
 | `enfusionworld.py` | mondi di Arma Reforger: file `.ent`, scatole, l'esportazione `enfusion-world` |

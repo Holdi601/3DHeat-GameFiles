@@ -3,7 +3,7 @@ title: Unreal 5 IoStore
 nav_order: 2
 lang: "it"
 source: reader-unreal-iostore.md
-source_hash: "a09552249e75"
+source_hash: "a71af3169c83"
 nav_exclude: true
 search_exclude: true
 ---
@@ -13,7 +13,7 @@ Unreal 5 distribuisce la maggior parte dei contenuti in contenitori **IoStore**:
 `.ucas` che esso indicizza. Un `.pak` c'è ancora, ma contiene poco più di un footer. I lettori qui vanno dal contenitore
 fino a geometria e pixel, nella misura in cui serve a un percorso. Sono stati costruiti e verificati su Assetto Corsa Rally
 (Unreal 5.6.1, modificato) e vengono raggiunti tramite l'esportazione del percorso di
-[Assetto Corsa Rally](course-assetto-corsa-rally.md). `identify`, `list` ed `extract` prendono un `.utoc` (o il `.ucas` accanto
+[Assetto Corsa Rally](https://holdi601.github.io/3DHeat-Ext-ACRally/course-assetto-corsa-rally.html). `identify`, `list` ed `extract` prendono un `.utoc` (o il `.ucas` accanto
 ad esso): i file che la sua directory nomina, con il loro percorso sotto il punto di montaggio. Un contenitore senza indice di
 directory non nomina file e non viene elencato.
 
@@ -145,9 +145,9 @@ Verificato: un'immagine satellitare DXT5 da 4096 px i cui tredici livelli sono e
 ## Texture virtuali in streaming {#streaming-virtual-textures}
 
 Una `VirtualTexture2D` cotta è composta da tessere quadrate con un bordo, per livello di dettaglio, indirizzate da un **codice Morton**
-(x nei bit pari), memorizzate in blocchi dei dati bulk del pacchetto. Il layout viene letto come lo scrive `FVirtualTextureBuiltData::Serialize`
-in Unreal 5.6: layer, dimensione della tessera, bordo, tabelle di indirizzi delle tessere per mip, formati dei layer, e il blocco *n* come
+(x nei bit pari), memorizzate in chunk dei dati bulk del pacchetto. Il layout viene letto come lo scrive `FVirtualTextureBuiltData::Serialize`
+in Unreal 5.6: layer, dimensione della tessera, bordo, tabelle di indirizzi delle tessere per mip, formati dei layer, e il chunk *n* come
 voce bulk *n*. Una regione della texture viene assemblata tessera per tessera, con i bordi rimossi, dal livello la cui risoluzione è più
 vicina alla dimensione richiesta. Viene letto solo il primo layer, e solo nei formati sopra.
 
-Verificato: le tessere di un blocco di texture virtuale sono tutte contate, fino all'ultimo byte.
+Verificato: le tessere di un chunk di texture virtuale sono tutte contate, fino all'ultimo byte.

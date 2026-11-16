@@ -36,7 +36,7 @@ sont cités tels qu'ils sont dans le code, avec les espaces réservés entre che
 
 | Message | Signification | Faites |
 |---|---|---|
-| `the lap does not lie on any installed level's terrain (best: A 12%, B 3%). Name the level with --level.` | BeamNG : aucun niveau n'a atteint 30 % | `--level <name>` ; vérifiez que le tour est dans le repère de la visionneuse |
+| `the lap does not lie on any installed level's terrain (best: A 12%, B 3%). Name the level with --level.` | BeamNG : aucun niveau n'a atteint 30 % | `--level <name>` ; vérifiez que le tour est dans le repère du visualiseur |
 | `no level called '<name>'; installed: ...` | BeamNG : `--level` n'a rien trouvé | utilisez l'un des noms de dossier listés |
 | `<level> has no scene (no main/*.level.json and no .mis)` | le dossier du niveau n'a pas de fichier de scène | niveau ou mod cassé ou incomplet |
 | `no terrain of <level> lies along the driving.` | BeamNG : le couloir ne contient aucun carré de terrain | mauvais niveau, ou niveau sans terrain à l'endroit du tour |
@@ -87,7 +87,7 @@ sont cités tels qu'ils sont dans le code, avec les espaces réservés entre che
 
 | Symptôme | Cause probable |
 |---|---|
-| le parcours est décalé par rapport au tour dans la visionneuse | le tour et l'export n'utilisent pas le même repère : vérifiez `--game` (un tour BeamNG lu comme Forza, par exemple) |
+| le parcours est décalé par rapport au tour dans le visualiseur | le tour et l'export n'utilisent pas le même repère : vérifiez `--game` (un tour BeamNG lu comme Forza, par exemple) |
 | aucun accotement dans un parcours Forza | `--no-textures`, ou la tuile n'avait pas de cartes pour cette `--season` (la console affiche `N without maps`) |
 | une tuile Forza en couleurs unies | ses cartes de sol manquent pour la saison |
 | beaucoup moins d'objets placés que prévu | un `--detail-budget` explicite trop petit ; le résumé indique combien de copies ont été laissées de côté |

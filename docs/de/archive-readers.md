@@ -1,9 +1,9 @@
 ---
-title: Archivleser
+title: "Archivleser"
 nav_order: 9
 lang: "de"
 source: archive-readers.md
-source_hash: "14a63a51eff5"
+source_hash: "0f1064f05cfd"
 nav_exclude: true
 search_exclude: true
 ---
@@ -29,10 +29,10 @@ richtiges, bis man es neben die Strecke stellt.
 | [Unreal 5 IoStore](reader-unreal-iostore.md) | `iostore.py`, `zen.py`, `unversioned.py`, `unrealmesh.py`, `unrealtexture.py` | `.utoc`/`.ucas` (ab v5, an v8 geprüft), Zen-Pakete, Eigenschaften ohne Versionsangabe für einige Komponentenklassen, fertig aufbereitete statische Meshes, Texturen, Streaming-Virtual-Textures | verschlüsselte Container, versionierte Pakete, Meshes nur mit Nanite, Eigenschaften anderer Klassen | `identify`, `list`, `extract`, `course` (AC Rally) |
 | [Oodle](reader-oodle.md) | `oodle.py` | Oodle-Blöcke über eine Bibliothek, die schon auf dem Rechner liegt | alles ohne eine solche Bibliothek; sie wird nie mitgeliefert | pak, IoStore, Frostbite |
 | [Unity](reader-unity.md) | `unity.py`, `unity_mesh.py` | `SerializedFile` ab Format 22 (Unity 2020 bis 6000), `UnityFS`-Bundles, unkomprimierte Meshes einschließlich `.resS` | Formate vor 2020, eingebettete Typbäume, komprimierte Meshes, jede Klasse außer `Mesh` | `identify`, `meshes` |
-| [Frostbite](reader-frostbite.md) | `frostbite.py`, `frostbitebundle.py`, `frostbiteebx.py`, `frostbitemesh.py`, `frostbiteterrain.py`, `frostbitematerial.py`, `frostbitelevel.py` | `.toc`-DbObject-Bäume und binäre Abschnittstabellen, Installationspakete, Chunk-Positionen, Inline-Bundles und ihre Manifeste, RIFF-EBX-Partitionen, MeshSet-Meshes, das Höhenfeld des Geländes, BC1/BC3/BC7-Texturen und ihre Shader-Blöcke, Platzierung statischer Modellgruppen | XOR-verschleierte Tabellen, die bodennahe Farbe des Geländes und seine Löcher, Normal Maps, Alpha außer Ausschnitten | `identify`, `levels`, `level` |
+| [Frostbite](https://holdi601.github.io/3DHeat-Ext-Battlefield/reader-frostbite.html) | `frostbite.py`, `frostbitebundle.py`, `frostbiteebx.py`, `frostbitemesh.py`, `frostbiteterrain.py`, `frostbitematerial.py`, `frostbitelevel.py` | `.toc`-DbObject-Bäume und binäre Abschnittstabellen, Installationspakete, Chunk-Positionen, Inline-Bundles und ihre Manifeste, RIFF-EBX-Partitionen, MeshSet-Meshes, das Höhenfeld des Geländes, BC1/BC3/BC7-Texturen und ihre Shader-Blöcke, Platzierung statischer Modellgruppen | XOR-verschleierte Tabellen, die bodennahe Farbe des Geländes und seine Löcher, Normal Maps, Alpha außer Ausschnitten | `identify`, `levels`, `level` |
 | [Source 2 VPK](reader-source2-vpk.md) | `vpk.py` | Versionen 1 und 2, geteilte Archive, Preload-Daten, CRC-Prüfung | kompilierte Assets (`.vmdl_c`, `.vtex_c`), das Format des CS2-Navmeshs | `identify`, `list`, `extract` |
-| [ForzaTech](reader-forzatech.md) | `minizip.py`, `forzatech.py`, `forzatexture.py`, `forzaplacement.py`, `forzamaterial.py` | `.minizip` (LZ4, Deflate, unkomprimiert), `.modelbin`-Geometrie, `.pb`-Muster (BC1, BC7, RGBA), `.pgeo`-Platzierungen, Hashes der Materialtexturen | andere Vertex- und Index-Formate, andere Texturformate, Materialschichten des Geländeshaders | `course`, `courses`, `terrain`, `identify` (`.minizip`, `.modelbin`), `list` und `extract` (`.minizip`) |
-| [BeamNG-Dateien](reader-beamng.md) | `beamng.py`, `beamngshape.py`, `beamngcollada.py` | das eingebundene Zip-Dateisystem, Szenen-JSON und TorqueScript, `.ter`, `.cdae` v31, Collada-`.dae`, Materialien | Skinning-Meshes und Decal-Meshes, animierte Sequenzen, prozedurale Bodenbedeckung | `course` (BeamNG), `identify` (Zips, `.cdae`, `.ter`), `list` und `extract` (Zips) |
+| [ForzaTech](https://holdi601.github.io/3DHeat-Ext-Forza/reader-forzatech.html) | `minizip.py`, `forzatech.py`, `forzatexture.py`, `forzaplacement.py`, `forzamaterial.py` | `.minizip` (LZ4, Deflate, unkomprimiert), `.modelbin`-Geometrie, `.pb`-Muster (BC1, BC7, RGBA), `.pgeo`-Platzierungen, Hashes der Materialtexturen | andere Vertex- und Index-Formate, andere Texturformate, Materialschichten des Geländeshaders | `course`, `courses`, `terrain`, `identify` (`.minizip`, `.modelbin`), `list` und `extract` (`.minizip`) |
+| [BeamNG-Dateien](https://holdi601.github.io/3DHeat-Ext-BeamNG/reader-beamng.html) | `beamng.py`, `beamngshape.py`, `beamngcollada.py` | das eingebundene Zip-Dateisystem, Szenen-JSON und TorqueScript, `.ter`, `.cdae` v31, Collada-`.dae`, Materialien | Skinning-Meshes und Decal-Meshes, animierte Sequenzen, prozedurale Bodenbedeckung | `course` (BeamNG), `identify` (Zips, `.cdae`, `.ter`), `list` und `extract` (Zips) |
 
 ## Regeln, an die sich jeder Leser hält {#rules-every-reader-follows}
 

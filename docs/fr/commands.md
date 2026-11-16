@@ -1,9 +1,9 @@
 ---
-title: Commandes
+title: "Commandes"
 nav_order: 2
 lang: "fr"
 source: commands.md
-source_hash: "6c8d37db40e5"
+source_hash: "97a154edc5e0"
 nav_exclude: true
 search_exclude: true
 ---
@@ -11,25 +11,26 @@ search_exclude: true
 
 Chaque commande s'exécute avec `python -m heat3d_gamefiles <verbe> ...` depuis le
 dossier du dépôt. Les verbes sont dans l'ordre où on en a généralement besoin : quel
-est ce fichier, qu'est-ce qu'il contient, donne-moi cet élément, et transforme un tour
+est ce fichier, qu'est-ce qu'il contient, donnez-moi cet élément, et transforme un tour
 en parcours.
 
 | Verbe | Prend | Fait |
 |---|---|---|
 | [`identify`](#identify) | n'importe quel fichier | donne le format du conteneur en lisant ses octets |
-| [`list`](#list) | un `.pak` Unreal ou un `.utoc` IoStore, un `.vpk` Source 2, un `.minizip` ForzaTech, ou un zip | liste ses entrées |
+| [`list`](#list) | un `.pak` Unreal ou un `.utoc` IoStore, un `.vpk` Source 2, ou un zip (un `.minizip` ForzaTech par l'outil Forza) | liste ses entrées |
 | [`extract`](#extract) | la même chose | écrit une entrée sur le disque |
 | [`meshes`](#meshes) | un `SerializedFile` Unity | liste et vérifie ses maillages |
-| [`course`](#course) | un tour | exporte le parcours autour de lui (Forza, BeamNG.drive, Assetto Corsa Rally) |
-| [`courses`](#courses) | une bibliothèque de tours enregistrés | lance `course` sur chaque parcours qu'elle contient (Forza) |
-| [`terrain`](#terrain) | un dossier de piste Forza | découpe une zone selon des coordonnées du monde |
-| [`levels`](#levels-and-level-frostbite) | un jeu Frostbite installé (Battlefield 6) | liste ses niveaux |
-| [`level`](#levels-and-level-frostbite) | le nom d'un niveau | exporte le niveau : terrain, maillages placés, et éventuellement leurs cartes de couleur (Battlefield 6) |
-| [`cars`](#cars) | un Forza installé | chaque voiture en faible détail, dans un seul fichier pour l'onglet course de la visionneuse |
+| [`course`](#course) | un tour | exporte le parcours autour de lui (Forza, BeamNG.drive, Assetto Corsa Rally) (lancé par l'outil Forza, BeamNG.drive ou AC Rally) |
+| [`courses`](#courses) | une bibliothèque de tours enregistrés | lance `course` sur chaque parcours qu'elle contient (Forza) (lancé par l'outil Forza) |
+| [`races`](#courses) | un Forza installé | liste chaque course que le jeu définit : ce qu'elle ajoute, ce qu'elle cache, les lieux, l'état de son export (lancé par l'outil Forza) |
+| [`terrain`](#courses) | un dossier de piste Forza | découpe une zone selon des coordonnées du monde (lancé par l'outil Forza) |
+| [`levels`](#levels-and-level-frostbite) | un jeu Frostbite installé (Battlefield 6) | liste ses niveaux (lancé par l'outil Battlefield) |
+| [`level`](#levels-and-level-frostbite) | le nom d'un niveau | exporte le niveau : terrain, maillages placés, et éventuellement leurs cartes de couleur (Battlefield 6) (lancé par l'outil Battlefield) |
+| [`cars`](#courses) | un Forza installé | chaque voiture en faible détail, dans un seul fichier pour l'onglet Analyse de course du visualiseur (lancé par l'outil Forza) |
 | [`ue-maps`](#ue-maps-and-ue-map-unreal-5-world-partition) | un jeu Unreal 5 | liste ses cartes World Partition |
 | [`ue-map`](#ue-maps-and-ue-map-unreal-5-world-partition) | le nom d'une carte | exporte la carte : paysage, structures HLOD, eau |
-| [`enfusion-worlds`](#enfusion-worlds-and-enfusion-world-arma-reforger) | un Arma Reforger installé | liste ses mondes |
-| [`enfusion-world`](#enfusion-worlds-and-enfusion-world-arma-reforger) | le nom d'un monde | exporte le monde : terrain dans ses couleurs, la mer, les bâtiments en boîtes |
+| [`enfusion-worlds`](#enfusion-worlds-and-enfusion-world-arma-reforger) | un Arma Reforger installé | liste ses mondes (lancé par l'outil Reforger) |
+| [`enfusion-world`](#enfusion-worlds-and-enfusion-world-arma-reforger) | le nom d'un monde | exporte le monde : terrain dans ses couleurs, la mer, les bâtiments en boîtes (lancé par l'outil Reforger) |
 
 **Lire les exemples :** `<x>` signifie qu'il faut remplacer par votre propre valeur, sans
 les chevrons ; `[...]` indique une option ; entourez un chemin contenant des espaces de
@@ -41,8 +42,8 @@ se trouve dans la [Référence des commandes](../cli-reference.md).
 [Mises à jour](updates.md). `HEAT3D_NO_UPDATE=1` désactive cette vérification.
 
 Source : [`cli.py`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/heat3d_gamefiles/cli.py).
-Pages pas à pas : [Inspecter les archives](inspecting-archives.md), [Export de parcours](course-export.md),
-[Niveaux complets](whole-levels.md), [Voitures Forza](forza-cars.md).
+Pages pas à pas : [Inspecter les archives](inspecting-archives.md), [Export de circuit](https://holdi601.github.io/3DHeat-Ext-Forza/course-export.html),
+[Niveaux entiers](whole-levels.md), [Voitures Forza](https://holdi601.github.io/3DHeat-Ext-Forza/forza-cars.html).
 
 ![python -m heat3d_gamefiles --help](../assets/img/help.svg)
 
@@ -220,43 +221,40 @@ fichier `.resS` sont lues dans le dossier où se trouve le conteneur.
 
 ---
 
+## Les verbes propres aux jeux {#the-games-own-verbs}
+
+Chaque lecteur de jeu est son propre projet : un problème lié aux conditions d'un jeu ne
+touche donc que ce jeu. Installez celui de votre jeu (sa page indique comment), et sa propre
+commande comme les verbes d'ici fonctionnent. GameFiles lance l'outil du jeu avec les
+arguments que vous avez donnés ; rien de cet outil n'est importé. Il est trouvé comme sa
+commande dans `PATH`, comme son paquet installé, ou comme son dossier dans `HEAT3D_<GAME>_MAPS`
+ou à côté de GameFiles (`exporters/ext/<game>-maps` dans une copie de 3DHeat, ou
+`3DHeat-Ext-<Game>` à côté de ce dossier). Quand il n'est pas installé, le verbe indique où
+le trouver et se termine avec le code 2.
+
+| Jeu | Son propre outil | Verbes d'ici qui le lancent |
+|---|---|---|
+| Forza Horizon / Motorsport | [3DHeat-Ext-Forza](https://holdi601.github.io/3DHeat-Ext-Forza/) (`heat3d-forza-maps`) | `course` (tours Forza), `courses`, `races`, `cars`, `terrain` ; `identify`, `list`, `extract` d'un `.minizip` |
+| Battlefield (Frostbite) | [3DHeat-Ext-Battlefield](https://holdi601.github.io/3DHeat-Ext-Battlefield/) (`heat3d-battlefield-maps`) | `levels`, `level` ; `identify` d'un `.toc` Frostbite |
+| BeamNG.drive | [3DHeat-Ext-BeamNG](https://holdi601.github.io/3DHeat-Ext-BeamNG/) (`heat3d-beamng-maps`) | `course` (tours BeamNG) ; `identify` d'un `.cdae` ou `.ter` |
+| Assetto Corsa Rally | [3DHeat-Ext-ACRally](https://holdi601.github.io/3DHeat-Ext-ACRally/) (`heat3d-acrally-maps`) | `course` (tours AC Rally) |
+| Arma Reforger (Enfusion) | [3DHeat-Ext-Reforger](https://holdi601.github.io/3DHeat-Ext-Reforger/) (`heat3d-reforger-maps`) | `enfusion-worlds`, `enfusion-world` |
+
+`python -m heat3d_gamefiles <verbe> --help` affiche les options propres à l'outil du jeu.
+
 ## course {#course}
 
 ```
-python -m heat3d_gamefiles course <tour> [-o FICHIER] [options]
+python -m heat3d_gamefiles course <lap> [-o FILE] [options]
 ```
 
-Cette commande exporte le parcours autour d'un tour : le sol dans une bande de chaque côté
-de la conduite, et ce qui s'y dresse, dans un seul `.glb`. Elle trouve elle-même le reste :
-quel jeu, quelle copie installée, quelle piste, quel niveau ou quelle étape, et (pour
-Assetto Corsa Rally) dans quel sens sont les axes. Voir [Export de parcours](course-export.md).
-
-`<tour>` peut être l'un des éléments suivants (détails dans [Entrées de tour](lap-inputs.md)) :
-
-- un fichier de tour : JSON de route, JSON de tour FH Companion, JSON `heat3d-lap`, `.npz`, ou `.csv` avec les colonnes x, y, z
-- un dossier de fichiers de tours, parcouru récursivement (un parcours enregistré complet)
-- le **nom** d'un parcours, cherché dans la bibliothèque FH Companion à `%LOCALAPPDATA%\FHCompanion\laps`
-
-### Options {#options}
-
-| Option | Défaut | Jeux | Signification |
-|---|---|---|---|
-| `-o`, `--out FICHIER` | `<nom du parcours>.glb` dans le dossier courant | tous | où écrire ; le nom est mis en minuscules, et les suites d'autres caractères sont remplacées par `_` |
-| `--game {forza,beamng,acrally}` | ce qu'indique le fichier de tour, sinon `forza` | tous | le jeu d'où vient le tour |
-| `--margin M` | 80 | tous | mètres de sol conservés de chaque côté de la conduite |
-| `--texture-size {2048,1024,512}` | 2048 | tous | pixels de texture du sol par tuile de 512 m (2048 = 25 cm par pixel) |
-| `--no-textures` | désactivé | tous | couleurs unies seulement : un fichier bien plus petit. Pour Forza, cela supprime aussi la séparation route/bord (voir plus bas) |
-| `--season {summer,autumn,winter,spring}` | summer | Forza | les cartes de sol et les textures de modèles de quelle saison |
-| `--no-placed` | désactivé | tous | terrain seulement : ni bordures, ni barrières, ni panneaux, ni bâtiments. Pour BeamNG, les surfaces de roulage modélisées en maillages sont quand même gardées |
-| `--trees` | désactivé | tous | place aussi la végétation (Forza : arbres, buissons et objets cassables ; BeamNG : arbres ; AC Rally : arbres et feuillage instancié) |
-| `--detail-budget N` | automatique | tous | un plafond de triangles pour tout ce qui est placé ; voir [Niveaux de détail et budget](detail-budget.md) |
-| `--track DIR` | cherché | Forza | le dossier de piste (sous `media\Tracks`, contenant `GeoChunk0.minizip`) si le jeu installé ne doit pas être cherché |
-| `--level NOM` | trouvé à partir du tour | BeamNG, AC Rally | le niveau (nom du dossier BeamNG) ou l'étape (nom de carte AC Rally), sans tenir compte de la casse |
-| `--install DIR` | cherché dans les bibliothèques Steam | BeamNG, AC Rally | BeamNG : le dossier qui contient `gameengine.zip`. AC Rally : le dossier du jeu, ou son `acr\Content\Paks` / `Content\Paks` |
-
-Les options qui ne s'appliquent pas à un jeu sont ignorées sans avertissement. Par
-exemple, `--season` ne fait rien pour BeamNG et AC Rally, et `--track` ne fait rien pour
-eux non plus.
+Le parcours autour d'un tour (le sol dans une bande de chaque côté de la conduite, et ce qui
+s'y dresse, en un seul `.glb`) est produit par l'outil propre au jeu du tour, lancé avec les
+mêmes arguments : [Forza](https://holdi601.github.io/3DHeat-Ext-Forza/course-forza-horizon.html),
+[BeamNG.drive](https://holdi601.github.io/3DHeat-Ext-BeamNG/course-beamng.html),
+[Assetto Corsa Rally](https://holdi601.github.io/3DHeat-Ext-ACRally/course-assetto-corsa-rally.html).
+Ce qu'un tour peut être : [Entrées de tour](lap-inputs.md) ; combien de détail est gardé :
+[Niveaux de détail et budget](detail-budget.md).
 
 ### Quel jeu {#which-game}
 
@@ -266,215 +264,28 @@ jeu que nomment ses fichiers, s'il n'en nomme qu'un seul ; un fichier qui n'en n
 (un tour FH Companion, `course.json`, un CSV sans ligne de description) ne compte pas (voir
 [Entrées de tour](lap-inputs.md)).
 
-| Valeur | Export |
+| Valeur | Lancé par |
 |---|---|
-| commence par `forza` | Forza Horizon |
-| `beamng` | BeamNG.drive |
-| `assetto-corsa-rally` ou `acrally` | Assetto Corsa Rally |
+| commence par `forza` | `heat3d-forza-maps course` |
+| `beamng` | `heat3d-beamng-maps course` |
+| `assetto-corsa-rally` ou `acrally` | `heat3d-acrally-maps course` |
 | `assetto-corsa-evo` | refusé : "keeps all its content in one package obfuscated with a key, and this tool recovers none" |
 | `iracing` | refusé : "tracks ship in a protected format that is not a file-extraction target" |
 | tout le reste | refusé : "there is no course reader for <game> yet" |
 
 Un refus indique aussi les solutions de rechange : reconstruire le parcours à partir du jeu
 (3DHeat GameCapture), ou analyser les tours sans parcours, car l'onglet Analyse de course
-de la visionneuse dessine une route à partir d'eux.
+du visualiseur dessine une route à partir d'eux.
 
-### Exemples {#examples}
+## courses, races, cars, terrain (Forza) {#courses}
 
-```
-# Un parcours depuis la bibliothèque FH Companion, par son nom
-python -m heat3d_gamefiles course "Example Circuit"
-
-# Un fichier de tour, une bande plus étroite, un fichier plus petit
-python -m heat3d_gamefiles course lap.json -o example.glb --margin 40 --texture-size 1024
-
-# Textures d'hiver, arbres inclus
-python -m heat3d_gamefiles course "Example Circuit" --season winter --trees
-
-# Un plafond strict de 500 000 triangles placés
-python -m heat3d_gamefiles course lap.json --detail-budget 500000
-
-# Un dossier de piste donné directement (jeu installé hors de Steam)
-python -m heat3d_gamefiles course lap.json --track "D:\Games\<Forza>\media\Tracks\<map>"
-
-# BeamNG : nommer le niveau, indiquer l'installation
-python -m heat3d_gamefiles course beamng_lap.json --level <level folder> --install "D:\Games\BeamNG.drive"
-
-# AC Rally, avec un CSV de tour simple qui ne dit pas son jeu
-python -m heat3d_gamefiles course rally_lap.csv --game acrally
-```
-
-Exemple de sortie (Forza, chiffres fictifs) :
-
-```
-Example Circuit: 12 laps, 18,400 samples, 41,200 m driven
-  on <map>, in <game folder>
-  cutting 80 m either side of the driving: 1.10 km2 of a 1,350 by 1,020 m box
-262,144 vertices, 225,000 triangles from 410 meshes across 2 tiles
-  x       0.0 ..    1150.0
-  y      88.4 ..     131.9
-  z       0.0 ..     820.0
-
-  baked 2 ground textures at 2048 px (25 cm a pixel)
-
-  what the ground is made of:
-       76,500 triangles  34.0%  verge
-       60,750 triangles  27.0%  terrain
-       56,250 triangles  25.0%  road
-       31,500 triangles  14.0%  markings
-
-  placed on it (1,500,000 triangles of a 1,500,000 budget, 91 textures):
-      102 placed    3 models      8,568 triangles  ground:kerbs
-    2,278 placed   14 models    ...   structure:barriers
-    ...
-wrote example_circuit.glb (79,000,000 bytes)
-```
-
-## cars {#cars}
-
-```
-python -m heat3d_gamefiles cars -o forza.h3dcars
-python -m heat3d_gamefiles cars --game "<game folder>" -o forza.h3dcars
-```
-
-Chaque voiture d'un Forza installé, au faible détail propre au jeu, dans un seul fichier
-pour l'onglet course de la visionneuse : le modèle `ProxyLOD` que porte chaque archive de
-voiture sous `media/Cars`, d'environ 900 triangles, avec le numéro de la voiture tel que la
-télémétrie l'indique, sa marque, son étiquette de modèle et son année d'après le nom de
-l'archive, ainsi que ses roues et ses feux arrière. Cela prend quelques secondes et écrit
-environ 5 Mo. Relancez-la quand le jeu reçoit de nouvelles voitures. Une archive sans ce
-modèle (un accessoire de circulation) est signalée et laissée de côté. Le format est décrit
-dans [`forzacars.py`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/heat3d_gamefiles/forzacars.py).
-
-Les formes sont en mètres, celles du jeu : 1:1 avec la voiture. Le fichier contient le
-contenu du jeu, il est donc destiné à la machine où il a été fait, et non à être partagé.
-
-## courses {#courses}
-
-```
-python -m heat3d_gamefiles courses [-o DOSSIER] [options]
-```
-
-Cette commande lance l'export `course` de Forza sur chaque dossier de parcours d'une
-bibliothèque de tours enregistrés, en écrivant un `<nom>.glb` pour chacun. Elle ne concerne
-que Forza. Elle appelle directement l'export Forza et ne lit ni `--game`, ni `--level`, ni
-`--install`.
-
-| Option | Défaut | Signification |
-|---|---|---|
-| `-o`, `--out DOSSIER` | `courses` | le dossier où écrire (créé s'il manque) |
-| `--library DIR` | `%LOCALAPPDATA%\FHCompanion\laps` | la bibliothèque de tours |
-| `--only TEXTE [TEXTE ...]` | tous | seulement les parcours dont le nom de dossier contient l'un de ces textes (sans tenir compte de la casse) |
-| `--force` | désactivé | exporte de nouveau ce qui a déjà un `.glb` |
-| `--track DIR` | cherché | comme pour `course` |
-| `--margin M` | 80 | comme pour `course` |
-| `--texture-size`, `--no-textures`, `--season`, `--no-placed`, `--trees`, `--detail-budget` | | comme pour `course` |
-
-Ce qui compte comme dossier de parcours : un sous-dossier direct de la bibliothèque dont le
-nom contient ` (course_`, qui est la façon dont FH Companion les nomme, par exemple
-`Example Circuit (course_1200_3400_to_1175_3400)`. La partie à partir de ` (course_` est
-retirée du nom.
-
-Comment se déroule une exécution :
-
-- Un parcours dont le `.glb` existe déjà est passé (`kept`), sauf si `--force` est donné ; ainsi une exécution interrompue reprend là où elle s'est arrêtée.
-- Un parcours qui échoue (tours illisibles, mémoire insuffisante, pas de terrain...) est signalé `FAILED`, et l'exécution continue.
-- À la fin, elle affiche un tableau : état, taille en Mo, secondes écoulées et nom, puis `<n> of <total> courses in <dossier>`.
-- Le code de sortie est 1 si un parcours a échoué.
-
-```
-python -m heat3d_gamefiles courses -o courses --only circuit sprint --texture-size 1024
-```
-
-## terrain {#terrain}
-
-```
-python -m heat3d_gamefiles terrain <dossier de piste> -o FICHIER (--box X0 Z0 X1 Z1 | --route FICHIER) [options]
-```
-
-C'est la découpe Forza avec tout détaillé à la main : vous donnez le dossier de piste et une
-zone, pas un tour. C'est utile quand la zone voulue est un rectangle plutôt qu'un trajet.
-
-| Option | Défaut | Signification |
-|---|---|---|
-| `<path>` | obligatoire | un dossier de piste Forza sous `media\Tracks` (contenant `GeoChunk*.minizip`) |
-| `-o`, `--out FICHIER` | obligatoire | le `.glb` à écrire |
-| `--box X0 Z0 X1 Z1` | | la zone, en mètres du jeu (x et z, comme les rapporte la télémétrie) ; coins dans n'importe quel ordre |
-| `--route FICHIER` | | un JSON de route avec `"bounds": {"min": [x, y, z], "max": [x, y, z]}`, tel qu'écrit par `heat3d_capture route` et `heat3d_capture laps` ; lu en UTF-8, avec ou sans marque d'ordre des octets |
-| `--margin M` | **100** | mètres ajoutés autour des limites d'un tracé, et largeur du couloir quand le tracé a une ligne |
-| `--texture-size`, `--no-textures`, `--season`, `--no-placed`, `--trees`, `--detail-budget` | | comme pour `course` |
-
-Donnez exactement un de `--box` et `--route`, sinon le code de sortie est 2. Avec
-`--route`, la découpe correspond aux `bounds` du tracé (`min`/`max`, x et z) élargis de la
-marge. Si le fichier contient aussi au moins 10 positions, la découpe se resserre sur un
-couloir de `--margin` mètres autour d'elles, et les modèles placés reçoivent leur détail
-selon leur distance à cette ligne. Avec `--box`, toute la zone est gardée, et le détail va
-à ce qui se trouve le plus près du centre de la zone.
-
-La hauteur ne fait jamais partie de la découpe. Une zone en dehors de la carte, ou en mer,
-donne "no terrain there" (code de sortie 1), et non une erreur sur les coordonnées.
-
-```
-python -m heat3d_gamefiles terrain "<game>\media\Tracks\<map>" --box 0 0 512 512 -o piece.glb
-python -m heat3d_gamefiles terrain "<game>\media\Tracks\<map>" --route route.json -o map.glb
-```
+Lancé par `heat3d-forza-maps` avec les mêmes arguments :
+[ses commandes](https://holdi601.github.io/3DHeat-Ext-Forza/commands.html).
 
 ## levels et level (Frostbite) {#levels-and-level-frostbite}
 
-```
-python -m heat3d_gamefiles levels [--install DOSSIER]
-python -m heat3d_gamefiles level <level> [-o FICHIER] [--install DOSSIER] [--textures [PIXELS]]
-                                 [--ground-texture [METRES]] [--ground-spacing METRES]
-                                 [--navmesh] [--detail-budget N] [--skip TEXTE ...] [--by-mesh]
-                                 [--clamped-uvs]
-```
-
-`levels` liste les niveaux qu'un jeu Frostbite installé livre, d'après le nom de leur table
-(`levels/<level>/<level>.toc`), avec sa taille et sa provenance : `Data` pour le jeu de
-base, `Update/<pack>` pour une mise à jour, et le nombre de tables haute résolution qui s'y
-ajoutent. Un niveau livré par une mise à jour a une petite table de morceaux, et il y en a
-aussi une dans le jeu de base ; la table qui contient les bundles du niveau est le niveau
-(voir [Frostbite](reader-frostbite.md#which-table-is-the-level)). `level` en exporte un :
-le champ de hauteurs du terrain, chaque maillage que placent les groupes de modèles statiques
-du niveau, les objets placés un par un, où ils se trouvent, et le décor de terrain du niveau
-autour de la carte. Avec `--textures`, chaque surface porte sa carte de couleur ; avec
-`--navmesh`, les surfaces sur lesquelles marchent les soldats viennent aussi. La façon dont
-il est lu est décrite dans [Frostbite](reader-frostbite.md).
-
-| Option | Défaut | Signification |
-|---|---|---|
-| `<level>` | obligatoire | un nom tel que `levels` l'affiche, une partie unique de celui-ci, ou le chemin du `.toc` d'un niveau |
-| `-o`, `--out FICHIER` | `<level>.glb` | le `.glb` à écrire |
-| `--install DOSSIER` | le premier jeu Steam dont `Data` contient un `layout.toc` | le dossier du jeu |
-| `--textures [PIXELS]` | désactivé ; 512 si donné sans taille | écrit la carte de couleur de chaque surface, le plus grand mip qui ne dépasse pas PIXELS de côté, et ses coordonnées de texture telles que le jeu les a, avec un échantillonneur qui répète (voir [Format de sortie](output-format.md)). Le champ de hauteurs reçoit la carte de couleur du décor de terrain là où cette carte le couvre, sinon la couleur moyenne des matériaux de surface du terrain, sinon la couleur moyenne du décor autour. Désactivé, chaque partie est d'une couleur unie |
-| `--ground-texture [METRES]` | désactivé ; 0,5 si donné sans taille | cuit les décalcomanies de terrain — routes, pistes, aires, marquages peints — par-dessus la couleur du sol, multipliées par la carte de couleur du terrain là où le niveau en a une, dans la couleur du champ de hauteurs, METRES par pixel, par tuiles d'au plus 4 096 pixels (`ground:terrain x<x> z<z>`). Fonctionne avec ou sans `--textures` |
-| `--navmesh` | désactivé | ajoute le maillage de navigation du niveau pour son plus petit agent, le soldat (1,8 m de haut, 0,4 m de large), sous la partie `nav:walkable` : le sol, les planchers, les escaliers et les toits qu'un soldat peut atteindre, sans les liens (sauts, échelles, franchissements) entre eux |
-| `--ground-spacing METRES` | 4 | l'espacement le plus fin du champ de hauteurs ; les nœuds plus fins sont échantillonnés plus grossièrement. 0 supprime le champ de hauteurs |
-| `--detail-budget N` | chaque copie à son niveau le plus grossier, plus un quart, au moins 1 500 000 | un plafond de triangles. Les maillages qui coûtent le plus perdent un niveau de détail à la fois jusqu'à ce que cela tienne ; si même les niveaux les plus grossiers ne suffisent pas, les plus petites copies sont retirées en premier. Le décor de terrain n'est jamais simplifié ni retiré |
-| `--skip TEXTE` | | retire les groupes de modèles statiques dont le nom de partition contient TEXTE ; à répéter pour plusieurs. Par exemple, la couche d'un mode de jeu |
-| `--by-mesh` | désactivé | pour trouver ce qu'est une partie : une partie par maillage source et matériau, nommée `<partie> \| <maillage> \| <matériau>` ; un fichier bien plus gros |
-| `--clamped-uvs` | désactivé | pour un moteur de rendu qui ne peut pas répéter une texture : découpe chaque triangle texturé en morceaux dont les coordonnées restent entre 0 et 1, et dessine un triangle qui en demanderait plus de 4 morceaux dans la couleur moyenne de sa texture, dans une partie `<partie> (average colour)` |
-
-La commande affiche les groupes et le nombre de copies placées pour chacun, les maillages
-laissés de côté et pourquoi, les triangles par partie (et avec `--textures`, le nombre de
-textures, et combien de sections ont trouvé leur carte de couleur), ce qu'est le sol, et
-avec `--navmesh` le nombre de tuiles de navigation lues. Rien d'autre sur le niveau n'est
-écrit que la géométrie : ni noms, ni métadonnées (voir [Format de sortie](output-format.md)).
-
-Le budget du terrain est séparé : le champ de hauteurs et le décor ne sont jamais simplifiés
-par `--detail-budget` ; `--ground-spacing` règle la taille du champ de hauteurs.
-
-Un niveau complet est grand : généralement plus de dix millions de triangles et plusieurs
-centaines de Mo. `--textures` ajoute un peu au fichier ; un niveau couvert d'arbres peut
-atteindre environ 1 Go. `--textures 256 --detail-budget 3000000 --ground-spacing 8` ramène un
-niveau à environ un tiers de cela.
-
-```
-python -m heat3d_gamefiles levels
-python -m heat3d_gamefiles level <level> -o level.glb --textures --ground-texture
-python -m heat3d_gamefiles level <level> --textures 512 --ground-texture 0.5 --navmesh
-python -m heat3d_gamefiles level <level> --textures 256 --detail-budget 3000000 --ground-spacing 8
-```
+Lancé par `heat3d-battlefield-maps` avec les mêmes arguments :
+[Niveaux de Battlefield](https://holdi601.github.io/3DHeat-Ext-Battlefield/level-battlefield.html).
 
 ## ue-maps et ue-map (Unreal 5 World Partition) {#ue-maps-and-ue-map-unreal-5-world-partition}
 
@@ -494,7 +305,7 @@ vérifié : [Cartes Unreal 5](level-unreal-world-partition.md).
 | Option | Défaut | Signification |
 |---|---|---|
 | `<map>` | obligatoire | un nom tel que `ue-maps` l'affiche, ou une partie unique de celui-ci |
-| `-o`, `--out FICHIER` | `<map>.glb` | le `.glb` à écrire |
+| `-o`, `--out FICHIER` | `<map>.glb` (dans `$HEAT3D_LEVELS/<game>/` quand cette variable est définie) | le `.glb` à écrire |
 | `--ground-spacing METRES` | 2 | l'espacement des sommets du paysage dans le fichier, arrondi à un nombre entier de ses propres quads |
 | `--no-structures`, `--no-water` | | laisse cette partie de côté |
 
@@ -504,37 +315,16 @@ environ 4,6 millions de triangles de sol.
 
 ## enfusion-worlds et enfusion-world (Arma Reforger) {#enfusion-worlds-and-enfusion-world-arma-reforger}
 
-```
-python -m heat3d_gamefiles enfusion-worlds [--install DOSSIER]
-python -m heat3d_gamefiles enfusion-world <world> [-o FICHIER] [--install DOSSIER] [--ground-spacing METRES]
-                                          [--texture-size PIXELS] [--no-structures] [--trees]
-```
-
-`enfusion-worlds` liste chaque monde qui a un terrain, par son dossier sous `worlds/`.
-`enfusion-world` en exporte un : `ground:<world>` (le terrain, dans les couleurs de ses
-tuiles de supertexture), `water:<world>` (la mer, à hauteur zéro) et `structure:<world>` (la
-boîte de chaque modèle placé), dans les mètres du jeu : x vers l'est, y vers le haut, z vers
-le nord. Comment chacun est lu et vérifié : [Mondes Arma Reforger](level-arma-reforger.md).
-
-| Option | Défaut | Signification |
-|---|---|---|
-| `<world>` | obligatoire | un monde tel que `enfusion-worlds` l'affiche |
-| `-o`, `--out FICHIER` | `<world>.glb` | le `.glb` à écrire |
-| `--install DOSSIER` | la bibliothèque Steam qui contient le jeu | le dossier du jeu |
-| `--ground-spacing METRES` | 2 (celui du terrain) | l'espacement des sommets du terrain dans le fichier |
-| `--texture-size PIXELS` | 4096 | le plus grand côté de l'image de couleur du sol ; 0 pour une couleur unie |
-| `--no-structures` | | laisse de côté les modèles placés |
-| `--trees` | désactivé | place aussi les arbres et la végétation, en boîtes |
-
-La commande affiche les triangles par partie, le nombre de sommets de bord de tuile qui ne
-concordent pas, combien d'entités contient le fichier du monde et combien de boîtes ont été
-placées, ainsi que ce qui a été laissé de côté et pourquoi.
+Lancé par `heat3d-reforger-maps` avec les mêmes arguments (ses `worlds` et `world`) :
+[Mondes d'Arma Reforger](https://holdi601.github.io/3DHeat-Ext-Reforger/level-arma-reforger.html).
 
 ## Variables d'environnement {#environment-variables}
 
 | Variable | Effet |
 |---|---|
 | `HEAT3D_OODLE` | chemin d'un `oo2core_*_win64.dll`, ou d'un dossier qui en contient un ; voir [Oodle](reader-oodle.md) |
+| `HEAT3D_LEVELS` | un seul dossier pour chaque export fait sans `-o` : ceux de chaque jeu vont dans `<HEAT3D_LEVELS>/<jeu>/` (les parcours dans `<jeu>/courses/`, le lot de voitures dans `forza/`). Sans valeur, ils vont dans le dossier courant |
+| `HEAT3D_FORZA_MAPS`, `HEAT3D_BATTLEFIELD_MAPS`, `HEAT3D_BEAMNG_MAPS`, `HEAT3D_ACRALLY_MAPS`, `HEAT3D_REFORGER_MAPS` | le dossier d'un outil de jeu, quand il n'est ni installé ni à côté de GameFiles |
 | `HEAT3D_NO_UPDATE` | toute valeur autre que vide, `0`, `false`, `no` désactive la vérification de mise à jour ; voir [Mises à jour](updates.md) |
 | `LOCALAPPDATA` | l'endroit où sont cherchés la bibliothèque FH Companion, le dossier utilisateur de BeamNG et le cache des mises à jour |
 | `HEAT3D_COURSE` | tests seulement : le parcours utilisé par le test de bordure du jeu installé ; voir [Développement](development.md) |

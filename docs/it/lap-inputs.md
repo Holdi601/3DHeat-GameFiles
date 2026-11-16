@@ -3,7 +3,7 @@ title: Input dei giri
 nav_order: 7
 lang: "it"
 source: lap-inputs.md
-source_hash: "76716785ff83"
+source_hash: "3f335d2fc454"
 nav_exclude: true
 search_exclude: true
 ---
@@ -47,7 +47,7 @@ Scritto dai registratori di telemetria di 3DHeat (`heat3d_capture telemetry` ([3
 - `track` viene usato da Assetto Corsa Rally per provare per prima la tappa indicata.
 - Assi: y è l'altezza. I giri di Forza e AC Rally usano gli assi orizzontali del gioco così come il
   registratore li scrive. I giri di BeamNG sono attesi nel sistema di riferimento del visualizzatore,
-  `(x, z, -y)` del mondo di BeamNG con Z in alto (vedi [BeamNG.drive](course-beamng.md#the-laps-frame)).
+  `(x, z, -y)` del mondo di BeamNG con Z in alto (vedi [BeamNG.drive](https://holdi601.github.io/3DHeat-Ext-BeamNG/course-beamng.html#the-laps-frame)).
 
 ### 2. Un file di percorso {#a-route-file}
 
@@ -96,7 +96,7 @@ time,x,y,z,speed
 ### 6. Una cartella {#a-folder}
 
 Una cartella viene cercata **ricorsivamente** per file `.json`, `.npz` e `.csv`, e tutti vengono concatenati in
-un'unica linea guidata. È così che si memorizza un intero percorso registrato: FH Companion annida cartelle per
+un'unica linea di guida. È così che si memorizza un intero percorso registrato: FH Companion annida cartelle per
 classe, auto, messa a punto ed etichetta.
 
 - `course.json` viene saltato per nome (sono metadati, non un giro).
@@ -137,7 +137,7 @@ regole sopra, queste restringono il ritaglio a un corridoio e guidano il dettagl
 | nome | il nome base del file, o il nome della cartella, senza ` (course_...)`; diventa il nome predefinito del file di output |
 | distanza percorsa | la somma degli intervalli tra campioni consecutivi (stampata come `m driven`; per una cartella questo include i salti tra un file e l'altro) |
 | riquadro | l'estensione di x e z allargata di `--margin`; l'altezza non viene mai limitata |
-| corridoio | le x e le z di ogni campione, vedi [Esportazione del percorso](course-export.md#the-corridor) |
+| corridoio | le x e le z di ogni campione, vedi [Esportazione del percorso](https://holdi601.github.io/3DHeat-Ext-Forza/course-export.html#the-corridor) |
 | dettaglio | la distanza di ogni copia collocata dal campione più vicino, vedi [Livelli di dettaglio e budget](detail-budget.md) |
 
 Un giro con meno di due campioni viene rifiutato ("holds no driving").

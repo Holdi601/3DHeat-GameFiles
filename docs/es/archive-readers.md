@@ -1,9 +1,9 @@
 ---
-title: Lectores de archivos
+title: "Lectores de archivos"
 nav_order: 9
 lang: "es"
 source: archive-readers.md
-source_hash: "14a63a51eff5"
+source_hash: "0f1064f05cfd"
 nav_exclude: true
 search_exclude: true
 ---
@@ -19,10 +19,10 @@ Debajo de los comandos hay lectores para los contenedores que usan los juegos. S
 | [Unreal 5 IoStore](reader-unreal-iostore.md) | `iostore.py`, `zen.py`, `unversioned.py`, `unrealmesh.py`, `unrealtexture.py` | `.utoc`/`.ucas` (v5 o posterior, comprobado en la v8), paquetes zen, propiedades sin versión de unas pocas clases de componentes, mallas estáticas cocinadas, texturas, texturas virtuales de streaming | contenedores cifrados, paquetes con versión, mallas solo Nanite, propiedades de otras clases | `identify`, `list`, `extract`, `course` (AC Rally) |
 | [Oodle](reader-oodle.md) | `oodle.py` | bloques Oodle a través de una biblioteca que ya está en el equipo | cualquier cosa sin esa biblioteca; nunca se incluye | pak, IoStore, Frostbite |
 | [Unity](reader-unity.md) | `unity.py`, `unity_mesh.py` | `SerializedFile` formato 22 o posterior (Unity 2020 a 6000), paquetes `UnityFS`, mallas sin comprimir, incluidos los `.resS` | formatos anteriores a 2020, árboles de tipos incrustados, mallas comprimidas, cualquier clase que no sea `Mesh` | `identify`, `meshes` |
-| [Frostbite](reader-frostbite.md) | `frostbite.py`, `frostbitebundle.py`, `frostbiteebx.py`, `frostbitemesh.py`, `frostbiteterrain.py`, `frostbitematerial.py`, `frostbitelevel.py` | árboles `.toc` de DbObject y tablas binarias de secciones, paquetes de instalación, ubicaciones de fragmentos, paquetes en línea y sus manifiestos, particiones RIFF EBX, mallas MeshSet, el campo de alturas del terreno, texturas BC1/BC3/BC7 y sus bloques de shaders, colocación de grupos de modelos estáticos | tablas ofuscadas con XOR, el color del terreno cerca del suelo y sus huecos, mapas de normales, canal alfa que no sea de recortes | `identify`, `levels`, `level` |
+| [Frostbite](https://holdi601.github.io/3DHeat-Ext-Battlefield/reader-frostbite.html) | `frostbite.py`, `frostbitebundle.py`, `frostbiteebx.py`, `frostbitemesh.py`, `frostbiteterrain.py`, `frostbitematerial.py`, `frostbitelevel.py` | árboles `.toc` de DbObject y tablas binarias de secciones, paquetes de instalación, ubicaciones de fragmentos, paquetes en línea y sus manifiestos, particiones RIFF EBX, mallas MeshSet, el campo de alturas del terreno, texturas BC1/BC3/BC7 y sus bloques de shaders, colocación de grupos de modelos estáticos | tablas ofuscadas con XOR, el color del terreno cerca del suelo y sus huecos, mapas de normales, canal alfa que no sea de recortes | `identify`, `levels`, `level` |
 | [Source 2 VPK](reader-source2-vpk.md) | `vpk.py` | versiones 1 y 2, archivos divididos, datos de precarga, comprobación CRC | recursos compilados (`.vmdl_c`, `.vtex_c`), el formato de la malla de navegación de CS2 | `identify`, `list`, `extract` |
-| [ForzaTech](reader-forzatech.md) | `minizip.py`, `forzatech.py`, `forzatexture.py`, `forzaplacement.py`, `forzamaterial.py` | `.minizip` (LZ4, deflate, sin comprimir), geometría `.modelbin`, muestras `.pb` (BC1, BC7, RGBA), colocaciones `.pgeo`, hashes de texturas de materiales | otros formatos de vértices e índices, otros formatos de textura, capas de shader del terreno | `course`, `courses`, `terrain`, `identify` (`.minizip`, `.modelbin`), `list` y `extract` (`.minizip`) |
-| [Archivos de BeamNG](reader-beamng.md) | `beamng.py`, `beamngshape.py`, `beamngcollada.py` | el sistema de archivos montado de los zip, escenas JSON y TorqueScript, `.ter`, `.cdae` v31, Collada `.dae`, materiales | mallas con esqueleto y de calcomanías, secuencias animadas, cobertura de suelo procedural | `course` (BeamNG), `identify` (zips, `.cdae`, `.ter`), `list` y `extract` (zips) |
+| [ForzaTech](https://holdi601.github.io/3DHeat-Ext-Forza/reader-forzatech.html) | `minizip.py`, `forzatech.py`, `forzatexture.py`, `forzaplacement.py`, `forzamaterial.py` | `.minizip` (LZ4, deflate, sin comprimir), geometría `.modelbin`, muestras `.pb` (BC1, BC7, RGBA), colocaciones `.pgeo`, hashes de texturas de materiales | otros formatos de vértices e índices, otros formatos de textura, capas de shader del terreno | `course`, `courses`, `terrain`, `identify` (`.minizip`, `.modelbin`), `list` y `extract` (`.minizip`) |
+| [Archivos de BeamNG](https://holdi601.github.io/3DHeat-Ext-BeamNG/reader-beamng.html) | `beamng.py`, `beamngshape.py`, `beamngcollada.py` | el sistema de archivos montado de los zip, escenas JSON y TorqueScript, `.ter`, `.cdae` v31, Collada `.dae`, materiales | mallas con esqueleto y de calcomanías, secuencias animadas, cobertura de suelo procedural | `course` (BeamNG), `identify` (zips, `.cdae`, `.ter`), `list` y `extract` (zips) |
 
 ## Reglas que sigue todo lector {#rules-every-reader-follows}
 

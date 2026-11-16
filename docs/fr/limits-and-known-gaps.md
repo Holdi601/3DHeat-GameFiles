@@ -3,7 +3,7 @@ title: "Limites et lacunes connues"
 nav_order: 10
 lang: "fr"
 source: limits-and-known-gaps.md
-source_hash: "d4e0f1a4714e"
+source_hash: "02df0dd20fc9"
 nav_exclude: true
 search_exclude: true
 ---
@@ -25,7 +25,7 @@ sortie qui a l'air juste et ne l'est pas.
 | Cartes Unreal 5 World Partition (export de carte, `ue-map`) | oui, une carte entière | le paysage exact ; bâtiments sous forme des maillages HLOD simplifiés de la carte, non les modèles en pleine définition ; plans d'eau ; pas de feuillage, de décalques ni de couleur de sol |
 | Arma Reforger (export de monde, `enfusion-world`) | oui, un monde entier | terrain dans ses propres couleurs et la mer ; bâtiments, accessoires et rochers sous forme de boîtes de leurs modèles, non de leurs triangles ; arbres sur demande (`--trees`), en boîtes ; pas de lacs, rivières ni entités enfants |
 | iRacing | **non** | les circuits sont livrés dans un format protégé qui n'est pas une cible d'extraction de fichiers |
-| autre | **non** | il n'existe pas de lecteur de parcours ; reconstruisez à partir du jeu avec 3DHeat GameCapture, ou analysez les tours dans l'onglet Analyse de course de la visionneuse sans parcours |
+| autre | **non** | il n'existe pas de lecteur de parcours ; reconstruisez à partir du jeu avec 3DHeat GameCapture, ou analysez les tours dans l'onglet Analyse de course du visualiseur sans parcours |
 
 ## Moteurs et formats {#engines-and-formats}
 
@@ -66,11 +66,11 @@ sortie qui a l'air juste et ne l'est pas.
   couches de surface dans un graphe de shaders qui n'est pas lu ; l'export pose les couleurs des couches
   selon leurs masques et la pente du champ de hauteurs, par une règle qui lui est propre, et un niveau
   dont les pages de masques ne s'accordent pas reçoit une seule couleur. Chaque couche prend la moyenne de
-  sa carte de couleur, et non sa texture. Voir [Frostbite](reader-frostbite.md#terrain-layers). Des morceaux
+  sa carte de couleur, et non sa texture. Voir [Frostbite](https://holdi601.github.io/3DHeat-Ext-Battlefield/reader-frostbite.html#terrain-layers). Des morceaux
   du champ de hauteurs à des résolutions différentes se rejoignent par de petits paliers.
 - **Une carte de couleur Battlefield 6 est choisie, non lue.** Un bloc de shader nomme chaque texture
   qu'il échantillonne sans dire laquelle est la couleur ; le choix se fait par le nom (voir
-  [Frostbite](reader-frostbite.md#textures-and-materials)) et peut prendre une feuille de finition ou de
+  [Frostbite](https://holdi601.github.io/3DHeat-Ext-Battlefield/reader-frostbite.html#textures-and-materials)) et peut prendre une feuille de finition ou de
   détail pour une surface. Les feuilles de décalque (`t_de_...`) cèdent à la carte propre de la surface ;
   le décalque d'un panneau, dessiné comme son panneau, a montré son écusson tourné d'un quart. Les champs de
   distance, palettes et masques de canaux ne sont jamais pris. Les bâtiments de fond sont dessinés dans les
@@ -84,11 +84,11 @@ sortie qui a l'air juste et ne l'est pas.
   nœuds (tous identiques), et les maillages ou assets qui coupent le sol : ce qui est placé sous le sol à cet
   endroit ce sont des maillages de roche et de falaise, et aucun asset du niveau n'est nommé pour des trous,
   tunnels ou grottes. Deux arbres de trame sont décodés par longueurs de séquence mais non placés, et sont ce
-  qui reste (voir [Frostbite](reader-frostbite.md#terrain-layers)).
+  qui reste (voir [Frostbite](https://holdi601.github.io/3DHeat-Ext-Battlefield/reader-frostbite.html#terrain-layers)).
 - **Une variation d'objet Battlefield 6 atteint une section par ses jumeaux.** La variation d'une copie
   placée choisit les blocs de shader de ses sections par clé ; quand un maillage n'a pas de bloc pour une
   variation, la variante d'une section d'un autre maillage avec un bloc par défaut identique est prise (voir
-  [Frostbite](reader-frostbite.md#textures-and-materials)). C'est la règle de l'exporteur ; une section sans
+  [Frostbite](https://holdi601.github.io/3DHeat-Ext-Battlefield/reader-frostbite.html#textures-and-materials)). C'est la règle de l'exporteur ; une section sans
   jumeau qui varie garde son aspect par défaut.
 - **Les matériaux superposés de Battlefield 6 sont dessinés comme leur base et une seule feuille.** Un
   panneau de mur avec des lettres est dessiné comme son plâtre, avec la feuille de lettres par-dessus ; les
@@ -100,14 +100,14 @@ sortie qui a l'air juste et ne l'est pas.
 - **Un niveau Battlefield 6 inclut la couche de chaque mode de jeu.** Des objets que seul un mode place
   peuvent chevaucher ceux d'un autre. `--skip` laisse des couches de côté, par leur nom.
 - **`courses` concerne seulement Forza**, et ne prend que les dossiers de bibliothèque nommés `... (course_...)`.
-- **Le repère du tour BeamNG est supposé** être le repère de la visionneuse `(x, z, -y)` qu'écrit l'enregistreur
+- **Le repère du tour BeamNG est supposé** être le repère du visualiseur `(x, z, -y)` qu'écrit l'enregistreur
   3DHeat. Les tours d'un autre enregistreur, dans le repère brut de BeamNG, ne seraient pas placés.
 - **`list` et `extract` prennent les archives, non tous les formats.** Ils ouvrent un `.pak`, un `.utoc`
   IoStore, un `.vpk`, un `.minizip` et un zip. Un conteneur Unity se lit avec `meshes`, un niveau Frostbite
   avec `level`, et un `.cdae` ou `.ter` est un fichier et non une archive (`identify` le nomme). Un `.minizip`
   sans son `ChunkContentsMiniZip<n>.txt` à côté se liste par numéro d'entrée.
 - **Les modèles placés dans BeamNG utilisent les textures répétitives comme couleurs moyennes**, parce que le
-  sampler du `.glb` ramène les coordonnées dans l'intervalle et que la visionneuse range les textures dans un
+  sampler du `.glb` bloque les coordonnées au bord de l'image et que le visualiseur range les textures dans un
   atlas.
 - **Windows seulement, en pratique.** Chemins Steam sous `C:\Program Files`, `%LOCALAPPDATA%`, `C:\XboxGames`,
   et un `*_win64.dll` pour Oodle. Les autres plateformes n'ont pas été testées.
@@ -117,7 +117,7 @@ sortie qui a l'air juste et ne l'est pas.
 - Les anciennes versions de Python (l'outil a été lancé avec 3.13).
 - Assetto Corsa Rally avec un tour enregistré dans le jeu. Il n'a été testé qu'avec des tours synthétiques
   dans des repères aléatoires.
-- Les visionneuses glTF autres que la visionneuse 3DHeat.
+- Les visualiseurs glTF autres que le visualiseur 3DHeat.
 - Si le repère de chaque jeu est gauche ou droit. L'export garde le repère de télémétrie de chaque jeu, donc
   tours et parcours s'alignent dans tous les cas.
 - Le sens de `WaterBlock` à z local = 0 comme surface (BeamNG).

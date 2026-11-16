@@ -3,7 +3,7 @@ title: Mappe di Unreal 5
 nav_order: 2
 lang: "it"
 source: level-unreal-world-partition.md
-source_hash: "eca14618a673"
+source_hash: "c1744b0b011d"
 nav_exclude: true
 search_exclude: true
 ---
@@ -54,7 +54,7 @@ corpi d'acqua. Non servono editor né progetto, solo il gioco installato.
 |---|---|---|
 | `<game>` | obbligatorio | la cartella del gioco, la sua `Content/Paks`, oppure il nome della sua cartella Steam |
 | `<map>` | obbligatorio | un nome come lo stampa `ue-maps`, oppure una sua parte unica |
-| `-o`, `--out FILE` | `<map>.glb` | il file da scrivere |
+| `-o`, `--out FILE` | `<map>.glb` (in `$HEAT3D_LEVELS/<game>/` quando è impostata) | il file da scrivere |
 | `--ground-spacing METRI` | 2 | la spaziatura dei vertici del paesaggio, arrotondata a un numero intero dei suoi quad |
 | `--no-structures` | | lascia fuori gli edifici e gli oggetti HLOD |
 | `--no-water` | | lascia fuori i corpi d'acqua |
@@ -65,7 +65,7 @@ I contenuti compressi con Oodle richiedono una libreria Oodle già presente sul 
 
 ```text
 <map> -> map.glb
-  ground      <n> triangles from <n> paesaggio components; <n> of <n> vertices stored twice disagree
+  ground      <n> triangles from <n> landscape components; <n> of <n> vertices stored twice disagree
   structure   <n> triangles in <n> HLOD meshes
   water       <n> triangles from <n> water bodies
 ```

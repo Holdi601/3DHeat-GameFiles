@@ -3,7 +3,7 @@ title: "Niveaux de détail et budget"
 nav_order: 4
 lang: "fr"
 source: detail-budget.md
-source_hash: "4ff76afee3ab"
+source_hash: "d80740cf6973"
 nav_exclude: true
 search_exclude: true
 ---
@@ -71,7 +71,7 @@ Les entrées épinglées comptent à leur niveau le plus fin. Les 25 % (`HEADROO
 aux éléments en bord de route de garder un peu de détail. Sur un circuit de campagne, c'est
 le plancher de 1,5 million (`DEFAULT_BUDGET`). Sur un parcours urbain, où le corridor compte
 plus de cent mille copies, il dépasse dix millions, et le fichier fait plusieurs centaines de
-Mo. La visionneuse le charge.
+Mo. Le visualiseur le charge.
 
 ## Un budget que vous donnez {#a-budget-you-give}
 
@@ -106,14 +106,14 @@ Le résumé indique
 Une substitution de bâtiment entier compte pour une seule copie, à une distance mesurée jusqu'à
 l'arête la plus proche du bâtiment. Elle est gardée ou laissée de côté comme un tout. Les
 pièces modulaires qu'elle remplace ne sont pas budgétées du tout. Voir
-[Forza Horizon](course-forza-horizon.md#buildings-drawn-whole).
+[Forza Horizon](https://holdi601.github.io/3DHeat-Ext-Forza/course-forza-horizon.html#buildings-drawn-whole).
 
 ## Ce qu'est un niveau de détail, par jeu {#what-a-level-of-detail-is-per-game}
 
 | Jeu | Les niveaux viennent de |
 |---|---|
 | Forza | le masque de niveau par triangle des sous-maillages `Mesh` du modèle (bit `level + 1`) ; `0xFFFF` pour les pièces destructibles seulement, pour un modèle sans niveau marqué |
-| BeamNG | les `details` de la forme `.cdae` avec une taille positive ou nulle, du plus grand au plus petit ; pour `.dae`, le nombre final des noms de nœuds de maillage (`barrier75`, `barrier40`) |
+| BeamNG | les `details` de la forme `.cdae` avec une taille positive ou nulle, du plus grand au plus petit ; pour `.dae`, le nombre à la fin du nom des nœuds de maillage (`barrier75`, `barrier40`) |
 | AC Rally | les niveaux de détail stockés du maillage statique, du plus fin au plus grossier |
 | Battlefield 6 | les niveaux de détail du MeshSet, du plus fin au plus grossier, en ne comptant que les sections dessinées (pas les copies d'ombre et de profondeur seules), et sans un dernier niveau qui est une image de substitution pour la vue lointaine (matériaux `M_LastLod`, `M_Billboard`, `M_Vista` : le treillis d'un pylône devient une pointe pleine) |
 

@@ -3,7 +3,7 @@ title: "Unreal 5 IoStore"
 nav_order: 2
 lang: "fr"
 source: reader-unreal-iostore.md
-source_hash: "a09552249e75"
+source_hash: "a71af3169c83"
 nav_exclude: true
 search_exclude: true
 ---
@@ -13,7 +13,7 @@ Unreal 5 livre la plupart de son contenu dans des conteneurs **IoStore** : une t
 les données `.ucas` qu'elle indexe. Un `.pak` est toujours là, mais il ne contient guère plus qu'un pied de
 page. Les lecteurs décrits ici vont du conteneur jusqu'à la géométrie et aux pixels, autant qu'un parcours en
 a besoin. Ils ont été construits et vérifiés sur Assetto Corsa Rally (Unreal 5.6.1, modifié), et sont atteints
-par l'export de parcours [Assetto Corsa Rally](course-assetto-corsa-rally.md). `identify`, `list` et `extract`
+par l'export de parcours [Assetto Corsa Rally](https://holdi601.github.io/3DHeat-Ext-ACRally/course-assetto-corsa-rally.html). `identify`, `list` et `extract`
 prennent un `.utoc` (ou le `.ucas` à côté) : les fichiers que son répertoire nomme, par leur chemin sous le
 point de montage. Un conteneur sans index de répertoires ne nomme aucun fichier et n'est pas listé.
 

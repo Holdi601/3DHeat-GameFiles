@@ -3,7 +3,7 @@ title: "Ausgabeformat"
 nav_order: 8
 lang: "de"
 source: output-format.md
-source_hash: "064faedd6147"
+source_hash: "636bb4f5e616"
 nav_exclude: true
 search_exclude: true
 ---
@@ -37,9 +37,16 @@ scene 0
   gemeinsames Vertex-Array ist gültiges glTF, aber ein Leser, der die Accessoren jedes Primitives
   auflöst, würde dann jeden Vertex einmal pro Teil halten.
 - `asset.generator` ist `heat3d_gamefiles`.
-- Es werden **keine `extras`** geschrieben - keine eigenen Metadaten, keine Runde, kein Spiel- oder
-  Streckenname -, mit einer Ausnahme: ein Battlefield-6-Teil eines zerstörbaren Meshes trägt
-  `{"destructible": true}` an seinem Node. Alles, was der Viewer braucht, steht in den Node-Namen.
+- **Wenige `extras`**, und kein Lauf-, Spiel- oder Streckenname:
+  - ein Battlefield-6-Teil eines zerstörbaren Meshes trägt `{"destructible": true}` an seinem Node;
+  - eine Forza-Strecke sagt, was sie enthält, in `asset.extras` (Formatversion, zugeordnete Routen-ID,
+    wie viele Kopien der eigenen Ebene des Rennens, Veranstaltungsorte; siehe
+    [Forza-Horizon-Strecken](https://holdi601.github.io/3DHeat-Ext-Forza/course-forza-horizon.html#writing-the-file)),
+    und ihre eingeschalteten Teile tragen ihre Ebene am Node: `{"layer": "event", "route": <id>}` für die
+    eigene Ebene des Rennens, `{"layer": "layer"}` für eine andere eingeschaltete Ebene, `{"layer": "venue"}`
+    für den Boden eines Veranstaltungsortes.
+
+  Alles andere, was der Viewer braucht, steht in den Node-Namen.
 
 ## Node-Namen: die Einordnung {#node-names-the-classification}
 
@@ -59,8 +66,8 @@ Teil, das der Exporter schreibt, beginnt also mit einem dieser Präfixe oder mit
 
 | Präfix | Bedeutung | Geschriebene Teile |
 |---|---|---|
-| `ground:` | die Fahrfläche und das Land | `ground:road`, `ground:verge`, `ground:terrain`, `ground:gravel and dirt`, `ground:kerbs`, `ground:markings`, `ground:tyre marks` |
-| `structure:` | was darauf steht | `structure:barriers`, `structure:props`, `structure:signs`, `structure:buildings`, `structure:infrastructure`, `structure:bridges`, `structure:rocks`, `structure:smashables`, `structure:trees` |
+| `ground:` | die Fahrfläche und das Land | `ground:road`, `ground:verge`, `ground:terrain`, `ground:gravel and dirt`, `ground:kerbs`, `ground:markings`, `ground:tyre marks`, `ground:venue`, `ground:plinths` |
+| `structure:` | was darauf steht | `structure:barriers`, `structure:props`, `structure:signs`, `structure:buildings`, `structure:infrastructure`, `structure:bridges`, `structure:rocks`, `structure:smashables`, `structure:trees`; Forza-Ebenen `structure:event_<category>` und `structure:layer_<category>` |
 | `water:` | Wasser | `water:water`; `water:<map>` (`ue-map`), `water:<world>` (`enfusion-world`) |
 | `nav:` | wo ein Soldat gehen kann (Battlefield 6, nur mit `--navmesh`) | `nav:walkable` |
 
@@ -79,6 +86,9 @@ Nach der Art folgt, je nach Spiel:
 | `ground:road 1_-4` | AC-Rally-Boden im 512-m-Quadrat (1, -4) des Unreal-Raums |
 | `structure:barriers bar_armco_bclr` | Forza-platzierte Modelle mit einer gemeinsamen Textur (ihr Name ohne GUID) |
 | `structure:barriers` | platzierte Modelle ohne Textur (Forza, AC Rally) |
+| `structure:event_barriers bar_example_bclr` | Forza: was das passende Rennen für sich selbst ausgibt, getrennt von der freien Welt (Node-Extras `{"layer": "event", "route": <id>}`) |
+| `structure:layer_props` | Forza: eine Ebene, die das Spiel für etwas anderes als dieses Rennen einschaltet (eine Aktivität, ein Sammelobjekt, eine Laufzeitebene) |
+| `ground:venue`, `ground:plinths` | Forza: Modelle schon in Weltkoordinaten - der eigene Boden eines Veranstaltungsortes (der Boden eines Stadions) und Boden, mit dem eine Straße ausgestattet ist |
 | `structure:barriers armco_metal` | BeamNG-platzierte Modelle eines Materials |
 | `ground:markings`, `water:water` | flache Teile, je eines für die ganze Datei |
 | `ground:terrain` (Battlefield 6) | das Höhenfeld; `ground:terrain backdrop` die fernen Geländemeshes, `ground:terrain blend` Meshes, die ins Gelände übergehen |
@@ -88,7 +98,8 @@ Nach der Art folgt, je nach Spiel:
 | `structure:buildings t_concreteclean_01_cs (destructible)` (Battlefield 6) | dasselbe, für Meshes, die ein Match zerstören kann: die mit einem Zerstörungs-Asset eigenen Namens (Wände, Häuser, Requisiten). Der Node trägt außerdem die glTF-Extras `{"destructible": true}`. Ihre zerstörten Zustände werden nicht exportiert |
 
 Der Viewer kann nach diesen Namen filtern. Zum Beispiel ist "nur die Rennfläche" `ground:road` zusammen
-mit `ground:kerbs`, in allen drei Spielen. Das Präfix bestimmt auch, wie der Viewer ein Teil zeichnet:
+mit `ground:kerbs`, in allen drei Spielen, und „die Welt ohne die eigenen Requisiten des Rennens“ ist alles
+außer `structure:event_*`. Das Präfix bestimmt auch, wie der Viewer ein Teil zeichnet:
 Boden als die Fläche, auf der die Wärme liegt, Struktur als das, was darauf steht.
 
 ## Einheiten, Achsen und Koordinatensystem {#units-axes-and-frame}
@@ -111,7 +122,7 @@ Boden als die Fläche, auf der die Wärme liegt, Struktur als das, was darauf st
   Kopien werden so umgedreht, dass ihre Normalen nach außen zeigen.
 - **Assetto Corsa Rally:** das Koordinatensystem der Runde. Unreal-Zentimeter werden zu Metern, Unreal-Z
   wird y, und Unreal-X und -Y werden x und z, in welcher der acht Ausrichtungen die Runde passte (siehe
-  [Assetto Corsa Rally](course-assetto-corsa-rally.md#which-stage-and-which-way-round)). Dreiecke werden
+  [Assetto Corsa Rally](https://holdi601.github.io/3DHeat-Ext-ACRally/course-assetto-corsa-rally.html#which-stage-and-which-way-round)). Dreiecke werden
   dort umgedreht, wo diese Abbildung spiegelt.
 
 Jeder Export behält die Achsen, die seine Telemetrie benutzt, damit Aufzeichnung und Level dasselbe
@@ -152,14 +163,14 @@ werden immer berechnet.
 - **Bilder** sind als **JPEG** im Binär-Chunk eingebettet, Qualität 90, ohne Chroma-Unterabtastung, nur
   RGB (Alpha wird verworfen) - außer bei einer Battlefield-6-Ausschneidekarte (Blätter, Zäune), die
   **PNG** mit ihrem Alpha ist, auf einem Material mit `alphaMode` MASK, `alphaCutoff` 0,5 und
-  `doubleSided` (siehe [Frostbite](reader-frostbite.md#textures-and-materials)). Der 3DHeat-Viewer
+  `doubleSided` (siehe [Frostbite](https://holdi601.github.io/3DHeat-Ext-Battlefield/reader-frostbite.html#textures-and-materials)). Der 3DHeat-Viewer
   verwirft Texel unterhalb des Grenzwerts. Ein 2048-px-Boden aus Gras und Baumkronen ist für einen
   verlustfreien Codec Rauschen: mehrere Megabyte pro Kachel als PNG, unter einem Megabyte als JPEG.
   Ein Bild, das mehrere Teile teilen, wird einmal gespeichert.
 - Ein Sampler für alle Texturen: lineare Vergrößerung, linear-mipmap-lineare Verkleinerung, **Clamp to
   Edge** auf beiden Achsen, für die Streckenexporte, deren Texturen ihre Flächen genau einmal abdecken.
   BeamNG zeichnet wiederholende Modelltexturen als flache Farben (siehe
-  [BeamNG.drive](course-beamng.md#placed-models)).
+  [BeamNG.drive](https://holdi601.github.io/3DHeat-Ext-BeamNG/course-beamng.html#placed-models)).
 - Ein Battlefield-6-Export mit `--textures`, dessen Materialien sich kacheln, schreibt die eigenen
   Texturkoordinaten des Spiels, ungeklemmt, als float32 `TEXCOORD_0` auch in der quantisierten Form, mit
   einem Sampler, der sich auf beiden Achsen **wiederholt** (`write_glb(..., repeat=True)`): eine
@@ -208,7 +219,7 @@ Lade die `.glb` im Panel Hintergrund / Level des [3DHeat](https://github.com/Hol
 Die Telemetrie, die du im selben Spiel aufzeichnest, liegt darauf, weil beide die Koordinaten des Spiels
 behalten. Die eigene Dokumentation des Viewers
 ([holdi601.github.io/3DHeat](https://holdi601.github.io/3DHeat/)) behandelt das Panel Hintergrund / Level
-und die Matchdateien, die die anderen Werkzeuge schreiben
+und die Match-Dateien, die die anderen Werkzeuge schreiben
 ([Eine Datei pro Match: `.3dheat`](https://holdi601.github.io/3DHeat/container.html)).
 Ein Level wird nicht in jeder `.3dheat`-Datei gespeichert: ein Match nennt es in seinen `references`
 (`kind: "level"`, Name und sha256), und die `.glb` bleibt neben den Matches liegen.
