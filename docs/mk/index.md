@@ -181,6 +181,8 @@ python -m heat3d_gamefiles identify some_archive.pak
 | [Ext-DCS](https://github.com/Holdi601/3DHeat-Ext-DCS) | мапи од DCS World во нивоа `.glb` | [сајт](https://holdi601.github.io/3DHeat-Ext-DCS/) |
 | [Ext-IL2](https://github.com/Holdi601/3DHeat-Ext-IL2) | мапи од IL-2 Sturmovik во нивоа `.glb` | [сајт](https://holdi601.github.io/3DHeat-Ext-IL2/) |
 
+Секој читач на игра е посебен мал проект со сопствена датотека за лиценца, сопствени изданија и сопствен систем за пријави, па може да се инсталира, ажурира, одржува - или повлече на барање на носител на права - самостојно, без влијание врз прегледувачот и другите алатки.
+
 Датотеките за натпревари на прегледувачот се опишани во
 [Една датотека по натпревар: `.3dheat`](https://holdi601.github.io/3DHeat/container.html);
 ниво направено тука се вчитува покрај нив во панелот Позадина / ниво на прегледувачот.

@@ -3,7 +3,7 @@ title: "Skipanir"
 nav_order: 2
 lang: "is"
 source: commands.md
-source_hash: "97a154edc5e0"
+source_hash: "8ae04c37b1a4"
 nav_exclude: true
 search_exclude: true
 ---

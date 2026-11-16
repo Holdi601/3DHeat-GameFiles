@@ -3,7 +3,7 @@ title: Unreal 5 -kartat
 nav_order: 2
 lang: "fi"
 source: level-unreal-world-partition.md
-source_hash: "c1744b0b011d"
+source_hash: "b43f7c77a107"
 nav_exclude: true
 search_exclude: true
 ---
@@ -101,7 +101,5 @@ eivät täyden yksityiskohdan malleja. Kasvillisuutta, tarroja ja maisemamateria
 ei viedä: maa on tekstuuritonta, ja katseluohjelma varjostaa sen.
 Arkistotiedot: [Unreal 5 IoStore](reader-unreal-iostore.md).
 
-**Ehdot:** pelien lisenssit sallivat yleensä henkilökohtaisen, ei-kaupallisen käytön ja
-kieltävät käänteisen suunnittelun, "siltä osin kuin tällaisia toimia ei voida kieltää
-lailla". Oman asennuksen lukeminen on sinun päätöksesi niiden alla; tulos on tarkoitettu
-omaan käyttöösi eikä sitä saa jakaa.
+**Omat tiedostosi:** kartta luetaan koneellesi asennetusta pelistä ja kirjoitetaan
+levyllesi omaa analyysiäsi varten; mitään pelistä ei toimiteta tämän työkalun mukana.

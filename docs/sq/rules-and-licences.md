@@ -3,26 +3,21 @@ title: "Rregullat dhe licencat"
 nav_order: 12
 lang: "sq"
 source: rules-and-licences.md
-source_hash: "b68f4b6e3fe0"
+source_hash: "d99319d82d24"
 nav_exclude: true
 search_exclude: true
 ---
 # Rregullat dhe licencat {#rules-and-licences}
 
-Tri rregulla e formësojnë gjithë mjetin. Janë vendime dizajni, jo vetëm
-paralajmërime. Teksti i plotë: [`LICENSES.md`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/LICENSES.md).
-Kjo faqe është një regjistër i asaj që thonë licencat, jo këshillë ligjore.
+Tri rregulla e formësojnë gjithë mjetin. Teksti i plotë:
+[`LICENSES.md`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/LICENSES.md).
 
 ## 1. Pa çelësa: asnjë i dërguar, asnjë i rikuperuar {#no-keys-none-shipped-none-recovered}
 
 **Lexon kontejnerë.** Parsimi i një formati arkivi është trajtim i zakonshëm skedarësh, dhe
-FModel, UModel dhe AssetRipper e kanë bërë hapur për vite me radhë. Asgjë te
-parsimi i një kontejneri nuk është vetvetiu qarkullim i mbrojtjes (circumvention).
+FModel, UModel dhe AssetRipper e kanë bërë hapur për vite me radhë.
 
-**Vija që ka rëndësi është enkriptimi, dhe vizatohet brenda mjetit.** Një mjet
-qëllimi i të cilit është të mposhtë një kontroll aksesi është vetë brenda fushës së
-ligjit kundër qarkullimit të mbrojtjes (DMCA §1201(a)(2) arrin teknologjitë, jo vetëm veprimet),
-edhe nëse askush nuk shpërndan asnjë skedar të nxjerrë. Prandaj:
+**Vija që ka rëndësi është enkriptimi, dhe vizatohet brenda mjetit.**
 
 - **Pa çelësa të përfshirë.** Nuk ka çelës në kod ose në të dhëna.
 - **Pa rikuperim çelësash.** Asgjë nuk kërkon çelës brenda një ekzekutuesi, dhe asgjë nuk lexon
@@ -46,17 +41,19 @@ edhe nëse askush nuk shpërndan asnjë skedar të nxjerrë. Prandaj:
 
 Çdo arkiv i testuar deri tani është i paenkriptuar.
 
-## 2. Skedarët e tu, përgjegjësia jote {#your-own-files-your-responsibility}
+## 2. Skedarët e tu {#your-own-files}
 
 Mjeti lexon skedarët e lojës **të instaluar në kompjuterin tënd**. Nuk shkarkon kurrë
 përmbajtje loje.
 
-Ajo ku e drejton mbetet përgjegjësia jote. Lojërat mbajnë kushtet e veta të licencës,
-dhe EULA-t zakonisht ndalojnë inxhinierimin e kundërt. Këto janë kontrata të zbatueshme,
-dhe detyrimi qëndron te ai që e ekzekuton mjetin, në cilëndo lojë.
-Asnjë zgjedhje dizajni këtu nuk e shkarkon. Rasti më i qartë legjitim është një zhvillues
-që lexon ndërtimin e studios së tij: titull i një ekipi tjetër, një degë e vjetër, një ndërtim
-nga një partner.
+Asgjë nga një lojë nuk shpërndahet bashkë me të: asnjë përmbajtje e lojës, asnjë kod i lojës,
+asnjë DLL. Ajo që eksporton shkruhet në diskun tënd dhe askund tjetër.
+
+3DHeat GameFiles nuk është i lidhur me asnjë botues lojërash dhe nuk miratohet prej tyre.
+Lojërat dhe emrat e markat tregtare përkatëse u përkasin pronarëve të tyre. Mbajtësit e të
+drejtave: hapni një issue te
+[github.com/Holdi601/3DHeat-GameFiles/issues](https://github.com/Holdi601/3DHeat-GameFiles/issues) -
+përgjigjemi shpejt dhe heqim gjithçka me kërkesë.
 
 ## 3. Dalja nuk është për rishpërndarje {#output-is-not-for-redistribution}
 
@@ -81,8 +78,7 @@ Shih [Oodle](reader-oodle.md).
 ## Vetë formatet {#the-formats-themselves}
 
 - `.pak`, IoStore, `SerializedFile` i Unity, `.toc` i Frostbite dhe formatet e ForzaTech
-  janë të padokumentuara. Leximi i tyre është inxhinierim i kundërt i një kontejneri.
-  Asnjë nga lexuesit këtu nuk rrjedh nga kodi burimor i një projekti tjetër. Për
+  janë të padokumentuara. Asnjë nga lexuesit këtu nuk rrjedh nga kodi burimor i një projekti tjetër. Për
   Frostbite, përshkrimet publike të versioneve më të vjetra (mjetet e modifikimit Frosty, një shënim formati
   Need for Speed Heat, një bisedë GDC) dhanë emra fushash dhe një hartë se
   çfarë të kërkohet. Nuk u mor kod; çdo ofset u mat në skedarët

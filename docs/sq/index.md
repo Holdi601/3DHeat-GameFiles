@@ -181,6 +181,8 @@ Hape `.glb` në shikuesin 3DHeat. Koordinatat e vetë botës së lojës ruhen
 | [Ext-DCS](https://github.com/Holdi601/3DHeat-Ext-DCS) | harta të DCS World në nivele `.glb` | [faqja](https://holdi601.github.io/3DHeat-Ext-DCS/) |
 | [Ext-IL2](https://github.com/Holdi601/3DHeat-Ext-IL2) | harta të IL-2 Sturmovik në nivele `.glb` | [faqja](https://holdi601.github.io/3DHeat-Ext-IL2/) |
 
+Çdo lexues loje është një projekt i vogël më vete, me skedarin e vet të licencës, versionet e veta dhe gjurmuesin e vet të problemeve, që të mund të instalohet, përditësohet, mirëmbahet - ose tërhiqet me kërkesë të një mbajtësi të drejtash - më vete, pa prekur shikuesin apo mjetet e tjera.
+
 Skedarët e ndeshjeve të shikuesit përshkruhen te
 [One file a match: `.3dheat`](https://holdi601.github.io/3DHeat/container.html);
 një nivel i bërë këtu ngarkohet pranë tyre te paneli Sfondi / niveli i shikuesit.

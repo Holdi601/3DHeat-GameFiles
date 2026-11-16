@@ -3,26 +3,21 @@ title: Pravidla a licence
 nav_order: 12
 lang: "cs"
 source: rules-and-licences.md
-source_hash: "b68f4b6e3fe0"
+source_hash: "d99319d82d24"
 nav_exclude: true
 search_exclude: true
 ---
 # Pravidla a licence {#rules-and-licences}
 
-Tři pravidla určují celý nástroj. Jsou to rozhodnutí o návrhu, ne jen prohlášení o
-odpovědnosti. Úplné znění: [`LICENSES.md`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/LICENSES.md).
-Tato stránka je záznam toho, co licence říkají, ne právní rada.
+Tři pravidla určují celý nástroj. Úplné znění:
+[`LICENSES.md`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/LICENSES.md).
 
 ## 1. Žádné klíče: žádné nepřibalené, žádné neobnovené {#no-keys-none-shipped-none-recovered}
 
 **Čte kontejnery.** Parsování formátu archivu je běžná práce se soubory a FModel,
-UModel a AssetRipper to dělají veřejně už léta. Samotné parsování kontejneru není
-obcházení ochrany.
+UModel a AssetRipper to dělají veřejně už léta.
 
-**Rozhodující hranice je šifrování a je nakreslená uvnitř nástroje.** Nástroj, jehož
-účelem je obejít řízení přístupu, sám spadá pod zákony proti obcházení ochrany
-(DMCA §1201(a)(2) se vztahuje na technologie, ne jen na činy), i když nikdo nerozšíří
-ani jediný extrahovaný soubor. Proto:
+**Rozhodující hranice je šifrování a je nakreslená uvnitř nástroje.**
 
 - **Žádné přibalené klíče.** V kódu ani v datech není žádný klíč.
 - **Žádné obnovování klíčů.** Nic nehledá klíč v programu a nic nečte paměť jiného
@@ -45,16 +40,19 @@ ani jediný extrahovaný soubor. Proto:
 
 Každý dosud testovaný archiv byl nešifrovaný.
 
-## 2. Vlastní soubory, vlastní odpovědnost {#your-own-files-your-responsibility}
+## 2. Vlastní soubory {#your-own-files}
 
 Nástroj čte herní soubory **nainstalované ve vašem počítači**. Nikdy nestahuje herní
 obsah.
 
-Co mu ukážete, zůstává vaší odpovědností. Hry mají vlastní licenční podmínky a
-koncové licenční smlouvy běžně zakazují reverzní inženýrství. Jsou to vymahatelné
-smlouvy a povinnost leží na tom, kdo nástroj spouští, u jakékoli hry. Žádné
-rozhodnutí v návrhu ji nezbaví. Nejjasnějším oprávněným případem je vývojář, který
-čte vlastní buildy svého studia: titul jiného týmu, starou větev, build od partnera.
+Nic ze hry se s ním nedodává: žádný herní obsah, žádný herní kód, žádné DLL. Co
+exportuje, se zapisuje na váš disk a nikam jinam.
+
+3DHeat GameFiles není spojen s žádným vydavatelem her ani jím schválen. Hry a
+související názvy a ochranné známky patří jejich vlastníkům. Držitelé práv: založte
+issue na
+[github.com/Holdi601/3DHeat-GameFiles/issues](https://github.com/Holdi601/3DHeat-GameFiles/issues) -
+odpovídáme rychle a na požádání cokoli odstraníme.
 
 ## 3. Výstup se nerozšiřuje {#output-is-not-for-redistribution}
 
@@ -79,7 +77,7 @@ licence předpokládá a je stejné, jaké používají FModel a UModel. Viz [Oo
 ## Samotné formáty {#the-formats-themselves}
 
 - `.pak`, IoStore, `SerializedFile` Unity, `.toc` Frostbite a formáty ForzaTech jsou
-  nezdokumentované. Číst je znamená reverzně inženýrovat kontejner. Žádná z těchto
+  nezdokumentované. Žádná z těchto
   čteček nevychází ze zdrojového kódu jiného projektu. U Frostbite veřejné popisy
   starších verzí (nástroje pro modding Frosty, poznámka k formátu Need for Speed Heat,
   přednáška z GDC) dodaly názvy polí a přehled, co hledat. Kód se nepřevzal; každý

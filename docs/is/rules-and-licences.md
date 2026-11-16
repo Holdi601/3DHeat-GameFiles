@@ -3,26 +3,21 @@ title: "Reglur og leyfi"
 nav_order: 12
 lang: "is"
 source: rules-and-licences.md
-source_hash: "b68f4b6e3fe0"
+source_hash: "d99319d82d24"
 nav_exclude: true
 search_exclude: true
 ---
 # Reglur og leyfi {#rules-and-licences}
 
-Þrjár reglur móta allt verkfærið. Þær eru hönnunarákvarðanir, ekki bara
-fyrirvarar. Fullur texti: [`LICENSES.md`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/LICENSES.md).
-Þessi síða er skrá yfir það sem leyfin segja, ekki lögfræðiráðgjöf.
+Þrjár reglur móta allt verkfærið. Fullur texti:
+[`LICENSES.md`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/LICENSES.md).
 
 ## 1. Engir lyklar: enginn sendur með, enginn endurheimtur {#1-no-keys-none-shipped-none-recovered}
 
-**Það les ílát.** Að þátta skjalasafnssnið er venjuleg skráameðhöndlun, og
-FModel, UModel og AssetRipper hafa gert það fyrir opnum tjöldum árum saman. Ekkert við
-að þátta ílát er í sjálfu sér hjáleið framhjá vörn.
+**Það les ílát.** Að þátta skjalasafnssnið er venjuleg skráameðhöndlun, og FModel,
+UModel og AssetRipper hafa gert það fyrir opnum tjöldum árum saman.
 
-**Línan sem skiptir máli er dulkóðun, og hún er dregin inni í verkfærinu.** Verkfæri
-sem hefur það hlutverk að sigrast á aðgangsstýringu fellur sjálft undir
-lög gegn hjáleiðum (DMCA §1201(a)(2) nær yfir tækni, ekki bara gjörðir),
-jafnvel þótt enginn dreifi einni einustu útdreginni skrá. Þess vegna:
+**Línan sem skiptir máli er dulkóðun, og hún er dregin inni í verkfærinu.**
 
 - **Engir lyklar sendir með.** Enginn lykill er í kóðanum eða gögnunum.
 - **Engin lyklaendurheimt.** Ekkert leitar að lykli í keyrsluskrá, og ekkert les
@@ -46,17 +41,19 @@ jafnvel þótt enginn dreifi einni einustu útdreginni skrá. Þess vegna:
 
 Öll skjalasöfn sem hafa verið prófuð hingað til eru ódulkóðuð.
 
-## 2. Þínar eigin skrár, þín ábyrgð {#2-your-own-files-your-responsibility}
+## 2. Þínar eigin skrár {#your-own-files}
 
 Verkfærið les leikjaskrárnar sem eru **uppsettar á tölvunni þinni**. Það sækir aldrei
 leikjaefni.
 
-Það sem þú beinir því að er áfram á þinni ábyrgð. Leikir bera eigin leyfisskilmála,
-og EULA banna almennt bakverkfræði. Þetta eru bindandi samningar,
-og skyldan hvílir á þeim sem keyrir verkfærið, í hvaða leik sem er.
-Engin hönnunarákvörðun hér losar undan henni. Skýrasta réttmæta tilvikið er þróunaraðili
-sem les smíð síns eigin stúdíós: leik annars teymis, gamla grein, smíð
-frá samstarfsaðila.
+Ekkert úr leik fylgir með: ekkert leikjaefni, enginn leikjakóði, engin DLL-söfn. Það sem
+verkfærið flytur út er skrifað á þinn disk og hvergi annað.
+
+3DHeat GameFiles tengist engum útgefanda leikja og nýtur ekki stuðnings þeirra.
+Leikirnir og tengd nöfn og vörumerki tilheyra eigendum sínum. Rétthafar: stofnið
+verkbeiðni (issue) á
+[github.com/Holdi601/3DHeat-GameFiles/issues](https://github.com/Holdi601/3DHeat-GameFiles/issues) -
+við svörum fljótt og fjarlægjum hvað sem er sé þess óskað.
 
 ## 3. Úttakið er ekki til endurdreifingar {#3-output-is-not-for-redistribution}
 
@@ -81,8 +78,7 @@ Sjá [Oodle](reader-oodle.md).
 ## Sniðin sjálf {#the-formats-themselves}
 
 - `.pak`, IoStore, `SerializedFile` frá Unity, `.toc` frá Frostbite og snið
-  ForzaTech eru óskjalfest. Að lesa þau er bakverkfræði á íláti.
-  Enginn lesaranna hér er leiddur af frumkóða annars verkefnis. Fyrir
+  ForzaTech eru óskjalfest. Enginn lesaranna hér er leiddur af frumkóða annars verkefnis. Fyrir
   Frostbite gáfu opinberar lýsingar á eldri útgáfum (Frosty módunarverkfærin, ein
   sniðsathugasemd um Need for Speed Heat, GDC fyrirlestur) reitanöfn og kort af
   því sem leita átti að. Enginn kóði var tekinn; hver hliðrun var mæld á skránum

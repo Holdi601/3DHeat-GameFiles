@@ -3,25 +3,21 @@ title: Säännöt ja lisenssit
 nav_order: 12
 lang: "fi"
 source: rules-and-licences.md
-source_hash: "b68f4b6e3fe0"
+source_hash: "d99319d82d24"
 nav_exclude: true
 search_exclude: true
 ---
 # Säännöt ja lisenssit {#rules-and-licences}
 
-Kolme sääntöä muovaa koko työkalua. Ne ovat suunnittelupäätöksiä, eivät pelkkiä vastuuvapauslausekkeita.
-Täysi teksti: [`LICENSES.md`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/LICENSES.md).
-Tämä sivu on kirjaus siitä, mitä lisenssit sanovat, ei oikeudellinen neuvo.
+Kolme sääntöä muovaa koko työkalua. Täysi teksti:
+[`LICENSES.md`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/LICENSES.md).
 
 ## 1. Ei avaimia: ei toimitettuja, ei löydettyjä {#no-keys-none-shipped-none-recovered}
 
 **Työkalu lukee kontteja.** Arkistomuodon jäsentäminen on tavallista tiedostonkäsittelyä, ja FModel,
-UModel ja AssetRipper ovat tehneet sen avoimesti vuosia. Kontin jäsentäminen ei sinänsä ole kiertämistä.
+UModel ja AssetRipper ovat tehneet sen avoimesti vuosia.
 
-**Ratkaiseva raja on salaus, ja se on piirretty työkalun sisään.** Työkalu, jonka tarkoitus on
-kumota käyttöoikeuden hallinta, on itsessään anti-kiertolainsäädännön piirissä (DMCA §1201(a)(2)
-koskee tekniikoita, ei pelkästään tekoja), vaikka kukaan ei jakaisi yhtäkään purettua tiedostoa.
-Siksi:
+**Ratkaiseva raja on salaus, ja se on piirretty työkalun sisään.**
 
 - **Ei toimitettuja avaimia.** Koodissa tai datassa ei ole avainta.
 - **Ei avainten palautusta.** Mitään ei etsitä suoritettavasta tiedostosta avainta, eikä toisen prosessin
@@ -43,15 +39,18 @@ Siksi:
 
 Jokainen tähän mennessä testattu arkisto on salaamaton.
 
-## 2. Omat tiedostot, oma vastuu {#your-own-files-your-responsibility}
+## 2. Omat tiedostot {#your-own-files}
 
 Työkalu lukee **koneellesi asennettuja** pelitiedostoja. Se ei koskaan lataa pelisisältöä.
 
-Mihin osoitat, on edelleen sinun vastuullasi. Peleillä on omat lisenssiehdot, ja EULA:t kieltävät
-usein käänteisen suunnittelun. Ne ovat täytäntöönpanokelpoisia sopimuksia, ja velvollisuus on sillä,
-joka työkalua ajaa, millä tahansa pelillä. Mikään tämän työn suunnitteluratkaisu ei vapauta siitä.
-Selvin lailliselle tapaus on kehittäjä, joka lukee oman studionsa buildia: eri tiimin tuotetta, vanhaa
-haaraa tai kumppanin buildia.
+Mitään pelistä ei toimiteta sen mukana: ei pelin sisältöä, ei pelin koodia, ei DLL-tiedostoja. Sen
+vienti kirjoitetaan omalle levyllesi eikä minnekään muualle.
+
+3DHeat GameFiles ei ole sidoksissa mihinkään pelijulkaisijaan eikä minkään pelijulkaisijan hyväksymä.
+Pelit sekä niihin liittyvät nimet ja tavaramerkit kuuluvat omistajilleen. Oikeudenhaltijat: avatkaa
+issue osoitteessa
+[github.com/Holdi601/3DHeat-GameFiles/issues](https://github.com/Holdi601/3DHeat-GameFiles/issues) -
+vastaamme nopeasti ja poistamme pyynnöstä mitä tahansa.
 
 ## 3. Tulos ei ole jaettavaksi {#output-is-not-for-redistribution}
 
@@ -75,7 +74,7 @@ FModel ja UModel käyttävät. Katso [Oodle](reader-oodle.md).
 ## Muodot itsessään {#the-formats-themselves}
 
 - `.pak`, IoStore, Unityn `SerializedFile`, Frostbiten `.toc` ja ForzaTechin muodot eivät ole
-  dokumentoituja. Niiden lukeminen on kontin käänteistä suunnittelua. Yksikään tässä olevista lukijoista
+  dokumentoituja. Yksikään tässä olevista lukijoista
   ei perustu toisen projektin lähdekoodiin. Frostbitelle julkiset kuvaukset vanhemmista versioista
   (Frosty-mallinnustyökalut, Need for Speed Heat -formaattihuomautus, GDC-esitys) antoivat kenttänimiä ja
   kartan siitä, mitä etsiä. Koodia ei otettu; jokainen siirtymä mitattiin tiedostoista (katso

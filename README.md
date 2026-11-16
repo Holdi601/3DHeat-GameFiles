@@ -19,9 +19,11 @@ site and pick a language at the top. The viewer is documented at
 
 ![Where GameFiles fits between the game and the viewer](docs/assets/img/where-it-fits.svg)
 
-**Each game's reader is its own project.** So that a problem with one game's
-terms touches only that game, the readers of the games' own formats live in
-their own repositories and build on this one as a library:
+**Each game's reader is its own project**, a small one with its own licence
+file, releases and issue tracker, so it can be installed, updated, maintained -
+or withdrawn on a rights holder's request - on its own, without affecting the
+viewer or the other tools. The readers of the games' own formats build on this
+one as a library:
 [3DHeat-Ext-Forza](https://github.com/Holdi601/3DHeat-Ext-Forza) (`heat3d-forza-maps`),
 [3DHeat-Ext-Battlefield](https://github.com/Holdi601/3DHeat-Ext-Battlefield) (`heat3d-battlefield-maps`),
 [3DHeat-Ext-BeamNG](https://github.com/Holdi601/3DHeat-Ext-BeamNG) (`heat3d-beamng-maps`),
@@ -67,8 +69,13 @@ world files).
 - **It reads files; it breaks no locks.** It ships no keys and recovers none.
   An encrypted archive opens only with a key you already hold. Nothing searches
   a program for keys or reads another program's memory.
-- **What you point it at is your responsibility.** Games carry their own licence
-  terms; see [Rules and licences](https://holdi601.github.io/3DHeat-GameFiles/rules-and-licences.html).
+- **It reads your own installation and ships nothing from a game.** No game
+  assets, no game code, no DLLs; what it exports is written to your disk and
+  nowhere else. See [Rules and licences](https://holdi601.github.io/3DHeat-GameFiles/rules-and-licences.html).
+- **Not affiliated.** 3DHeat GameFiles is not affiliated with or endorsed by any
+  game publisher. The games and related names and trademarks belong to their
+  owners. Rights holders: open an issue at <https://github.com/Holdi601/3DHeat-GameFiles/issues> -
+  we respond quickly and remove anything on request.
 
 ## Install
 
@@ -277,4 +284,4 @@ in [`VERSION`](VERSION); what changed is in [`CHANGELOG.md`](CHANGELOG.md).
 ## Licence
 
 MIT - see [`LICENSE`](LICENSE), and [`LICENSES.md`](LICENSES.md) for the
-third-party packages it uses and what the games it reads oblige.
+third-party packages it uses.

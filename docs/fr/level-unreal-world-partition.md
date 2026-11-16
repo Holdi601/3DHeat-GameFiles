@@ -3,7 +3,7 @@ title: "Cartes Unreal 5"
 nav_order: 2
 lang: "fr"
 source: level-unreal-world-partition.md
-source_hash: "c1744b0b011d"
+source_hash: "b43f7c77a107"
 nav_exclude: true
 search_exclude: true
 ---
@@ -99,6 +99,4 @@ les modèles en pleine définition. Le feuillage, les décalques et les matéria
 exportés ; le sol est sans texture et éclairé par le visualiseur. Détails d'archive :
 [Unreal 5 IoStore](reader-unreal-iostore.md).
 
-**Termes :** les licences des jeux autorisent en général l'usage personnel non commercial et
-interdisent la rétro-ingénierie « to the extent that such actions cannot be prohibited by law ». Lire votre propre installation relève de votre décision au titre de ces licences ; le résultat
-est pour votre usage personnel et ne doit pas être partagé.
+**Vos propres fichiers :** la carte est lue depuis le jeu installé sur votre machine et écrite sur votre disque, pour votre propre analyse ; rien du jeu n'est livré avec cet outil.

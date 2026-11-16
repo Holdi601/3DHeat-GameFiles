@@ -99,7 +99,6 @@ modeli pune detaljnosti. Raslinje, decali i materijali landscapea se ne izvoze;
 tlo je bez teksture, a sjenčanje radi preglednik. Detalji o arhivi:
 [Unreal 5 IoStore](reader-unreal-iostore.md).
 
-**Uslovi:** licence igara obično dozvoljavaju ličnu, nekomercijalnu upotrebu i
-zabranjuju obrnuti inženjering "to the extent that such actions cannot be prohibited by
-law". Čitanje vlastite instalacije je vaša odluka u okviru njih; izlaz je za vašu
-vlastitu upotrebu i ne dijeli se.
+**Vaše vlastite datoteke:** mapa se čita iz igre instalirane na vašem računaru i
+upisuje na vaš disk za vašu vlastitu analizu; ništa iz igre ne isporučuje se s ovim
+alatom.

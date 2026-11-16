@@ -179,6 +179,8 @@ Open de `.glb` in de 3DHeat-viewer. De wereldcoördinaten van het spel blijven b
 | [Ext-DCS](https://github.com/Holdi601/3DHeat-Ext-DCS) | DCS World-kaarten naar `.glb`-levels | [site](https://holdi601.github.io/3DHeat-Ext-DCS/) |
 | [Ext-IL2](https://github.com/Holdi601/3DHeat-Ext-IL2) | IL-2 Sturmovik-kaarten naar `.glb`-levels | [site](https://holdi601.github.io/3DHeat-Ext-IL2/) |
 
+Elke spellezer is een eigen klein project met een eigen licentiebestand, eigen releases en een eigen issuetracker, zodat hij los kan worden geïnstalleerd, bijgewerkt, onderhouden - of op verzoek van een rechthebbende teruggetrokken - zonder de viewer of de andere tools te raken.
+
 De wedstrijdbestanden van de viewer staan beschreven in
 [Eén bestand per wedstrijd: `.3dheat`](https://holdi601.github.io/3DHeat/container.html);
 een hier gemaakt level wordt er naast geladen in het paneel Achtergrond / level van de viewer.

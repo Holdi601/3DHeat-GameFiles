@@ -3,7 +3,7 @@ title: "Commandes"
 nav_order: 2
 lang: "fr"
 source: commands.md
-source_hash: "97a154edc5e0"
+source_hash: "8ae04c37b1a4"
 nav_exclude: true
 search_exclude: true
 ---
@@ -223,14 +223,16 @@ fichier `.resS` sont lues dans le dossier où se trouve le conteneur.
 
 ## Les verbes propres aux jeux {#the-games-own-verbs}
 
-Chaque lecteur de jeu est son propre projet : un problème lié aux conditions d'un jeu ne
-touche donc que ce jeu. Installez celui de votre jeu (sa page indique comment), et sa propre
-commande comme les verbes d'ici fonctionnent. GameFiles lance l'outil du jeu avec les
-arguments que vous avez donnés ; rien de cet outil n'est importé. Il est trouvé comme sa
-commande dans `PATH`, comme son paquet installé, ou comme son dossier dans `HEAT3D_<GAME>_MAPS`
-ou à côté de GameFiles (`exporters/ext/<game>-maps` dans une copie de 3DHeat, ou
-`3DHeat-Ext-<Game>` à côté de ce dossier). Quand il n'est pas installé, le verbe indique où
-le trouver et se termine avec le code 2.
+Chaque lecteur de jeu est un petit projet à part, avec son propre fichier de licence, ses
+versions et son suivi des tickets : il peut être installé, mis à jour, maintenu - ou retiré à
+la demande d'un ayant droit - séparément, sans toucher au visualiseur ni aux autres outils.
+Installez celui de votre jeu (sa page indique comment), et sa propre commande comme les verbes
+d'ici fonctionnent. GameFiles lance l'outil du jeu avec les arguments que vous avez donnés ;
+rien de cet outil n'est importé. Il est trouvé comme sa commande dans `PATH`, comme son paquet
+installé, ou comme son dossier dans `HEAT3D_<GAME>_MAPS` ou à côté de GameFiles
+(`exporters/ext/<game>-maps` dans une copie de 3DHeat, ou `3DHeat-Ext-<Game>` à côté de ce
+dossier). Quand il n'est pas installé, le verbe indique où le trouver et se termine avec le
+code 2.
 
 | Jeu | Son propre outil | Verbes d'ici qui le lancent |
 |---|---|---|

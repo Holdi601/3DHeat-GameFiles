@@ -180,6 +180,8 @@ Tá 3DHeat GameFiles ar cheann de na huirlisí saora timpeall ar amharcán 3DHea
 | [Ext-DCS](https://github.com/Holdi601/3DHeat-Ext-DCS) | léarscáileanna DCS World ina leibhéil `.glb` | [suíomh](https://holdi601.github.io/3DHeat-Ext-DCS/) |
 | [Ext-IL2](https://github.com/Holdi601/3DHeat-Ext-IL2) | léarscáileanna IL-2 Sturmovik ina leibhéil `.glb` | [suíomh](https://holdi601.github.io/3DHeat-Ext-IL2/) |
 
+Is tionscadal beag ann féin é gach léitheoir cluiche, lena chomhad ceadúnais, a eisiúintí agus a rianaire saincheisteanna féin, ionas gur féidir é a shuiteáil, a nuashonrú, a chothabháil - nó a tharraingt siar ar iarratas ó shealbhóir cearta - leis féin, gan tionchar ar an amharcán ná ar na huirlisí eile.
+
 Tá comhaid chluiche an amharcáin curtha síos in
 [Comhad amháin in aghaidh an chluiche: `.3dheat`](https://holdi601.github.io/3DHeat/container.html);
 lódáiltear leibhéal a dhéantar anseo lena n-aice i bpainéal Cúlra / leibhéal an amharcáin.

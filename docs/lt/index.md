@@ -174,6 +174,8 @@ Atidarykite `.glb` 3DHeat žiūryklėje. Žaidimo pačios pasaulio koordinatės 
 | [Ext-DCS](https://github.com/Holdi601/3DHeat-Ext-DCS) | DCS World žemėlapiai į `.glb` lygius | [svetainė](https://holdi601.github.io/3DHeat-Ext-DCS/) |
 | [Ext-IL2](https://github.com/Holdi601/3DHeat-Ext-IL2) | IL-2 Sturmovik žemėlapiai į `.glb` lygius | [svetainė](https://holdi601.github.io/3DHeat-Ext-IL2/) |
 
+Kiekvienas žaidimo skaitytuvas yra atskiras mažas projektas su savo licencijos failu, leidimais ir problemų sekimo sistema, todėl jį galima atskirai įdiegti, atnaujinti, prižiūrėti - arba teisių turėtojo prašymu atšaukti - nepaveikiant žiūryklės ar kitų įrankių.
+
 Žiūryklės rungtynių failai aprašyti
 [Vienas failas rungtynėms: `.3dheat`](https://holdi601.github.io/3DHeat/container.html);
 čia sukurtas lygis įkeliamas šalia jų žiūryklės Lygio skydelyje.

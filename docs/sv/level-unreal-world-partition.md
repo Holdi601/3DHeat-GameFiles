@@ -3,7 +3,7 @@ title: Unreal 5-kartor
 nav_order: 2
 lang: "sv"
 source: level-unreal-world-partition.md
-source_hash: "c1744b0b011d"
+source_hash: "b43f7c77a107"
 nav_exclude: true
 search_exclude: true
 ---
@@ -99,7 +99,6 @@ fullt detaljerade modellerna. Växtlighet, dekaler och landskapsmaterial exporte
 inte; marken saknar textur och skuggas av visaren. Detaljer om arkiven:
 [Unreal 5 IoStore](reader-unreal-iostore.md).
 
-**Begrepp:** spelens licenser tillåter oftast personligt, icke-kommersiellt bruk och
-förbjuder omvänd konstruktion "i den mån sådana handlingar inte kan förbjudas enligt
-lag". Att läsa din egen installation är ditt eget beslut under dem; resultatet är för
-din egen användning och ska inte delas.
+**Dina egna filer:** kartan läses från spelet som är installerat på din dator och
+skrivs till din disk för din egen analys; inget från spelet följer med det här
+verktyget.

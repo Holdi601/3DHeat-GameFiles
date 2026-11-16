@@ -3,24 +3,21 @@ title: Szabályok és licencek
 nav_order: 12
 lang: "hu"
 source: rules-and-licences.md
-source_hash: "b68f4b6e3fe0"
+source_hash: "d99319d82d24"
 nav_exclude: true
 search_exclude: true
 ---
 # Szabályok és licencek {#rules-and-licences}
 
-Három szabály alakítja az egész eszközt. Ezek tervezési döntések, nem puszta jogi felmentések. Teljes szöveg:
-[`LICENSES.md`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/LICENSES.md). Ez az oldal azt rögzíti, mit
-mondanak a licencek, nem jogi tanács.
+Három szabály alakítja az egész eszközt. Teljes szöveg:
+[`LICENSES.md`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/LICENSES.md).
 
 ## 1. Nincs kulcs: nincs beágyazva, nincs kinyerve {#no-keys-none-shipped-none-recovered}
 
 **Konténereket olvas.** Egy archívumformátum elemzése hétköznapi fájlkezelés, a FModel, az UModel és az AssetRipper
-évek óta nyíltan csinálja. Egy konténer elemzése önmagában nem kijátszás.
+évek óta nyíltan csinálja.
 
-**A lényeges határvonal a titkosítás, és az eszközön belül húzzuk meg.** Egy eszköz, amelynek célja egy
-hozzáférés-védelem kijátszása, maga is a körülkerülés-ellenes jog hatálya alá esik (DMCA §1201(a)(2) a
-technológiákat éri, nem csak a cselekményeket), még ha senki nem is terjeszt kibontott fájlt. Ezért:
+**A lényeges határvonal a titkosítás, és az eszközön belül húzzuk meg.**
 
 - **Nincs beágyazott kulcs.** Nincs kulcs sem a kódban, sem az adatokban.
 - **Nincs kulcs-kinyerés.** Semmi nem keres kulcsot végrehajtható fájlban, és semmi nem olvas más folyamat
@@ -41,14 +38,17 @@ technológiákat éri, nem csak a cselekményeket), még ha senki nem is terjesz
 
 Eddig tesztelt minden archívum titkosítatlan volt.
 
-## 2. A saját fájlod, a saját felelősséged {#your-own-files-your-responsibility}
+## 2. A saját fájlod {#your-own-files}
 
 Az eszköz a **gépeden telepített** játékfájlokat olvassa. Soha nem tölt le játéktartalmat.
 
-Az, amire rámutatsz, a te felelősséged marad. A játékoknak saját licenszfeltételeik vannak, és a végfelhasználói
-licencszerződések gyakran tiltják a visszafejtést. Ezek kikényszeríthető szerződések, a kötelezettség pedig azé, aki
-az eszközt futtatja, bármely játékon. Semmilyen tervezési döntés nem mentesít alól. A legegyértelműbb jogszerű eset
-egy fejlesztő saját stúdiójának buildjét olvassa: egy másik csapat címét, egy régi ágat, egy partnertől kapott buildet.
+Semmi sem kerül vele terjesztésre egy játékból: sem játéktartalom, sem játékkód, sem DLL. Amit exportál, az a te
+lemezedre kerül, és sehová máshová.
+
+A 3DHeat GameFiles nem áll kapcsolatban egyetlen játékkiadóval sem, és egyik sem támogatja. A játékok és a kapcsolódó
+nevek és védjegyek a tulajdonosaikéi. Jogtulajdonosok: nyissanak egy issue-t itt:
+[github.com/Holdi601/3DHeat-GameFiles/issues](https://github.com/Holdi601/3DHeat-GameFiles/issues) - gyorsan
+válaszolunk, és kérésre bármit eltávolítunk.
 
 ## 3. A kimenet nem terjeszthető {#output-is-not-for-redistribution}
 
@@ -71,7 +71,7 @@ magával egyet. Ez az a megoldás, amelyet a licenc szabályoz, és amelyet a FM
 ## Maguk a formátumok {#the-formats-themselves}
 
 - A `.pak`, az IoStore, a Unity `SerializedFile`, a Frostbite `.toc` és a ForzaTech formátumai nincsenek
-  dokumentálva. Ezek olvasása konténer visszafejtése. Az itteni olvasók egyike sem más projekt forráskódjából származik.
+  dokumentálva. Az itteni olvasók egyike sem más projekt forráskódjából származik.
   A Frostbite-nál a régebbi verziók nyilvános leírásai (a Frosty modding eszközei, egy Need for Speed Heat formátumjegyzet,
   egy GDC-előadás) adták a mezőneveket és azt a térképet, hogy mit keressünk. Kódot nem vettünk át; minden eltolást a
   fájlokon mértünk (lásd: [`LICENSES.md`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/LICENSES.md)).

@@ -3,20 +3,19 @@ title: Zasady i licencje
 nav_order: 12
 lang: "pl"
 source: rules-and-licences.md
-source_hash: "b68f4b6e3fe0"
+source_hash: "d99319d82d24"
 nav_exclude: true
 search_exclude: true
 ---
 # Zasady i licencje {#rules-and-licences}
 
-Trzy zasady kształtują całe narzędzie. To decyzje projektowe, a nie tylko zastrzeżenia. Pełny tekst: [`LICENSES.md`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/LICENSES.md).
-Ta strona to zapis tego, co mówią licencje, a nie porada prawna.
+Trzy zasady kształtują całe narzędzie. Pełny tekst: [`LICENSES.md`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/LICENSES.md).
 
 ## 1. Bez kluczy: żadnych w zestawie, żadnych odzyskiwanych {#no-keys-none-shipped-none-recovered}
 
-**Narzędzie czyta kontenery.** Parsowanie formatu archiwum to zwykła obsługa plików, a FModel, UModel i AssetRipper robią to od lat na otwartą rękę. Samo parsowanie kontenera nie jest obejściem zabezpieczeń.
+**Narzędzie czyta kontenery.** Parsowanie formatu archiwum to zwykła obsługa plików, a FModel, UModel i AssetRipper robią to od lat na otwartą rękę.
 
-**Linia, która ma znaczenie, to szyfrowanie, i jest wyznaczona wewnątrz narzędzia.** Narzędzie, którego celem jest obejście mechanizmu kontroli dostępu, samo podlega prawu o zakazie obchodzenia zabezpieczeń (DMCA §1201(a)(2) obejmuje technologie, nie tylko czyny), nawet gdyby nikt nie rozpowszechniał ani jednego wyciągniętego pliku. Dlatego:
+**Linia, która ma znaczenie, to szyfrowanie, i jest wyznaczona wewnątrz narzędzia.**
 
 - **Żadnych wbudowanych kluczy.** Nie ma klucza w kodzie ani w danych.
 - **Żadnego odzyskiwania kluczy.** Nic nie przeszukuje pliku wykonywalnego w poszukiwaniu klucza i nic nie czyta pamięci innego procesu.
@@ -27,11 +26,13 @@ Ta strona to zapis tego, co mówią licencje, a nie porada prawna.
 
 Każde dotąd testowane archiwum było niezaszyfrowane.
 
-## 2. Twoje pliki, twoja odpowiedzialność {#your-own-files-your-responsibility}
+## 2. Twoje pliki {#your-own-files}
 
 Narzędzie czyta pliki gry **zainstalowane na twoim komputerze**. Nigdy nie pobiera zawartości gry.
 
-To, co na nie wskażesz, pozostaje twoją odpowiedzialnością. Gry mają własne warunki licencyjne, a EULA często zabraniają inżynierii wstecznej. To wiążące umowy, a obowiązek spoczywa na tym, kto uruchamia narzędzie, w jakiejkolwiek grze. Żadna decyzja projektowa tutaj tego nie znosi. Najwyraźniejszy uprawniony przypadek to deweloper czytający build własnego studia: tytuł innego zespołu, stary branch, build od partnera.
+Nic z gry nie jest dołączane: żadne zasoby gry, żaden kod gry, żadne biblioteki DLL. To, co narzędzie eksportuje, trafia na twój dysk i nigdzie indziej.
+
+3DHeat GameFiles nie jest powiązany z żadnym wydawcą gier ani przez niego popierany. Gry oraz związane z nimi nazwy i znaki towarowe należą do ich właścicieli. Właściciele praw: otwórzcie zgłoszenie na [github.com/Holdi601/3DHeat-GameFiles/issues](https://github.com/Holdi601/3DHeat-GameFiles/issues) - odpowiadamy szybko i usuwamy wszystko na żądanie.
 
 ## 3. Wynik nie jest do rozpowszechniania {#output-is-not-for-redistribution}
 
@@ -47,7 +48,7 @@ Oodle (RAD Game Tools, obecnie Epic) jest zastrzeżone i nie ma wersji do redyst
 
 ## Same formaty {#the-formats-themselves}
 
-- `.pak`, IoStore, `SerializedFile` Unity, `.toc` Frostbite i formaty ForzaTech są nieudokumentowane. Ich odczytywanie to inżynieria wsteczna kontenera. Żaden z tutejszych czytników nie pochodzi z cudzego kodu źródłowego. W przypadku Frostbite publiczne opisy starszych wersji (narzędzia modderskie Frosty, notatka o formacie Need for Speed Heat, prelekcja GDC) dostarczyły nazwy pól i mapę tego, czego szukać. Nie wzięto żadnego kodu, a każdy offset zmierzono na plikach (zob. [`LICENSES.md`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/LICENSES.md)).
+- `.pak`, IoStore, `SerializedFile` Unity, `.toc` Frostbite i formaty ForzaTech są nieudokumentowane. Żaden z tutejszych czytników nie pochodzi z cudzego kodu źródłowego. W przypadku Frostbite publiczne opisy starszych wersji (narzędzia modderskie Frosty, notatka o formacie Need for Speed Heat, prelekcja GDC) dostarczyły nazwy pól i mapę tego, czego szukać. Nie wzięto żadnego kodu, a każdy offset zmierzono na plikach (zob. [`LICENSES.md`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/LICENSES.md)).
 - Wyciągnięte poziomy są do twojego własnego użytku. Narzędzie zapisuje je na twoim dysku i nigdzie indziej; nie publikuj ich.
 - BeamNG publikuje układ `.cdae`, a czytnik się go trzyma.
 - Valve dokumentuje VPK.

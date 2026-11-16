@@ -3,20 +3,19 @@ title: Regels en licenties
 nav_order: 12
 lang: "nl"
 source: rules-and-licences.md
-source_hash: "b68f4b6e3fe0"
+source_hash: "d99319d82d24"
 nav_exclude: true
 search_exclude: true
 ---
 # Regels en licenties {#rules-and-licences}
 
-Drie regels bepalen de hele tool. Het zijn ontwerpbeslissingen, geen disclaimers. Volledige tekst: [`LICENSES.md`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/LICENSES.md).
-Deze pagina is een weergave van wat de licenties zeggen, geen juridisch advies.
+Drie regels bepalen de hele tool. Volledige tekst: [`LICENSES.md`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/LICENSES.md).
 
 ## 1. Geen sleutels: er worden er geen meegeleverd, en er worden er geen gevonden {#no-keys-none-shipped-none-recovered}
 
-**Het leest containers.** Een archiefformaat parseren is gewone bestandsverwerking, en FModel, UModel en AssetRipper doen dat al jaren in het openbaar. Het parseren van een container is op zichzelf geen omzeiling.
+**Het leest containers.** Een archiefformaat parseren is gewone bestandsverwerking, en FModel, UModel en AssetRipper doen dat al jaren in het openbaar.
 
-**De grens die telt, is versleuteling, en die is binnen de tool getrokken.** Een tool waarvan het doel is een toegangsbeveiliging te omzeilen, valt zelf onder anti-omzeilingswetgeving (DMCA §1201(a)(2) raakt technologieën, niet alleen handelingen), zelfs als niemand één uitgepakt bestand verspreidt. Daarom:
+**De grens die telt, is versleuteling, en die is binnen de tool getrokken.**
 
 - **Geen meegeleverde sleutels.** Er staat geen sleutel in de code of de data.
 - **Geen sleutelherstel.** Niets zoekt in een programma naar een sleutel, en niets leest het geheugen van een ander proces.
@@ -27,11 +26,13 @@ Deze pagina is een weergave van wat de licenties zeggen, geen juridisch advies.
 
 Elk archief dat tot nu toe is getest, is niet versleuteld.
 
-## 2. Je eigen bestanden, je eigen verantwoordelijkheid {#your-own-files-your-responsibility}
+## 2. Je eigen bestanden {#your-own-files}
 
 De tool leest de spelbestanden **die op jouw computer zijn geïnstalleerd**. Hij downloadt nooit spelinhoud.
 
-Wat je hem aanwijst, blijft jouw verantwoordelijkheid. Spellen hebben hun eigen licentievoorwaarden, en EULA's verbieden vaak reverse engineering. Dat zijn afdwingbare contracten, en de verplichting ligt bij degene die de tool draait, bij elk spel. Geen ontwerpkeuze hier neemt die weg. Het duidelijkste legitieme geval is een ontwikkelaar die de build van de eigen studio leest: de titel van een ander team, een oude tak, een build van een partner.
+Er wordt niets van een spel meegeleverd: geen spelinhoud, geen spelcode, geen DLL's. Wat het exporteert, wordt naar je eigen schijf geschreven en nergens anders heen.
+
+3DHeat GameFiles is niet verbonden aan of goedgekeurd door een uitgever van spellen. De spellen en bijbehorende namen en merken zijn van hun eigenaars. Rechthebbenden: open een issue op [github.com/Holdi601/3DHeat-GameFiles/issues](https://github.com/Holdi601/3DHeat-GameFiles/issues) - we reageren snel en verwijderen alles op verzoek.
 
 ## 3. De uitvoer is niet voor verspreiding {#output-is-not-for-redistribution}
 
@@ -47,7 +48,7 @@ Oodle (RAD Game Tools, nu Epic) is eigendom en heeft geen herdistribueerbare bui
 
 ## De formaten zelf {#the-formats-themselves}
 
-- `.pak`, IoStore, Unity's `SerializedFile`, Frostbite's `.toc` en de formaten van ForzaTech zijn niet gedocumenteerd. Ze lezen is reverse engineering van een container. Geen van de lezers hier is afgeleid van de broncode van een ander project. Voor Frostbite leverden openbare beschrijvingen van oudere versies (de Frosty-modding-tools, een formaatnotitie van Need for Speed Heat, een GDC-praatje) veldnamen en een overzicht van wat je moet zoeken. Er is geen code overgenomen; elke offset is op de bestanden zelf gemeten (zie [`LICENSES.md`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/LICENSES.md)).
+- `.pak`, IoStore, Unity's `SerializedFile`, Frostbite's `.toc` en de formaten van ForzaTech zijn niet gedocumenteerd. Geen van de lezers hier is afgeleid van de broncode van een ander project. Voor Frostbite leverden openbare beschrijvingen van oudere versies (de Frosty-modding-tools, een formaatnotitie van Need for Speed Heat, een GDC-praatje) veldnamen en een overzicht van wat je moet zoeken. Er is geen code overgenomen; elke offset is op de bestanden zelf gemeten (zie [`LICENSES.md`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/LICENSES.md)).
 - Geëxtraheerde levels zijn voor eigen gebruik. De tool schrijft ze naar je schijf en nergens anders; publiceer ze niet.
 - BeamNG publiceert zijn `.cdae`-indeling, en de lezer volgt die.
 - Valve documenteert VPK.

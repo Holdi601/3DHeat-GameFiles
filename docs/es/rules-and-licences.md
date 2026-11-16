@@ -3,20 +3,19 @@ title: Reglas y licencias
 nav_order: 12
 lang: "es"
 source: rules-and-licences.md
-source_hash: "b68f4b6e3fe0"
+source_hash: "d99319d82d24"
 nav_exclude: true
 search_exclude: true
 ---
 # Reglas y licencias {#rules-and-licences}
 
-Tres reglas dan forma a toda la herramienta. Son decisiones de diseño, no advertencias legales. Texto completo: [`LICENSES.md`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/LICENSES.md).
-Esta página es un registro de lo que dicen las licencias, no asesoramiento jurídico.
+Tres reglas dan forma a toda la herramienta. Texto completo: [`LICENSES.md`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/LICENSES.md).
 
 ## 1. Sin claves: ninguna incluida, ninguna recuperada {#no-keys-none-shipped-none-recovered}
 
-**Lee contenedores.** Analizar un formato de contenedor es manejo ordinario de archivos, y FModel, UModel y AssetRipper lo han hecho abiertamente durante años. Analizar un contenedor no es en sí mismo una elusión.
+**Lee contenedores.** Analizar un formato de contenedor es manejo ordinario de archivos, y FModel, UModel y AssetRipper lo han hecho abiertamente durante años.
 
-**La línea que importa es el cifrado, y se traza dentro de la herramienta.** Una herramienta cuyo propósito es vencer un control de acceso está, ella misma, dentro del alcance de la ley antielusión (DMCA §1201(a)(2) alcanza a las tecnologías, no solo a los actos), aunque nadie distribuya ni un solo archivo extraído. Así que:
+**La línea que importa es el cifrado, y se traza dentro de la herramienta.**
 
 - **Ninguna clave incluida.** No hay ninguna clave en el código ni en los datos.
 - **Ninguna recuperación de claves.** Nada busca una clave en un ejecutable, y nada lee la memoria de otro proceso.
@@ -27,11 +26,13 @@ Esta página es un registro de lo que dicen las licencias, no asesoramiento jur�
 
 Cada archivo probado hasta ahora está sin cifrar.
 
-## 2. Tus archivos, tu responsabilidad {#your-own-files-your-responsibility}
+## 2. Tus archivos {#your-own-files}
 
 La herramienta lee los archivos del juego **instalados en tu equipo**. Nunca descarga contenido de juegos.
 
-Lo que le apuntas sigue siendo tu responsabilidad. Los juegos llevan sus propias condiciones de licencia, y los EULA suelen prohibir la ingeniería inversa. Son contratos exigibles, y la obligación recae en quien ejecuta la herramienta, con cualquier juego. Ningún diseño de esta herramienta exime de ella. El caso legítimo más claro es el de un desarrollador que lee la compilación de su propio estudio: el título de otro equipo, una rama antigua, una compilación de un socio.
+No incluye nada de ningún juego: ni contenido del juego, ni código del juego, ni DLL. Lo que exporta se escribe en tu disco y en ningún otro sitio.
+
+3DHeat GameFiles no está afiliado a ningún editor de juegos ni cuenta con su respaldo. Los juegos y los nombres y marcas relacionados pertenecen a sus propietarios. Titulares de derechos: abran una incidencia en [github.com/Holdi601/3DHeat-GameFiles/issues](https://github.com/Holdi601/3DHeat-GameFiles/issues) - respondemos rápido y retiramos lo que se nos pida.
 
 ## 3. La salida no es para redistribuir {#output-is-not-for-redistribution}
 
@@ -47,7 +48,7 @@ Oodle (RAD Game Tools, ahora Epic) es propietario y no tiene una compilación re
 
 ## Los formatos en sí {#the-formats-themselves}
 
-- Los formatos `.pak`, IoStore, `SerializedFile` de Unity, `.toc` de Frostbite y de ForzaTech no están documentados. Leerlos es ingeniería inversa de un contenedor. Ninguno de los lectores aquí procede del código fuente de otro proyecto. Para Frostbite, las descripciones públicas de versiones anteriores (las herramientas de modding Frosty, una nota de formato de Need for Speed Heat, una charla de GDC) aportaron nombres de campos y un mapa de qué buscar. No se tomó código; cada desplazamiento se midió en los archivos (ver [`LICENSES.md`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/LICENSES.md)).
+- Los formatos `.pak`, IoStore, `SerializedFile` de Unity, `.toc` de Frostbite y de ForzaTech no están documentados. Ninguno de los lectores aquí procede del código fuente de otro proyecto. Para Frostbite, las descripciones públicas de versiones anteriores (las herramientas de modding Frosty, una nota de formato de Need for Speed Heat, una charla de GDC) aportaron nombres de campos y un mapa de qué buscar. No se tomó código; cada desplazamiento se midió en los archivos (ver [`LICENSES.md`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/LICENSES.md)).
 - Los niveles extraídos son para tu propio uso. La herramienta los escribe en tu disco y en ningún otro sitio; no los publiques.
 - BeamNG publica el diseño de su `.cdae`, y el lector lo sigue.
 - Valve documenta VPK.

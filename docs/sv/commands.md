@@ -3,7 +3,7 @@ title: "Kommandon"
 nav_order: 2
 lang: "sv"
 source: commands.md
-source_hash: "97a154edc5e0"
+source_hash: "8ae04c37b1a4"
 nav_exclude: true
 search_exclude: true
 ---
@@ -218,8 +218,10 @@ räknas mot gränsen. Hörndata i en `.resS`-fil läses från mappen som contain
 
 ## Spelens egna verb {#the-games-own-verbs}
 
-Varje spels läsare är ett eget projekt, så ett problem med ett spels villkor berör
-bara det spelet: installera det för ditt spel (dess sida säger hur), så fungerar både
+Varje spelläsare är ett eget litet projekt med egen licensfil, egna releaser och eget
+ärendesystem, så att den kan installeras, uppdateras, underhållas - eller dras
+tillbaka på en rättighetshavares begäran - för sig, utan att påverka visaren eller de
+andra verktygen. Installera det för ditt spel (dess sida säger hur), så fungerar både
 dess egna kommando och verben här. GameFiles kör spelets verktyg med de argument du
 gav det; ingenting av verktyget importeras. Det hittas som dess kommando på `PATH`,
 som dess installerade paket, eller som dess mapp i `HEAT3D_<GAME>_MAPS` eller bredvid

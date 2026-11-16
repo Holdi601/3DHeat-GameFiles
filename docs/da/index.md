@@ -181,6 +181,8 @@ python -m heat3d_gamefiles identify some_archive.pak
 | [Ext-DCS](https://github.com/Holdi601/3DHeat-Ext-DCS) | DCS World-kort til `.glb`-baner | [site](https://holdi601.github.io/3DHeat-Ext-DCS/) |
 | [Ext-IL2](https://github.com/Holdi601/3DHeat-Ext-IL2) | IL-2 Sturmovik-kort til `.glb`-baner | [site](https://holdi601.github.io/3DHeat-Ext-IL2/) |
 
+Hver spillæser er sit eget lille projekt med egen licensfil, egne udgivelser og egen issue-tracker, så den kan installeres, opdateres, vedligeholdes - eller trækkes tilbage på en rettighedshavers anmodning - for sig selv uden at påvirke vieweren eller de andre værktøjer.
+
 Viewerens kampfiler beskrives i
 [Én fil pr. kamp: `.3dheat`](https://holdi601.github.io/3DHeat/container.html);
 en bane lavet her indlæses ved siden af dem i viewerens Baggrund / bane-panel.

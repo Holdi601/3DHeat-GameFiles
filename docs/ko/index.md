@@ -159,4 +159,6 @@ python -m heat3d_gamefiles identify some_archive.pak
 | [Ext-DCS](https://github.com/Holdi601/3DHeat-Ext-DCS) | DCS World 맵을 `.glb` 레벨로 | [사이트](https://holdi601.github.io/3DHeat-Ext-DCS/) |
 | [Ext-IL2](https://github.com/Holdi601/3DHeat-Ext-IL2) | IL-2 Sturmovik 맵을 `.glb` 레벨로 | [사이트](https://holdi601.github.io/3DHeat-Ext-IL2/) |
 
+각 게임 리더는 자체 라이선스 파일, 릴리스, 이슈 트래커를 갖춘 작은 독립 프로젝트입니다. 그래서 뷰어나 다른 도구에 영향을 주지 않고 따로 설치, 업데이트, 유지 관리할 수 있으며, 권리자의 요청이 있으면 따로 철회할 수도 있습니다.
+
 뷰어의 매치 파일은 [매치 하나를 파일 하나로: `.3dheat`](https://holdi601.github.io/3DHeat/container.html)에 설명되어 있습니다. 여기서 만든 레벨은 그 옆에서 뷰어의 배경 / 레벨 패널로 불러옵니다.

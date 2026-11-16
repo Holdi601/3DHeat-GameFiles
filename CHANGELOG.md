@@ -5,8 +5,8 @@ section below says which documentation page explains each feature.
 
 ## Unreleased
 
-- Each game's reader is its own project now, so a problem with one game's terms
-  touches only that game: Forza (3DHeat-Ext-Forza, `heat3d-forza-maps`),
+- Each game's reader is its own project now, so it can be installed, updated,
+  maintained or withdrawn on its own: Forza (3DHeat-Ext-Forza, `heat3d-forza-maps`),
   Battlefield/Frostbite (3DHeat-Ext-Battlefield), BeamNG.drive
   (3DHeat-Ext-BeamNG), Assetto Corsa Rally (3DHeat-Ext-ACRally) and Arma
   Reforger/Enfusion (3DHeat-Ext-Reforger), moved with their history, tests and

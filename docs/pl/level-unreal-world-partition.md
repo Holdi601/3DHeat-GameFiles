@@ -81,4 +81,4 @@ Liczba niezgodności to samokontrola: sąsiednie komponenty landscape zapisują 
 
 Właściwości landscape odnajduje się po kształcie, a nie po numerze slotu (sloty przesuwają się między wersjami silnika). Struktury to uproszczone zastępniki, a nie pełnoszczegółowe modele. Roślinność, nakładki i materiały landscape nie są eksportowane; podłoże jest bez tekstury i cieniowane przez przeglądarkę. Szczegóły archiwów: [Unreal 5 IoStore](reader-unreal-iostore.md).
 
-**Terminy:** licencje gier zwykle dopuszczają użytek osobisty, niekomercyjny, i zabraniają inżynierii wstecznej „w zakresie, w jakim takich działań nie można zakazać prawem”. Czytanie własnej instalacji to twoja decyzja w ich ramach; wynik służy do twojego własnego użytku i nie jest do udostępniania.
+**Twoje własne pliki:** mapa jest odczytywana z gry zainstalowanej na twoim komputerze i zapisywana na twoim dysku, do twojej własnej analizy; nic z gry nie jest dołączane do tego narzędzia.

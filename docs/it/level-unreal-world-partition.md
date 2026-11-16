@@ -3,7 +3,7 @@ title: Mappe di Unreal 5
 nav_order: 2
 lang: "it"
 source: level-unreal-world-partition.md
-source_hash: "c1744b0b011d"
+source_hash: "b43f7c77a107"
 nav_exclude: true
 search_exclude: true
 ---
@@ -94,6 +94,5 @@ del motore). Le strutture sono i sostituti semplificati, non i modelli a pieno d
 e materiali del paesaggio non vengono esportati; il suolo è senza texture e illuminato dal visualizzatore.
 Dettagli sugli archivi: [Unreal 5 IoStore](reader-unreal-iostore.md).
 
-**Termini:** le licenze dei giochi di solito consentono l'uso personale e non commerciale e vietano
-l'ingegneria inversa "to the extent that such actions cannot be prohibited by law". Leggere la tua
-installazione è una tua decisione sotto di esse; il risultato è per uso personale e non va condiviso.
+**I tuoi file:** la mappa viene letta dal gioco installato sul tuo computer e scritta sul tuo disco,
+per la tua analisi; nulla del gioco viene distribuito con questo strumento.

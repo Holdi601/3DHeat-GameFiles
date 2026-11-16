@@ -3,19 +3,19 @@ title: "Reguli și licențe"
 nav_order: 12
 lang: "ro"
 source: rules-and-licences.md
-source_hash: "b68f4b6e3fe0"
+source_hash: "d99319d82d24"
 nav_exclude: true
 search_exclude: true
 ---
 # Reguli și licențe {#rules-and-licences}
 
-Trei reguli modelează întregul instrument. Sunt decizii de proiectare, nu doar declinări de responsabilitate. Textul complet: [`LICENSES.md`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/LICENSES.md). Această pagină este o consemnare a ceea ce spun licențele, nu un sfat juridic.
+Trei reguli modelează întregul instrument. Textul complet: [`LICENSES.md`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/LICENSES.md).
 
 ## 1. Nicio cheie: niciuna livrată, niciuna recuperată {#no-keys-none-shipped-none-recovered}
 
-**Instrumentul citește containere.** Analizarea unui format de arhivă este gestionare obișnuită de fișiere, iar FModel, UModel și AssetRipper au făcut-o în deschis de ani de zile. Analizarea unui container nu este în sine o ocolire.
+**Instrumentul citește containere.** Analizarea unui format de arhivă este gestionare obișnuită de fișiere, iar FModel, UModel și AssetRipper au făcut-o în deschis de ani de zile.
 
-**Linia care contează este criptarea, și este trasată în interiorul instrumentului.** Un instrument al cărui scop este să învingă un control de acces este el însuși în sfera legii anticircumvenție (DMCA §1201(a)(2) vizează tehnologiile, nu doar actele), chiar dacă nimeni nu distribuie vreun fișier extras. Deci:
+**Linia care contează este criptarea, și este trasată în interiorul instrumentului.**
 
 - **Nicio cheie livrată.** Nu există nicio cheie în cod sau în date.
 - **Nicio recuperare de chei.** Nimic nu caută o cheie într-un executabil, iar nimic nu citește memoria altui proces.
@@ -26,11 +26,13 @@ Trei reguli modelează întregul instrument. Sunt decizii de proiectare, nu doar
 
 Fiecare arhivă testată până acum este necriptată.
 
-## 2. Fișierele dumneavoastră, responsabilitatea dumneavoastră {#your-own-files-your-responsibility}
+## 2. Fișierele dumneavoastră {#your-own-files}
 
 Instrumentul citește fișierele jocurilor **instalate pe calculatorul dumneavoastră**. Nu descarcă niciodată conținut de joc.
 
-Ce îi indicați rămâne responsabilitatea dumneavoastră. Jocurile au propriile termeni de licență, iar EULA-urile interzic de obicei ingineria inversă. Acestea sunt contracte executorii, iar obligația revine celui care rulează instrumentul, la orice joc. Nicio decizie de proiectare de aici nu o anulează. Cel mai clar caz legitim este un dezvoltator care citește build-ul propriului studio: o echipă diferită, un titlu, o ramură veche sau un build de la un partener.
+Nimic dintr-un joc nu este livrat împreună cu el: niciun conținut al jocului, niciun cod al jocului, niciun DLL. Ce exportă este scris pe discul dumneavoastră și nicăieri altundeva.
+
+3DHeat GameFiles nu este afiliat niciunui editor de jocuri și nu este aprobat de vreunul. Jocurile și numele și mărcile asociate aparțin proprietarilor lor. Deținătorii de drepturi: deschideți un issue la [github.com/Holdi601/3DHeat-GameFiles/issues](https://github.com/Holdi601/3DHeat-GameFiles/issues) - răspundem repede și eliminăm orice la cerere.
 
 ## 3. Rezultatul nu este pentru redistribuire {#output-is-not-for-redistribution}
 
@@ -46,7 +48,7 @@ Oodle (RAD Game Tools, acum Epic) este proprietar și nu are un build redistribu
 
 ## Formatele în sine {#the-formats-themselves}
 
-- `.pak`, IoStore, `SerializedFile` al Unity, `.toc` Frostbite și formatele ForzaTech nu sunt documentate. Citirea lor înseamnă inginerie inversă a unui container. Niciun cititor de aici nu derivă din codul-sursă al altui proiect. Pentru Frostbite, descrierile publice ale versiunilor mai vechi (uneltele de modding Frosty, o notă de format din Need for Speed Heat, o prezentare GDC) au furnizat nume de câmpuri și o hartă a ce să căutăm. Nu s-a luat niciun cod; fiecare decalaj a fost măsurat pe fișiere (vezi [`LICENSES.md`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/LICENSES.md)).
+- `.pak`, IoStore, `SerializedFile` al Unity, `.toc` Frostbite și formatele ForzaTech nu sunt documentate. Niciun cititor de aici nu derivă din codul-sursă al altui proiect. Pentru Frostbite, descrierile publice ale versiunilor mai vechi (uneltele de modding Frosty, o notă de format din Need for Speed Heat, o prezentare GDC) au furnizat nume de câmpuri și o hartă a ce să căutăm. Nu s-a luat niciun cod; fiecare decalaj a fost măsurat pe fișiere (vezi [`LICENSES.md`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/LICENSES.md)).
 - Nivelurile extrase sunt pentru utilizarea dumneavoastră. Instrumentul le scrie pe discul dumneavoastră și nicăieri altundeva; nu le publicați.
 - BeamNG își publică layout-ul `.cdae`, iar cititorul îl urmează.
 - Valve documentează VPK.

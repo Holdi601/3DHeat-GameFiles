@@ -469,8 +469,8 @@ def main(argv: list[str] | None = None) -> int:
         description="Read level data out of shipped game archives.",
         epilog=(
             "Encrypted archives need a key you already hold; this tool has none "
-            "and recovers none. What you point it at is subject to that game's "
-            "own licence."
+            "and recovers none. It reads the files of your own installation and "
+            "ships nothing from a game."
         ),
     )
     from .external import VERBS, delegate

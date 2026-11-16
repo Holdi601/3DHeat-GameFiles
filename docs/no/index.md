@@ -3,7 +3,7 @@ title: Hjem
 nav_order: 1
 lang: "no"
 source: index.md
-source_hash: "dc4db9349e8c"
+source_hash: "9e0ccf04b2a7"
 nav_exclude: true
 search_exclude: true
 permalink: /no/
@@ -50,14 +50,16 @@ Python-pakke: `heat3d_gamefiles`. Repositorium:
 
 ## Spillenes egne lesere {#the-games-own-readers}
 
-Hver spillleser er sitt eget prosjekt, så et problem med ett spills vilkår rammer bare
-det spillet: installer det for ditt spill (siden forteller hvordan), så fungerer både
-dens egen kommando og kommandoene her. GameFiles kjører spillets verktøy med argumentene du
-ga, og ingenting av verktøyet importeres. Det finnes som kommandoen sin på `PATH`, som den
-installerte pakken, eller som mappen sin i `HEAT3D_<GAME>_MAPS` eller ved siden av GameFiles
-(`exporters/ext/<game>-maps` i en 3DHeat-kopi, eller `3DHeat-Ext-<Game>` ved siden av denne
-mappen). Når det ikke er installert, sier kommandoen hvor du får det, og avslutter med
-kode 2.
+Hver spilleser er sitt eget lille prosjekt med egen lisensfil, egne utgivelser og egen
+sakssporing, slik at den kan installeres, oppdateres, vedlikeholdes - eller trekkes tilbake
+på forespørsel fra en rettighetshaver - for seg selv, uten å påvirke visningsprogrammet
+eller de andre verktøyene. Installer det for ditt spill (siden forteller hvordan), så
+fungerer både dens egen kommando og kommandoene her. GameFiles kjører spillets verktøy med
+argumentene du ga, og ingenting av verktøyet importeres. Det finnes som kommandoen sin på
+`PATH`, som den installerte pakken, eller som mappen sin i `HEAT3D_<GAME>_MAPS` eller ved
+siden av GameFiles (`exporters/ext/<game>-maps` i en 3DHeat-kopi, eller `3DHeat-Ext-<Game>`
+ved siden av denne mappen). Når det ikke er installert, sier kommandoen hvor du får det, og
+avslutter med kode 2.
 
 | Spill | Dets eget verktøy | Kommandoer her som kjører det |
 |---|---|---|

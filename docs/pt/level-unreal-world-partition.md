@@ -99,7 +99,6 @@ não os modelos de detalhe total. Vegetação, decalques e materiais de landscap
 exportados; o solo fica sem textura e é sombreado pelo visualizador. Detalhes dos
 ficheiros: [Unreal 5 IoStore](reader-unreal-iostore.md).
 
-**Termos:** as licenças dos jogos costumam permitir uso pessoal e não comercial e
-proibir a engenharia reversa "na medida em que tais atos não possam ser proibidos por
-lei". Ler a sua própria instalação é uma decisão sua sob elas; a saída é para o seu
-próprio uso e não deve ser partilhada.
+**Os seus próprios ficheiros:** o mapa é lido do jogo instalado no seu computador e
+escrito no seu disco, para a sua própria análise; nada do jogo é distribuído com esta
+ferramenta.

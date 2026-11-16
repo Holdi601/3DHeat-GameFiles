@@ -3,7 +3,7 @@ title: Kommandoer
 nav_order: 2
 lang: "no"
 source: commands.md
-source_hash: "97a154edc5e0"
+source_hash: "8ae04c37b1a4"
 nav_exclude: true
 search_exclude: true
 ---
@@ -222,14 +222,17 @@ kan leses, rapporteres med grunnen og teller mot grensen. Vertdata i en
 
 ## Spillenes egne verb {#the-games-own-verbs}
 
-Hver spillleser er sitt eget prosjekt, så et problem med ett spills vilkår rører
-bare det spillet: installer den for ditt spill (siden for det sier hvordan), så
-fungerer både dets egen kommando og verbene her. GameFiles kjører spillets verktøy
-med argumentene du ga det; ingenting av verktøyet importeres. Det finnes som
-kommandoen på `PATH`, som den installerte pakken, eller som mappen i
-`HEAT3D_<GAME>_MAPS` eller ved siden av GameFiles (`exporters/ext/<game>-maps` i en
-3DHeat-kopi, eller `3DHeat-Ext-<Game>` ved siden av denne mappen). Når det ikke er
-installert, sier verbet hvor det fås og avslutter med kode 2.
+Hver spilleser er sitt eget lille prosjekt med egen lisensfil, egne utgivelser og
+egen sakssporing, slik at den kan installeres, oppdateres, vedlikeholdes - eller
+trekkes tilbake på forespørsel fra en rettighetshaver - for seg selv, uten å
+påvirke visningsprogrammet eller de andre verktøyene. Installer den for ditt spill
+(siden for det sier hvordan), så fungerer både dets egen kommando og verbene her.
+GameFiles kjører spillets verktøy med argumentene du ga det; ingenting av verktøyet
+importeres. Det finnes som kommandoen på `PATH`, som den installerte pakken, eller
+som mappen i `HEAT3D_<GAME>_MAPS` eller ved siden av GameFiles
+(`exporters/ext/<game>-maps` i en 3DHeat-kopi, eller `3DHeat-Ext-<Game>` ved siden
+av denne mappen). Når det ikke er installert, sier verbet hvor det fås og avslutter
+med kode 2.
 
 | Spill | Dets eget verktøy | Verb her som kjører det |
 |---|---|---|

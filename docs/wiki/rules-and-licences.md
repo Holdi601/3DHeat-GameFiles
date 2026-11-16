@@ -1,19 +1,14 @@
 # Rules and licences
 
-Three rules shape the whole tool. They are design decisions, not just
-disclaimers. Full text: [`LICENSES.md`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/LICENSES.md).
-This page is a record of what the licences say, not legal advice.
+Three rules shape the whole tool. Full text:
+[`LICENSES.md`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/LICENSES.md).
 
 ## 1. No keys: none shipped, none recovered
 
 **It reads containers.** Parsing an archive format is ordinary file handling, and
-FModel, UModel and AssetRipper have done it in the open for years. Nothing about
-parsing a container is itself a circumvention.
+FModel, UModel and AssetRipper have done it in the open for years.
 
-**The line that matters is encryption, and it is drawn inside the tool.** A tool
-whose purpose is to defeat an access control is itself in scope of
-anti-circumvention law (DMCA §1201(a)(2) reaches technologies, not only acts),
-even if nobody distributes a single extracted file. So:
+**The line that matters is encryption, and it is drawn inside the tool.**
 
 - **No bundled keys.** There is no key in the code or the data.
 - **No key recovery.** Nothing searches an executable for a key, and nothing reads
@@ -37,17 +32,19 @@ even if nobody distributes a single extracted file. So:
 
 Every archive tested so far is unencrypted.
 
-## 2. Your own files, your responsibility
+## 2. Your own files
 
 The tool reads the game files **installed on your machine**. It never downloads
 game content.
 
-What you point it at stays your responsibility. Games carry their own licence
-terms, and EULAs commonly prohibit reverse engineering. Those are enforceable
-contracts, and the obligation sits with whoever runs the tool, on whichever game.
-No design choice here discharges it. The clearest legitimate case is a developer
-reading their own studio's build: a different team's title, an old branch, a build
-from a partner.
+Nothing from a game ships with it: no game assets, no game code, no DLLs. What it
+exports is written to your disk and nowhere else.
+
+3DHeat GameFiles is not affiliated with or endorsed by any game publisher. The
+games and related names and trademarks belong to their owners. Rights holders:
+open an issue at
+[github.com/Holdi601/3DHeat-GameFiles/issues](https://github.com/Holdi601/3DHeat-GameFiles/issues) -
+we respond quickly and remove anything on request.
 
 ## 3. Output is not for redistribution
 
@@ -72,8 +69,7 @@ See [Oodle](reader-oodle).
 ## The formats themselves
 
 - `.pak`, IoStore, Unity's `SerializedFile`, Frostbite's `.toc` and ForzaTech's
-  formats are undocumented. Reading them is reverse engineering of a container.
-  None of the readers here is derived from another project's source. For
+  formats are undocumented. None of the readers here is derived from another project's source. For
   Frostbite, public descriptions of older versions (the Frosty modding tools, a
   Need for Speed Heat format note, a GDC talk) supplied field names and a map of
   what to look for. No code was taken; every offset was measured on the files

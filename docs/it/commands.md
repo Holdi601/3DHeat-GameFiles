@@ -3,7 +3,7 @@ title: Comandi
 nav_order: 2
 lang: "it"
 source: commands.md
-source_hash: "97a154edc5e0"
+source_hash: "8ae04c37b1a4"
 nav_exclude: true
 search_exclude: true
 ---
@@ -225,8 +225,10 @@ il contenitore.
 
 ## I verbi dei giochi {#the-games-own-verbs}
 
-Il lettore di ogni gioco è un progetto a sé, quindi un problema con i termini di un gioco tocca solo quel
-gioco: installa quello per il tuo gioco (la sua pagina dice come), e sia il suo comando sia i verbi qui
+Ogni lettore di gioco è un piccolo progetto a sé, con il proprio file di licenza, le proprie release e il
+proprio tracker delle segnalazioni, così può essere installato, aggiornato, mantenuto - o ritirato su
+richiesta di un titolare dei diritti - in modo indipendente, senza toccare il visualizzatore né gli altri
+strumenti. Installa quello per il tuo gioco (la sua pagina dice come), e sia il suo comando sia i verbi qui
 funzionano. GameFiles esegue lo strumento del gioco con gli argomenti che gli hai dato; non importa nulla
 dello strumento. Viene trovato come suo comando in `PATH`, come suo pacchetto installato, oppure come sua
 cartella in `HEAT3D_<GAME>_MAPS` o accanto a GameFiles (`exporters/ext/<game>-maps` in una copia di lavoro di

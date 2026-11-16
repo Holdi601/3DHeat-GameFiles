@@ -177,6 +177,8 @@ python -m heat3d_gamefiles identify some_archive.pak
 | [Ext-DCS](https://github.com/Holdi601/3DHeat-Ext-DCS) | карти на DCS World в `.glb` нива | [сайт](https://holdi601.github.io/3DHeat-Ext-DCS/) |
 | [Ext-IL2](https://github.com/Holdi601/3DHeat-Ext-IL2) | карти на IL-2 Sturmovik в `.glb` нива | [сайт](https://holdi601.github.io/3DHeat-Ext-IL2/) |
 
+Всеки четец за игра е отделен малък проект със собствен лицензен файл, собствени издания и собствена система за проблеми, така че може да се инсталира, обновява, поддържа - или да бъде оттеглен по искане на носител на права - самостоятелно, без да засяга визуализатора или другите инструменти.
+
 Файловете на мачовете на визуализатора са описани в
 [Един файл на мач: `.3dheat`](https://holdi601.github.io/3DHeat/container.html);
 създаденото тук ниво се зарежда до тях в панела „Фон / ниво“ на визуализатора.

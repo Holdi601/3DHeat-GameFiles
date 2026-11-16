@@ -3,7 +3,7 @@ title: "Accueil"
 nav_order: 1
 lang: "fr"
 source: index.md
-source_hash: "dc4db9349e8c"
+source_hash: "9e0ccf04b2a7"
 nav_exclude: true
 search_exclude: true
 permalink: /fr/
@@ -187,6 +187,8 @@ Ouvrez le `.glb` dans le visualiseur 3DHeat. Les coordonnées du monde propres a
 | [Ext-ACRally](https://github.com/Holdi601/3DHeat-Ext-ACRally) | étapes d'Assetto Corsa Rally en circuits | [site](https://holdi601.github.io/3DHeat-Ext-ACRally/) |
 | [Ext-Reforger](https://github.com/Holdi601/3DHeat-Ext-Reforger) | mondes d'Arma Reforger (Enfusion) en niveaux 3D | [site](https://holdi601.github.io/3DHeat-Ext-Reforger/) |
 | [Ext-R6](https://github.com/Holdi601/3DHeat-Ext-R6) | replays de matchs Rainbow Six Siege | [site](https://holdi601.github.io/3DHeat-Ext-R6/) |
+
+Chaque lecteur de jeu est un petit projet à part, avec son propre fichier de licence, ses versions et son suivi des tickets : il peut être installé, mis à jour, maintenu - ou retiré à la demande d'un ayant droit - séparément, sans toucher au visualiseur ni aux autres outils.
 
 Les fichiers de match du visualiseur sont décrits dans
 [Un fichier par match : `.3dheat`](https://holdi601.github.io/3DHeat/container.html) ;

@@ -97,7 +97,5 @@ verzijama motora). Strukture su pojednostavljene zamjene, a ne punodetaljni mode
 Vegetacija, dekali i materijali krajolika se ne izvoze; tlo je bez teksture i sjenčano je
 u pregledniku. Detalji arhive: [Unreal 5 IoStore](reader-unreal-iostore.md).
 
-**Pojmovi:** licence igara obično dopuštaju osobnu, nekomercijalnu upotrebu i zabranjuju
-obrnuto inženjerstvo "to the extent that such actions cannot be prohibited by law" (u mjeri u kojoj se takve radnje ne mogu zabraniti zakonom). Čitanje
-vlastite instalacije je vaša odluka unutar njih; izlaz je za vašu vlastitu upotrebu i ne
-smije se dijeliti.
+**Vaše vlastite datoteke:** karta se čita iz igre instalirane na vašem računalu i zapisuje na vaš disk za vašu vlastitu analizu; ništa iz igre ne
+isporučuje se s ovim alatom.

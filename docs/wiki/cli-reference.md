@@ -39,7 +39,7 @@ options:
   -h, --help            show this help message and exit
 
 Encrypted archives need a key you already hold; this tool has none and recovers none.
-What you point it at is subject to that game's own licence.
+It reads the files of your own installation and ships nothing from a game.
 ```
 
 ## `identify`

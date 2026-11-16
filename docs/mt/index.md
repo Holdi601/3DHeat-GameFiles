@@ -181,6 +181,8 @@ Iftaħ il-`.glb` fil-viewer ta' 3DHeat. Il-koordinati proprji tad-dinja tal-log�
 | [Ext-DCS](https://github.com/Holdi601/3DHeat-Ext-DCS) | mapep ta' DCS World f'livelli `.glb` | [sit](https://holdi601.github.io/3DHeat-Ext-DCS/) |
 | [Ext-IL2](https://github.com/Holdi601/3DHeat-Ext-IL2) | mapep ta' IL-2 Sturmovik f'livelli `.glb` | [sit](https://holdi601.github.io/3DHeat-Ext-IL2/) |
 
+Kull qarrej ta' logħba huwa proġett żgħir għalih, bil-fajl tal-liċenzja, ir-rilaxxi u t-tracker tal-kwistjonijiet tiegħu, sabiex ikun jista' jiġi installat, aġġornat, miżmum - jew irtirat fuq talba ta' detentur tad-drittijiet - waħdu, mingħajr ma jolqot il-viewer jew l-għodod l-oħra.
+
 Il-fajls tal-partiti tal-viewer huma deskritti f'
 [Fajl wieħed għal kull partita: `.3dheat`](https://holdi601.github.io/3DHeat/container.html);
 livell magħmul hawn jitgħabba maġenbhom fil-pannell Sfond / livell tal-viewer.

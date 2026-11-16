@@ -3,7 +3,7 @@ title: "Inicio"
 nav_order: 1
 lang: "es"
 source: index.md
-source_hash: "dc4db9349e8c"
+source_hash: "9e0ccf04b2a7"
 nav_exclude: true
 search_exclude: true
 permalink: /es/
@@ -50,7 +50,7 @@ Paquete de Python: `heat3d_gamefiles`. Repositorio:
 
 ## Los lectores propios de cada juego {#the-games-own-readers}
 
-Cada lector de juego es un proyecto propio, así que un problema con las condiciones de un juego solo afecta a ese juego: instala el de tu juego (su página dice cómo), y tanto su comando propio como los verbos de aquí funcionan. GameFiles ejecuta la herramienta del juego con los argumentos que le diste; no se importa nada de ella. Se encuentra como su comando en `PATH`, como su paquete instalado, o como su carpeta en `HEAT3D_<GAME>_MAPS` o junto a GameFiles (`exporters/ext/<game>-maps` en una copia de 3DHeat, o `3DHeat-Ext-<Game>` al lado de esta carpeta). Si no está instalada, el verbo dice dónde conseguirla y sale con código 2.
+Cada lector de juego es un pequeño proyecto propio, con su propio archivo de licencia, sus versiones y su gestor de incidencias, así que puede instalarse, actualizarse, mantenerse - o retirarse a petición de un titular de derechos - por separado, sin afectar al visor ni a las demás herramientas. Instala el de tu juego (su página dice cómo), y tanto su comando propio como los verbos de aquí funcionan. GameFiles ejecuta la herramienta del juego con los argumentos que le diste; no se importa nada de ella. Se encuentra como su comando en `PATH`, como su paquete instalado, o como su carpeta en `HEAT3D_<GAME>_MAPS` o junto a GameFiles (`exporters/ext/<game>-maps` en una copia de 3DHeat, o `3DHeat-Ext-<Game>` al lado de esta carpeta). Si no está instalada, el verbo dice dónde conseguirla y sale con código 2.
 
 | Juego | Su herramienta propia | Verbos de aquí que la ejecutan |
 |---|---|---|

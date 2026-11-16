@@ -3,7 +3,7 @@ title: Home
 nav_order: 1
 lang: "it"
 source: index.md
-source_hash: "dc4db9349e8c"
+source_hash: "9e0ccf04b2a7"
 nav_exclude: true
 search_exclude: true
 permalink: /it/
@@ -49,8 +49,10 @@ Pacchetto Python: `heat3d_gamefiles`. Repository:
 
 ## I lettori dei giochi {#the-games-own-readers}
 
-Il lettore di ogni gioco è un progetto a sé, quindi un problema con i termini di un gioco tocca solo quel
-gioco: installa quello per il tuo gioco (la sua pagina dice come), e sia il suo comando sia i verbi qui
+Ogni lettore di gioco è un piccolo progetto a sé, con il proprio file di licenza, le proprie release e il
+proprio tracker delle segnalazioni, così può essere installato, aggiornato, mantenuto - o ritirato su
+richiesta di un titolare dei diritti - in modo indipendente, senza toccare il visualizzatore né gli altri
+strumenti. Installa quello per il tuo gioco (la sua pagina dice come), e sia il suo comando sia i verbi qui
 funzionano. GameFiles esegue lo strumento del gioco con gli argomenti che gli hai dato; non importa nulla
 dello strumento. Viene trovato come suo comando in `PATH`, come suo pacchetto installato, oppure come sua
 cartella in `HEAT3D_<GAME>_MAPS` o accanto a GameFiles (`exporters/ext/<game>-maps` in una copia di lavoro di

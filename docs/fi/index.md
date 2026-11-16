@@ -3,7 +3,7 @@ title: "Etusivu"
 nav_order: 1
 lang: "fi"
 source: index.md
-source_hash: "dc4db9349e8c"
+source_hash: "9e0ccf04b2a7"
 nav_exclude: true
 search_exclude: true
 permalink: /fi/
@@ -49,11 +49,13 @@ Python-paketti: `heat3d_gamefiles`. Repositorio:
 
 ## Pelien omat lukijat {#the-games-own-readers}
 
-Jokaisella pelin lukijalla on oma projektinsa, joten yhden pelin ehtojen ongelma koskee vain
-sitä peliä: asenna pelisi lukija (sen sivu kertoo miten), niin sen oma komento ja tämän
-työkalun komennot toimivat. GameFiles suorittaa pelin oman työkalun sille antamillasi
-argumenteilla; mitään työkalusta ei tuoda sisään. Työkalu löytyy komentona `PATH`-polulta,
-asennettuna pakettina tai kansiona muuttujasta `HEAT3D_<GAME>_MAPS` tai GameFilesin vierestä
+Jokainen pelin lukija on oma pieni projektinsa, jolla on oma lisenssitiedosto, omat julkaisut
+ja oma issue-seuranta, joten sen voi asentaa, päivittää, ylläpitää - tai vetää pois
+oikeudenhaltijan pyynnöstä - erikseen ilman, että katselin tai muut työkalut muuttuvat.
+Asenna pelisi lukija (sen sivu kertoo miten), niin sen oma komento ja tämän työkalun komennot
+toimivat. GameFiles suorittaa pelin oman työkalun sille antamillasi argumenteilla; mitään
+työkalusta ei tuoda sisään. Työkalu löytyy komentona `PATH`-polulta, asennettuna pakettina
+tai kansiona muuttujasta `HEAT3D_<GAME>_MAPS` tai GameFilesin vierestä
 (`exporters/ext/<game>-maps` 3DHeat-kopiossa tai `3DHeat-Ext-<Game>` tämän kansion vieressä).
 Kun sitä ei ole asennettu, komento kertoo mistä sen saa ja poistuu koodilla 2.
 

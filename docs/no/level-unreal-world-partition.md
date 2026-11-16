@@ -3,7 +3,7 @@ title: Unreal 5-kart
 nav_order: 2
 lang: "no"
 source: level-unreal-world-partition.md
-source_hash: "c1744b0b011d"
+source_hash: "b43f7c77a107"
 nav_exclude: true
 search_exclude: true
 ---
@@ -94,6 +94,5 @@ motorversjoner). Strukturene er de forenklede stand-inene, ikke de fullt detalje
 dekaler og landskapsmaterialer eksporteres ikke; bakken er utekstyrt og skyggelagt av visningen. Detaljer om
 arkivene: [Unreal 5 IoStore](reader-unreal-iostore.md).
 
-**Begreper:** spillenes lisenser tillater vanligvis personlig, ikke-kommersiell bruk og forbyr revers
-utvikling «i den grad slike handlinger ikke kan forbys ved lov». Å lese din egen installasjon er din egen
-avgjørelse under dem; resultatet er til din egen bruk og skal ikke deles.
+**Dine egne filer:** kartet leses fra spillet som er installert på maskinen din, og skrives til disken
+din for din egen analyse; ingenting fra spillet følger med dette verktøyet.

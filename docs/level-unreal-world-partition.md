@@ -96,7 +96,6 @@ full-detail models. Foliage, decals and landscape materials are not exported;
 the ground is untextured and shaded by the viewer. Archive details:
 [Unreal 5 IoStore](reader-unreal-iostore.md).
 
-**Terms:** games' licences usually allow personal, non-commercial use and forbid
-reverse engineering "to the extent that such actions cannot be prohibited by
-law". Reading your own install is your decision under them; the output is for
-your own use and is not to be shared.
+**Your own files:** the map is read from the game installed on your machine and
+written to your disk, for your own analysis; nothing from the game ships with
+this tool.

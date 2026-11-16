@@ -178,6 +178,8 @@ Atveriet `.glb` 3DHeat skatītājā. Spēles pašas pasaules koordinātes tiek s
 | [Ext-DCS](https://github.com/Holdi601/3DHeat-Ext-DCS) | DCS World kartes `.glb` līmeņos | [vietne](https://holdi601.github.io/3DHeat-Ext-DCS/) |
 | [Ext-IL2](https://github.com/Holdi601/3DHeat-Ext-IL2) | IL-2 Sturmovik kartes `.glb` līmeņos | [vietne](https://holdi601.github.io/3DHeat-Ext-IL2/) |
 
+Katrs spēles lasītājs ir atsevišķs neliels projekts ar savu licences failu, laidieniem un problēmu izsekotāju, tāpēc to var atsevišķi uzstādīt, atjaunināt, uzturēt - vai pēc tiesību īpašnieka lūguma atsaukt -, neietekmējot skatītāju vai citus rīkus.
+
 Skatītāja maču faili ir aprakstīti lapā
 [Viens fails vienam maču: `.3dheat`](https://holdi601.github.io/3DHeat/container.html);
 šeit izveidots līmenis tiek ielādēts blakus tiem skatītāja Līmeņa panelī.

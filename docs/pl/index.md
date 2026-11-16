@@ -178,6 +178,8 @@ Otwórz `.glb` w przeglądarce 3DHeat. Oryginalne współrzędne świata gry są
 | [Ext-DCS](https://github.com/Holdi601/3DHeat-Ext-DCS) | mapy DCS World jako poziomy `.glb` | [strona](https://holdi601.github.io/3DHeat-Ext-DCS/) |
 | [Ext-IL2](https://github.com/Holdi601/3DHeat-Ext-IL2) | mapy IL-2 Sturmovik jako poziomy `.glb` | [strona](https://holdi601.github.io/3DHeat-Ext-IL2/) |
 
+Każdy czytnik gry to osobny mały projekt z własnym plikiem licencji, własnymi wydaniami i własnym systemem zgłoszeń, więc można go instalować, aktualizować, utrzymywać - albo wycofać na prośbę właściciela praw - niezależnie, bez wpływu na przeglądarkę i pozostałe narzędzia.
+
 Pliki meczów przeglądarki opisano w
 [Jeden plik na mecz: `.3dheat`](https://holdi601.github.io/3DHeat/container.html);
 poziom zrobiony tutaj wczytuje się obok nich w panelu **Tło / poziom** przeglądarki.

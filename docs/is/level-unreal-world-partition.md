@@ -3,7 +3,7 @@ title: "Unreal 5 kort"
 nav_order: 2
 lang: "is"
 source: level-unreal-world-partition.md
-source_hash: "c1744b0b011d"
+source_hash: "b43f7c77a107"
 nav_exclude: true
 search_exclude: true
 ---
@@ -99,7 +99,5 @@ líkönin með fullum smáatriðum. Gróður, límmiðar og landslagsefni eru ek
 jörðin er án áferðar og skyggð af skoðaranum. Upplýsingar um skjalasafnið:
 [Unreal 5 IoStore](reader-unreal-iostore.md).
 
-**Skilmálar:** leyfi leikja heimila yfirleitt persónulega notkun sem er ekki í viðskiptaskyni og banna
-bakverkfræði „to the extent that such actions cannot be prohibited by
-law“. Að lesa eigin uppsetningu er þín ákvörðun samkvæmt þeim; úttakið er til
-eigin nota og má ekki deila.
+**Þínar eigin skrár:** kortið er lesið úr leiknum sem er uppsettur á tölvunni þinni og skrifað á
+diskinn þinn til eigin greiningar; ekkert úr leiknum fylgir þessu verkfæri.

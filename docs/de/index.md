@@ -3,7 +3,7 @@ title: "Startseite"
 nav_order: 1
 lang: "de"
 source: index.md
-source_hash: "dc4db9349e8c"
+source_hash: "9e0ccf04b2a7"
 nav_exclude: true
 search_exclude: true
 permalink: /de/
@@ -48,13 +48,14 @@ Python-Paket: `heat3d_gamefiles`. Repository:
 
 ## Die Leser der Spiele {#the-games-own-readers}
 
-Jeder Leser eines Spiels ist ein eigenes Projekt. Ein Problem mit den Bedingungen eines Spiels betrifft
-deshalb nur dieses Spiel: Installiere den Leser für dein Spiel (seine Seite sagt, wie), dann funktionieren
-sein eigener Befehl und die Befehle hier. GameFiles startet das Werkzeug des Spiels mit den Argumenten, die
-du angegeben hast; nichts davon wird importiert. Es wird gefunden als sein Befehl im `PATH`, als sein
-installiertes Paket oder als sein Ordner in `HEAT3D_<GAME>_MAPS` oder neben GameFiles (`exporters/ext/<game>-maps`
-in einem 3DHeat-Checkout oder `3DHeat-Ext-<Game>` neben diesem Ordner). Ist es nicht installiert, sagt der
-Befehl, wo du es bekommst, und beendet sich mit Code 2.
+Jeder Spiel-Leser ist ein eigenes kleines Projekt mit eigener Lizenzdatei, eigenen Releases und eigenem
+Issue-Tracker. So kann er für sich installiert, aktualisiert, gepflegt - oder auf Wunsch eines Rechteinhabers
+zurückgezogen - werden, ohne den Viewer oder die anderen Tools zu berühren. Installiere den Leser für dein Spiel
+(seine Seite sagt, wie), dann funktionieren sein eigener Befehl und die Befehle hier. GameFiles startet das
+Werkzeug des Spiels mit den Argumenten, die du angegeben hast; nichts davon wird importiert. Es wird gefunden als
+sein Befehl im `PATH`, als sein installiertes Paket oder als sein Ordner in `HEAT3D_<GAME>_MAPS` oder neben
+GameFiles (`exporters/ext/<game>-maps` in einem 3DHeat-Checkout oder `3DHeat-Ext-<Game>` neben diesem Ordner). Ist
+es nicht installiert, sagt der Befehl, wo du es bekommst, und beendet sich mit Code 2.
 
 | Spiel | Sein eigenes Werkzeug | Befehle hier, die es ausführen |
 |---|---|---|

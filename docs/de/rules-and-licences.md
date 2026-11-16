@@ -3,26 +3,21 @@ title: Regeln und Lizenzen
 nav_order: 12
 lang: "de"
 source: rules-and-licences.md
-source_hash: "b68f4b6e3fe0"
+source_hash: "d99319d82d24"
 nav_exclude: true
 search_exclude: true
 ---
 # Regeln und Lizenzen {#rules-and-licences}
 
-Drei Regeln prägen das ganze Tool. Sie sind Designentscheidungen, keine bloßen
-Haftungsausschlüsse. Volltext: [`LICENSES.md`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/LICENSES.md).
-Diese Seite hält fest, was die Lizenzen sagen, sie ist keine Rechtsberatung.
+Drei Regeln prägen das ganze Tool. Volltext:
+[`LICENSES.md`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/LICENSES.md).
 
 ## 1. Keine Schlüssel: keine mitgeliefert, keine ermittelt {#no-keys-none-shipped-none-recovered}
 
 **Es liest Container.** Ein Archivformat zu parsen ist gewöhnliche Dateiverarbeitung, und
-FModel, UModel und AssetRipper tun das seit Jahren offen. Das Parsen eines Containers ist
-an sich keine Umgehung.
+FModel, UModel und AssetRipper tun das seit Jahren offen.
 
-**Die entscheidende Grenze ist die Verschlüsselung, und sie ist im Tool selbst gezogen.** Ein
-Tool, dessen Zweck es ist, eine Zugangskontrolle zu überwinden, fällt selbst unter das
-Umgehungsverbot (DMCA §1201(a)(2) erfasst Technologien, nicht nur Handlungen), selbst wenn
-niemand auch nur eine extrahierte Datei verbreitet. Deshalb gilt:
+**Die entscheidende Grenze ist die Verschlüsselung, und sie ist im Tool selbst gezogen.**
 
 - **Keine mitgelieferten Schlüssel.** Im Code und in den Daten steht kein Schlüssel.
 - **Keine Schlüsselermittlung.** Nichts durchsucht eine ausführbare Datei nach einem
@@ -48,17 +43,19 @@ niemand auch nur eine extrahierte Datei verbreitet. Deshalb gilt:
 
 Jedes bisher getestete Archiv war unverschlüsselt.
 
-## 2. Ihre eigenen Dateien, deine Verantwortung {#your-own-files-your-responsibility}
+## 2. Ihre eigenen Dateien {#your-own-files}
 
 Das Tool liest die Spieldateien, die **auf deinem Rechner installiert** sind. Es lädt nie
 Spielinhalte herunter.
 
-Was du darauf richtest, bleibt deine Verantwortung. Spiele haben eigene Lizenzbedingungen, und
-EULAs verbieten häufig das Reverse Engineering. Das sind durchsetzbare Verträge, und die
-Pflicht liegt bei dem, der das Tool ausführt, bei jedem Spiel. Keine Gestaltungsentscheidung
-hier nimmt sie ihm ab. Der klarste legitime Fall ist eine Entwicklerin, die den Build des
-eigenen Studios liest: den Titel eines anderen Teams, einen alten Branch, einen Build eines
-Partners.
+Nichts aus einem Spiel wird mitgeliefert: keine Spielinhalte, kein Spielcode, keine DLLs. Was
+es exportiert, wird auf deine Festplatte geschrieben und sonst nirgendwohin.
+
+3DHeat GameFiles ist mit keinem Spieleherausgeber verbunden und wird von keinem unterstützt.
+Die Spiele und die zugehörigen Namen und Marken gehören ihren Inhabern. Rechteinhaber: Bitte
+eröffnet ein Issue unter
+[github.com/Holdi601/3DHeat-GameFiles/issues](https://github.com/Holdi601/3DHeat-GameFiles/issues) -
+wir antworten schnell und entfernen auf Anfrage alles.
 
 ## 3. Die Ausgabe ist nicht zur Weitergabe bestimmt {#output-is-not-for-redistribution}
 
@@ -85,7 +82,7 @@ Anordnung, die die Lizenz vorsieht, dieselbe, die FModel und UModel verwenden. S
 ## Die Formate selbst {#the-formats-themselves}
 
 - `.pak`, IoStore, Unitys `SerializedFile`, Frostbites `.toc` und ForzaTechs Formate sind
-  nicht dokumentiert. Sie zu lesen ist Reverse Engineering eines Containers. Keiner der
+  nicht dokumentiert. Keiner der
   Leser hier ist aus dem Quelltext eines anderen Projekts abgeleitet. Für Frostbite lieferten
   öffentliche Beschreibungen älterer Versionen (die Frosty-Modding-Werkzeuge, eine
   Formatnotiz zu Need for Speed Heat, ein GDC-Vortrag) Feldnamen und eine Liste dessen, wonach

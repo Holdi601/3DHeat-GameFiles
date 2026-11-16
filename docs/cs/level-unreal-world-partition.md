@@ -99,7 +99,5 @@ Vegetace, dekorace a materiály krajiny se neexportují; země je bez textury a
 stínuje ji prohlížeč. Podrobnosti o archivech:
 [Unreal 5 IoStore](reader-unreal-iostore.md).
 
-**Podmínky:** licence her obvykle povolují osobní nekomerční použití a zakazují
-reverzní inženýrství „to the extent that such actions cannot be prohibited by law“.
-Čtení vlastní instalace je vaše rozhodnutí podle nich; výstup je pro vaše vlastní
-použití a nesdílí se.
+**Vlastní soubory:** mapa se čte ze hry nainstalované ve vašem počítači a zapisuje
+se na váš disk pro vaši vlastní analýzu; nic ze hry se s tímto nástrojem nedodává.

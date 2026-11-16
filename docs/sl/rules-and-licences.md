@@ -3,20 +3,19 @@ title: "Pravila in licence"
 nav_order: 12
 lang: "sl"
 source: rules-and-licences.md
-source_hash: "b68f4b6e3fe0"
+source_hash: "d99319d82d24"
 nav_exclude: true
 search_exclude: true
 ---
 # Pravila in licence {#rules-and-licences}
 
-Tri pravila oblikujejo celotno orodje. So odločitve pri zasnovi, ne le izjave o odgovornosti. Celotno besedilo: [`LICENSES.md`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/LICENSES.md).
-Ta stran je zapis, kaj licence pravijo, ne pravni nasvet.
+Tri pravila oblikujejo celotno orodje. Celotno besedilo: [`LICENSES.md`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/LICENSES.md).
 
 ## 1. Brez ključev: nobenega shranjenega, nobenega izluščenega {#no-keys-none-shipped-none-recovered}
 
-**Bere kontejnerje.** Razčlenjevanje formata arhiva je običajno delo z datotekami, FModel, UModel in AssetRipper pa to odprto delajo že leta. Razčlenjevanje kontejnerja samo po sebi ni izogibanje zaščiti.
+**Bere kontejnerje.** Razčlenjevanje formata arhiva je običajno delo z datotekami, FModel, UModel in AssetRipper pa to odprto delajo že leta.
 
-**Črta, ki šteje, je šifriranje, in je potegnjena znotraj orodja.** Orodje, katerega namen je premagati nadzor dostopa, je samo po sebi v okviru zakonov proti izogibanju (DMCA §1201(a)(2) zajema tehnologije, ne samo dejanja), tudi če nihče ne razdeli niti ene izvlečene datoteke. Zato:
+**Črta, ki šteje, je šifriranje, in je potegnjena znotraj orodja.**
 
 - **Brez vgrajenih ključev.** Ključa ni v kodi ali podatkih.
 - **Brez izluščenja ključa.** Nič ne išče ključa v izvršljivi datoteki, nič ne bere pomnilnika drugega procesa.
@@ -27,11 +26,13 @@ Ta stran je zapis, kaj licence pravijo, ne pravni nasvet.
 
 Vsi doslej preizkušeni arhivi so nešifrirani.
 
-## 2. Vaše datoteke, vaša odgovornost {#your-own-files-your-responsibility}
+## 2. Vaše datoteke {#your-own-files}
 
 Orodje bere igrine datoteke, **nameščene na vašem računalniku**. Nikoli ne prenese vsebine igre.
 
-Kar usmerite vanj, ostaja vaša odgovornost. Igre imajo svoje licenčne pogoje, EULA pogosto prepovedujejo povratni inženiring. To so izvršljive pogodbe, obveznost pa leži pri tistem, ki orodje zažene, pri katerikoli igri. Nobena zasnova tukaj vas te obveznosti ne odveže. Najbolj jasen zakonit primer je razvijalec, ki bere gradnjo svojega lastnega studia: drugačno ekipo naslova, staro vejo, gradnjo partnerja.
+Nič iz igre ni priloženo: nobena vsebina igre, nobena koda igre, noben DLL. Kar izvozi, se zapiše na vaš disk in nikamor drugam.
+
+3DHeat GameFiles ni povezan z nobenim založnikom iger in ga noben ne podpira. Igre ter povezana imena in blagovne znamke pripadajo svojim lastnikom. Imetniki pravic: odprite issue na [github.com/Holdi601/3DHeat-GameFiles/issues](https://github.com/Holdi601/3DHeat-GameFiles/issues) - hitro odgovorimo in na zahtevo odstranimo karkoli.
 
 ## 3. Izhod ni za deljenje {#output-is-not-for-redistribution}
 
@@ -47,7 +48,7 @@ Oodle (RAD Game Tools, zdaj Epic) je lastniški in nima redistribucijske gradnje
 
 ## Sami formati {#the-formats-themselves}
 
-- `.pak`, IoStore, `SerializedFile` Unity, `.toc` Frostbite in ForzaTech formati niso dokumentirani. Njihovo branje je povratni inženiring kontejnerja. Nobeden od tukajšnjih bralnikov ni izpeljan iz izvorne kode drugega projekta. Za Frostbite so javni opisi starejših različic (orodja za modding Frosty, zapis o formatu za Need for Speed Heat, predavanje z GDC) dali imena polj in zemljevid, kaj iskati. Nobena koda ni bila vzeta; vsak odmik je bil izmerjen na datotekah (glejte [`LICENSES.md`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/LICENSES.md)).
+- `.pak`, IoStore, `SerializedFile` Unity, `.toc` Frostbite in ForzaTech formati niso dokumentirani. Nobeden od tukajšnjih bralnikov ni izpeljan iz izvorne kode drugega projekta. Za Frostbite so javni opisi starejših različic (orodja za modding Frosty, zapis o formatu za Need for Speed Heat, predavanje z GDC) dali imena polj in zemljevid, kaj iskati. Nobena koda ni bila vzeta; vsak odmik je bil izmerjen na datotekah (glejte [`LICENSES.md`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/LICENSES.md)).
 - Izvlečeni nivoji so za lastno uporabo. Orodje jih zapiše na vaš disk in nikamor drugam; ne objavljajte jih.
 - BeamNG objavlja postavitev svojih datotek `.cdae`, bralnik pa jo sledi.
 - Valve dokumentira VPK.

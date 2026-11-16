@@ -182,6 +182,8 @@ O 3DHeat GameFiles é uma das ferramentas gratuitas em torno do visualizador 3DH
 | [Ext-DCS](https://github.com/Holdi601/3DHeat-Ext-DCS) | mapas do DCS World em níveis `.glb` | [site](https://holdi601.github.io/3DHeat-Ext-DCS/) |
 | [Ext-IL2](https://github.com/Holdi601/3DHeat-Ext-IL2) | mapas do IL-2 Sturmovik em níveis `.glb` | [site](https://holdi601.github.io/3DHeat-Ext-IL2/) |
 
+Cada leitor de jogo é um pequeno projeto próprio, com o seu ficheiro de licença, as suas versões e o seu registo de issues, por isso pode ser instalado, atualizado, mantido - ou retirado a pedido de um titular de direitos - por si só, sem afetar o visualizador nem as outras ferramentas.
+
 Os ficheiros de partida do visualizador são descritos em
 [Um ficheiro por partida: `.3dheat`](https://holdi601.github.io/3DHeat/container.html);
 um nível feito aqui é carregado ao lado deles no painel Fundo / nível do visualizador.

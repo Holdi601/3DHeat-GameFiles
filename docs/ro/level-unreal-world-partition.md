@@ -81,4 +81,4 @@ Numărul de neconcordanțe este o autoverificare: componentele vecine de peisaj 
 
 Proprietățile peisajului se găsesc după formă, nu după numărul slotului (sloturile se mută între versiunile motorului). Structurile sunt înlocuitorii simplificați, nu modelele cu detaliu complet. Vegetația, decalcomaniile și materialele peisajului nu sunt exportate; solul este netexturat și umbrit de vizualizator. Detalii despre arhive: [Unreal 5 IoStore](reader-unreal-iostore.md).
 
-**Termeni:** licențele jocurilor permit de obicei utilizarea personală, necomercială, și interzic ingineria inversă „în măsura în care asemenea acțiuni nu pot fi interzise prin lege”. Citirea propriei instalări este decizia dumneavoastră în temeiul lor; rezultatul este pentru utilizarea dumneavoastră și nu se împărtășește.
+**Fișierele dumneavoastră:** harta este citită din jocul instalat pe calculatorul dumneavoastră și scrisă pe discul dumneavoastră, pentru propria analiză; nimic din joc nu este livrat cu acest instrument.

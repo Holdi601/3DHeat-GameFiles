@@ -2,8 +2,8 @@
 The game readers that live in their own repositories, run as commands.
 
 Each game's reader is a separate project (3DHeat-Ext-Forza, -Battlefield,
--BeamNG, -ACRally, -Reforger), so a problem with one game's terms touches only
-that game. GameFiles keeps the engine-format readers they build on, and keeps
+-BeamNG, -ACRally, -Reforger) with its own releases and issue tracker, so it can
+be installed, updated or withdrawn on its own. GameFiles keeps the engine-format readers they build on, and keeps
 its old verbs working by running the game's tool with the arguments it was
 given. Nothing of a game tool is imported here; it is only run.
 

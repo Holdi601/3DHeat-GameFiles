@@ -181,6 +181,8 @@ Mécht d'`.glb` am 3DHeat-Viewer op. D'Weltkoordinate vum Spill selwer bleiwen e
 | [Ext-DCS](https://github.com/Holdi601/3DHeat-Ext-DCS) | DCS-World-Mappen a `.glb`-Levelen | [Site](https://holdi601.github.io/3DHeat-Ext-DCS/) |
 | [Ext-IL2](https://github.com/Holdi601/3DHeat-Ext-IL2) | IL-2-Sturmovik-Mappen a `.glb`-Levelen | [Site](https://holdi601.github.io/3DHeat-Ext-IL2/) |
 
+All Spill-Lieser ass e klengt eegent Projet mat enger eegener Lizenzdatei, eegene Releases an engem eegenen Issue-Tracker, sou datt en eleng installéiert, aktualiséiert, gefleegt - oder op Ufro vun engem Rechteinhaber zréckgezunn - ka ginn, ouni de Viewer oder déi aner Tools ze beréieren.
+
 D'Match-Dateie vum Viewer si beschriwwen an
 [Eng Datei pro Match: `.3dheat`](https://holdi601.github.io/3DHeat/container.html);
 e Level, dat hei gemaach gouf, gëtt niewent hinnen am Panel „Hannergrond / Level“ vum Viewer gelueden.

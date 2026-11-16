@@ -180,6 +180,8 @@ python -m heat3d_gamefiles identify some_archive.pak
 | [Ext-DCS](https://github.com/Holdi601/3DHeat-Ext-DCS) | карты DCS World в уровни `.glb` | [сайт](https://holdi601.github.io/3DHeat-Ext-DCS/) |
 | [Ext-IL2](https://github.com/Holdi601/3DHeat-Ext-IL2) | карты IL-2 Sturmovik в уровни `.glb` | [сайт](https://holdi601.github.io/3DHeat-Ext-IL2/) |
 
+Каждый модуль чтения игры — отдельный небольшой проект со своим файлом лицензии, своими выпусками и своим трекером задач, поэтому его можно устанавливать, обновлять, поддерживать - или отозвать по просьбе правообладателя - отдельно, не затрагивая просмотрщик и другие инструменты.
+
 Файлы матчей просмотрщика описаны в
 [Один файл на матч: `.3dheat`](https://holdi601.github.io/3DHeat/container.html);
 уровень, сделанный здесь, загружается рядом с ними на панели «Фон / уровень» просмотрщика.

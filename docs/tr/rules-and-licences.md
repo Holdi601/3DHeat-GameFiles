@@ -3,20 +3,19 @@ title: Kurallar ve lisanslar
 nav_order: 12
 lang: "tr"
 source: rules-and-licences.md
-source_hash: "b68f4b6e3fe0"
+source_hash: "d99319d82d24"
 nav_exclude: true
 search_exclude: true
 ---
 # Kurallar ve lisanslar {#rules-and-licences}
 
-Aracın bütününü üç kural şekillendirir. Bunlar tasarım kararlarıdır, yalnızca sorumluluk reddi değil. Tam metin: [`LICENSES.md`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/LICENSES.md).
-Bu sayfa lisansların ne dediğinin bir kaydıdır, hukuki tavsiye değildir.
+Aracın bütününü üç kural şekillendirir. Tam metin: [`LICENSES.md`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/LICENSES.md).
 
 ## 1. Anahtar yok: paketlenmiş yok, kurtarılmış yok {#no-keys-none-shipped-none-recovered}
 
-**Konteynerleri okur.** Bir arşiv biçimini ayrıştırmak sıradan dosya işlemedir; FModel, UModel ve AssetRipper bunu yıllardır açıkça yapıyor. Bir konteyneri ayrıştırmanın kendisi bir atlatma değildir.
+**Konteynerleri okur.** Bir arşiv biçimini ayrıştırmak sıradan dosya işlemedir; FModel, UModel ve AssetRipper bunu yıllardır açıkça yapıyor.
 
-**Önemli olan çizgi şifrelemedir ve araç içinde çizilmiştir.** Amacı bir erişim kontrolünü yenmek olan bir araç, tek bir çıkarılmış dosya dağıtılmasa bile, anti-atlatma yasasının kapsamındadır (DMCA §1201(a)(2), yalnızca eylemleri değil teknolojileri de kapsar). Bu yüzden:
+**Önemli olan çizgi şifrelemedir ve araç içinde çizilmiştir.**
 
 - **Paketlenmiş anahtar yok.** Kodda ya da veride hiçbir anahtar bulunmaz.
 - **Anahtar kurtarma yok.** Hiçbir şey bir çalıştırılabilir dosyada anahtar aramaz ve hiçbir şey başka bir sürecin belleğini okumaz.
@@ -27,11 +26,13 @@ Bu sayfa lisansların ne dediğinin bir kaydıdır, hukuki tavsiye değildir.
 
 Şimdiye kadar test edilen her arşiv şifrelenmemiştir.
 
-## 2. Kendi dosyalarınız, kendi sorumluluğunuz {#your-own-files-your-responsibility}
+## 2. Kendi dosyalarınız {#your-own-files}
 
 Araç, **makinenize kurulu oyun dosyalarını** okur. Asla oyun içeriği indirmez.
 
-Gösterdiğiniz şey sizin sorumluluğunuzdadır. Oyunların kendi lisans koşulları vardır ve EULA'lar sıklıkla tersine mühendisliği yasaklar. Bunlar uygulanabilir sözleşmelerdir ve yükümlülük aracı çalıştıran kişidedir, hangi oyun olursa olsun. Burada hiçbir tasarım seçimi bu yükümlülüğü ortadan kaldırmaz. En açık meşru durum, bir geliştiricinin kendi stüdyosunun derlemesini okumasıdır: farklı bir ekibin oyunu, eski bir dal ya da bir iş ortağının derlemesi.
+Bir oyundan hiçbir şey onunla birlikte dağıtılmaz: oyun içeriği yok, oyun kodu yok, DLL yok. Dışa aktardığı her şey sizin diskinize yazılır, başka hiçbir yere değil.
+
+3DHeat GameFiles hiçbir oyun yayıncısıyla bağlantılı değildir ve hiçbiri tarafından onaylanmamıştır. Oyunlar ve ilgili adlar ve ticari markalar sahiplerine aittir. Hak sahipleri: [github.com/Holdi601/3DHeat-GameFiles/issues](https://github.com/Holdi601/3DHeat-GameFiles/issues) adresinde bir issue açın - hızlı yanıt veririz ve istek üzerine her şeyi kaldırırız.
 
 ## 3. Çıktı yeniden dağıtım için değildir {#output-is-not-for-redistribution}
 
@@ -47,7 +48,7 @@ Oodle (RAD Game Tools, şimdi Epic), tescillidir ve yeniden dağıtılabilir bir
 
 ## Biçimlerin kendileri {#the-formats-themselves}
 
-- `.pak`, IoStore, Unity'nin `SerializedFile`'ı, Frostbite'ın `.toc`'u ve ForzaTech'in biçimleri belgelenmemiştir. Bunları okumak, bir konteynerin tersine mühendisliğidir. Buradaki okuyucuların hiçbiri başka bir projenin kaynak kodundan türetilmemiştir. Frostbite için, eski sürümlerin genel açıklamaları (Frosty modding araçları, bir Need for Speed Heat biçim notu, bir GDC konuşması) alan adlarını ve neye bakılacağının bir haritasını sağladı. Hiçbir kod alınmadı; her ofset dosyalar üzerinde ölçüldü (bkz. [`LICENSES.md`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/LICENSES.md)).
+- `.pak`, IoStore, Unity'nin `SerializedFile`'ı, Frostbite'ın `.toc`'u ve ForzaTech'in biçimleri belgelenmemiştir. Buradaki okuyucuların hiçbiri başka bir projenin kaynak kodundan türetilmemiştir. Frostbite için, eski sürümlerin genel açıklamaları (Frosty modding araçları, bir Need for Speed Heat biçim notu, bir GDC konuşması) alan adlarını ve neye bakılacağının bir haritasını sağladı. Hiçbir kod alınmadı; her ofset dosyalar üzerinde ölçüldü (bkz. [`LICENSES.md`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/LICENSES.md)).
 - Çıkarılmış seviyeler yalnızca sizin kullanımınız içindir. Araç onları yalnızca sizin diskinize yazar; yayınlamayın.
 - BeamNG `.cdae` düzenini yayınlar ve okuyucu ona uyar.
 - Valve, VPK'yi belgeler.

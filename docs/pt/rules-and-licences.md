@@ -3,26 +3,21 @@ title: Regras e licenças
 nav_order: 12
 lang: "pt"
 source: rules-and-licences.md
-source_hash: "b68f4b6e3fe0"
+source_hash: "d99319d82d24"
 nav_exclude: true
 search_exclude: true
 ---
 # Regras e licenças {#rules-and-licences}
 
-Três regras moldam a ferramenta inteira. São decisões de projeto, não apenas avisos legais.
-O texto completo está em [`LICENSES.md`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/LICENSES.md).
-Esta página é um registo do que as licenças dizem, não aconselhamento jurídico.
+Três regras moldam a ferramenta inteira. O texto completo está em
+[`LICENSES.md`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/LICENSES.md).
 
 ## 1. Nenhuma chave: nenhuma incluída, nenhuma recuperada {#1-no-keys-none-shipped-none-recovered}
 
 **Ela lê contêineres.** Analisar um formato de contêiner é manipulação comum de ficheiros, e
-FModel, UModel e AssetRipper a fazem às claras há anos. Nada em analisar um contêiner é, em
-si, uma forma de burlar proteção.
+FModel, UModel e AssetRipper a fazem às claras há anos.
 
-**A linha que importa é a cifragem, e ela é traçada dentro da ferramenta.** Uma ferramenta
-cujo propósito é derrubar um controlo de acesso está ela mesma no alcance das leis contra
-burla (DMCA §1201(a)(2) alcança tecnologias, não só atos), mesmo que ninguém distribua sequer
-um ficheiro extraído. Então:
+**A linha que importa é a cifragem, e ela é traçada dentro da ferramenta.**
 
 - **Nenhuma chave incluída.** Não há chave no código nem nos dados.
 - **Nenhuma recuperação de chave.** Nada procura uma chave dentro de um executável, e nada lê
@@ -45,16 +40,18 @@ um ficheiro extraído. Então:
 
 Todo ficheiro testado até agora não é cifrado.
 
-## 2. Seus próprios ficheiros, sua responsabilidade {#2-your-own-files-your-responsibility}
+## 2. Seus próprios ficheiros {#your-own-files}
 
 A ferramenta lê os ficheiros de jogo **instalados na sua máquina**. Ela nunca transfere conteúdo
 de jogo.
 
-O que se aponta para ela continua a ser da responsabilidade de quem a usa. Os jogos têm os próprios termos
-de licença, e os EULAs costumam proibir a engenharia reversa. São contratos exigíveis, e a
-obrigação recai sobre quem executa a ferramenta, em qualquer jogo. Nenhuma escolha de projeto aqui
-a elimina. O caso legítimo mais claro é um programador lendo a build do próprio estúdio: um
-título de outra equipa, um ramo antigo, uma build de um parceiro.
+Nada de um jogo é distribuído com a ferramenta: nenhum conteúdo do jogo, nenhum código do jogo, nenhuma
+DLL. O que exporta é escrito no seu disco e em mais nenhum lado.
+
+O 3DHeat GameFiles não é afiliado a nenhuma editora de jogos nem aprovado por ela. Os jogos e os nomes e
+marcas relacionados pertencem aos seus titulares. Titulares de direitos: abram uma issue em
+[github.com/Holdi601/3DHeat-GameFiles/issues](https://github.com/Holdi601/3DHeat-GameFiles/issues) -
+respondemos depressa e removemos o que for pedido.
 
 ## 3. A saída não é para redistribuição {#3-output-is-not-for-redistribution}
 
@@ -78,7 +75,7 @@ mesmo que o FModel e o UModel usam. Veja [Oodle](reader-oodle.md).
 ## Os formatos em si {#the-formats-themselves}
 
 - `.pak`, IoStore, o `SerializedFile` do Unity, os `.toc` do Frostbite e os formatos do
-  ForzaTech não são documentados. Lê-los é engenharia reversa de um contêiner. Nenhum dos
+  ForzaTech não são documentados. Nenhum dos
   leitores aqui deriva do código-fonte de outro projeto. Para o Frostbite, descrições públicas
   de versões antigas (as ferramentas de modding Frosty, uma nota de formato de Need for Speed
   Heat, uma palestra da GDC) forneceram nomes de campos e um mapa do que procurar. Nenhum código

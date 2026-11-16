@@ -3,7 +3,7 @@ title: "Unreal 5 térképek"
 nav_order: 2
 lang: "hu"
 source: level-unreal-world-partition.md
-source_hash: "c1744b0b011d"
+source_hash: "b43f7c77a107"
 nav_exclude: true
 search_exclude: true
 ---
@@ -97,7 +97,5 @@ motorverziónként mozognak). A szerkezetek az egyszerűsített helyettesítők,
 részletességű modellek. A lombozatot, a matricákat és a talajanyagokat nem exportáljuk; a talaj
 textúra nélküli, a nézegető árnyalja. Az archívum részletei: [Unreal 5 IoStore](reader-unreal-iostore.md).
 
-**Feltételek:** a játékok licencei általában személyes, nem kereskedelmi használatot engednek, és
-tiltják a visszafejtést, „amennyiben az ilyen cselekedetek törvényileg nem tilthatók". A saját
-telepítésed olvasása a te döntésed ezek keretein belül; a kimenet a te saját használatodra szolgál,
-és nem osztható meg.
+**A saját fájljaid:** a térképet a gépedre telepített játékból olvassa, és a lemezedre írja a saját
+elemzésedhez; a játékból semmi sem kerül terjesztésre ezzel az eszközzel.

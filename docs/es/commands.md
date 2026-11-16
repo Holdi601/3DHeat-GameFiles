@@ -3,7 +3,7 @@ title: "Comandos"
 nav_order: 2
 lang: "es"
 source: commands.md
-source_hash: "97a154edc5e0"
+source_hash: "8ae04c37b1a4"
 nav_exclude: true
 search_exclude: true
 ---
@@ -170,7 +170,7 @@ Imprime el número de objetos `Mesh` y luego una línea por malla: el nombre (lo
 
 ## Los verbos propios de cada juego {#the-games-own-verbs}
 
-Cada lector de juego es un proyecto propio, así que un problema con las condiciones de un juego solo afecta a ese juego: instala el de tu juego (su página dice cómo), y tanto su comando propio como los verbos de aquí funcionan. GameFiles ejecuta la herramienta del juego con los argumentos que le diste; no se importa nada de ella. Se encuentra como su comando en `PATH`, como su paquete instalado, o como su carpeta en `HEAT3D_<GAME>_MAPS` o junto a GameFiles (`exporters/ext/<game>-maps` en una copia de 3DHeat, o `3DHeat-Ext-<Game>` al lado de esta carpeta). Si no está instalada, el verbo dice dónde conseguirla y sale con código 2.
+Cada lector de juego es un pequeño proyecto propio, con su propio archivo de licencia, sus versiones y su gestor de incidencias, así que puede instalarse, actualizarse, mantenerse - o retirarse a petición de un titular de derechos - por separado, sin afectar al visor ni a las demás herramientas. Instala el de tu juego (su página dice cómo), y tanto su comando propio como los verbos de aquí funcionan. GameFiles ejecuta la herramienta del juego con los argumentos que le diste; no se importa nada de ella. Se encuentra como su comando en `PATH`, como su paquete instalado, o como su carpeta en `HEAT3D_<GAME>_MAPS` o junto a GameFiles (`exporters/ext/<game>-maps` en una copia de 3DHeat, o `3DHeat-Ext-<Game>` al lado de esta carpeta). Si no está instalada, el verbo dice dónde conseguirla y sale con código 2.
 
 | Juego | Su herramienta propia | Verbos de aquí que la ejecutan |
 |---|---|---|

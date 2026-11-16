@@ -3,7 +3,7 @@ title: Unreal 5 haritaları
 nav_order: 2
 lang: "tr"
 source: level-unreal-world-partition.md
-source_hash: "c1744b0b011d"
+source_hash: "b43f7c77a107"
 nav_exclude: true
 search_exclude: true
 ---
@@ -81,4 +81,4 @@ Uyuşmazlık sayısı bir kendi-kendini denetimdir: komşu arazi bileşenleri or
 
 Arazinin özellikleri yuva numarasıyla değil, şekle göre bulunur (yuvalar motor sürümleri arasında kayar). Yapılar, tam ayrıntılı modeller değil, basitleştirilmiş yerine geçenlerdir. Ot örtüsü, çıkartmalar ve arazi malzemeleri dışa aktarılmaz; zemin dokusuzdur ve görüntüleyici tarafından gölgelendirilir. Arşiv ayrıntıları: [Unreal 5 IoStore](reader-unreal-iostore.md).
 
-**Terimler:** oyunların lisansları genellikle kişisel, ticari olmayan kullanıma izin verir ve "yasa tarafından yasaklanamayan ölçüde" tersine mühendisliği yasaklar. Kendi kurulumunuzu okumak bu lisanslar altında sizin kararınızdır; çıktı yalnızca kendi kullanımınız içindir ve paylaşılmamalıdır.
+**Kendi dosyalarınız:** harita bilgisayarınızda kurulu oyundan okunur ve kendi analiziniz için diskinize yazılır; oyundan hiçbir şey bu araçla birlikte dağıtılmaz.

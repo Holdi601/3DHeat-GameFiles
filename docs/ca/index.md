@@ -182,6 +182,8 @@ Obre el `.glb` al visualitzador de 3DHeat. Les coordenades del mateix món del j
 | [Ext-DCS](https://github.com/Holdi601/3DHeat-Ext-DCS) | mapes de DCS World en nivells `.glb` | [lloc](https://holdi601.github.io/3DHeat-Ext-DCS/) |
 | [Ext-IL2](https://github.com/Holdi601/3DHeat-Ext-IL2) | mapes d'IL-2 Sturmovik en nivells `.glb` | [lloc](https://holdi601.github.io/3DHeat-Ext-IL2/) |
 
+Cada lector de joc és un petit projecte propi, amb el seu fitxer de llicència, les seves versions i el seu gestor d'incidències, de manera que es pot instal·lar, actualitzar, mantenir - o retirar a petició d'un titular de drets - per separat, sense afectar el visualitzador ni les altres eines.
+
 Els fitxers de partida del visualitzador es descriuen a
 [Un fitxer per partida: `.3dheat`](https://holdi601.github.io/3DHeat/container.html);
 un nivell fet aquí es carrega al costat d'ells al panell Fons / nivell del visualitzador.

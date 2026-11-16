@@ -3,24 +3,21 @@ title: Pravila i licence
 nav_order: 12
 lang: "hr"
 source: rules-and-licences.md
-source_hash: "b68f4b6e3fe0"
+source_hash: "d99319d82d24"
 nav_exclude: true
 search_exclude: true
 ---
 # Pravila i licence {#rules-and-licences}
 
-Tri pravila oblikuju cijeli alat. To su dizajnerske odluke, a ne samo izjave o odricanju.
-Puni tekst: [`LICENSES.md`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/LICENSES.md).
-Ova stranica je zapis onoga što licence kažu, a ne pravni savjet.
+Tri pravila oblikuju cijeli alat. Puni tekst:
+[`LICENSES.md`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/LICENSES.md).
 
 ## 1. Nema ključeva: nijedan se ne isporučuje, nijedan se ne izvlači {#no-keys-none-shipped-none-recovered}
 
 **Alat čita spremnike.** Parsiranje formata arhive je običan rad s datotekama, a FModel, UModel i
-AssetRipper to godinama rade javno. Samo parsiranje spremnika nije zaobilaženje zaštite.
+AssetRipper to godinama rade javno.
 
-**Crta koja je važna je šifriranje, i povučena je unutar alata.** Alat čija je svrha zaobići
-kontrolu pristupa sam je u dosegu zakona protiv zaobilaženja zaštite (DMCA §1201(a)(2) obuhvaća
-tehnologije, a ne samo radnje), čak i kad nitko ne distribuira ni jednu izvučenu datoteku. Zato:
+**Crta koja je važna je šifriranje, i povučena je unutar alata.**
 
 - **Nema ugrađenih ključeva.** Nijedan ključ nije u kodu ni u podacima.
 - **Nema izvlačenja ključeva.** Ništa ne traži ključ u izvršnoj datoteci i ništa ne čita memoriju
@@ -41,15 +38,17 @@ tehnologije, a ne samo radnje), čak i kad nitko ne distribuira ni jednu izvuče
 
 Svaki arhiv testiran do sada je nešifriran.
 
-## 2. Vaše datoteke, vaša odgovornost {#your-own-files-your-responsibility}
+## 2. Vaše datoteke {#your-own-files}
 
 Alat čita datoteke igara **instalirane na vašem računalu**. Nikad ne preuzima sadržaj igara.
 
-Što predate ostaje vaša odgovornost. Igre nose vlastite uvjete licence, a EULA-e uobičajeno
-zabranjuju obrnuto inženjerstvo. To su provedivi ugovori, a obveza pada na onoga tko pokreće
-alat, za koju god igru. Nijedna dizajnerska odluka ovdje to ne ukida. Najjasniji legitimni slučaj
-je razvojni programer koji čita build vlastitog studija: naslov drugog tima, stara grana, build od
-partnera.
+Ništa iz igre ne isporučuje se s njim: nikakav sadržaj igre, nikakav kod igre, nikakvi DLL-ovi.
+Ono što izveze zapisuje se na vaš disk i nikamo drugamo.
+
+3DHeat GameFiles nije povezan ni s jednim izdavačem igara niti ga on podržava. Igre te povezani
+nazivi i žigovi pripadaju svojim vlasnicima. Nositelji prava: otvorite issue na
+[github.com/Holdi601/3DHeat-GameFiles/issues](https://github.com/Holdi601/3DHeat-GameFiles/issues) -
+brzo odgovaramo i na zahtjev uklanjamo bilo što.
 
 ## 3. Izlaz nije za distribuciju {#output-is-not-for-redistribution}
 
@@ -72,7 +71,7 @@ FModel i UModel. Vidi [Oodle](reader-oodle.md).
 ## Sami formati {#the-formats-themselves}
 
 - `.pak`, IoStore, Unityjev `SerializedFile`, Frostbiteov `.toc` i ForzaTechovi formati su
-  nedokumentirani. Čitanje njih je obrnuto inženjerstvo spremnika. Nijedan čitač ovdje nije izveden iz
+  nedokumentirani. Nijedan čitač ovdje nije izveden iz
   tuđeg izvornog koda. Za Frostbite su javni opisi starijih verzija (alati za modding Frosty, bilješka
   o formatu Need for Speed Heat, GDC predavanje) dali nazive polja i popis onoga što treba tražiti.
   Kod nije preuzet; svaki pomak je izmjeren na datotekama (vidi

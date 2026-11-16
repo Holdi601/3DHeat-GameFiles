@@ -179,6 +179,8 @@ Ava `.glb` 3DHeat vaatajas. Mängu enda maailmakoordinaadid on alles
 | [Ext-DCS](https://github.com/Holdi601/3DHeat-Ext-DCS) | DCS Worldi kaardid `.glb` tasemeteks | [sait](https://holdi601.github.io/3DHeat-Ext-DCS/) |
 | [Ext-IL2](https://github.com/Holdi601/3DHeat-Ext-IL2) | IL-2 Sturmovigi kaardid `.glb` tasemeteks | [sait](https://holdi601.github.io/3DHeat-Ext-IL2/) |
 
+Iga mängu lugeja on omaette väike projekt oma litsentsifaili, väljalasete ja probleemijälgijaga, nii et seda saab eraldi paigaldada, uuendada, hooldada - või õiguste omaniku palvel tagasi võtta -, ilma et see mõjutaks vaatajat või teisi tööriistu.
+
 Vaataja mängufailid on kirjeldatud lehel
 [Üks fail mängu kohta: `.3dheat`](https://holdi601.github.io/3DHeat/container.html);
 siin tehtud tase laaditakse nende kõrvale vaataja paneelis **Taust / tase**.

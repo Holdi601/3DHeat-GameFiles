@@ -3,7 +3,7 @@ title: "Unreal 5 World Partition-kort: `ue-maps` og `ue-map`"
 nav_order: 2
 lang: "da"
 source: level-unreal-world-partition.md
-source_hash: "c1744b0b011d"
+source_hash: "b43f7c77a107"
 nav_exclude: true
 search_exclude: true
 ---
@@ -81,4 +81,4 @@ Antallet af uenigheder er et selvtjek: naboliggende landskabskomponenter gemmer 
 
 Landskabets egenskaber findes efter form, ikke efter pladsnummer (pladser flytter sig mellem motorversioner). Strukturerne er de forenklede stand-ins, ikke modellerne i fuld detalje. Bevoksning, decals og landskabsmaterialer eksporteres ikke; jorden er utextureret og skygges af viewer'en. Detaljer om arkiverne: [Unreal 5 IoStore](reader-unreal-iostore.md).
 
-**Vilkår:** spillicenser tillader typisk personlig, ikke-kommerciel brug og forbyder reverse engineering "i det omfang, sådanne handlinger ikke kan forbydes ved lov". At læse din egen installation er din beslutning under dem; resultatet er til din egen brug og må ikke deles.
+**Dine egne filer:** kortet læses fra spillet, der er installeret på din computer, og skrives til din disk til din egen analyse; intet fra spillet følger med dette værktøj.

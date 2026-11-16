@@ -3,24 +3,21 @@ title: Regler og lisenser
 nav_order: 12
 lang: "no"
 source: rules-and-licences.md
-source_hash: "b68f4b6e3fe0"
+source_hash: "d99319d82d24"
 nav_exclude: true
 search_exclude: true
 ---
 # Regler og lisenser {#rules-and-licences}
 
-Tre regler former hele verktøyet. De er designbeslutninger, ikke bare ansvarsfraskrivelser. Fullstendig tekst:
+Tre regler former hele verktøyet. Fullstendig tekst:
 [`LICENSES.md`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/LICENSES.md).
-Denne siden er en oversikt over hva lisensene sier, ikke juridisk rådgivning.
 
 ## 1. Ingen nøkler: ingen medfølger, ingen hentes ut {#no-keys-none-shipped-none-recovered}
 
 **Det leser beholdere.** Å parse et arkivformat er vanlig filhåndtering, og FModel, UModel og AssetRipper har gjort det åpent i
-flere år. Å parse en beholder er i seg selv ingen omgåelse.
+flere år.
 
-**Skillelinjen som betyr noe, er kryptering, og den trekkes inne i verktøyet.** Et verktøy hvis formål er å slå en tilgangskontroll,
-er selv innenfor rekkevidden av lovgivning mot omgåelse (DMCA §1201(a)(2) rammer teknologier, ikke bare handlinger), selv om ingen
-distribuerer én eneste utpakket fil. Derfor:
+**Skillelinjen som betyr noe, er kryptering, og den trekkes inne i verktøyet.**
 
 - **Ingen medfølgende nøkler.** Det finnes ingen nøkkel i koden eller dataene.
 - **Ingen nøkkelutvinning.** Ingenting leter etter nøkler i en kjørbar fil, og ingenting leser en annen prosess sitt minne.
@@ -36,13 +33,16 @@ distribuerer én eneste utpakket fil. Derfor:
 
 Hvert arkiv som er testet så langt, er ukryptert.
 
-## 2. Dine egne filer, ditt eget ansvar {#your-own-files-your-responsibility}
+## 2. Dine egne filer {#your-own-files}
 
 Verktøyet leser spillfilene **installert på maskinen din**. Det laster aldri ned spillinnhold.
 
-Det du peker det på, er fortsatt ditt ansvar. Spill har sine egne lisensvilkår, og sluttbrukeravtaler forbyr ofte revers utvikling.
-Disse er håndhevbare kontrakter, og plikten ligger hos den som kjører verktøyet, uansett spill. Ingen designvalg her fritar for den.
-Det klareste legitime tilfellet er en utvikler som leser sitt eget studios bygg: en annen teams tittel, en gammel gren, et bygg fra en partner.
+Ingenting fra et spill følger med: ikke noe spillinnhold, ingen spillkode, ingen DLL-er. Det verktøyet eksporterer, skrives til disken din og
+ingen andre steder.
+
+3DHeat GameFiles er ikke tilknyttet eller godkjent av noen spillutgiver. Spillene og tilhørende navn og varemerker tilhører sine eiere.
+Rettighetshavere: opprett en sak på [github.com/Holdi601/3DHeat-GameFiles/issues](https://github.com/Holdi601/3DHeat-GameFiles/issues) - vi
+svarer raskt og fjerner hva som helst på forespørsel.
 
 ## 3. Resultatet er ikke til videredistribusjon {#output-is-not-for-redistribution}
 
@@ -62,8 +62,7 @@ og den samme FModel og UModel bruker. Se [Oodle](reader-oodle.md).
 
 ## Formatene selv {#the-formats-themselves}
 
-- `.pak`, IoStore, Unitys `SerializedFile`, Frostbites `.toc` og ForzaTechs formater er udokumenterte. Å lese dem er reverse engineering av en beholder.
-  Ingen av leserne her er avledet fra et annet prosjekts kildekode. For Frostbite leverte offentlige beskrivelser av eldre versjoner (Frosty-modding-verktøyene,
+- `.pak`, IoStore, Unitys `SerializedFile`, Frostbites `.toc` og ForzaTechs formater er udokumenterte. Ingen av leserne her er avledet fra et annet prosjekts kildekode. For Frostbite leverte offentlige beskrivelser av eldre versjoner (Frosty-modding-verktøyene,
   et formatnotat for Need for Speed Heat, et GDC-foredrag) feltnavn og et kart over hva som skal ses etter. Ingen kode ble tatt; hver forskyvning ble målt på
   filene (se [`LICENSES.md`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/LICENSES.md)).
 - Utpakkede nivåer er til din egen bruk. Verktøyet skriver dem til din disk og ingen andre steder; ikke publiser dem.

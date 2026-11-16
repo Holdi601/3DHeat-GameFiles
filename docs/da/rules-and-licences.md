@@ -3,19 +3,19 @@ title: Regler og licenser
 nav_order: 12
 lang: "da"
 source: rules-and-licences.md
-source_hash: "b68f4b6e3fe0"
+source_hash: "d99319d82d24"
 nav_exclude: true
 search_exclude: true
 ---
 # Regler og licenser {#rules-and-licences}
 
-Tre regler former hele værktøjet. De er designbeslutninger, ikke blot ansvarsfraskrivelser. Fuld tekst: [`LICENSES.md`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/LICENSES.md). Denne side er en optegnelse af, hvad licenserne siger, ikke juridisk rådgivning.
+Tre regler former hele værktøjet. Fuld tekst: [`LICENSES.md`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/LICENSES.md).
 
 ## 1. Ingen nøgler: ingen leveret, ingen fundet {#no-keys-none-shipped-none-recovered}
 
-**Det læser containere.** At parse et arkivformat er almindelig filhåndtering, og FModel, UModel og AssetRipper har gjort det åbent i årevis. Intet ved at parse en container er i sig selv en omgåelse.
+**Det læser containere.** At parse et arkivformat er almindelig filhåndtering, og FModel, UModel og AssetRipper har gjort det åbent i årevis.
 
-**Grænsen, der betyder noget, er kryptering, og den trækkes inde i værktøjet.** Et værktøj, hvis formål er at slå en adgangskontrol, er selv omfattet af lovgivning mod omgåelse (DMCA §1201(a)(2) rammer teknologier, ikke kun handlinger), selv om ingen distribuerer en eneste udtrukket fil. Derfor:
+**Grænsen, der betyder noget, er kryptering, og den trækkes inde i værktøjet.**
 
 - **Ingen medleverede nøgler.** Der er ingen nøgle i koden eller dataene.
 - **Ingen nøglegenfindelse.** Intet søger i en eksekverbar fil efter en nøgle, og intet læser en anden proces' hukommelse.
@@ -26,11 +26,13 @@ Tre regler former hele værktøjet. De er designbeslutninger, ikke blot ansvarsf
 
 Alle arkiver, der er testet indtil nu, er ukrypterede.
 
-## 2. Dine egne filer, dit ansvar {#your-own-files-your-responsibility}
+## 2. Dine egne filer {#your-own-files}
 
 Værktøjet læser spilfilerne, der er **installeret på din maskine**. Det downloader aldrig spilindhold.
 
-Det, du peger det på, er fortsat dit ansvar. Spil har deres egne licensvilkår, og slutbrugeraftaler (EULA'er) forbyder typisk reverse engineering. Det er bindende kontrakter, og forpligtelsen ligger hos den, der kører værktøjet, på hvilket som helst spil. Intet designvalg her fritager for den. Det klareste legitime tilfælde er en udvikler, der læser sit eget studies build: en anden teams titel, en gammel gren, et build fra en partner.
+Intet fra et spil følger med: intet spilindhold, ingen spilkode, ingen DLL'er. Det, værktøjet eksporterer, skrives til din disk og ingen andre steder.
+
+3DHeat GameFiles er ikke tilknyttet eller godkendt af nogen spiludgiver. Spillene og tilhørende navne og varemærker tilhører deres ejere. Rettighedshavere: opret et issue på [github.com/Holdi601/3DHeat-GameFiles/issues](https://github.com/Holdi601/3DHeat-GameFiles/issues) - vi svarer hurtigt og fjerner hvad som helst efter anmodning.
 
 ## 3. Resultatet er ikke til videredistribution {#output-is-not-for-redistribution}
 
@@ -46,7 +48,7 @@ Oodle (RAD Game Tools, nu Epic) er proprietær og har ingen redistribuerbar buil
 
 ## Selve formaterne {#the-formats-themselves}
 
-- `.pak`, IoStore, Unitys `SerializedFile`, Frostbites `.toc` og ForzaTechs formater er udokumenterede. At læse dem er reverse engineering af en container. Ingen af læserne her er afledt af et andet projekts kildekode. For Frostbite leverede offentlige beskrivelser af ældre versioner (Frosty-modderingsværktøjerne, en formatnote til Need for Speed Heat, et GDC-foredrag) feltnavne og et kort over, hvad der skal kigges efter. Der er ikke taget nogen kode; hver offset er målt på filerne (se [`LICENSES.md`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/LICENSES.md)).
+- `.pak`, IoStore, Unitys `SerializedFile`, Frostbites `.toc` og ForzaTechs formater er udokumenterede. Ingen af læserne her er afledt af et andet projekts kildekode. For Frostbite leverede offentlige beskrivelser af ældre versioner (Frosty-modderingsværktøjerne, en formatnote til Need for Speed Heat, et GDC-foredrag) feltnavne og et kort over, hvad der skal kigges efter. Der er ikke taget nogen kode; hver offset er målt på filerne (se [`LICENSES.md`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/LICENSES.md)).
 - Udtrukne niveauer er til din egen brug. Værktøjet skriver dem til din disk og ingen andre steder; offentliggør dem ikke.
 - BeamNG offentliggør sit `.cdae`-layout, og læseren følger det.
 - Valve dokumenterer VPK.

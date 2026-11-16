@@ -81,4 +81,4 @@ Vsebina, stisnjena z Oodle, potrebuje knjižnico Oodle, ki je že na računalnik
 
 Lastnosti krajine se najdejo po obliki, ne po številki reže (reže se premikajo med različicami motorja). Strukture so poenostavljeni nadomestki, ne polni modeli. Rastlinje, nalepke in materiali krajine se ne izvozijo; tla so brez teksture in osenčena v pregledovalniku. Podrobnosti arhiva: [Unreal 5 IoStore](reader-unreal-iostore.md).
 
-**Pogoji:** licence iger običajno dovoljujejo osebno, nekomercialno uporabo in prepovedujejo povratni inženiring "v obsegu, v katerem tega dejanja ni mogoče prepovedati z zakonom". Branje lastne namestitve je vaša odločitev po njih; izhod je za lastno uporabo in se ne deli.
+**Vaše lastne datoteke:** zemljevid se prebere iz igre, nameščene na vašem računalniku, in zapiše na vaš disk za vašo lastno analizo; nič iz igre ni priloženo temu orodju.

@@ -178,6 +178,8 @@ Deschideți `.glb` în vizualizatorul 3DHeat. Coordonatele lumii jocului sunt p�
 | [Ext-DCS](https://github.com/Holdi601/3DHeat-Ext-DCS) | hărțile DCS World în nivele `.glb` | [site](https://holdi601.github.io/3DHeat-Ext-DCS/) |
 | [Ext-IL2](https://github.com/Holdi601/3DHeat-Ext-IL2) | hărțile IL-2 Sturmovik în nivele `.glb` | [site](https://holdi601.github.io/3DHeat-Ext-IL2/) |
 
+Fiecare cititor de joc este un mic proiect separat, cu propriul fișier de licență, propriile versiuni și propriul sistem de issue-uri, astfel încât poate fi instalat, actualizat, întreținut - sau retras la cererea unui deținător de drepturi - separat, fără să afecteze vizualizatorul sau celelalte instrumente.
+
 Fișierele de meci ale vizualizatorului sunt descrise în
 [Un fișier pe meci: `.3dheat`](https://holdi601.github.io/3DHeat/container.html);
 un nivel făcut aici se încarcă lângă ele, în panoul Fundal / nivel al vizualizatorului.

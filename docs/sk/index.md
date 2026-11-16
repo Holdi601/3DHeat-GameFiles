@@ -180,6 +180,8 @@ Otvorte `.glb` v prehliadači 3DHeat. Herné svetové súradnice hry sa zachová
 | [Ext-DCS](https://github.com/Holdi601/3DHeat-Ext-DCS) | mapy DCS World do úrovní `.glb` | [stránka](https://holdi601.github.io/3DHeat-Ext-DCS/) |
 | [Ext-IL2](https://github.com/Holdi601/3DHeat-Ext-IL2) | mapy IL-2 Sturmovik do úrovní `.glb` | [stránka](https://holdi601.github.io/3DHeat-Ext-IL2/) |
 
+Každá čítačka hry je samostatný malý projekt s vlastným licenčným súborom, vlastnými vydaniami a vlastným systémom hlásení, takže ju možno inštalovať, aktualizovať, udržiavať - alebo na žiadosť držiteľa práv stiahnuť - samostatne, bez vplyvu na prehliadač a ostatné nástroje.
+
 Súbory zápasov prehliadača sú opísané na stránke
 [Jeden súbor na zápas: `.3dheat`](https://holdi601.github.io/3DHeat/container.html);
 úroveň vytvorená tu sa načíta vedľa nich na paneli Pozadie / level prehliadača.

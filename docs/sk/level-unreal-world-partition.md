@@ -98,7 +98,5 @@ Vegetácia, dekály a materiály krajiny sa neexportujú; povrch je bez textúry
 ho prehliadač. Podrobnosti o archívoch:
 [Unreal 5 IoStore](reader-unreal-iostore.md).
 
-**Podmienky:** licencie hier zvyčajne dovoľujú osobné, nekomerčné použitie a zakazujú
-spätné inžinierstvo „v rozsahu, v akom takéto konanie nemožno zakázať zákonom“. Čítanie
-vašej vlastnej inštalácie je vaše rozhodnutie podľa týchto licencií; výstup je na
-váš vlastný účel a nezdieľa sa.
+**Vlastné súbory:** mapa sa číta z hry nainštalovanej vo vašom počítači a zapisuje sa
+na váš disk na vašu vlastnú analýzu; nič z hry sa s týmto nástrojom nedodáva.

@@ -159,4 +159,6 @@ python -m heat3d_gamefiles identify some_archive.pak
 | [Ext-DCS](https://github.com/Holdi601/3DHeat-Ext-DCS) | DCS World haritalarını `.glb` seviyelerine | [site](https://holdi601.github.io/3DHeat-Ext-DCS/) |
 | [Ext-IL2](https://github.com/Holdi601/3DHeat-Ext-IL2) | IL-2 Sturmovik haritalarını `.glb` seviyelerine | [site](https://holdi601.github.io/3DHeat-Ext-IL2/) |
 
+Her oyun okuyucusu kendi lisans dosyası, kendi sürümleri ve kendi sorun takipçisi olan ayrı küçük bir projedir; böylece görüntüleyiciyi veya diğer araçları etkilemeden tek başına kurulabilir, güncellenebilir, bakımı yapılabilir - ya da bir hak sahibinin isteği üzerine geri çekilebilir.
+
 Görüntüleyicinin maç dosyaları [Maç başına tek dosya: `.3dheat`](https://holdi601.github.io/3DHeat/container.html) sayfasında anlatılır; burada yapılan bir seviye, görüntüleyicinin Arka plan / bölüm paneline onların yanına yüklenir.

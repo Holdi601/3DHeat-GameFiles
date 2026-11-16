@@ -82,4 +82,4 @@ Het aantal afwijkingen is een zelfcontrole: aangrenzende landschapscomponenten s
 
 De eigenschappen van het landschap worden gevonden op vorm, niet op slotnummer (slots verschuiven tussen engineversies). De structuren zijn de vereenvoudigde stand-ins, niet de modellen op volledig detail. Gebladerte, decals en landschapsmaterialen worden niet geëxporteerd; de grond heeft geen textuur en wordt door de viewer beschaduwd. Details van de archieven: [Unreal 5 IoStore](reader-unreal-iostore.md).
 
-**Voorwaarden:** de licenties van spellen staan meestal persoonlijk, niet-commercieel gebruik toe en verbieden reverse engineering "to the extent that such actions cannot be prohibited by law". Het lezen van je eigen installatie is jouw keuze onder die licenties; de uitvoer is voor eigen gebruik en wordt niet gedeeld.
+**Je eigen bestanden:** de kaart wordt gelezen uit het spel dat op je computer is geïnstalleerd en naar je schijf geschreven, voor je eigen analyse; niets van het spel wordt met deze tool meegeleverd.

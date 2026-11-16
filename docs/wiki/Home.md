@@ -39,14 +39,16 @@ Python package: `heat3d_gamefiles`. Repository:
 
 ## The games' own readers
 
-Each game's reader is its own project, so a problem with one game's terms
-touches only that game: install the one for your game (its page says how), and
-both its own command and the verbs here work. GameFiles runs the game's tool
-with the arguments you gave it; nothing of the tool is imported. It is found as
-its command on `PATH`, as its installed package, or as its folder in
+Each game reader is its own small project with its own licence file, releases and
+issue tracker, so it can be installed, updated, maintained - or withdrawn on a
+rights holder's request - on its own, without affecting the viewer or the other
+tools. Install the one for your game (its page says how), and both its own
+command and the verbs here work. GameFiles runs the game's tool with the
+arguments you gave it; nothing of the tool is imported. It is found as its
+command on `PATH`, as its installed package, or as its folder in
 `HEAT3D_<GAME>_MAPS` or beside GameFiles (`exporters/ext/<game>-maps` in a 3DHeat
-checkout, or `3DHeat-Ext-<Game>` next to this folder). When it is not
-installed, the verb says where to get it and exits with code 2.
+checkout, or `3DHeat-Ext-<Game>` next to this folder). When it is not installed,
+the verb says where to get it and exits with code 2.
 
 | Game | Its own tool | Verbs here that run it |
 |---|---|---|

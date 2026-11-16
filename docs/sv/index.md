@@ -178,6 +178,8 @@ python -m heat3d_gamefiles identify some_archive.pak
 | [Ext-DCS](https://github.com/Holdi601/3DHeat-Ext-DCS) | DCS World-kartor till `.glb`-nivåer | [webbplats](https://holdi601.github.io/3DHeat-Ext-DCS/) |
 | [Ext-IL2](https://github.com/Holdi601/3DHeat-Ext-IL2) | IL-2 Sturmovik-kartor till `.glb`-nivåer | [webbplats](https://holdi601.github.io/3DHeat-Ext-IL2/) |
 
+Varje spelläsare är ett eget litet projekt med egen licensfil, egna releaser och eget ärendesystem, så att den kan installeras, uppdateras, underhållas - eller dras tillbaka på en rättighetshavares begäran - för sig, utan att påverka visaren eller de andra verktygen.
+
 Visarens matchfiler beskrivs i
 [En fil per match: `.3dheat`](https://holdi601.github.io/3DHeat/container.html);
 en nivå som görs här läses in bredvid dem i visarens panel Bakgrund / nivå.

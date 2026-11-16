@@ -14,12 +14,7 @@ it is what FModel, UModel and AssetRipper have done in the open for years.
 It **contains no key material and no key recovery**. An encrypted archive opens
 only if the caller supplies a key they already hold. Nothing here ships a key,
 searches an executable for one, or reads another process's memory. That line is
-deliberate: reading a file and defeating an access control are different acts,
-and the second reaches the tool itself, not only what someone does with it.
-
-What anyone points it at stays their own responsibility. A developer reading
-their own studio's build is the unambiguous case; someone else's title carries
-that publisher's terms, and no design choice here discharges them.
+deliberate: the tool reads files; it does not open locks.
 
 Layout
 ------

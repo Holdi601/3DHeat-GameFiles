@@ -3,7 +3,7 @@ title: "Unreal-5-Karten"
 nav_order: 2
 lang: "de"
 source: level-unreal-world-partition.md
-source_hash: "c1744b0b011d"
+source_hash: "b43f7c77a107"
 nav_exclude: true
 search_exclude: true
 ---
@@ -102,8 +102,6 @@ Detailtiefe. Laub, Decals und Landschaftsmaterialien werden nicht exportiert; de
 Boden ist ohne Textur und wird vom Viewer schattiert. Archivdetails:
 [Unreal 5 IoStore](reader-unreal-iostore.md).
 
-**Begriffe:** Die Lizenzen der Spiele erlauben meist persönliche, nichtkommerzielle
-Nutzung und verbieten das Reverse Engineering „to the extent that such actions cannot be
-prohibited by law“. Das Lesen deiner eigenen Installation ist deine
-Entscheidung unter diesen Lizenzen; die Ausgabe ist für deinen eigenen Gebrauch
-bestimmt und wird nicht weitergegeben.
+**Eigene Dateien:** Die Karte wird aus dem auf deinem Rechner installierten Spiel
+gelesen und für deine eigene Analyse auf deine Festplatte geschrieben; nichts aus dem
+Spiel wird mit diesem Tool ausgeliefert.

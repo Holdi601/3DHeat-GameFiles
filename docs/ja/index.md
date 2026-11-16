@@ -159,4 +159,6 @@ python -m heat3d_gamefiles identify some_archive.pak
 | [Ext-DCS](https://github.com/Holdi601/3DHeat-Ext-DCS) | DCS World のマップを `.glb` のレベルに | [サイト](https://holdi601.github.io/3DHeat-Ext-DCS/) |
 | [Ext-IL2](https://github.com/Holdi601/3DHeat-Ext-IL2) | IL-2 Sturmovik のマップを `.glb` のレベルに | [サイト](https://holdi601.github.io/3DHeat-Ext-IL2/) |
 
+各ゲームのリーダーは、それぞれ独自のライセンスファイル、リリース、課題トラッカーを持つ小さな独立したプロジェクトです。そのため、ビューアや他のツールに影響を与えずに単独でインストール、更新、保守でき、権利者から依頼があれば単独で取り下げることもできます。
+
 ビューアのマッチファイルは、[1 マッチを 1 ファイルに: `.3dheat`](https://holdi601.github.io/3DHeat/container.html) に説明があります。ここで作ったレベルは、ビューアの背景/レベルパネルで、それらと並べて読み込まれます。

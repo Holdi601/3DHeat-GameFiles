@@ -171,6 +171,8 @@ Otvorite `.glb` u pregledniku 3DHeat. Svjetske koordinate igre se čuvaju
 | [Ext-DCS](https://github.com/Holdi601/3DHeat-Ext-DCS) | karte DCS Worlda u `.glb` razine | [stranica](https://holdi601.github.io/3DHeat-Ext-DCS/) |
 | [Ext-IL2](https://github.com/Holdi601/3DHeat-Ext-IL2) | karte IL-2 Sturmovik u `.glb` razine | [stranica](https://holdi601.github.io/3DHeat-Ext-IL2/) |
 
+Svaki čitač igre zaseban je mali projekt s vlastitom datotekom licence, vlastitim izdanjima i vlastitim sustavom prijava, pa se može instalirati, ažurirati, održavati - ili povući na zahtjev nositelja prava - zasebno, bez utjecaja na preglednik i ostale alate.
+
 Datoteke meča preglednika opisane su u
 [Jedna datoteka po meču: `.3dheat`](https://holdi601.github.io/3DHeat/container.html);
 razina napravljena ovdje učitava se uz njih u panelu Pozadina / razina preglednika.

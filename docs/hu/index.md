@@ -178,5 +178,7 @@ A 3DHeat GameFiles a 3DHeat megjelenítő körüli ingyenes eszközök egyike:
 | [Ext-DCS](https://github.com/Holdi601/3DHeat-Ext-DCS) | DCS World térképek `.glb` pályákba | [oldal](https://holdi601.github.io/3DHeat-Ext-DCS/) |
 | [Ext-IL2](https://github.com/Holdi601/3DHeat-Ext-IL2) | IL-2 Sturmovik térképek `.glb` pályákba | [oldal](https://holdi601.github.io/3DHeat-Ext-IL2/) |
 
+Minden játékolvasó önálló kis projekt saját licencfájllal, saját kiadásokkal és saját hibajegykezelővel, így külön telepíthető, frissíthető, karbantartható - vagy egy jogtulajdonos kérésére visszavonható -, anélkül hogy a megjelenítőt vagy a többi eszközt érintené.
+
 A megjelenítő meccsfájljait a [Egy fájl meccsenként: `.3dheat`](https://holdi601.github.io/3DHeat/container.html)
 oldal írja le; az itt készült pályát mellettük tölti be a megjelenítő Háttér / pálya paneljén.

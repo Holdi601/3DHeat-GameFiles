@@ -163,6 +163,8 @@ python -m heat3d_gamefiles identify some_archive.pak
 | [Ext-DCS](https://github.com/Holdi601/3DHeat-Ext-DCS) | 將 DCS World 地圖轉為 `.glb` 關卡 | [網站](https://holdi601.github.io/3DHeat-Ext-DCS/) |
 | [Ext-IL2](https://github.com/Holdi601/3DHeat-Ext-IL2) | 將 IL-2 Sturmovik 地圖轉為 `.glb` 關卡 | [網站](https://holdi601.github.io/3DHeat-Ext-IL2/) |
 
+每個遊戲的讀取器都是一個獨立的小專案，有自己的授權檔案、版本發布和問題追蹤，因此可以單獨安裝、更新、維護——或應權利人的要求單獨撤下——而不影響檢視器或其他工具。
+
 檢視器的對戰檔案說明見
 [每場對戰一個檔案：`.3dheat`](https://holdi601.github.io/3DHeat/container.html)；
 在此製作的關卡，會與它們一起在檢視器的背景／關卡面板中載入。

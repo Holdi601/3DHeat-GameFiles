@@ -3,7 +3,7 @@ title: "Mapas de Unreal 5"
 nav_order: 2
 lang: "es"
 source: level-unreal-world-partition.md
-source_hash: "c1744b0b011d"
+source_hash: "b43f7c77a107"
 nav_exclude: true
 search_exclude: true
 ---
@@ -81,4 +81,4 @@ El recuento de discrepancias es una autocomprobación: los componentes de paisaj
 
 Las propiedades del paisaje se encuentran por su forma, no por su número de ranura (las ranuras se mueven entre versiones del motor). Las estructuras son los sustitutos simplificados, no los modelos de máximo detalle. El follaje, las calcomanías y los materiales de paisaje no se exportan; el suelo no lleva textura y el visor lo sombrea. Detalles del archivo: [Unreal 5 IoStore](reader-unreal-iostore.md).
 
-**Términos:** las licencias de los juegos suelen permitir el uso personal y no comercial, y prohíben la ingeniería inversa "to the extent that such actions cannot be prohibited by law". Leer tu propia instalación es decisión tuya bajo ellas; la salida es para tu propio uso y no debe compartirse.
+**Tus propios archivos:** el mapa se lee del juego instalado en tu equipo y se escribe en tu disco, para tu propio análisis; nada del juego se distribuye con esta herramienta.

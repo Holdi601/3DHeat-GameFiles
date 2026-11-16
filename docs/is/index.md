@@ -3,7 +3,7 @@ title: "Heim"
 nav_order: 1
 lang: "is"
 source: index.md
-source_hash: "dc4db9349e8c"
+source_hash: "9e0ccf04b2a7"
 nav_exclude: true
 search_exclude: true
 permalink: /is/
@@ -49,14 +49,16 @@ Python-pakki: `heat3d_gamefiles`. Geymsla (repository):
 
 ## Eigin lesarar leikjanna {#the-games-own-readers}
 
-Lesari hvers leiks er sérstakt verkefni, svo vandamál með skilmála eins leiks
-snertir aðeins þann leik: settu upp verkfærið fyrir þinn leik (síða þess segir
-hvernig), og þá virka bæði eigin skipun þess og skipanirnar hér. GameFiles keyrir
-verkfæri leiksins með þeim færibreytum sem þú gafst; ekkert úr verkfærinu er
-flutt inn. Það finnst sem skipun þess á `PATH`, sem uppsettur pakki þess, eða sem
-mappa þess í `HEAT3D_<GAME>_MAPS` eða við hlið GameFiles (`exporters/ext/<game>-maps` í
-3DHeat-afriti, eða `3DHeat-Ext-<Game>` við hlið þessarar möppu). Þegar það er ekki
-uppsett segir skipunin hvar hægt er að fá það og hættir með kóðann 2.
+Hver lesari fyrir leik er sitt eigið litla verkefni með eigin leyfisskrá, eigin útgáfur
+og eigin verkbeiðnaskrá, svo hægt er að setja hann upp, uppfæra, viðhalda - eða draga
+hann til baka að beiðni rétthafa - einan og sér, án áhrifa á skoðarann eða hin
+verkfærin. Settu upp verkfærið fyrir þinn leik (síða þess segir hvernig), og þá virka
+bæði eigin skipun þess og skipanirnar hér. GameFiles keyrir verkfæri leiksins með þeim
+færibreytum sem þú gafst; ekkert úr verkfærinu er flutt inn. Það finnst sem skipun þess
+á `PATH`, sem uppsettur pakki þess, eða sem mappa þess í `HEAT3D_<GAME>_MAPS` eða við
+hlið GameFiles (`exporters/ext/<game>-maps` í 3DHeat-afriti, eða `3DHeat-Ext-<Game>`
+við hlið þessarar möppu). Þegar það er ekki uppsett segir skipunin hvar hægt er að fá
+það og hættir með kóðann 2.
 
 | Leikur | Eigið verkfæri hans | Skipanir hér sem keyra það |
 |---|---|---|

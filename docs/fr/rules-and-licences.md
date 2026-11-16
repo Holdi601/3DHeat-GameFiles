@@ -3,24 +3,21 @@ title: "Règles et licences"
 nav_order: 12
 lang: "fr"
 source: rules-and-licences.md
-source_hash: "b68f4b6e3fe0"
+source_hash: "d99319d82d24"
 nav_exclude: true
 search_exclude: true
 ---
 # Règles et licences {#rules-and-licences}
 
-Trois règles façonnent tout l'outil. Ce sont des choix de conception, non de simples avertissements. Texte
-complet : [`LICENSES.md`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/LICENSES.md). Cette page
-consigne ce que disent les licences, elle ne constitue pas un avis juridique.
+Trois règles façonnent tout l'outil. Texte complet :
+[`LICENSES.md`](https://github.com/Holdi601/3DHeat-GameFiles/blob/main/LICENSES.md).
 
 ## 1. Aucune clé : aucune fournie, aucune récupérée {#1-no-keys-none-shipped-none-recovered}
 
-**Il lit les conteneurs.** Analyser un format de conteneur est du traitement de fichiers ordinaire, et FModel,
-UModel et AssetRipper le font ouvertement depuis des années. Analyser un conteneur n'est pas en soi un contournement.
+**Il lit les conteneurs.** Analyser un format de conteneur est du traitement de fichiers ordinaire, et FModel, UModel
+et AssetRipper le font ouvertement depuis des années.
 
-**La ligne qui compte est le chiffrement, et elle est tracée à l'intérieur de l'outil.** Un outil dont le but est de
-déjouer un contrôle d'accès relève lui-même du droit anti-contournement (le DMCA §1201(a)(2) vise les technologies, et
-pas seulement les actes), même si personne ne distribue un seul fichier extrait. Donc :
+**La ligne qui compte est le chiffrement, et elle est tracée à l'intérieur de l'outil.**
 
 - **Aucune clé intégrée.** Il n'y a aucune clé dans le code ni dans les données.
 - **Aucune récupération de clé.** Rien ne cherche une clé dans un exécutable, et rien ne lit la mémoire d'un autre
@@ -41,15 +38,17 @@ pas seulement les actes), même si personne ne distribue un seul fichier extrait
 
 Chaque archive testée jusqu'ici est non chiffrée.
 
-## 2. Vos fichiers, votre responsabilité {#2-your-own-files-your-responsibility}
+## 2. Vos fichiers {#your-own-files}
 
 L'outil lit les fichiers de jeu **installés sur votre machine**. Il ne télécharge jamais de contenu de jeu.
 
-Ce que vous lui indiquez reste sous votre responsabilité. Les jeux ont leurs propres conditions de licence, et les
-CLUF interdisent souvent la rétro-ingénierie. Ce sont des contrats opposables, et l'obligation pèse sur celui qui
-exécute l'outil, quel que soit le jeu. Aucun choix de conception ici ne l'en décharge. Le cas légitime le plus clair
-est celui d'un développeur qui lit le build de son propre studio : le titre d'une autre équipe, une vieille branche,
-un build d'un partenaire.
+Rien d'un jeu n'est livré avec lui : aucun contenu du jeu, aucun code du jeu, aucune DLL. Ce qu'il exporte est écrit
+sur votre disque et nulle part ailleurs.
+
+3DHeat GameFiles n'est affilié à aucun éditeur de jeux ni approuvé par l'un d'eux. Les jeux ainsi que les noms et
+marques associés appartiennent à leurs propriétaires. Ayants droit : ouvrez un ticket sur
+[github.com/Holdi601/3DHeat-GameFiles/issues](https://github.com/Holdi601/3DHeat-GameFiles/issues) - nous répondons
+rapidement et retirons tout élément sur demande.
 
 ## 3. Le résultat n'est pas à redistribuer {#3-output-is-not-for-redistribution}
 
@@ -71,7 +70,7 @@ embarquer une. C'est l'arrangement que prévoit la licence, le même que celui d
 ## Les formats eux-mêmes {#the-formats-themselves}
 
 - `.pak`, IoStore, `SerializedFile` d'Unity, `.toc` de Frostbite et les formats de ForzaTech ne sont pas documentés.
-  Les lire, c'est de la rétro-ingénierie d'un conteneur. Aucun des lecteurs ici ne dérive du code source d'un autre
+  Aucun des lecteurs ici ne dérive du code source d'un autre
   projet. Pour Frostbite, des descriptions publiques d'anciennes versions (les outils de modding Frosty, une note de
   format de Need for Speed Heat, une conférence GDC) ont fourni des noms de champs et une carte de ce qu'il faut
   chercher. Aucun code n'a été repris ; chaque décalage a été mesuré sur les fichiers (voir

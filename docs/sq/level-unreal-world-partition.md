@@ -3,7 +3,7 @@ title: "Hartat e Unreal 5"
 nav_order: 2
 lang: "sq"
 source: level-unreal-world-partition.md
-source_hash: "c1744b0b011d"
+source_hash: "b43f7c77a107"
 nav_exclude: true
 search_exclude: true
 ---
@@ -99,7 +99,5 @@ modelet me detaj të plotë. Gjethet, decal-et dhe materialet e peizazhit nuk ek
 toka është pa teksturë dhe e hijezuar nga shikuesi. Detajet e arkivit:
 [Unreal 5 IoStore](reader-unreal-iostore.md).
 
-**Kushtet:** licencat e lojërave zakonisht lejojnë përdorim personal, jo-komercial dhe ndalojnë
-inxhinierimin e kundërt "to the extent that such actions cannot be prohibited by
-law". Leximi i instalimit tënd është vendimi yt sipas tyre; dalja është për
-përdorimin tënd dhe nuk duhet ndarë me të tjerët.
+**Skedarët e tu:** harta lexohet nga loja e instaluar në kompjuterin tënd dhe shkruhet në
+diskun tënd për analizën tënde; asgjë nga loja nuk shpërndahet me këtë mjet.
