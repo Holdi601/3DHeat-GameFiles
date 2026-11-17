@@ -77,7 +77,52 @@ world files).
   owners. Rights holders: open an issue at <https://github.com/Holdi601/3DHeat-GameFiles/issues> -
   we respond quickly and remove anything on request.
 
-## Install
+## Quick start for new users
+
+Most people never install GameFiles by hand: each game tool above
+(Forza, Battlefield, BeamNG, AC Rally, Reforger) brings it when you install
+that tool, so start with the tool for your game. On its own, GameFiles reads
+the engines' archives and exports Unreal 5 World Partition maps.
+
+You need: Windows, [Python](https://www.python.org/downloads/) 3.10 or later
+("Add python.exe to PATH" ticked in its installer), and the game installed.
+Unreal content is mostly Oodle-compressed: the `oo2core_*_win64.dll` an
+installed Unreal game ships is found by itself, or name one with `HEAT3D_OODLE`
+([Oodle](https://holdi601.github.io/3DHeat-GameFiles/reader-oodle.html)). No Git
+is needed.
+
+1. Install it (one line, in PowerShell or a command prompt):
+
+   ```bash
+   python -m pip install https://github.com/Holdi601/3DHeat-GameFiles/archive/refs/tags/v1.1.0.zip
+   ```
+
+2. List an Unreal 5 game's World Partition maps and export one (the game by
+   its Steam folder name, or its folder):
+
+   ```bash
+   heat3d-gamefiles ue-maps "<Steam game folder name>"
+   heat3d-gamefiles ue-map "<Steam game folder name>" <map> -o map.glb
+   heat3d-gamefiles identify <file>        # what a game file is
+   ```
+
+   `heat3d-gamefiles --help` lists every verb; the game verbs (`course`,
+   `level`, `enfusion-world`, ...) run the game's own tool when it is
+   installed and say where to get it when it is not.
+3. The output is `map.glb` in the folder you ran it in (without `-o`,
+   `<map>.glb`).
+4. Open it in the [3DHeat viewer](https://github.com/Holdi601/3DHeat#quick-start):
+   download the viewer (**Code -> Download ZIP**, unpack) and double-click
+   `start.bat`; it offers to install [Node.js](https://nodejs.org/) when it is
+   missing and opens Chrome or Edge at `http://127.0.0.1:5273`. There,
+   **Background / level -> 3D model...** and pick the `.glb`.
+
+A game tool that updates itself brings the GameFiles release it needs. Installed
+on its own like this, GameFiles does not check for updates: run the install
+line again with the newer release's number from
+[Releases](https://github.com/Holdi601/3DHeat-GameFiles/releases).
+
+## Install from a checkout
 
 New to the command line? Read [Before you start](https://holdi601.github.io/3DHeat-GameFiles/before-you-start.html) first.
 

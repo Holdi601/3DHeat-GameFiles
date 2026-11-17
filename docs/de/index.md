@@ -3,7 +3,7 @@ title: "Startseite"
 nav_order: 1
 lang: "de"
 source: index.md
-source_hash: "9e0ccf04b2a7"
+source_hash: "75a2b5fc063f"
 nav_exclude: true
 search_exclude: true
 permalink: /de/
@@ -116,41 +116,42 @@ Das Werkzeug ist für Windows geschrieben. Es findet Spiele über die Bibliothek
 
 ## Schnellstart {#quick-start}
 
-Eine **Rundendatei** ist eine Aufnahme, wohin dein Auto gefahren ist: eine Liste von x-, y-, z-Punkten.
-Sie kommt von [3DHeat GameCapture](https://github.com/Holdi601/3DHeat-GameCapture) oder aus der
-Rundenbibliothek der FH-Companion-App; eine von Hand getippte CSV funktioniert auch
-([Rundeneingaben](lap-inputs.md)).
+Die meisten installieren GameFiles nie von Hand: das Werkzeug jedes Spiels
+([Die Leser der Spiele](#the-games-own-readers)) bringt es mit, wenn du dieses
+Werkzeug installierst; fang also mit dem Werkzeug für dein Spiel an. Für sich allein
+liest GameFiles die Archive der Engines und exportiert Unreal-5-World-Partition-Karten.
 
-```
-# Forza: a lap file, a lap folder, or a course name from the FH Companion library
-python -m heat3d_gamefiles course "Example Circuit"
-python -m heat3d_gamefiles course path\to\lap.json -o course.glb
+Du brauchst Windows, Python 3.10 oder neuer (im Installer "Add python.exe to PATH"
+ankreuzen) und das installierte Spiel; Git ist nicht nötig. Unreal-Inhalte sind meist
+Oodle-komprimiert: eine `oo2core_*_win64.dll`, die ein installiertes Unreal-Spiel
+mitbringt, wird von selbst gefunden, oder `HEAT3D_OODLE` nennt eine
+([Oodle](reader-oodle.md)). Neu in der Kommandozeile? Lies zuerst
+[Bevor du anfängst](before-you-start.md).
 
-# BeamNG.drive or Assetto Corsa Rally: a heat3d-lap file says which game it is from
-python -m heat3d_gamefiles course my_lap.json
-
-# Every course in the FH Companion library, one .glb each
-python -m heat3d_gamefiles courses -o courses
-
-# Battlefield 6: list the levels, then export one (a large file; see Commands)
-python -m heat3d_gamefiles levels
-python -m heat3d_gamefiles level <level> -o level.glb --textures
-
-# Unreal 5 World Partition and Arma Reforger: list, then export
-python -m heat3d_gamefiles ue-maps "<game>"
-python -m heat3d_gamefiles ue-map "<game>" <map> -o map.glb
-python -m heat3d_gamefiles enfusion-worlds
-python -m heat3d_gamefiles enfusion-world <world> -o world.glb
-
-# Every Forza car, for the viewer's race tab
-python -m heat3d_gamefiles cars -o forza.h3dcars
-
-# What is this file?
-python -m heat3d_gamefiles identify some_archive.pak
+```bash
+python -m pip install https://github.com/Holdi601/3DHeat-GameFiles/archive/refs/tags/v1.1.0.zip
+heat3d-gamefiles ue-maps "<Steam game folder name>"                 # die World-Partition-Karten eines Unreal-5-Spiels
+heat3d-gamefiles ue-map "<Steam game folder name>" <map> -o map.glb  # eine davon als Level
+heat3d-gamefiles identify <file>                                    # was eine Spieldatei ist
 ```
 
-Öffne die `.glb` im 3DHeat-Viewer. Die Weltkoordinaten des Spiels bleiben erhalten
-(siehe [Ausgabeformat](output-format.md)), sodass eine aufgenommene Runde mit der Strecke übereinstimmt.
+Das Spiel wird mit seinem Steam-Ordnernamen oder seinem Ordner genannt. `map.glb` landet
+in dem Ordner, in dem du den Befehl ausgeführt hast (ohne `-o`: `<map>.glb`).
+`heat3d-gamefiles --help` listet jedes Verb; die Spiel-Verben (`course`, `courses`,
+`cars`, `level`, `enfusion-world`, ...) starten das Werkzeug des Spiels mit denselben
+Argumenten, wenn es installiert ist, und sagen sonst, wo es zu bekommen ist. Die
+Weltkoordinaten des Spiels bleiben erhalten (siehe [Ausgabeformat](output-format.md)),
+sodass eine aufgenommene Runde mit der Strecke übereinstimmt.
+
+Dann öffne die `.glb` im [3DHeat-Viewer](https://github.com/Holdi601/3DHeat#quick-start):
+herunterladen (**Code -> Download ZIP**, entpacken), `start.bat` doppelklicken (es bietet
+an, Node.js zu installieren, wenn es fehlt, und öffnet `http://127.0.0.1:5273`), dann
+**Hintergrund / Level -> 3D-Modell...** und die Datei wählen.
+
+Ein Spiel-Werkzeug, das sich selbst aktualisiert, bringt das GameFiles-Release mit, das
+es braucht. So für sich allein installiert, prüft GameFiles nicht auf Updates: führe die
+Installationszeile mit der Nummer des neueren Releases aus den
+[Releases](https://github.com/Holdi601/3DHeat-GameFiles/releases) noch einmal aus.
 
 ## Karte dieser Dokumentation {#map-of-this-documentation}
 

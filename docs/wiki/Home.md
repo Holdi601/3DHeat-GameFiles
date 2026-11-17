@@ -111,41 +111,41 @@ tested.
 
 ## Quick start
 
-A **lap file** is a recording of where your car went: a list of x, y, z points.
-It comes from [3DHeat GameCapture](https://github.com/Holdi601/3DHeat-GameCapture)
-or the FH Companion app's lap library; a hand-typed CSV works too
-([Lap inputs](lap-inputs)).
+Most people never install GameFiles by hand: each game's tool
+([The games' own readers](#the-games-own-readers)) brings it when you install
+that tool, so start with the tool for your game. On its own, GameFiles reads
+the engines' archives and exports Unreal 5 World Partition maps.
 
-```
-# Forza: a lap file, a lap folder, or a course name from the FH Companion library
-python -m heat3d_gamefiles course "Example Circuit"
-python -m heat3d_gamefiles course path\to\lap.json -o course.glb
+You need Windows, Python 3.10 or later ("Add python.exe to PATH" ticked in its
+installer) and the game installed; no Git. Unreal content is mostly
+Oodle-compressed: an `oo2core_*_win64.dll` that an installed Unreal game ships
+is found by itself, or `HEAT3D_OODLE` names one ([Oodle](reader-oodle)).
+New to the command line? Read [Before you start](before-you-start) first.
 
-# BeamNG.drive or Assetto Corsa Rally: a heat3d-lap file says which game it is from
-python -m heat3d_gamefiles course my_lap.json
-
-# Every course in the FH Companion library, one .glb each
-python -m heat3d_gamefiles courses -o courses
-
-# Battlefield 6: list the levels, then export one (a large file; see Commands)
-python -m heat3d_gamefiles levels
-python -m heat3d_gamefiles level <level> -o level.glb --textures
-
-# Unreal 5 World Partition and Arma Reforger: list, then export
-python -m heat3d_gamefiles ue-maps "<game>"
-python -m heat3d_gamefiles ue-map "<game>" <map> -o map.glb
-python -m heat3d_gamefiles enfusion-worlds
-python -m heat3d_gamefiles enfusion-world <world> -o world.glb
-
-# Every Forza car, for the viewer's race tab
-python -m heat3d_gamefiles cars -o forza.h3dcars
-
-# What is this file?
-python -m heat3d_gamefiles identify some_archive.pak
+```bash
+python -m pip install https://github.com/Holdi601/3DHeat-GameFiles/archive/refs/tags/v1.1.0.zip
+heat3d-gamefiles ue-maps "<Steam game folder name>"                 # an Unreal 5 game's World Partition maps
+heat3d-gamefiles ue-map "<Steam game folder name>" <map> -o map.glb  # one of them as a level
+heat3d-gamefiles identify <file>                                    # what a game file is
 ```
 
-Open the `.glb` in the 3DHeat viewer. The game's own world coordinates are kept
-(see [Output format](output-format)), so a recorded lap lines up with the course.
+The game is named by its Steam folder name or by its folder. `map.glb` lands
+in the folder you ran it in (without `-o`, `<map>.glb`). `heat3d-gamefiles --help`
+lists every verb; the game verbs (`course`, `courses`, `cars`, `level`,
+`enfusion-world`, ...) run the game's own tool with the same arguments when it
+is installed, and say where to get it when it is not. The game's own world
+coordinates are kept (see [Output format](output-format)), so a recorded lap
+lines up with the course.
+
+Then open the `.glb` in the [3DHeat viewer](https://github.com/Holdi601/3DHeat#quick-start):
+download it (**Code -> Download ZIP**, unpack), double-click `start.bat` (it
+offers to install Node.js when it is missing and opens `http://127.0.0.1:5273`),
+then **Background / level -> 3D model...** and pick the file.
+
+A game tool that updates itself brings the GameFiles release it needs.
+Installed on its own like this, GameFiles does not check for updates: run the
+install line again with the newer release's number from
+[Releases](https://github.com/Holdi601/3DHeat-GameFiles/releases).
 
 ## Map of this documentation
 
