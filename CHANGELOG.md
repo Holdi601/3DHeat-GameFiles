@@ -3,7 +3,7 @@
 Releases are tagged `v<VERSION>`. Each entry names what changed; the **Docs**
 section below says which documentation page explains each feature.
 
-## Unreleased
+## 1.1.0
 
 - Each game's reader is its own project now, so it can be installed, updated,
   maintained or withdrawn on its own: Forza (3DHeat-Ext-Forza, `heat3d-forza-maps`),
