@@ -9,6 +9,36 @@ New to the command line? This page gets you from nothing to a working tool in
 about ten minutes. You type commands into a window called a **terminal**, and
 the tool answers with text.
 
+## The standalone program (no Python needed)
+
+Each [release](https://github.com/Holdi601/3DHeat-GameFiles/releases/latest)
+has a ready-to-run program for Windows (`heat3d-gamefiles-<version>-windows-x64.zip`),
+Linux (`...-linux-x64.tar.gz`) and macOS (`...-macos-arm64.tar.gz`), with a
+`SHA256SUMS` file to check the download. Unpack it anywhere and start
+`heat3d-gamefiles` (on macOS the first start may need *Open* from the
+right-click menu, as the program is not notarised); steps 1 to 4 below are
+then not needed.
+
+Started without arguments it opens a window that:
+
+- says what is missing: the Oodle library some archives need (it comes from a
+  game or engine installed on your machine), free disk space;
+- lists an Unreal 5 game's World Partition maps and exports the one you name
+  into the 3DHeat levels folder (`HEAT3D_LEVELS`, by default
+  `%LOCALAPPDATA%\3DHeat\levels` on Windows and `~/.local/share/3dheat/levels`
+  elsewhere), where the viewer finds it;
+- says what a file is, and lists what an archive holds;
+- checks for updates and asks before installing one, unless you tick
+  *Update automatically*.
+
+The same program runs every command on these pages:
+`heat3d-gamefiles heat3d-gamefiles identify <file>`, or simply
+`heat3d-gamefiles identify <file>`. For scripts: `heat3d-gamefiles --check --json`
+reports what is found and missing; GameFiles has no fixed games, so
+`heat3d-gamefiles status --json` lists none. The game readers built on it
+(Forza, BeamNG.drive, AC Rally, ...) have programs of their own. The 3DHeat
+app's Extractors panel installs, updates and starts it for you.
+
 ## 1. Install Python
 
 1. Go to [python.org/downloads](https://www.python.org/downloads/) and download

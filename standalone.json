@@ -1,0 +1,9 @@
+{
+  "spec": "heat3d_gamefiles.standalone_spec",
+  "collect_submodules": ["numpy", "PIL", "lz4"],
+  "platforms": {
+    "windows-x64": {"build": true, "tested": false, "note": "engine-format readers and Unreal 5 map export; CI builds, runs the tests and smoke-runs"},
+    "linux-x64": {"build": true, "tested": false, "note": "CI builds and smoke-runs; archives with Oodle-compressed blocks need the Windows Oodle library"},
+    "macos-arm64": {"build": true, "tested": false, "note": "CI builds and smoke-runs; archives with Oodle-compressed blocks need the Windows Oodle library"}
+  }
+}

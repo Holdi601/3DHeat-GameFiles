@@ -52,6 +52,9 @@ class Tool:
         on_path = shutil.which(self.command)
         if on_path:
             return [on_path]
+        if getattr(sys, "frozen", False):
+            # The standalone program is no Python to run another tool's source with.
+            return None
         if self.source() is not None or importlib.util.find_spec(self.package) is not None:
             return [sys.executable, "-m", self.package]
         return None

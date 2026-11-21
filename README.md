@@ -77,6 +77,16 @@ world files).
   owners. Rights holders: open an issue at <https://github.com/Holdi601/3DHeat-GameFiles/issues> -
   we respond quickly and remove anything on request.
 
+## The standalone program
+
+No Python needed: download the file for your system (Windows, Linux, macOS) from the
+[latest release](https://github.com/Holdi601/3DHeat-GameFiles/releases/latest), check it against
+`SHA256SUMS`, unpack it and start `heat3d-gamefiles`. Its window says what is missing, lists an Unreal 5
+game's maps and exports one into the 3DHeat levels folder, says what a file is and what an archive holds,
+and asks before it updates itself. `heat3d-gamefiles --help` lists its commands (every command below runs
+through it too); `--check --json` is for scripts. The 3DHeat app's Extractors panel can install and update
+it for you. See [Before you start](https://holdi601.github.io/3DHeat-GameFiles/before-you-start.html).
+
 ## Quick start for new users
 
 Most people never install GameFiles by hand: each game tool above
@@ -319,7 +329,8 @@ own project, with its own releases and licence:
 
 3DHeat GameFiles checks this repository's releases when it starts (at most every
 few hours, never holding it up for more than a few seconds), says when a newer
-version is out, and offers to update: a clone with `git pull` when it has no
+version is out with its notes, and asks before it updates (update now, later, or
+skip this version; automatically only when you chose that): a clone with `git pull` when it has no
 local changes, a downloaded copy by replacing its files from the release archive,
 after checking the archive is the version it claims. Your own files - laps,
 exports - are never touched. To update on request: `python -m heat3d_update`.

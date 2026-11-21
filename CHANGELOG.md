@@ -3,6 +3,16 @@
 Releases are tagged `v<VERSION>`. Each entry names what changed; the **Docs**
 section below says which documentation page explains each feature.
 
+## 1.2.0
+
+- A standalone program for Windows, Linux and macOS (no Python needed), built by CI with a `SHA256SUMS` file.
+  Without arguments it opens a window: what is missing (Oodle library, disk space), the levels folder, an
+  Unreal 5 game's maps and the export of one of them, what a file is and what an archive holds, and updates.
+  `--check --json` and `status --json` for scripts. `heat3d_gamefiles.__version__` is set.
+- Updates ask first (update now / later / skip this version) unless automatic updates were chosen
+  (`--auto-update`, the window's checkbox, or `HEAT3D_AUTO_UPDATE=1`); `heat3d_update.startup` asks through the
+  same code.
+
 ## 1.1.0
 
 - Each game's reader is its own project now, so it can be installed, updated,
