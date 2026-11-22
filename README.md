@@ -87,6 +87,8 @@ and asks before it updates itself. `heat3d-gamefiles --help` lists its commands 
 through it too); `--check --json` is for scripts. The 3DHeat app's Extractors panel can install and update
 it for you. See [Before you start](https://holdi601.github.io/3DHeat-GameFiles/before-you-start.html).
 
+The window walks through four steps (find the game, choose, work, done) in the 3DHeat look, dark or light. On Windows the program opens only its window, with no console window; in a terminal it prints as usual, and `heat3d-gamefiles-cli.cmd` in the same folder makes the terminal wait for it and pass on its exit code.
+
 ## Quick start for new users
 
 Most people never install GameFiles by hand: each game tool above
